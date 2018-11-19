@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.106
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseDesktop", "CaisseDesktop\CaisseDesktop.csproj", "{D66A3F79-D706-49D5-81F3-BA4FFC294DA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseLibrary", "CaisseLibrary\CaisseLibrary.csproj", "{3115494D-C5A1-4242-BE2E-CE8B14123569}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D66A3F79-D706-49D5-81F3-BA4FFC294DA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D66A3F79-D706-49D5-81F3-BA4FFC294DA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D66A3F79-D706-49D5-81F3-BA4FFC294DA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D66A3F79-D706-49D5-81F3-BA4FFC294DA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3115494D-C5A1-4242-BE2E-CE8B14123569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3115494D-C5A1-4242-BE2E-CE8B14123569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3115494D-C5A1-4242-BE2E-CE8B14123569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3115494D-C5A1-4242-BE2E-CE8B14123569}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0F869DD4-E9C2-4A26-BFF5-70322E04333C}
+	EndGlobalSection
+EndGlobal
