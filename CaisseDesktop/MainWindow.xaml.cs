@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CaisseServer;
 
 namespace CaisseDesktop
 {
@@ -23,6 +24,18 @@ namespace CaisseDesktop
         public MainWindow()
         {
             InitializeComponent();
+
+            using (var db = new CaisseServerContext())
+            {//TEST
+                db.PaymentMethods.Add(new SaveablePaymentMethod()
+                {
+                    Name = "Especes",
+                    AcceptedDetails = "50 cents",
+                    MinFee = 0.0
+                });
+                db.SaveChanges();
+            }
+
         }
     }
 }
