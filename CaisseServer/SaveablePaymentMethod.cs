@@ -8,19 +8,24 @@ using System.Threading.Tasks;
 
 namespace CaisseServer
 {
-    [Table("Operations")]
-    public class SaveableOperation
+    [Table("PaymentMethods")]
+    public class SaveablePaymentMethod
     {
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public SaveableItem Item { get; set; }
+        public string Name { get; set; }
 
-        public int Amount { get; set; }
+        public double MinFee { get; set; }
 
-        public SaveableOperation()
+        public string AcceptedDetails { get; set; }
+
+        public SaveablePaymentMethod()
         {
+
         }
+
     }
 }
