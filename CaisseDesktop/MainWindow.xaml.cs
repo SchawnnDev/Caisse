@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CaisseDesktop.Graphics;
 using CaisseServer;
 
 namespace CaisseDesktop
@@ -39,6 +40,12 @@ namespace CaisseDesktop
                 });
                 db.SaveChanges();
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new Connection();
+            window.ShowDialog();
         }
     }
 }

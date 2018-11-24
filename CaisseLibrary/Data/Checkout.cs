@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace CaisseLibrary.Data
 {
-    public class Cashier
+    public class Checkout
     {
+
+
+
 
 
     }

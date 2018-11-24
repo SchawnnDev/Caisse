@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop"
         mc:Ignorable="d"
-        Title="Caisses" Height="450" Width="800">
+        Title="Caisses" Height="450" Width="800"
+        WindowStyle="None" ResizeMode="NoResize"  
+        WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="49*"/>
             <ColumnDefinition Width="743*"/>
         </Grid.ColumnDefinitions>
+        <Button Content="Connect" Grid.Column="1" HorizontalAlignment="Left" Margin="365,302,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
 
     </Grid>
 </Window>
