@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CaisseServer
 {
-    [Table("PaymentMethods")]
+    [Table("payment_methods")]
     public class SaveablePaymentMethod
     {
 

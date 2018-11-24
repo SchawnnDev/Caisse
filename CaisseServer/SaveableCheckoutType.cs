@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CaisseServer
 {
-    [Table("CheckoutTypes")]
+    [Table("checkout_types")]
     public class SaveableCheckoutType
     {
 

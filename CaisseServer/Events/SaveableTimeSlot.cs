@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CaisseServer.Events
 {
 
-    [Table("TimeSlots")]
+    [Table("time_slots")]
     public class SaveableTimeSlot
     {
         [Key]

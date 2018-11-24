@@ -1,16 +1,12 @@
-﻿<Window x:Class="CaisseDesktop.MainWindow"
+﻿<Window x:Class="CaisseDesktop.Windows.Connection"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CaisseDesktop"
+        xmlns:local="clr-namespace:CaisseDesktop.Windows"
         mc:Ignorable="d"
-        Title="Caisses" Height="450" Width="800">
+        Title="Connection" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="49*"/>
-            <ColumnDefinition Width="743*"/>
-        </Grid.ColumnDefinitions>
-
+        
     </Grid>
 </Window>

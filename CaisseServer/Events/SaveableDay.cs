@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CaisseServer.Events
 {
 
-    [Table("Days")]
+    [Table("days")]
     public class SaveableDay
     {
 

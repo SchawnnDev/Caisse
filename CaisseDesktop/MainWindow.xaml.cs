@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,10 @@ namespace CaisseDesktop
             InitializeComponent();
 
             using (var db = new CaisseServerContext())
-            {//TEST
+            {
+                //TEST
+                var o = db.Database.Connection.ConnectionString;
+                db.Database.CreateIfNotExists();
                 db.PaymentMethods.Add(new SaveablePaymentMethod()
                 {
                     Name = "Especes",
@@ -35,7 +39,6 @@ namespace CaisseDesktop
                 });
                 db.SaveChanges();
             }
-
         }
     }
 }

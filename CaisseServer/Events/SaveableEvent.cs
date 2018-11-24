@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CaisseServer.Events
 {
-    [Table("Events")]
+    [Table("events")]
     public class SaveableEvent
     {
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CaisseServer
 {
-    [Table("Items")]
+    [Table("items")]
     public class SaveableItem
     {
         [Key]

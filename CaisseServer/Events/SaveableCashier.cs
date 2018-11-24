@@ -9,7 +9,7 @@ using CaisseServer.Events;
 
 namespace CaisseServer
 {
-    [Table("Cashiers")]
+    [Table("cashiers")]
     public class SaveableCashier
     {
 

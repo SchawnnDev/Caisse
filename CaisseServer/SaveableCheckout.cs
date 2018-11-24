@@ -9,7 +9,7 @@ using CaisseServer.Events;
 
 namespace CaisseServer
 {
-    [Table("Checkouts")]
+    [Table("checkouts")]
     public class SaveableCheckout
     {
         [Key]
