@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,7 +21,6 @@ namespace CaisseDesktop.Graphics
     /// </summary>
     public partial class Connection : Window
     {
-
         public Connection()
         {
             InitializeComponent();
@@ -36,22 +36,33 @@ namespace CaisseDesktop.Graphics
 
             if (int.TryParse(str, out var number))
             {
-                CashierId.Text = CashierId.Text += number;
-            } else if (str.EndsWith("Supprimer"))
+                if (CashierId.Text.Length < 7)
+                    CashierId.Text = CashierId.Text += number;
+                else
+                    SystemSounds.Beep.Play();
+            }
+            else if (str.EndsWith("Supprimer"))
             {
                 var len = CashierId.Text.Length;
 
                 if (len != 0)
-                {
                     CashierId.Text = CashierId.Text.Remove(len - 1);
-                }
-
-            } else if (str.EndsWith("Valider"))
+                else
+                    SystemSounds.Beep.Play();
+            }
+            else if (str.EndsWith("Valider"))
             {
-
+                if (CashierId.Text.Length != 7)
+                {
+                    SystemSounds.Beep.Play();
+                    MessageBox.Show("Le n° n'est pas valide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    //TODO: Si ce n'est pas encore l'heure du caissier, le prevenir et demander si il est sûr de vouloir continuer
+                    MessageBox.Show("Bien connecté.", "Yeah", MessageBoxButton.OK, MessageBoxImage.Hand);
+                }
             }
         }
-
-
     }
 }
