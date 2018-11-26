@@ -1,0 +1,48 @@
+﻿<Window x:Class="CaisseDesktop.Graphics.Admin.Statistics.AdminStatisticsMain"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Statistics"
+        mc:Ignorable="d"
+        Title="AdminStatisticsMain" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition MaxHeight="450" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem x:Name="settings" Header="_Settings" />
+                    <MenuItem x:Name="quitApp" Header="_Exit" InputGestureText="Alt+F4" />
+                </MenuItem>
+
+                <MenuItem Header="_Manage">
+                    <MenuItem x:Name="create" Header="_New Customer" />
+                    <MenuItem x:Name="search" Header="_Search" />
+                </MenuItem>
+
+                <MenuItem Header="_Data">
+
+                    <MenuItem x:Name="import" Header="_Import">
+                        <MenuItem x:Name="ImportCustomer" Header="_Customers" />
+                        <MenuItem x:Name="ImportShippingAddress" Header="_Shipping Addresses" />
+                    </MenuItem>
+
+                    <MenuItem x:Name="export" Header="_Export">
+                        <MenuItem x:Name="ExportCustomer" Header="_Customers" />
+                        <MenuItem x:Name="ExportShippingAddress" Header="_Shipping Addresses" />
+                    </MenuItem>
+
+                    <Separator />
+                    <MenuItem x:Name="reset" Header="_Reset database" />
+
+                </MenuItem>
+                <MenuItem Header="_About" HorizontalAlignment="Center" />
+            </Menu>
+
+        </DockPanel>
+    </Grid>
+</Window>

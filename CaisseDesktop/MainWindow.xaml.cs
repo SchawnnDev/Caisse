@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CaisseDesktop.Graphics;
+using CaisseDesktop.Graphics.Admin;
 using CaisseServer;
 
 namespace CaisseDesktop
@@ -26,7 +27,7 @@ namespace CaisseDesktop
         public MainWindow()
         {
             InitializeComponent();
-
+            /*
             using (var db = new CaisseServerContext())
             {
                 //TEST
@@ -39,13 +40,14 @@ namespace CaisseDesktop
                     MinFee = 0.0
                 });
                 db.SaveChanges();
-            }
+            } */
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var window = new Connection();
-            window.ShowDialog();
+            var window = new AdminMain();
+            window.Show();
+            Close();
         }
     }
 }

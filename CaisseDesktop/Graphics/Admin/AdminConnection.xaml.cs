@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -13,18 +12,22 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using CaisseDesktop.Graphics.Admin;
 
-namespace CaisseDesktop.Graphics
+namespace CaisseDesktop.Graphics.Admin
 {
     /// <summary>
-    /// Interaction logic for Connection.xaml
+    /// Interaction logic for AdminConnection.xaml
     /// </summary>
-    public partial class Connection : Window
+    public partial class AdminConnection : Window
     {
-        public Connection()
+        private bool DisplayingNumbers { get; set; } = true;
+        private Button[] Buttons { get; set; }
+        private string Password { get; set; } = "";
+
+        public AdminConnection()
         {
             InitializeComponent();
+            Buttons = new[] {One, Two, Three, Four, Five, Six, Seven, Eight, Nine};
         }
 
         private void PinPadButton_Click(object sender, RoutedEventArgs e)
@@ -35,12 +38,25 @@ namespace CaisseDesktop.Graphics
 
             var str = buttonContent.ToString();
 
-            if (int.TryParse(str, out var number))
+            if (str.Length == 1)
             {
                 if (CashierId.Text.Length < 7)
-                    CashierId.Text = CashierId.Text += number;
+                {
+                    if (int.TryParse(str, out var number))
+                    {
+                        CashierId.Text = CashierId.Text += "•";
+                        Password = Password += number;
+                    }
+                    else
+                    {
+                        CashierId.Text = CashierId.Text += "•";
+                        Password = Password += str;
+                    }
+                }
                 else
+                {
                     SystemSounds.Beep.Play();
+                }
             }
             else if (str.EndsWith("Supprimer"))
             {
@@ -66,10 +82,31 @@ namespace CaisseDesktop.Graphics
             }
         }
 
-        private void Admin_OnClick(object sender, RoutedEventArgs e)
+
+        private void Retour_OnClick(object sender, RoutedEventArgs e)
         {
-            new AdminConnection().Show();
+            new Connection().Show();
             Close();
+        }
+
+        private void Switch_OnClick(object sender, RoutedEventArgs e)
+        {
+            var pattern = "ABCXYZ/*-";
+            var count = 0;
+
+            if (DisplayingNumbers)
+            {
+                foreach (var button in Buttons)
+                    button.Content = pattern[count++];
+
+                DisplayingNumbers = false;
+                return;
+            }
+
+            foreach (var button in Buttons)
+                button.Content = count++ + 1;
+
+            DisplayingNumbers = true;
         }
     }
 }

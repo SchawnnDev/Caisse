@@ -83,9 +83,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Graphics\Admin\AdminConnection.xaml.cs">
+      <DependentUpon>AdminConnection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\Admin\AdminMain.xaml.cs">
+      <DependentUpon>AdminMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\Admin\Statistics\AdminStatisticsMain.xaml.cs">
+      <DependentUpon>AdminStatisticsMain.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Connection.xaml.cs">
       <DependentUpon>Connection.xaml</DependentUpon>
     </Compile>
+    <Page Include="Graphics\Admin\AdminConnection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\AdminMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\Statistics\AdminStatisticsMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -132,7 +153,7 @@
   <ItemGroup>
     <Folder Include="Graphics\Admin\Checkouts\" />
     <Folder Include="Graphics\Admin\Events\" />
-    <Folder Include="Graphics\Admin\Statistics\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\logo.gif" />
