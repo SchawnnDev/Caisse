@@ -1,12 +1,11 @@
-﻿<Window x:Class="CaisseDesktop.Graphics.Admin.Statistics.AdminStatisticsMain"
+﻿<Window x:Class="CaisseDesktop.Graphics.Admin.Events.EvenementMain"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Statistics"
+        xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Events"
         mc:Ignorable="d"
-        Title="AdminStatisticsMain" Height="450" Width="800"
-        WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="Gestionnaire d'événements" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
@@ -16,8 +15,15 @@
         <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_Fichier">
-                    <MenuItem x:Name="settings" Header="_Retourner au menu caissier" />
-                    <MenuItem x:Name="quitApp" Header="_Quitter l'application" />
+
+                    <MenuItem x:Name="Import" Header="_Importer"/>
+
+                    <MenuItem x:Name="Export" Header="_Exporter"/>
+
+                    <Separator/>
+                    <MenuItem x:Name="Back" Header="_Retourner au menu admin" />
+
+
                 </MenuItem>
 
                 <MenuItem Header="_Statistiques">
@@ -30,15 +36,7 @@
                     <MenuItem x:Name="EventSearch" Header="_Search" />
 
 
-                    <MenuItem x:Name="import" Header="_Import">
-                        <MenuItem x:Name="ImportCustomer" Header="_Customers" />
-                        <MenuItem x:Name="ImportShippingAddress" Header="_Shipping Addresses" />
-                    </MenuItem>
 
-                    <MenuItem x:Name="export" Header="_Export">
-                        <MenuItem x:Name="ExportCustomer" Header="_Customers" />
-                        <MenuItem x:Name="ExportShippingAddress" Header="_Shipping Addresses" />
-                    </MenuItem>
 
                 </MenuItem>
 
