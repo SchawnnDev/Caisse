@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseDesktop.Graphics.Admin.Events;
 
 namespace CaisseDesktop.Graphics.Admin
 {
@@ -22,6 +23,12 @@ namespace CaisseDesktop.Graphics.Admin
         public AdminMain()
         {
             InitializeComponent();
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            var browser = new EvenementBrowser();
+            browser.ShowDialog();
         }
     }
 }

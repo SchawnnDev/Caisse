@@ -89,17 +89,25 @@
     <Compile Include="Graphics\Admin\AdminMain.xaml.cs">
       <DependentUpon>AdminMain.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Admin\Events\EvenementBrowser.xaml.cs">
+      <DependentUpon>EvenementBrowser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Statistics\AdminStatisticsMain.xaml.cs">
       <DependentUpon>AdminStatisticsMain.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Connection.xaml.cs">
       <DependentUpon>Connection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\OverrideCursor.cs" />
     <Page Include="Graphics\Admin\AdminConnection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\AdminMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\Events\EvenementBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,6 +133,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\EvenenementModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -152,8 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Graphics\Admin\Checkouts\" />
-    <Folder Include="Graphics\Admin\Events\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\logo.gif" />

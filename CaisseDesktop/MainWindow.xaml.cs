@@ -27,20 +27,14 @@ namespace CaisseDesktop
         public MainWindow()
         {
             InitializeComponent();
-            /*
+            
             using (var db = new CaisseServerContext())
             {
                 //TEST
-                var o = db.Database.Connection.ConnectionString;
+
                 db.Database.CreateIfNotExists();
-                db.PaymentMethods.Add(new SaveablePaymentMethod()
-                {
-                    Name = "Especes",
-                    AcceptedDetails = "50 cents",
-                    MinFee = 0.0
-                });
-                db.SaveChanges();
-            } */
+
+            } 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
