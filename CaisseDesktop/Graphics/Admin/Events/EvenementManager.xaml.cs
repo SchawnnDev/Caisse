@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseServer.Events;
 
 namespace CaisseDesktop.Graphics.Admin.Events
 {
@@ -19,9 +20,26 @@ namespace CaisseDesktop.Graphics.Admin.Events
     /// </summary>
     public partial class EvenementManager : Window
     {
-        public EvenementManager()
+        public SaveableEvent Evenement;
+
+
+        public EvenementManager(SaveableEvent evenement)
         {
             InitializeComponent();
+            Evenement = evenement;
+
+            if (evenement != null)
+                FillTextBoxes();
+        }
+
+        private void FillTextBoxes()
+        {
+            EventName.Text = Evenement.Name;
+            EventStart.Text = Evenement.Start.ToLongDateString();
+            EventEnd.Text = Evenement.End.ToLongDateString();
+            EventDescription.Text = Evenement.Description;
+            EventAddresse.Text = Evenement.Addresse;
+
         }
     }
 }

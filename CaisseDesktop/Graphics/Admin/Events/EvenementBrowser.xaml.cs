@@ -58,7 +58,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             if (btn?.DataContext is SaveableEvent evenement)
             {
-
+                new EvenementManager(evenement).ShowDialog();
             }
             else
             {

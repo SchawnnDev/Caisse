@@ -32,6 +32,10 @@
         </DockPanel>
             
         <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MaxWidth="75"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -40,8 +44,25 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-        </Grid>
 
+            <Label Content="Nom:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBox x:Name="EventName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap" VerticalAlignment="Center" />
+
+            <Label Content="Start:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBox x:Name="EventStart" Grid.Column="1" Grid.Row="1" TextWrapping="NoWrap" VerticalAlignment="Center" />
+
+            <Label Content="End:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBox x:Name="EventEnd" Grid.Column="1" Grid.Row="2" TextWrapping="NoWrap" VerticalAlignment="Center" />
+
+            <Label Content="Addresse:" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBox x:Name="EventAddresse" Grid.Column="1" Grid.Row="3" TextWrapping="NoWrap" VerticalAlignment="Center" />
+
+            <Label Content="Description:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBox x:Name="EventDescription" Grid.Column="1" Grid.Row="4" TextWrapping="NoWrap" VerticalAlignment="Center" />
+
+            <Button Content="Enregistrer" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
+
+        </Grid>
 
 
     </Grid>
