@@ -58,10 +58,11 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             if (btn?.DataContext is SaveableEvent evenement)
             {
+
             }
             else
             {
-                MessageBox.Show($"{btn} : evenement est null", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{btn} : l'événement n'est pas valide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -82,7 +83,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
             }
             else
             {
-                MessageBox.Show($"{btn} : evenement est null", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{btn} : l'événement n'est pas valide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

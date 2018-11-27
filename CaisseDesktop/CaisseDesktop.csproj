@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
@@ -92,6 +95,9 @@
     <Compile Include="Graphics\Admin\Events\EvenementBrowser.xaml.cs">
       <DependentUpon>EvenementBrowser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Admin\Events\EvenementManager.xaml.cs">
+      <DependentUpon>EvenementManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Statistics\AdminStatisticsMain.xaml.cs">
       <DependentUpon>AdminStatisticsMain.xaml</DependentUpon>
     </Compile>
@@ -108,6 +114,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\Events\EvenementBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\Events\EvenementManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -164,6 +174,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\logo.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="shopping_cart_oUV_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
