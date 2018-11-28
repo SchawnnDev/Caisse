@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Events"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:models="clr-namespace:CaisseDesktop.Models"
         mc:Ignorable="d"
-        Title="EvenementManager" Height="500" Width="1000">
+        d:DataContext="{d:DesignInstance Type=models:JourModel, IsDesignTimeCreatable=False}"
+        Title="Gestion d'un événement" Height="500" Width="1000">
     <Window.Resources>
 
     </Window.Resources>
@@ -67,6 +68,37 @@
             <Button Content="Enregistrer" Grid.Column="1" Grid.Row="5" FontWeight="Bold" Margin="20 20 20 20" Cursor="Hand"/>
 
         </Grid>
+
+        <DataGrid Grid.Row="1" Grid.Column="1" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ItemsSource="{Binding Jours, IsAsync=true}" IsReadOnly="True" x:Name="DaysGrid"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Début" Binding="{Binding Start, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
+                <DataGridTextColumn Header="Fin" Binding="{Binding End, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
+                <DataGridTemplateColumn Header="Actions">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Click="Edit_OnClick">Editer</Button>
+                                <Button Click="Delete_OnClick">Supprimer</Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Display Shipping Addresses" />
+                    <Separator />
+                    <MenuItem Header="Edit" />
+                    <MenuItem Header="Delete" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
+        </DataGrid>
+
 
 
     </Grid>
