@@ -35,8 +35,8 @@ namespace CaisseDesktop.Graphics.Admin.Events
         private void FillTextBoxes()
         {
             EventName.Text = Evenement.Name;
-            EventStart.Text = Evenement.Start.ToLongDateString();
-            EventEnd.Text = Evenement.End.ToLongDateString();
+            EventStart.DefaultValue = Evenement.Start;
+            EventEnd.DefaultValue = Evenement.End;
             EventDescription.Text = Evenement.Description;
             EventAddresse.Text = Evenement.Addresse;
 

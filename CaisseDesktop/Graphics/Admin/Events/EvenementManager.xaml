@@ -4,11 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Events"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="EvenementManager" Height="450" Width="800">
+        Title="EvenementManager" Height="500" Width="1000">
+    <Window.Resources>
+
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition MaxWidth="350"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -45,22 +49,22 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Label Content="Nom:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBox x:Name="EventName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap" VerticalAlignment="Center" />
+            <Label Content="Nom :" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" />
+            <TextBox x:Name="EventName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="10" MinHeight="25"/>
 
-            <Label Content="Start:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBox x:Name="EventStart" Grid.Column="1" Grid.Row="1" TextWrapping="NoWrap" VerticalAlignment="Center" />
+            <Label Content="Début :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"/>
+            <xctk:DateTimePicker x:Name="EventStart" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ShowButtonSpinner="False" Margin="10" MinHeight="25"/>
 
-            <Label Content="End:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBox x:Name="EventEnd" Grid.Column="1" Grid.Row="2" TextWrapping="NoWrap" VerticalAlignment="Center" />
+            <Label Content="Fin :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"/>
+            <xctk:DateTimePicker x:Name="EventEnd" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" ShowButtonSpinner="False" Margin="10" MinHeight="25"/>
 
-            <Label Content="Addresse:" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBox x:Name="EventAddresse" Grid.Column="1" Grid.Row="3" TextWrapping="NoWrap" VerticalAlignment="Center" />
+            <Label Content="Addresse :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" />
+            <TextBox x:Name="EventAddresse" Grid.Column="1" Grid.Row="3" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="10" MinHeight="25"/>
 
-            <Label Content="Description:" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBox x:Name="EventDescription" Grid.Column="1" Grid.Row="4" TextWrapping="NoWrap" VerticalAlignment="Center" />
+            <Label Content="Description :" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" />
+            <TextBox x:Name="EventDescription" Grid.Column="1" Grid.Row="4" Margin="10" MinHeight="25" />
 
-            <Button Content="Enregistrer" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
+            <Button Content="Enregistrer" Grid.Column="1" Grid.Row="5" FontWeight="Bold" Margin="20 20 20 20" Cursor="Hand"/>
 
         </Grid>
 
