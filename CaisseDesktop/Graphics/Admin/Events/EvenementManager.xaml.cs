@@ -34,6 +34,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
         private bool New { get; } = true;
         private bool Saved { get; set; } = false;
         private bool Blocked { get; set; } = false;
+        private bool IsBack { get; set; } = false;
         private EvenementBrowser Instance { get; }
 
         public EvenementManager(EvenementBrowser instance, SaveableEvent evenement)
@@ -47,7 +48,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
                 FillTextBoxes();
                 New = false;
                 Saved = true;
-                ToggleBlocked();
+                ToggleBlocked(true);
             }
             else
             {
@@ -59,15 +60,16 @@ namespace CaisseDesktop.Graphics.Admin.Events
             Task.Run(() => Load());
         }
 
-        private void ToggleBlocked()
+        private void ToggleBlocked(bool blocked)
         {
-            Blocked = !Blocked;
-            EventName.IsEnabled = Blocked;
-            EventAddresse.IsEnabled = Blocked;
-            EventDescription.IsEnabled = Blocked;
-            EventStart.IsEnabled = Blocked;
-            EventEnd.IsEnabled = Blocked;
-            Blocage.IsChecked = Blocked;
+            EventName.IsEnabled = !blocked;
+            EventAddresse.IsEnabled = !blocked;
+            EventDescription.IsEnabled = !blocked;
+            EventStart.IsEnabled = !blocked;
+            EventEnd.IsEnabled = !blocked;
+            EventSave.IsEnabled = !blocked;
+            Blocage.IsChecked = blocked;
+            Blocked = blocked;
         }
 
         private void Load()
@@ -94,9 +96,11 @@ namespace CaisseDesktop.Graphics.Admin.Events
             Dispatcher.Invoke(() =>
             {
                 Model.Jours = collection;
-                Saved = true;
-                ToggleBlocked();
                 Mouse.OverrideCursor = null;
+
+                if (New) return;
+                Saved = true;
+                ToggleBlocked(true);
             });
         }
 
@@ -151,6 +155,8 @@ namespace CaisseDesktop.Graphics.Admin.Events
                 MessageBox.Show(New ? "L'événement à bien été crée !" : "L'événement à bien été enregistré !");
                 if (New) Instance.Add(Evenement);
                 else Instance.Update();
+                ToggleBlocked(true);
+                Saved = true;
             });
         }
 
@@ -174,15 +180,16 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void Back_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!Saved && !Validations.WillClose(true)) return;
+            if (Saved == false && Validations.WillClose(true) == false) return;
 
+            IsBack = true;
             Close();
             Instance.Show();
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
-            if (!Saved && Validations.WillClose(true)) return;
+            if (IsBack || Saved || (Saved == false && Validations.WillClose(true))) return;
 
             e.Cancel = true;
         }
@@ -192,10 +199,11 @@ namespace CaisseDesktop.Graphics.Admin.Events
             if (!Saved)
             {
                 MessageBox.Show("Veuillez enregistrer avant.");
+                Blocage.IsChecked = false;
                 return;
             }
 
-            ToggleBlocked();
+            ToggleBlocked(false);
             Saved = false;
 
         }
