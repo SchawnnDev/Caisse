@@ -18,7 +18,7 @@
 
                 <MenuItem x:Name="Back" Header="_Retour" />
 
-                <MenuItem x:Name="CreateEvent" Header="_Nouvel évenement" />
+                <MenuItem x:Name="CreateEvent" Header="_Nouvel évenement" Click="CreateEvent_OnClick" />
 
                 <MenuItem x:Name="Import" Header="_Importer" />
 

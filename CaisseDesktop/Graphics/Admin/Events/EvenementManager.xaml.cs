@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,8 +16,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CaisseDesktop.Models;
+using CaisseDesktop.Utils;
 using CaisseServer;
 using CaisseServer.Events;
+using Xceed.Wpf.Toolkit;
+using MessageBox = System.Windows.MessageBox;
 
 namespace CaisseDesktop.Graphics.Admin.Events
 {
@@ -23,19 +29,45 @@ namespace CaisseDesktop.Graphics.Admin.Events
     /// </summary>
     public partial class EvenementManager : Window
     {
-        public SaveableEvent Evenement { get; }
+        public SaveableEvent Evenement { set; get; }
         private JourModel Model => DataContext as JourModel;
+        private bool New { get; } = true;
+        private bool Saved { get; set; } = false;
+        private bool Blocked { get; set; } = false;
+        private EvenementBrowser Instance { get; }
 
-
-        public EvenementManager(SaveableEvent evenement)
+        public EvenementManager(EvenementBrowser instance, SaveableEvent evenement)
         {
             InitializeComponent();
             Evenement = evenement;
+            Instance = instance;
 
             if (evenement != null)
+            {
                 FillTextBoxes();
+                New = false;
+                Saved = true;
+                ToggleBlocked();
+            }
+            else
+            {
+                Blocage.IsChecked = false;
+            }
+
+            Closing += OnWindowClosing;
 
             Task.Run(() => Load());
+        }
+
+        private void ToggleBlocked()
+        {
+            Blocked = !Blocked;
+            EventName.IsEnabled = Blocked;
+            EventAddresse.IsEnabled = Blocked;
+            EventDescription.IsEnabled = Blocked;
+            EventStart.IsEnabled = Blocked;
+            EventEnd.IsEnabled = Blocked;
+            Blocage.IsChecked = Blocked;
         }
 
         private void Load()
@@ -48,13 +80,22 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             ObservableCollection<SaveableDay> collection;
 
-            using (var db = new CaisseServerContext())
-                collection = new ObservableCollection<SaveableDay>(db.Days.Where(t => t.Event.Id == Evenement.Id)
-                    .OrderBy(e => e.End).ToList());
+            if (New)
+            {
+                collection = new ObservableCollection<SaveableDay>();
+            }
+            else
+            {
+                using (var db = new CaisseServerContext())
+                    collection = new ObservableCollection<SaveableDay>(db.Days.Where(t => t.Event.Id == Evenement.Id)
+                        .OrderBy(e => e.End).ToList());
+            }
 
             Dispatcher.Invoke(() =>
             {
                 Model.Jours = collection;
+                Saved = true;
+                ToggleBlocked();
                 Mouse.OverrideCursor = null;
             });
         }
@@ -62,8 +103,8 @@ namespace CaisseDesktop.Graphics.Admin.Events
         private void FillTextBoxes()
         {
             EventName.Text = Evenement.Name;
-            EventStart.DefaultValue = Evenement.Start;
-            EventEnd.DefaultValue = Evenement.End;
+            EventStart.Value = Evenement.Start;
+            EventEnd.Value = Evenement.End;
             EventDescription.Text = Evenement.Description;
             EventAddresse.Text = Evenement.Addresse;
         }
@@ -74,6 +115,89 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void Delete_OnClick(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void Save_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (Check(EventName) || Check(EventStart) ||
+                Check(EventEnd) || Check(EventAddresse) || Check(EventDescription))
+                return;
+
+            if (Evenement == null)
+                Evenement = new SaveableEvent();
+
+            Evenement.Name = EventName.Text;
+            Evenement.Description = EventDescription.Text;
+            Evenement.Addresse = EventAddresse.Text;
+            Evenement.Start = EventStart.Value.GetValueOrDefault();
+            Evenement.End = EventEnd.Value.GetValueOrDefault();
+
+            Task.Run(() => Save());
+        }
+
+        private void Save()
+        {
+            Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
+
+            using (var db = new CaisseServerContext())
+            {
+                db.Events.AddOrUpdate(Evenement);
+                db.SaveChanges();
+            }
+
+            Dispatcher.Invoke(() =>
+            {
+                Mouse.OverrideCursor = null;
+                MessageBox.Show(New ? "L'événement à bien été crée !" : "L'événement à bien été enregistré !");
+                if (New) Instance.Add(Evenement);
+                else Instance.Update();
+            });
+        }
+
+        private bool Check(DateTimePicker picker)
+        {
+            var date = picker.Value;
+            if (date != null) return false;
+            picker.BorderBrush = Brushes.Red;
+            SystemSounds.Beep.Play();
+            return true;
+        }
+
+        private bool Check(TextBox box)
+        {
+            var str = box.Text;
+            if (!string.IsNullOrWhiteSpace(str)) return false;
+            box.BorderBrush = Brushes.Red;
+            SystemSounds.Beep.Play();
+            return true;
+        }
+
+        private void Back_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (!Saved && !Validations.WillClose(true)) return;
+
+            Close();
+            Instance.Show();
+        }
+
+        public void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            if (!Saved && Validations.WillClose(true)) return;
+
+            e.Cancel = true;
+        }
+
+        private void Blocage_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (!Saved)
+            {
+                MessageBox.Show("Veuillez enregistrer avant.");
+                return;
+            }
+
+            ToggleBlocked();
+            Saved = false;
+
         }
     }
 }

@@ -124,6 +124,7 @@
     </Compile>
     <Compile Include="Models\JourModel.cs" />
     <Compile Include="Utils\OverrideCursor.cs" />
+    <Compile Include="Utils\Validations.cs" />
     <Page Include="Graphics\Admin\AdminConnection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

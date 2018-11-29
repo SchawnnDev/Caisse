@@ -32,6 +32,10 @@ namespace CaisseDesktop.Graphics.Admin.Events
             Task.Run(() => Load());
         }
 
+        public void Add(SaveableEvent e) => Model.Evenements.Add(e);
+
+        public void Update() => EventsGrid.Items.Refresh();
+
         private void Load()
         {
             Dispatcher.Invoke(() =>
@@ -58,7 +62,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             if (btn?.DataContext is SaveableEvent evenement)
             {
-                new EvenementManager(evenement).ShowDialog();
+                new EvenementManager(this,evenement).ShowDialog();
             }
             else
             {
@@ -85,6 +89,11 @@ namespace CaisseDesktop.Graphics.Admin.Events
             {
                 MessageBox.Show($"{btn} : l'événement n'est pas valide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void CreateEvent_OnClick(object sender, RoutedEventArgs e)
+        {
+            new EvenementManager(this, null).ShowDialog();
         }
     }
 }
