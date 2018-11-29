@@ -15,10 +15,11 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition MaxWidth="350"/>
             <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
-            <RowDefinition MaxHeight="450" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
@@ -104,7 +105,35 @@
 
         </DataGrid>
 
+        <DataGrid Grid.Row="1" Grid.Column="2" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ItemsSource="{Binding Caisses, IsAsync=true}" IsReadOnly="True" x:Name="CheckoutsGrid"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Début" Binding="{Binding Start, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
+                <DataGridTextColumn Header="Fin" Binding="{Binding End, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
+                <DataGridTemplateColumn Header="Actions">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Click="Edit_OnClick">Editer</Button>
+                                <Button Click="Delete_OnClick">Supprimer</Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
 
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Display Shipping Addresses" />
+                    <Separator />
+                    <MenuItem Header="Edit" />
+                    <MenuItem Header="Delete" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
+        </DataGrid>
 
     </Grid>
 </Window>

@@ -30,7 +30,8 @@ namespace CaisseDesktop.Graphics.Admin.Events
     public partial class EvenementManager : Window
     {
         public SaveableEvent Evenement { set; get; }
-        private JourModel Model => DataContext as JourModel;
+        private JourModel Model => DaysGrid.DataContext as JourModel;
+        private CaisseModel CaisseModel => CheckoutsGrid.DataContext as CaisseModel;
         private bool New { get; } = true;
         private bool Saved { get; set; } = false;
         private bool Blocked { get; set; } = false;
@@ -76,26 +77,35 @@ namespace CaisseDesktop.Graphics.Admin.Events
         {
             Dispatcher.Invoke(() =>
             {
-                DataContext = new JourModel();
+                DaysGrid.DataContext = new JourModel();
+                CheckoutsGrid.DataContext = new CaisseModel();
                 Mouse.OverrideCursor = Cursors.Wait;
             });
 
-            ObservableCollection<SaveableDay> collection;
+            ObservableCollection<SaveableDay> daysCollection;
+            ObservableCollection<SaveableCheckout> checkoutsCollection;
 
             if (New)
             {
-                collection = new ObservableCollection<SaveableDay>();
+                daysCollection = new ObservableCollection<SaveableDay>();
+                checkoutsCollection = new ObservableCollection<SaveableCheckout>();
             }
             else
             {
                 using (var db = new CaisseServerContext())
-                    collection = new ObservableCollection<SaveableDay>(db.Days.Where(t => t.Event.Id == Evenement.Id)
+                {
+                    daysCollection = new ObservableCollection<SaveableDay>(db.Days
+                        .Where(t => t.Event.Id == Evenement.Id)
                         .OrderBy(e => e.End).ToList());
+                    checkoutsCollection = new ObservableCollection<SaveableCheckout>(db.Checkouts
+                        .Where(t => t.SaveableEvent.Id == Evenement.Id).ToList());
+                }
             }
 
             Dispatcher.Invoke(() =>
             {
-                Model.Jours = collection;
+                Model.Jours = daysCollection;
+                CaisseModel.Caisses = checkoutsCollection;
                 Mouse.OverrideCursor = null;
 
                 if (New) return;
@@ -205,7 +215,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             ToggleBlocked(false);
             Saved = false;
-
         }
     }
 }

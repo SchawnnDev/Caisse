@@ -122,6 +122,7 @@
     <Compile Include="Graphics\Connection.xaml.cs">
       <DependentUpon>Connection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\CaisseModel.cs" />
     <Compile Include="Models\JourModel.cs" />
     <Compile Include="Utils\OverrideCursor.cs" />
     <Compile Include="Utils\Validations.cs" />

@@ -1,25 +1,31 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CaisseServer;
 using CaisseServer.Events;
 
 namespace CaisseDesktop.Models
 {
-    public class JourModel : INotifyPropertyChanged
+    public class CaisseModel : INotifyPropertyChanged
     {
-        private ObservableCollection<SaveableDay> _jours;
+        private ObservableCollection<SaveableCheckout> _caisses;
 
-        public ObservableCollection<SaveableDay> Jours
+        public ObservableCollection<SaveableCheckout> Caisses
         {
-            get => _jours;
+            get => _caisses;
             set
             {
-                if (Equals(value, _jours))
+                if (Equals(value, _caisses))
                 {
                     return;
                 }
 
-                _jours = value;
-                OnPropertyChanged("Jours");
+                _caisses = value;
+                OnPropertyChanged("Caisses");
             }
         }
 
