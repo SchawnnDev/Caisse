@@ -180,6 +180,15 @@ namespace CaisseDesktop.Graphics.Admin.Events
             return true;
         }
 
+        private bool Check(TextBlock block)
+        {
+            var str = block.Text;
+            if (!string.IsNullOrWhiteSpace(str)) return false;
+            MessageBox.Show("Veuillez entrer une description valide.", "Erreur", MessageBoxButton.OK,MessageBoxImage.Error);
+            SystemSounds.Beep.Play();
+            return true;
+        }
+
         private void Back_OnClick(object sender, RoutedEventArgs e)
         {
             if (Saved == false && Validations.WillClose(true) == false) return;

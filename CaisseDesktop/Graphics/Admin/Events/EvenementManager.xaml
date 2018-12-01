@@ -5,19 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:models="clr-namespace:CaisseDesktop.Models"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:JourModel, IsDesignTimeCreatable=False}"
-        Title="Gestion d'un événement" Height="500" Width="1000">
+        Title="Gestion d'un événement" Height="700" Width="1200">
     <Window.Resources>
 
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="400"/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
+            <RowDefinition MaxHeight="50" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -36,46 +37,62 @@
 
         </DockPanel>
 
-        <Grid Grid.Row="1" Grid.Column="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition MaxWidth="85"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+        <GroupBox Header="Informations" Grid.Row="1" Grid.Column="0" Margin="5">
 
-            <Label Content="Nom :" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" />
-            <TextBox x:Name="EventName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="10" MinHeight="25"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MaxWidth="85" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-            <Label Content="Début :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"/>
-            <xctk:DateTimePicker x:Name="EventStart" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ShowButtonSpinner="False" Margin="10" MinHeight="25" TextAlignment="Left" AutoCloseCalendar="True"/>
+                <Label Content="Nom :" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"
+                       VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBox x:Name="EventName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
 
-            <Label Content="Fin :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"/>
-            <xctk:DateTimePicker x:Name="EventEnd" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" ShowButtonSpinner="False" Margin="10" MinHeight="25" TextAlignment="Left" AutoCloseCalendar="True"/>
+                <Label Content="Début :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
+                       VerticalAlignment="Center" FontWeight="Bold" />
+                <xctk:DateTimePicker x:Name="EventStart" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"
+                                     ShowButtonSpinner="False" Margin="10" MinHeight="25" TextAlignment="Left"
+                                     AutoCloseCalendar="True" />
 
-            <Label Content="Addresse :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" />
-            <TextBox x:Name="EventAddresse" Grid.Column="1" Grid.Row="3" TextWrapping="NoWrap" VerticalAlignment="Center" Margin="10" MinHeight="25"/>
+                <Label Content="Fin :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
+                       VerticalAlignment="Center" FontWeight="Bold" />
+                <xctk:DateTimePicker x:Name="EventEnd" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"
+                                     ShowButtonSpinner="False" Margin="10" MinHeight="25" TextAlignment="Left"
+                                     AutoCloseCalendar="True" />
 
-            <Label Content="Description :" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" />
-            <TextBox x:Name="EventDescription" Grid.Column="1" Grid.Row="4" Margin="10" MinHeight="25" IsEnabled="False" />
+                <Label Content="Addresse :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
+                       VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBox x:Name="EventAddresse" Grid.Column="1" Grid.Row="3" TextWrapping="NoWrap"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
 
-            <Button x:Name="EventSave" Content="Enregistrer" Grid.Column="1" Grid.Row="5" FontWeight="Bold" Margin="20 20 20 20" Cursor="Hand" Click="Save_OnClick"/>
+                <Label Content="Description :" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left"
+                       VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBox x:Name="EventDescription" materialDesign:HintAssist.Hint="Description..." TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" Grid.Row="4" Margin="10" MinHeight="25"
+                         IsEnabled="False" />
 
-            <StackPanel Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" >
-                <Label Content="Blocage :" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="Blocage" HorizontalAlignment="Center" Click="Blocage_OnClick"/>
-            </StackPanel >
+                <Button x:Name="EventSave" Content="Enregistrer" Grid.Column="1" Grid.Row="5" FontWeight="Bold"
+                        Margin="20 20 20 20" Cursor="Hand" Click="Save_OnClick" />
 
-        </Grid>
+                <StackPanel Grid.Row="5" Grid.Column="0" VerticalAlignment="Center">
+                    <Label Content="Blocage :" FontWeight="Bold" HorizontalAlignment="Center" />
+                    <CheckBox x:Name="Blocage" HorizontalAlignment="Center" Click="Blocage_OnClick" />
+                </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <Label Content="Gérer les caisses"></Label>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Gérer les caisses" Grid.Row="1" Grid.Column="1" Margin="5">
+
             <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
                       ItemsSource="{Binding Caisses, IsAsync=true}" IsReadOnly="True" x:Name="CheckoutsGrid"
                       AutoGenerateColumns="False">
@@ -106,9 +123,8 @@
 
             </DataGrid>
 
-        </StackPanel>
- 
+        </GroupBox>
 
-      
+
     </Grid>
 </Window>

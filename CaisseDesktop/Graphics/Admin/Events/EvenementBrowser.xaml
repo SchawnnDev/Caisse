@@ -6,11 +6,11 @@
         xmlns:models="clr-namespace:CaisseDesktop.Models"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:EvenementModel, IsDesignTimeCreatable=False}"
-        Title="Gestionnaire d'événements" Height="450" Width="800">
+        Title="Gestionnaire d'événements" Height="450" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition MaxHeight="450" />
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0">
