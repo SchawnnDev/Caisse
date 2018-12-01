@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CaisseDesktop.Graphics;
 using CaisseDesktop.Graphics.Admin;
+using CaisseDesktop.Graphics.Print;
 using CaisseServer;
 
 namespace CaisseDesktop
@@ -27,14 +29,13 @@ namespace CaisseDesktop
         public MainWindow()
         {
             InitializeComponent();
-            
+
             using (var db = new CaisseServerContext())
             {
                 //TEST
 
                 db.Database.CreateIfNotExists();
-
-            } 
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -42,6 +43,15 @@ namespace CaisseDesktop
             var window = new AdminMain();
             window.Show();
             Close();
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+            var ticket = new SalesReceipt();
+            ticket.Generate();
+            ticket.Print();
+
         }
     }
 }
