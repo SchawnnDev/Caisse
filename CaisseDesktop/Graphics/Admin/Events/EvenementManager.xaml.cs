@@ -30,7 +30,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
     public partial class EvenementManager : Window
     {
         public SaveableEvent Evenement { set; get; }
-        private JourModel Model => DaysGrid.DataContext as JourModel;
         private CaisseModel CaisseModel => CheckoutsGrid.DataContext as CaisseModel;
         private bool New { get; } = true;
         private bool Saved { get; set; } = false;
@@ -77,26 +76,20 @@ namespace CaisseDesktop.Graphics.Admin.Events
         {
             Dispatcher.Invoke(() =>
             {
-                DaysGrid.DataContext = new JourModel();
                 CheckoutsGrid.DataContext = new CaisseModel();
                 Mouse.OverrideCursor = Cursors.Wait;
             });
 
-            ObservableCollection<SaveableDay> daysCollection;
             ObservableCollection<SaveableCheckout> checkoutsCollection;
 
             if (New)
             {
-                daysCollection = new ObservableCollection<SaveableDay>();
                 checkoutsCollection = new ObservableCollection<SaveableCheckout>();
             }
             else
             {
                 using (var db = new CaisseServerContext())
                 {
-                    daysCollection = new ObservableCollection<SaveableDay>(db.Days
-                        .Where(t => t.Event.Id == Evenement.Id)
-                        .OrderBy(e => e.End).ToList());
                     checkoutsCollection = new ObservableCollection<SaveableCheckout>(db.Checkouts
                         .Where(t => t.SaveableEvent.Id == Evenement.Id).ToList());
                 }
@@ -104,7 +97,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             Dispatcher.Invoke(() =>
             {
-                Model.Jours = daysCollection;
                 CaisseModel.Caisses = checkoutsCollection;
                 Mouse.OverrideCursor = null;
 
