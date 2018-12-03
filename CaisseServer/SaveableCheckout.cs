@@ -16,6 +16,8 @@ namespace CaisseServer
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        public string Name { get; set; }
+
         public SaveableCheckoutType CheckoutType { get; set; }
 
         public SaveableEvent SaveableEvent { get; set; }

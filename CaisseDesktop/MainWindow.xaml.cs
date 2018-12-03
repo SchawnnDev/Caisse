@@ -53,5 +53,10 @@ namespace CaisseDesktop
             ticket.Print();
 
         }
+
+        private void ButtonConnection_OnClick(object sender, RoutedEventArgs e)
+        {
+            new Connection().ShowDialog();
+        }
     }
 }

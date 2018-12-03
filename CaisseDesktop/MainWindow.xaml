@@ -15,6 +15,7 @@
         </Grid.ColumnDefinitions>
         <Button Content="Connect" Grid.Column="1" HorizontalAlignment="Left" Margin="365,302,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
         <Button Content="Print" Grid.Column="1" HorizontalAlignment="Left" Margin="115,153,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBase_OnClick"/>
+        <Button Content="Connect" Grid.Column="1" HorizontalAlignment="Left" Margin="529.4,131,0,0" VerticalAlignment="Top" Width="75" Click="ButtonConnection_OnClick"/>
 
     </Grid>
 </Window>

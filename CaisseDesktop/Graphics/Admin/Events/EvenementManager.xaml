@@ -7,7 +7,7 @@
         xmlns:models="clr-namespace:CaisseDesktop.Models"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=models:JourModel, IsDesignTimeCreatable=False}"
+        d:DataContext="{d:DesignInstance Type=models:CaisseModel, IsDesignTimeCreatable=False}"
         Title="Gestion d'un événement" Height="700" Width="1200">
     <Window.Resources>
 
@@ -72,13 +72,11 @@
 
                 <Label Content="Addresse :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="EventAddresse" Grid.Column="1" Grid.Row="3" TextWrapping="NoWrap"
-                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
+                <TextBox x:Name="EventAddresse" Grid.Column="1" Grid.Row="3" AcceptsReturn="True" TextWrapping="NoWrap" Margin="10" MinHeight="25" />
 
                 <Label Content="Description :" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="EventDescription" materialDesign:HintAssist.Hint="Description..." TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" Grid.Row="4" Margin="10" MinHeight="25"
-                         IsEnabled="False" />
+                <TextBox x:Name="EventDescription" TextWrapping="NoWrap" AcceptsReturn="True" Grid.Column="1" Grid.Row="4" Margin="10" MinHeight="25"/>
 
                 <Button x:Name="EventSave" Content="Enregistrer" Grid.Column="1" Grid.Row="5" FontWeight="Bold"
                         Margin="20 20 20 20" Cursor="Hand" Click="Save_OnClick" />
@@ -98,8 +96,8 @@
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-                    <DataGridTextColumn Header="Début" Binding="{Binding Start, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
-                    <DataGridTextColumn Header="Fin" Binding="{Binding End, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
+                    <DataGridTextColumn Header="Nom" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Type" Binding="{Binding CheckoutType.Name}" />
                     <DataGridTemplateColumn Header="Actions">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
