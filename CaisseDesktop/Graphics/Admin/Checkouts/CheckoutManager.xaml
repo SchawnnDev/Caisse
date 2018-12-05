@@ -7,15 +7,12 @@
 
     </Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="50" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
+        <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
 
                 <MenuItem x:Name="Back" Header="_Retour" Click="Back_OnClick" />
@@ -24,16 +21,27 @@
 
                 <MenuItem Header="_Emploi du temps">
 
-                    <MenuItem x:Name="DisplayEdt" Header="_Afficher" />
+                    <MenuItem x:Name="DisplayEdt" Header="_Afficher" Click="DisplayEdt_OnClick" />
 
                     <Separator />
 
                     <MenuItem x:Name="AddDay" Header="_Ajouter un jour" />
 
                 </MenuItem>
+
+                <MenuItem Header="_Caissiers">
+
+                    <MenuItem x:Name="DisplayCashiers" Header="_Afficher" Click="DisplayEdt_OnClick" />
+
+                    <Separator />
+
+                    <MenuItem x:Name="AddCashier" Header="_Ajouter un caissier" />
+
+                </MenuItem>
+
             </Menu>
 
         </DockPanel>
-        <ContentControl x:Name="ContentControl" Grid.Row="1" />
+        <Frame x:Name="MasterFrame" Grid.Row="1" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

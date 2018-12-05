@@ -18,6 +18,10 @@ namespace CaisseServer
 
         public string Name { get; set; }
 
+        public string Owner { get; set; }
+
+        public string Details { get; set; }
+
         public SaveableCheckoutType CheckoutType { get; set; }
 
         public SaveableEvent SaveableEvent { get; set; }

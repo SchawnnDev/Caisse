@@ -62,11 +62,12 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             if (btn?.DataContext is SaveableEvent evenement)
             {
-                new EvenementManager(this,evenement).ShowDialog();
+                new EvenementManager(this, evenement).ShowDialog();
             }
             else
             {
-                MessageBox.Show($"{btn} : l'événement n'est pas valide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{btn} : l'événement n'est pas valide.", "Erreur", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
@@ -76,18 +77,18 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             if (btn?.DataContext is SaveableEvent evenement)
             {
-
-                var result = MessageBox.Show("Es tu sûr de vouloir supprimer l'événement ?", "Supprimer un événement", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+                var result = MessageBox.Show("Es tu sûr de vouloir supprimer l'événement ?", "Supprimer un événement",
+                    MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
 
                 if (result != MessageBoxResult.Yes) return;
 
                 using (var db = new CaisseServerContext())
                     db.Events.Remove(evenement);
-
             }
             else
             {
-                MessageBox.Show($"{btn} : l'événement n'est pas valide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"{btn} : l'événement n'est pas valide.", "Erreur", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 

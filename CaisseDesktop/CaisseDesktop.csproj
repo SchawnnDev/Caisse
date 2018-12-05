@@ -124,6 +124,9 @@
     <Compile Include="Graphics\Admin\Checkouts\CheckoutManager.xaml.cs">
       <DependentUpon>CheckoutManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Admin\Checkouts\Pages\CheckoutMainPage.xaml.cs">
+      <DependentUpon>CheckoutMainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Checkouts\Pages\DaysDisplayPage.xaml.cs">
       <DependentUpon>DaysDisplayPage.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\Checkouts\CheckoutManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\Checkouts\Pages\CheckoutMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

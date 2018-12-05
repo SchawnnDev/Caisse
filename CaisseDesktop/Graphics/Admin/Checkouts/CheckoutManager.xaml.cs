@@ -24,18 +24,27 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
     {
         private EvenementManager EventManager { get; set; }
         private SaveableCheckout Checkout { get; set; }
+        private bool Saved { get; set; } = false;
+        private bool New { get; set; } = true;
         
         public CheckoutManager(EvenementManager eventManager, SaveableCheckout checkout)
         {
             InitializeComponent();
             EventManager = eventManager;
             Checkout = checkout;
-            ContentControl.Content = new DaysDisplayPage();
+            MasterFrame.Content = new CheckoutMainPage();
+            New = checkout == null;
+            Saved = !New;
         }
 
         private void Back_OnClick(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void DisplayEdt_OnClick(object sender, RoutedEventArgs e)
+        {
+            MasterFrame.Content = new DaysDisplayPage();
         }
     }
 }
