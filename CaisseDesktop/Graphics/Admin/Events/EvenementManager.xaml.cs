@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseDesktop.Graphics.Admin.Checkouts;
 using CaisseDesktop.Models;
 using CaisseDesktop.Utils;
 using CaisseServer;
@@ -117,6 +118,16 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void Edit_OnClick(object sender, RoutedEventArgs e)
         {
+            var btn = sender as Button;
+
+            if (btn?.DataContext is SaveableCheckout checkout)
+            {
+                new CheckoutManager(this, checkout).ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show($"{btn} : la caisse n'est pas valide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void Delete_OnClick(object sender, RoutedEventArgs e)
@@ -216,6 +227,11 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             ToggleBlocked(false);
             Saved = false;
+        }
+
+        private void CreateCheckout_OnClick(object sender, RoutedEventArgs e)
+        {
+            new CheckoutManager(this, null).ShowDialog();
         }
     }
 }

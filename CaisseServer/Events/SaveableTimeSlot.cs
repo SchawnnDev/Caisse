@@ -18,8 +18,13 @@ namespace CaisseServer.Events
 
         public DateTime End { get; set; }
 
+        public SaveableCashier Cashier { get; set; }
+
+        public bool Pause { get; set; }
+
         public SaveableTimeSlot()
         {
         }
+
     }
 }

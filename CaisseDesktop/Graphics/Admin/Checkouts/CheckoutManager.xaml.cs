@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseDesktop.Graphics.Admin.Checkouts.Pages;
 using CaisseDesktop.Graphics.Admin.Events;
 using CaisseServer;
 
@@ -21,14 +22,20 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
     /// </summary>
     public partial class CheckoutManager : Window
     {
-        private EvenementManager Parent { get; set; }
+        private EvenementManager EventManager { get; set; }
         private SaveableCheckout Checkout { get; set; }
         
-        public CheckoutManager(EvenementManager parent, SaveableCheckout checkout)
+        public CheckoutManager(EvenementManager eventManager, SaveableCheckout checkout)
         {
             InitializeComponent();
-            Parent = parent;
+            EventManager = eventManager;
             Checkout = checkout;
+            ContentControl.Content = new DaysDisplayPage();
+        }
+
+        private void Back_OnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

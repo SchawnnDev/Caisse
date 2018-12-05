@@ -1,19 +1,13 @@
 ﻿<Window x:Class="CaisseDesktop.Graphics.Admin.Checkouts.CheckoutManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Checkouts"
-        xmlns:models="clr-namespace:CaisseDesktop.Models" 
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        d:DataContext="{d:DesignInstance Type=models:CaisseModel, IsDesignTimeCreatable=False}"
         Title="Gestion d'une caisse" Height="700" Width="1200">
     <Window.Resources>
 
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -24,110 +18,22 @@
         <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
             <Menu DockPanel.Dock="Top">
 
-                <MenuItem x:Name="Back" Header="_Retour" />
+                <MenuItem x:Name="Back" Header="_Retour" Click="Back_OnClick" />
 
-                <MenuItem Header="_Caisses">
+                <MenuItem Header="_Gérer les informations" />
 
-                    <MenuItem x:Name="CreateCheckout" Header="_Nouvelle caisse" />
+                <MenuItem Header="_Emploi du temps">
 
-                    <Separator/>
+                    <MenuItem x:Name="DisplayEdt" Header="_Afficher" />
 
-                    <MenuItem x:Name="Importer" Header="_Importer" />
+                    <Separator />
 
-                    <MenuItem x:Name="Exporter" Header="_Exporter" />
-
+                    <MenuItem x:Name="AddDay" Header="_Ajouter un jour" />
 
                 </MenuItem>
             </Menu>
 
         </DockPanel>
-
-        <GroupBox Header="Informations" Grid.Row="1" Grid.Column="0" Margin="5">
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition MaxWidth="85" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <Label Content="Nom :" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"
-                       VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="EventName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap"
-                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
-
-                <Label Content="Début :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
-                       VerticalAlignment="Center" FontWeight="Bold" />
-                <xctk:DateTimePicker x:Name="EventStart" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"
-                                     ShowButtonSpinner="False" Margin="10" MinHeight="25" TextAlignment="Left"
-                                     AutoCloseCalendar="True" />
-
-                <Label Content="Fin :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
-                       VerticalAlignment="Center" FontWeight="Bold" />
-                <xctk:DateTimePicker x:Name="EventEnd" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"
-                                     ShowButtonSpinner="False" Margin="10" MinHeight="25" TextAlignment="Left"
-                                     AutoCloseCalendar="True" />
-
-                <Label Content="Addresse :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
-                       VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="EventAddresse" Grid.Column="1" Grid.Row="3" AcceptsReturn="True" TextWrapping="NoWrap" Margin="10" MinHeight="25" />
-
-                <Label Content="Description :" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left"
-                       VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="EventDescription" TextWrapping="NoWrap" AcceptsReturn="True" Grid.Column="1" Grid.Row="4" Margin="10" MinHeight="25"/>
-
-                <Button x:Name="EventSave" Content="Enregistrer" Grid.Column="1" Grid.Row="5" FontWeight="Bold"
-                        Margin="20 20 20 20" Cursor="Hand" />
-
-                <StackPanel Grid.Row="5" Grid.Column="0" VerticalAlignment="Center">
-                    <Label Content="Blocage :" FontWeight="Bold" HorizontalAlignment="Center" />
-                    <CheckBox x:Name="Blocage" HorizontalAlignment="Center" />
-                </StackPanel>
-
-            </Grid>
-        </GroupBox>
-
-        <GroupBox Header="Gérer les caisses" Grid.Row="1" Grid.Column="1" Margin="5">
-
-            <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      ItemsSource="{Binding Caisses, IsAsync=true}" IsReadOnly="True" x:Name="CheckoutsGrid"
-                      AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-                    <DataGridTextColumn Header="Nom" Binding="{Binding Name}" />
-                    <DataGridTextColumn Header="Type" Binding="{Binding CheckoutType.Name}" />
-                    <DataGridTemplateColumn Header="Actions">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button>Editer</Button>
-                                    <Button>Supprimer</Button>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Display Shipping Addresses" />
-                        <Separator />
-                        <MenuItem Header="Edit" />
-                        <MenuItem Header="Delete" />
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-
-            </DataGrid>
-
-        </GroupBox>
-
-
+        <ContentControl x:Name="ContentControl" Grid.Row="1" />
     </Grid>
 </Window>

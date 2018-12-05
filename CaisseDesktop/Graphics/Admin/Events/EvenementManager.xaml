@@ -29,7 +29,7 @@
 
                 <MenuItem Header="_Caisses">
 
-                    <MenuItem x:Name="CreateCheckout" Header="_Nouvelle caisse" />
+                    <MenuItem x:Name="CreateCheckout" Header="_Nouvelle caisse" Click="CreateCheckout_OnClick"/>
 
                     <Separator/>
 
@@ -109,7 +109,7 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Button Click="Edit_OnClick">Editer</Button>
-                                    <Button Click="Delete_OnClick">Supprimer</Button>
+                                    <Button Margin="5 0 0 0" Click="Delete_OnClick">Supprimer</Button>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
