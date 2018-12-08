@@ -43,16 +43,12 @@
 
                 <Label Content="Type :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <TreeView x:Name="CheckoutType" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="10" MinHeight="25">
-                    <TreeViewItem Name="teste">test qsdqsdqsdqsd</TreeViewItem>
-                </TreeView>
+
+                <ComboBox Grid.Column="1" Grid.Row="1"  x:Name="CheckoutType" LostFocus="CheckoutType_OnLostFocus" IsEditable="True" Margin="10" MinHeight="25"/>
 
                 <Label Content="Résponsable :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <TreeView x:Name="CheckoutOwner" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Margin="10" MinHeight="25">
-                    <TreeViewItem Name="Fred">fredo</TreeViewItem>
-                </TreeView>
-
+                <ComboBox Grid.Column="1" Grid.Row="2"  x:Name="Owner" LostFocus="Owner_OnLostFocus" IsEditable="True" Margin="10" MinHeight="25"/>
 
                 <Label Content="Infos compl. :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
