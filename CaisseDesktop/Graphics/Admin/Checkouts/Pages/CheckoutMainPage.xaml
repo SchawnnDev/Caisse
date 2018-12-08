@@ -48,7 +48,7 @@
 
                 <Label Content="Résponsable :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <ComboBox Grid.Column="1" Grid.Row="2"  x:Name="Owner" LostFocus="Owner_OnLostFocus" IsEditable="True" Margin="10" MinHeight="25"/>
+                <ComboBox Grid.Column="1" Grid.Row="2"  x:Name="Owner" IsEditable="False" Margin="10" MinHeight="25"/>
 
                 <Label Content="Infos compl. :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />

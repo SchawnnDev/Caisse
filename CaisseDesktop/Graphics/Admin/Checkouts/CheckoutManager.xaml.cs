@@ -22,8 +22,8 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
     /// </summary>
     public partial class CheckoutManager : Window
     {
-        private EvenementManager EventManager { get; set; }
-        private SaveableCheckout Checkout { get; set; }
+        public EvenementManager EventManager { get; set; }
+        public SaveableCheckout Checkout { get; set; }
         private bool Saved { get; set; } = false;
         private bool New { get; set; } = true;
         
@@ -32,7 +32,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
             InitializeComponent();
             EventManager = eventManager;
             Checkout = checkout;
-            MasterFrame.Content = new CheckoutMainPage();
+            MasterFrame.Content = new CheckoutMainPage(this);
             New = checkout == null;
             Saved = !New;
         }

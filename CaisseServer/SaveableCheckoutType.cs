@@ -6,7 +6,6 @@ namespace CaisseServer
     [Table("checkout_types")]
     public class SaveableCheckoutType
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -15,8 +14,8 @@ namespace CaisseServer
 
         public SaveableCheckoutType()
         {
-
         }
 
+        public override string ToString() => Name;
     }
 }

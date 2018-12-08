@@ -25,6 +25,10 @@ namespace CaisseServer.Events
 
         public DateTime LastLogout { get; set; }
 
+        public SaveableEvent Event { get; set; }
+
+        public bool SuperAdmin { get; set; }
+
         public SaveableOwner()
         {
         }
@@ -42,5 +46,7 @@ namespace CaisseServer.Events
 
         public bool HasPermission(string permission) =>
             Permissions.Equals("*") || GetPermissions().Contains(permission);
+
+        public override string ToString() => Name;
     }
 }
