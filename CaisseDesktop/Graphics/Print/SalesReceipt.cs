@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using PrinterUtility;
-using PrinterUtility.EscPosEpsonCommands;
+using PrinterUtility.Enums;
 
 namespace CaisseDesktop.Graphics.Print
 {
     public class SalesReceipt : Ticket
     {
-
         public SalesReceipt()
             : base("\\\\beru\\EPSON TM-H6000IV Receipt")
         {
@@ -18,42 +13,41 @@ namespace CaisseDesktop.Graphics.Print
 
         public override void Generate()
         {
-            var logo = GetLogo("Resources/Images/logo-receipt.png");
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Alignment.Center());
-            BytesValue = PrintExtensions.AddBytes(BytesValue,logo);
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Separator());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.CharSize.DoubleWidth6());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.FontSelect.FontA());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Alignment.Center());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, Encoding.ASCII.GetBytes("Title\n"));
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.CharSize.DoubleWidth4());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, Encoding.ASCII.GetBytes("Sub Title\n"));
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.CharSize.Nomarl());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Separator());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, Encoding.ASCII.GetBytes("Invoice\n"));
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Alignment.Left());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, CutPage());
-            return;
-            BytesValue = PrintExtensions.AddBytes(BytesValue, Encoding.ASCII.GetBytes("Invoice No. : 12345\n"));
-            BytesValue = PrintExtensions.AddBytes(BytesValue, Encoding.ASCII.GetBytes("Date        : 12/12/2015\n"));
-            BytesValue = PrintExtensions.AddBytes(BytesValue, Encoding.ASCII.GetBytes("Itm                      Qty      Net   Total\n"));
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Separator());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, $"{"item 1",-40}{12,6}{11,9}{144.00,9:N2}\n");
-            BytesValue = PrintExtensions.AddBytes(BytesValue, $"{"item 2",-40}{12,6}{11,9}{144.00,9:N2}\n");
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Alignment.Right());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Separator());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, Encoding.ASCII.GetBytes("Total\n"));
-            BytesValue = PrintExtensions.AddBytes(BytesValue, Encoding.ASCII.GetBytes("288.00\n"));
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Separator());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Lf());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Alignment.Center());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.CharSize.DoubleHeight6());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.BarCode.Code128("12345"));
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.QrCode.Print("12345", PrinterUtility.Enums.QrCodeSize.Grande));
-            BytesValue = PrintExtensions.AddBytes(BytesValue, "-------------------Thank you for coming------------------------\n");
-            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Alignment.Left());
-            BytesValue = PrintExtensions.AddBytes(BytesValue, CutPage());
+            //var logo = GetLogo("Resources/Images/logo_brique.png");
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Center());
+            //BytesValue = BytesValue.AddBytes(logo);
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Separator());
+            BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.DoubleWidth6());
+            BytesValue = BytesValue.AddBytes(EscPosEpson.FontSelect.FontC());
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Center());
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("Title\n"));
+            BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.DoubleWidth4());
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("Sub Title\n"));
+            BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.Nomarl());
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Separator());
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("Invoice\n"));
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Left());
+            //BytesValue = BytesValue.AddBytes(CutPage()); 
+            /*
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("Invoice No. : 12345\n"));
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("Date        : 12/12/2015\n"));
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("Itm                      Qty      Net   Total\n"));
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Separator());
+            BytesValue = BytesValue.AddBytes($"{"item 1",-40}{12,6}{11,9}{144.00,9:N2}\n");
+            BytesValue = BytesValue.AddBytes($"{"item 2",-40}{12,6}{11,9}{144.00,9:N2}\n");
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Right());
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Separator());
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("Total\n"));
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("288.00\n")); */
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Separator());
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Lf());
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Center());
+            BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.DoubleHeight6()); 
+            BytesValue = BytesValue.AddBytes(EscPosEpson.BarCode.Code128("12345"));
+            BytesValue = BytesValue.AddBytes(EscPosEpson.QrCode.Print("SALUT TOM", QrCodeSize.Grande));
+            BytesValue = BytesValue.AddBytes("-------------------Thank you for coming------------------------\n");
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Left());
+            BytesValue = BytesValue.AddBytes(CutPage());
         }
-
     }
 }

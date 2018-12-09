@@ -18,7 +18,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
     /// <summary>
     /// Interaction logic for DaysDisplayPage.xaml
     /// </summary>
-    public partial class DaysDisplayPage : Page
+    public partial class DaysDisplayPage
     {
         public DaysDisplayPage()
         {
