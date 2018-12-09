@@ -54,6 +54,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
                 Model.Evenements = collection;
                 Mouse.OverrideCursor = null;
             });
+
         }
 
         private void Edit_OnClick(object sender, RoutedEventArgs e)

@@ -48,3 +48,4 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
         }
     }
 }
+ 

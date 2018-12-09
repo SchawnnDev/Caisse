@@ -12,13 +12,15 @@ namespace CaisseDesktop.Graphics.Print
     {
 
         public SalesReceipt()
-            : base("\\\\PAUL\\EPSON414F8C")
-          // : base("[fe80::66eb:8cff:fe41:4f8c%5]:80/WSD/DEVICE")
+            : base("\\\\beru\\EPSON TM-H6000IV Receipt")
         {
         }
 
         public override void Generate()
         {
+            var logo = GetLogo("Resources/Images/logo-receipt.png");
+            BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Alignment.Center());
+            BytesValue = PrintExtensions.AddBytes(BytesValue,logo);
             BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Separator());
             BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.CharSize.DoubleWidth6());
             BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.FontSelect.FontA());
@@ -30,6 +32,8 @@ namespace CaisseDesktop.Graphics.Print
             BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Separator());
             BytesValue = PrintExtensions.AddBytes(BytesValue, Encoding.ASCII.GetBytes("Invoice\n"));
             BytesValue = PrintExtensions.AddBytes(BytesValue, EscPosEpson.Alignment.Left());
+            BytesValue = PrintExtensions.AddBytes(BytesValue, CutPage());
+            return;
             BytesValue = PrintExtensions.AddBytes(BytesValue, Encoding.ASCII.GetBytes("Invoice No. : 12345\n"));
             BytesValue = PrintExtensions.AddBytes(BytesValue, Encoding.ASCII.GetBytes("Date        : 12/12/2015\n"));
             BytesValue = PrintExtensions.AddBytes(BytesValue, Encoding.ASCII.GetBytes("Itm                      Qty      Net   Total\n"));
