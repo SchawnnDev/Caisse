@@ -53,7 +53,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
             }
             else
             {
-                Blocage.IsChecked = false;
+                //Blocage.IsChecked = false;
             }
 
             Closing += OnWindowClosing;
@@ -63,13 +63,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void ToggleBlocked(bool blocked)
         {
-            EventName.IsEnabled = !blocked;
-            EventAddresse.IsEnabled = !blocked;
-            EventDescription.IsEnabled = !blocked;
-            EventStart.IsEnabled = !blocked;
-            EventEnd.IsEnabled = !blocked;
-            EventSave.IsEnabled = !blocked;
-            Blocage.IsChecked = blocked;
             Blocked = blocked;
         }
 
@@ -109,11 +102,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void FillTextBoxes()
         {
-            EventName.Text = Evenement.Name;
-            EventStart.Value = Evenement.Start;
-            EventEnd.Value = Evenement.End;
-            EventDescription.Text = Evenement.Description;
-            EventAddresse.Text = Evenement.Addresse;
         }
 
         private void Edit_OnClick(object sender, RoutedEventArgs e)
@@ -134,71 +122,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
         {
         }
 
-        private void Save_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (Check(EventName) || Check(EventStart) ||
-                Check(EventEnd) || Check(EventAddresse) || Check(EventDescription))
-                return;
 
-            if (Evenement == null)
-                Evenement = new SaveableEvent();
-
-            Evenement.Name = EventName.Text;
-            Evenement.Description = EventDescription.Text;
-            Evenement.Addresse = EventAddresse.Text;
-            Evenement.Start = EventStart.Value.GetValueOrDefault();
-            Evenement.End = EventEnd.Value.GetValueOrDefault();
-
-            Task.Run(() => Save());
-        }
-
-        private void Save()
-        {
-            Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
-
-            using (var db = new CaisseServerContext())
-            {
-                db.Events.AddOrUpdate(Evenement);
-                db.SaveChanges();
-            }
-
-            Dispatcher.Invoke(() =>
-            {
-                Mouse.OverrideCursor = null;
-                MessageBox.Show(New ? "L'événement à bien été crée !" : "L'événement à bien été enregistré !");
-                if (New) Instance.Add(Evenement);
-                else Instance.Update();
-                ToggleBlocked(true);
-                Saved = true;
-            });
-        }
-
-        private bool Check(DateTimePicker picker)
-        {
-            var date = picker.Value;
-            if (date != null) return false;
-            picker.BorderBrush = Brushes.Red;
-            SystemSounds.Beep.Play();
-            return true;
-        }
-
-        private bool Check(TextBox box)
-        {
-            var str = box.Text;
-            if (!string.IsNullOrWhiteSpace(str)) return false;
-            box.BorderBrush = Brushes.Red;
-            SystemSounds.Beep.Play();
-            return true;
-        }
-
-        private bool Check(TextBlock block)
-        {
-            var str = block.Text;
-            if (!string.IsNullOrWhiteSpace(str)) return false;
-            MessageBox.Show("Veuillez entrer une description valide.", "Erreur", MessageBoxButton.OK,MessageBoxImage.Error);
-            SystemSounds.Beep.Play();
-            return true;
-        }
 
         private void Back_OnClick(object sender, RoutedEventArgs e)
         {
@@ -221,7 +145,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
             if (!Saved)
             {
                 MessageBox.Show("Veuillez enregistrer avant.");
-                Blocage.IsChecked = false;
+                //Blocage.IsChecked = false;
                 return;
             }
 

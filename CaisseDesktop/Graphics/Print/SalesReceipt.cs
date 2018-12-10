@@ -9,7 +9,7 @@ namespace CaisseDesktop.Graphics.Print
         public SalesReceipt()
             : base("\\\\beru\\EPSON TM-H6000IV Receipt")
         {
-        }
+        }/*
 
         public override void Generate()
         {
@@ -38,15 +38,22 @@ namespace CaisseDesktop.Graphics.Print
             BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Right());
             BytesValue = BytesValue.AddBytes(EscPosEpson.Separator());
             BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("Total\n"));
-            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("288.00\n")); */
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("288.00\n")); 
             BytesValue = BytesValue.AddBytes(EscPosEpson.Separator());
             BytesValue = BytesValue.AddBytes(EscPosEpson.Lf());
             BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Center());
             BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.DoubleHeight6()); 
             BytesValue = BytesValue.AddBytes(EscPosEpson.BarCode.Code128("12345"));
-            BytesValue = BytesValue.AddBytes(EscPosEpson.QrCode.Print("SALUT TOM", QrCodeSize.Grande));
+            BytesValue = BytesValue.AddBytes(EscPosEpson.QrCode.Print("SALUT TOM", QrCodeSize.Gigante));
             BytesValue = BytesValue.AddBytes("-------------------Thank you for coming------------------------\n");
             BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Left());
+            BytesValue = BytesValue.AddBytes(CutPage());
+        }*/
+
+        public override void Generate()
+        {
+            BytesValue = BytesValue.AddBytes(GetLogo("C:/Users/Meyer/Pictures/gamin.png"));
+            //BytesValue = BytesValue.AddBytes(EscPosEpson.QrCode.Print("BITTE MACH DEINE HAUSAUFGABEN SPAETER", QrCodeSize.Gigante));
             BytesValue = BytesValue.AddBytes(CutPage());
         }
     }
