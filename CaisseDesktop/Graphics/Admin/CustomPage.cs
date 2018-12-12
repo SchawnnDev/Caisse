@@ -15,9 +15,19 @@ namespace CaisseDesktop.Graphics.Admin
     public abstract class CustomPage : Page
     {
 
+        public CustomPage()
+        {
+        }
+
         public abstract bool CanClose();
 
         public abstract bool CanBack();
+
+        public abstract string Name();
+
+        public bool Equals(CustomPage page) => page != null && Name().Equals(page.Name());
+
+        public bool Equals(string name) => name != null && Name().Equals(name);
 
         public bool Check(DateTimePicker picker)
         {

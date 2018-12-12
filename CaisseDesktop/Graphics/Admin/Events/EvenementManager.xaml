@@ -13,21 +13,27 @@
 
     </Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="50" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
+        <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
 
                 <MenuItem x:Name="Back" Header="_Retour" Click="Back_OnClick" />
 
+                <MenuItem Header="_Événement">
+
+                    <MenuItem x:Name="EditInfos" Header="_Editer l'événement" Click="EditInfos_OnClick"/>
+
+                </MenuItem>
+
                 <MenuItem Header="_Caisses">
+
+                    <MenuItem x:Name="DisplayCheckouts" Header="_Afficher les caisses" Click="DisplayCheckouts_OnClick"/>
+
+                    <Separator/>
 
                     <MenuItem x:Name="CreateCheckout" Header="_Nouvelle caisse" Click="CreateCheckout_OnClick"/>
 
@@ -43,40 +49,7 @@
 
         </DockPanel>
 
-        <GroupBox Header="Gérer les caisses" Grid.Row="1" Grid.Column="1" Margin="5">
-
-            <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      ItemsSource="{Binding Caisses, IsAsync=true}" IsReadOnly="True" x:Name="CheckoutsGrid"
-                      AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-                    <DataGridTextColumn Header="Nom" Binding="{Binding Name}" />
-                    <DataGridTextColumn Header="Type" Binding="{Binding CheckoutType.Name}" />
-                    <DataGridTemplateColumn Header="Actions">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Click="Edit_OnClick">Editer</Button>
-                                    <Button Margin="5 0 0 0" Click="Delete_OnClick">Supprimer</Button>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Display Shipping Addresses" />
-                        <Separator />
-                        <MenuItem Header="Edit" />
-                        <MenuItem Header="Delete" />
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-
-            </DataGrid>
-
-        </GroupBox>
-
+        <Frame x:Name="MasterFrame" Grid.Row="1" NavigationUIVisibility="Hidden" />
 
     </Grid>
 </Window>

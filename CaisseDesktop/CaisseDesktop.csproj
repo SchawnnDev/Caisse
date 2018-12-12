@@ -137,6 +137,9 @@
     <Compile Include="Graphics\Admin\Events\EvenementManager.xaml.cs">
       <DependentUpon>EvenementManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Admin\Events\Pages\EventCheckoutPage.xaml.cs">
+      <DependentUpon>EventCheckoutPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Events\Pages\EventMainPage.xaml.cs">
       <DependentUpon>EventMainPage.xaml</DependentUpon>
     </Compile>
@@ -178,6 +181,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\Events\EvenementManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\Events\Pages\EventCheckoutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -27,20 +27,17 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
     /// </summary>
     public partial class EventMainPage
     {
-        public SaveableEvent Evenement { set; get; }
         private bool New { get; } = true;
         private bool Saved { get; set; } = false;
         private bool Blocked { get; set; }
-        private bool IsBack { get; set; } = false;
-        private EvenementBrowser Instance { get; }
+        private EvenementManager ParentWindow { get; }
 
-        public EventMainPage(EvenementBrowser instance, SaveableEvent evenement)
+        public EventMainPage(EvenementManager parentWindow)
         {
             InitializeComponent();
-            Evenement = evenement;
-            Instance = instance;
+            ParentWindow = parentWindow;
 
-            if (evenement != null)
+            if (parentWindow.Evenement != null)
             {
                 FillTextBoxes();
                 New = false;
@@ -67,11 +64,11 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
         private void FillTextBoxes()
         {
-            EventName.Text = Evenement.Name;
-            EventStart.Value = Evenement.Start;
-            EventEnd.Value = Evenement.End;
-            EventDescription.Text = Evenement.Description;
-            EventAddresse.Text = Evenement.Addresse;
+            EventName.Text = ParentWindow.Evenement.Name;
+            EventStart.Value = ParentWindow.Evenement.Start;
+            EventEnd.Value = ParentWindow.Evenement.End;
+            EventDescription.Text = ParentWindow.Evenement.Description;
+            EventAddresse.Text = ParentWindow.Evenement.Addresse;
         }
 
         private void Save_OnClick(object sender, RoutedEventArgs e)
@@ -80,14 +77,14 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
                 Check(EventEnd) || Check(EventAddresse) || Check(EventDescription))
                 return;
 
-            if (Evenement == null)
-                Evenement = new SaveableEvent();
+            if (ParentWindow.Evenement == null)
+                ParentWindow.Evenement = new SaveableEvent();
 
-            Evenement.Name = EventName.Text;
-            Evenement.Description = EventDescription.Text;
-            Evenement.Addresse = EventAddresse.Text;
-            Evenement.Start = EventStart.Value.GetValueOrDefault();
-            Evenement.End = EventEnd.Value.GetValueOrDefault();
+            ParentWindow.Evenement.Name = EventName.Text;
+            ParentWindow.Evenement.Description = EventDescription.Text;
+            ParentWindow.Evenement.Addresse = EventAddresse.Text;
+            ParentWindow.Evenement.Start = EventStart.Value.GetValueOrDefault();
+            ParentWindow.Evenement.End = EventEnd.Value.GetValueOrDefault();
 
             Task.Run(() => Save());
         }
@@ -98,7 +95,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
             using (var db = new CaisseServerContext())
             {
-                db.Events.AddOrUpdate(Evenement);
+                db.Events.AddOrUpdate(ParentWindow.Evenement);
                 db.SaveChanges();
             }
 
@@ -106,8 +103,8 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             {
                 Mouse.OverrideCursor = null;
                 MessageBox.Show(New ? "L'événement à bien été crée !" : "L'événement à bien été enregistré !");
-                if (New) Instance.Add(Evenement);
-                else Instance.Update();
+                if (New) ParentWindow.ParentWindow.Add(ParentWindow.Evenement);
+                else ParentWindow.ParentWindow.Update();
                 ToggleBlocked(true);
                 Saved = true;
             });
@@ -126,9 +123,12 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             Saved = false;
         }
 
-        public override bool CanClose() => !IsBack && !Saved && (Saved || !Validations.WillClose(true));
+        public override bool CanClose() => !Saved && (Saved || !Validations.WillClose(true));
 
         public override bool CanBack() => Saved || Validations.WillClose(true);
+
+        public override string Name() => "EventMainPage";
+
     }
 
 }

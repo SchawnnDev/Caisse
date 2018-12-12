@@ -31,6 +31,8 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
         {
             InitializeComponent();
             Manager = manager;
+
+
             Task.Run(() => LoadInfos());
         }
 
@@ -46,7 +48,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 types = new ObservableCollection<SaveableCheckoutType>(db.CheckoutTypes.OrderBy(e => e.Name).ToList());
                 owners = new ObservableCollection<SaveableOwner>(db.Owners
                     .Where(t => t.Event.Id == Manager.EventManager.Evenement.Id || t.SuperAdmin)
-                    .OrderBy(e => e.LastLogin).ToList());
+                    .OrderBy(e => e.LastLogin).ToList()); 
             }
 
             Dispatcher.Invoke(() =>
@@ -84,5 +86,11 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 db.CheckoutTypes.Add(newItem);
             }
         }
+
+        public override bool CanClose() => true;
+
+        public override bool CanBack() => true;
+
+        public override string Name() => "CheckoutMainPage";
     }
 }

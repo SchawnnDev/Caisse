@@ -24,5 +24,11 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
         {
             InitializeComponent();
         }
+
+        public override bool CanClose() => true;
+
+        public override bool CanBack() => true;
+
+        public override string Name() => "DaysDisplayPage";
     }
 }
