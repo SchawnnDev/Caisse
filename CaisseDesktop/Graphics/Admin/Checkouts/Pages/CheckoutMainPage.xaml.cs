@@ -91,6 +91,6 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
         public override bool CanBack() => true;
 
-        public override string Name() => "CheckoutMainPage";
+        public override string CustomName => "CheckoutMainPage";
     }
 }

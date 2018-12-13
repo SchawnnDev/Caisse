@@ -29,6 +29,6 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
         public override bool CanBack() => true;
 
-        public override string Name() => "DaysDisplayPage";
+        public override string CustomName => "DaysDisplayPage";
     }
 }

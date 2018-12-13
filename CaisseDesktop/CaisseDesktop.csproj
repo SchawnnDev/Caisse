@@ -155,6 +155,7 @@
     <Compile Include="Models\CaisseModel.cs" />
     <Compile Include="Models\JourModel.cs" />
     <Compile Include="Utils\OverrideCursor.cs" />
+    <Compile Include="Utils\Parsers.cs" />
     <Compile Include="Utils\Validations.cs" />
     <Page Include="Graphics\Admin\AdminConnection.xaml">
       <SubType>Designer</SubType>

@@ -87,6 +87,6 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
         public override bool CanBack() => true;
 
-        public override string Name() => "EventCheckoutPage";
+        public override string CustomName => "EventCheckoutPage";
     }
 }

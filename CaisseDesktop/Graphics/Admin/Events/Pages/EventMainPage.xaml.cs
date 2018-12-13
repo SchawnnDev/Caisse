@@ -123,11 +123,11 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             Saved = false;
         }
 
-        public override bool CanClose() => !Saved && (Saved || !Validations.WillClose(true));
+        public override bool CanClose() => Saved || !Saved && Validations.WillClose(true);
 
         public override bool CanBack() => Saved || Validations.WillClose(true);
 
-        public override string Name() => "EventMainPage";
+        public override string CustomName => "EventMainPage";
 
     }
 

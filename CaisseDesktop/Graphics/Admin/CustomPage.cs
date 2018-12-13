@@ -23,11 +23,11 @@ namespace CaisseDesktop.Graphics.Admin
 
         public abstract bool CanBack();
 
-        public abstract string Name();
+        public abstract string CustomName { get; }
 
-        public bool Equals(CustomPage page) => page != null && Name().Equals(page.Name());
+        public bool Equals(CustomPage page) => Equals(page?.CustomName);
 
-        public bool Equals(string name) => name != null && Name().Equals(name);
+        public bool Equals(string name) => name != null && CustomName.Equals(name);
 
         public bool Check(DateTimePicker picker)
         {
