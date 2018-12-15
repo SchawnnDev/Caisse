@@ -144,6 +144,9 @@
       <DependentUpon>EventMainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Admin\CustomPage.cs" />
+    <Compile Include="Graphics\Admin\Events\Pages\EventOwnerPage.xaml.cs">
+      <DependentUpon>EventOwnerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Statistics\AdminStatisticsMain.xaml.cs">
       <DependentUpon>AdminStatisticsMain.xaml</DependentUpon>
     </Compile>
@@ -154,6 +157,8 @@
     <Compile Include="Graphics\Print\SalesReceipt.cs" />
     <Compile Include="Models\CaisseModel.cs" />
     <Compile Include="Models\JourModel.cs" />
+    <Compile Include="Models\OwnerModel.cs" />
+    <Compile Include="Utils\ManagerUtils.cs" />
     <Compile Include="Utils\OverrideCursor.cs" />
     <Compile Include="Utils\Parsers.cs" />
     <Compile Include="Utils\Validations.cs" />
@@ -190,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\Events\Pages\EventMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\Events\Pages\EventOwnerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

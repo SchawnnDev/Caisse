@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Media;
 using System.Windows;
+using System.Windows.Controls;
 using CaisseDesktop.Graphics.Admin.Checkouts;
 using CaisseDesktop.Graphics.Admin.Events.Pages;
 using CaisseDesktop.Utils;
@@ -50,36 +52,55 @@ namespace CaisseDesktop.Graphics.Admin.Events
                 return;
             }
 
-            var page = MasterFrame.Content.ToCustomPage();
+            var page = MasterFrame.ToCustomPage();
             if (!page.Equals("EventMainPage")) return;
 
             SystemSounds.Beep.Play();
-            MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
+                MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void DisplayCheckouts_OnClick(object sender, RoutedEventArgs e)
         {
-            var check = (CustomPage) MasterFrame.Content;
+            var check = MasterFrame.ToCustomPage();
 
-            if (check.Equals("EventCheckoutPage")) return;
+            if (!check.CanOpen("EventCheckoutPage")) return;
 
             if (check != null && !check.CanClose()) return;
 
             CustomPage page = new EventCheckoutPage(this);
             MasterFrame.Content = page;
             CurrentPage = page;
-            DisplayCheckouts.IsEnabled = false;
-            EditInfos.IsEnabled = true;
+            GetMenuItems().DoPageNavigation(0);
         }
 
         private void EditInfos_OnClick(object sender, RoutedEventArgs e)
         {
-            if (MasterFrame.Content != null &&  MasterFrame.Content.ToCustomPage().Equals("EventMainPage")) return;
+            if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen("EventMainPage")) return;
             CustomPage page = new EventMainPage(this);
             MasterFrame.Content = page;
             CurrentPage = page;
-            EditInfos.IsEnabled = false;
-            DisplayCheckouts.IsEnabled = true;
+            GetMenuItems().DoPageNavigation(2);
         }
+
+        private void DisplayOwners_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen("EventOwnerPage")) return;
+            CustomPage page = new EventOwnerPage();
+            MasterFrame.Content = page;
+            CurrentPage = page;
+            GetMenuItems().DoPageNavigation(2);
+        }
+
+        private void CreateOwner_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private List<MenuItem> GetMenuItems() => new List<MenuItem>
+        {
+            DisplayCheckouts,
+            DisplayOwners,
+            EditInfos,
+        };
     }
 }

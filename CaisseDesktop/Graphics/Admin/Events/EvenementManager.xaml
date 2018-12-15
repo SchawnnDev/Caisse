@@ -45,6 +45,23 @@
 
 
                 </MenuItem>
+
+                <MenuItem Header="_Résponsables">
+
+                    <MenuItem x:Name="DisplayOwners" Header="_Afficher les résponsables" Click="DisplayOwners_OnClick"/>
+
+                    <Separator/>
+
+                    <MenuItem x:Name="CreateOwner" Header="_Nouveau résponsable" Click="CreateOwner_OnClick"/>
+
+                    <Separator/>
+
+                    <MenuItem x:Name="ImportOwners" Header="_Importer" />
+
+                    <MenuItem x:Name="ExportOwners" Header="_Exporter" />
+
+                </MenuItem>
+
             </Menu>
 
         </DockPanel>
