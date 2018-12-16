@@ -157,7 +157,7 @@
     <Compile Include="Graphics\Print\SalesReceipt.cs" />
     <Compile Include="Models\CaisseModel.cs" />
     <Compile Include="Models\JourModel.cs" />
-    <Compile Include="Models\OwnerModel.cs" />
+    <Compile Include="Models\ResponsableModel.cs" />
     <Compile Include="Utils\ManagerUtils.cs" />
     <Compile Include="Utils\OverrideCursor.cs" />
     <Compile Include="Utils\Parsers.cs" />

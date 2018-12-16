@@ -30,5 +30,14 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
         public override bool CanBack() => true;
 
         public override string CustomName => "EventOwnerPage";
+
+        private void Edit_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void Delete_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
     }
 }

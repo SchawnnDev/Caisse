@@ -9,7 +9,7 @@ using CaisseServer.Events;
 
 namespace CaisseDesktop.Models
 {
-    public class OwnerModel : INotifyPropertyChanged
+    public class ResponsableModel : INotifyPropertyChanged
     {
         private ObservableCollection<SaveableOwner> _responsables;
 

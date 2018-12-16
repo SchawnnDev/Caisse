@@ -15,7 +15,7 @@ namespace CaisseDesktop.Utils
             if (items == null || items.Count == 0 || active >= items.Count) return;
 
             for (var i = 0; i < items.Count; i++)
-                items[i].IsEnabled = i == active;
+                items[i].IsEnabled = i != active;
         }
 
         public static bool CanOpen(this CustomPage page, string other) => page != null && !page.Equals(other);

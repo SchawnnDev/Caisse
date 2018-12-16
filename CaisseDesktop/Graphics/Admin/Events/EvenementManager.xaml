@@ -7,7 +7,6 @@
         xmlns:models="clr-namespace:CaisseDesktop.Models"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=models:CaisseModel, IsDesignTimeCreatable=False}"
         Title="Gestion d'un événement" Height="700" Width="1200">
     <Window.Resources>
 
