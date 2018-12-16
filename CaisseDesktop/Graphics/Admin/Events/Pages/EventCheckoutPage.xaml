@@ -9,8 +9,6 @@
                   d:DesignHeight="450" d:DesignWidth="800"
                   d:DataContext="{d:DesignInstance Type=models:CaisseModel, IsDesignTimeCreatable=False}"
                   Title="EventCheckoutPage">
-
-
     <Grid>
 
         <GroupBox Header="Gérer les caisses" Margin="5">

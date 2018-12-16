@@ -13,6 +13,21 @@ namespace CaisseDesktop.Graphics.Print
 
         public override void Generate()
         {
+
+            BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.DoubleWidth4());
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("SEND NUDES\n"));
+
+            var logo = GetLogo("Resources/Images/snapcode.png");
+            BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.Nomarl());
+
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Separator());
+
+            BytesValue = BytesValue.AddBytes(logo);
+
+            BytesValue = BytesValue.AddBytes(CutPage());
+
+            return;
+
             //var logo = GetLogo("Resources/Images/logo_brique.png");
             BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Center());
             //BytesValue = BytesValue.AddBytes(logo);

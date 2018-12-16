@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using CaisseDesktop.Graphics.Admin.Checkouts;
 using CaisseDesktop.Graphics.Admin.Events.Pages;
+using CaisseDesktop.Graphics.Admin.Owners;
 using CaisseDesktop.Utils;
 using CaisseServer.Events;
 
@@ -52,8 +53,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
                 return;
             }
 
-            var page = MasterFrame.ToCustomPage();
-            if (!page.Equals("EventMainPage")) return;
+            if (!MasterFrame.ToCustomPage().Equals("EventMainPage")) return;
 
             SystemSounds.Beep.Play();
             MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
@@ -86,14 +86,25 @@ namespace CaisseDesktop.Graphics.Admin.Events
         private void DisplayOwners_OnClick(object sender, RoutedEventArgs e)
         {
             if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen("EventOwnerPage")) return;
-            CustomPage page = new EventOwnerPage();
+            CustomPage page = new EventOwnerPage(this);
             MasterFrame.Content = page;
             CurrentPage = page;
-            GetMenuItems().DoPageNavigation(2);
+            GetMenuItems().DoPageNavigation(1);
         }
 
         private void CreateOwner_OnClick(object sender, RoutedEventArgs e)
         {
+            if (Evenement != null)
+            {
+                new OwnerManager(this, null).ShowDialog();
+                return;
+            }
+
+            if (!MasterFrame.ToCustomPage().Equals("EventMainPage")) return;
+
+            SystemSounds.Beep.Play();
+            MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
+                MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private List<MenuItem> GetMenuItems() => new List<MenuItem>

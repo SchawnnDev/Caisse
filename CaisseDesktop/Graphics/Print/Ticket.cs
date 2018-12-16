@@ -107,7 +107,7 @@ namespace CaisseDesktop.Graphics.Print
             {
                 var threshold = 127;
                 var index = 0;
-                double multiplier = 570; // this depends on your printer model. for Beiyang you should use 1000
+                double multiplier = 500; // this depends on your printer model. for Beiyang you should use 1000 // find tcp width
                 var scale = multiplier / bitmap.Width;
                 var xheight = (int) (bitmap.Height * scale);
                 var xwidth = (int) (bitmap.Width * scale);

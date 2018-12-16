@@ -15,7 +15,7 @@
         <GroupBox Header="Gérer les résponsables" Margin="5">
 
             <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      ItemsSource="{Binding Responables, IsAsync=true}" IsReadOnly="True" x:Name="CheckoutsGrid"
+                      ItemsSource="{Binding Responables, IsAsync=true}" IsReadOnly="True" x:Name="OwnersGrid"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" />

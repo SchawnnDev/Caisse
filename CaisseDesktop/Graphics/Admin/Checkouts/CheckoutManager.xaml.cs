@@ -8,7 +8,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
     /// <summary>
     /// Interaction logic for CheckoutManager.xaml
     /// </summary>
-    public partial class CheckoutManager : Window
+    public partial class CheckoutManager
     {
         public EvenementManager EventManager { get; set; }
         public SaveableCheckout Checkout { get; set; }

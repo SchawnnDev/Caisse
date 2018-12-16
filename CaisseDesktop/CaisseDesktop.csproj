@@ -147,6 +147,9 @@
     <Compile Include="Graphics\Admin\Events\Pages\EventOwnerPage.xaml.cs">
       <DependentUpon>EventOwnerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Admin\Owners\OwnerManager.xaml.cs">
+      <DependentUpon>OwnerManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Statistics\AdminStatisticsMain.xaml.cs">
       <DependentUpon>AdminStatisticsMain.xaml</DependentUpon>
     </Compile>
@@ -157,6 +160,7 @@
     <Compile Include="Graphics\Print\SalesReceipt.cs" />
     <Compile Include="Models\CaisseModel.cs" />
     <Compile Include="Models\JourModel.cs" />
+    <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\ResponsableModel.cs" />
     <Compile Include="Utils\ManagerUtils.cs" />
     <Compile Include="Utils\OverrideCursor.cs" />
@@ -199,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\Events\Pages\EventOwnerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\Owners\OwnerManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -245,6 +253,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CaisseLibrary\CaisseLibrary.csproj">
+      <Project>{3115494D-C5A1-4242-BE2E-CE8B14123569}</Project>
+      <Name>CaisseLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CaisseServer\CaisseServer.csproj">
       <Project>{6F76194B-A300-4A8C-B59A-83F65AD761BB}</Project>
       <Name>CaisseServer</Name>
@@ -257,6 +269,9 @@
     <Content Include="Resources\Images\logo_brique.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\snapcode.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\logo.gif" />
@@ -264,5 +279,6 @@
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

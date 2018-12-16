@@ -44,6 +44,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Data\Cashier.cs" />
     <Compile Include="Data\Checkout.cs" />
+    <Compile Include="Data\Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseDesktop", "CaisseDesktop\CaisseDesktop.csproj", "{D66A3F79-D706-49D5-81F3-BA4FFC294DA9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3115494D-C5A1-4242-BE2E-CE8B14123569} = {3115494D-C5A1-4242-BE2E-CE8B14123569}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseLibrary", "CaisseLibrary\CaisseLibrary.csproj", "{3115494D-C5A1-4242-BE2E-CE8B14123569}"
 EndProject
