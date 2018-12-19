@@ -29,7 +29,7 @@ namespace CaisseDesktop.Graphics.Admin
 
         public bool Equals(string name) => name != null && CustomName.Equals(name);
 
-        public bool Check(DateTimePicker picker)
+        public static bool Check(DateTimePicker picker)
         {
             var date = picker.Value;
             if (date != null) return false;
@@ -38,7 +38,7 @@ namespace CaisseDesktop.Graphics.Admin
             return true;
         }
 
-        public bool Check(TextBox box)
+        public static bool Check(TextBox box)
         {
             var str = box.Text;
             if (!string.IsNullOrWhiteSpace(str)) return false;
@@ -47,7 +47,7 @@ namespace CaisseDesktop.Graphics.Admin
             return true;
         }
 
-        public bool Check(TextBlock block)
+        public static bool Check(TextBlock block)
         {
             var str = block.Text;
             if (!string.IsNullOrWhiteSpace(str)) return false;

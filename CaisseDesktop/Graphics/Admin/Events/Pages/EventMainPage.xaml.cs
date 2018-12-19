@@ -102,7 +102,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             Dispatcher.Invoke(() =>
             {
                 Mouse.OverrideCursor = null;
-                MessageBox.Show(New ? "L'événement à bien été crée !" : "L'événement à bien été enregistré !");
+                MessageBox.Show(New ? "L'événement a bien été crée !" : "L'événement a bien été enregistré !");
                 if (New) ParentWindow.ParentWindow.Add(ParentWindow.Evenement);
                 else ParentWindow.ParentWindow.Update();
                 ToggleBlocked(true);

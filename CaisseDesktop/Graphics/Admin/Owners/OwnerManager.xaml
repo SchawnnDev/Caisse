@@ -32,33 +32,32 @@
 
                 <Label Content="Nom :" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="CheckoutName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap"
+                <TextBox x:Name="OwnerName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap"
                          VerticalAlignment="Center" Margin="10" MinHeight="25" />
 
                 <Label Content="Login :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-
-                <TextBox Grid.Column="1" Grid.Row="1"  x:Name="CheckoutType" Margin="10" VerticalAlignment="Center" MinHeight="25"/>
+                <TextBox Grid.Column="1" Grid.Row="1"  x:Name="OwnerLogin" Margin="10" VerticalAlignment="Center" MinHeight="25" IsEnabled="False"/>
 
                 <Label Content="Connexion :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold"  />
-                <TextBox Grid.Column="1" Grid.Row="2" x:Name="Owner" IsEnabled="False" VerticalAlignment="Center" Margin="10" MinHeight="25"/>
+                <TextBox Grid.Column="1" Grid.Row="2" x:Name="OwnerConnect" IsEnabled="False" VerticalAlignment="Center" Margin="10" MinHeight="25"/>
 
                 <Label Content="Déconnexion :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="CheckoutInfos" IsEnabled="False" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="10" MinHeight="25"/>
+                <TextBox x:Name="OwnerDisconnect" IsEnabled="False" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="10" MinHeight="25"/>
 
 
                 <DockPanel Grid.Row="4" Grid.Column="1">
-                    <Button x:Name="NSave" Content="Générer login" FontWeight="Bold"
-                            Margin="5" Cursor="Hand" Click="Save_OnClick" />
+                    <Button x:Name="GenLogin" Content="Générer login" FontWeight="Bold"
+                            Margin="5" Cursor="Hand" Click="GenLogin_OnClick" />
                     <Button x:Name="OwnerSave" Content="Enregistrer" FontWeight="Bold"
                             Margin="5" Cursor="Hand" Click="Save_OnClick" />
                 </DockPanel>
 
                 <StackPanel Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">
                     <Label Content="Blocage :" FontWeight="Bold" HorizontalAlignment="Center" />
-                    <ToggleButton
+                    <ToggleButton x:Name="Blocage"
                         Style="{StaticResource MaterialDesignSwitchToggleButton}"
                         Click="Blocage_OnClick" />
                 </StackPanel>
@@ -76,7 +75,7 @@
                 </Grid.RowDefinitions>
 
                 <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                          ItemsSource="{Binding Permissions, IsAsync=true}" IsReadOnly="True" x:Name="CheckoutsGrid"
+                          ItemsSource="{Binding Permissions, IsAsync=true}" IsReadOnly="True" x:Name="OwnersGrid"
                           AutoGenerateColumns="False" Grid.Row="0">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Permission" Binding="{Binding Value}" />
@@ -110,9 +109,9 @@
                 <DockPanel Grid.Row="2">
 
                     <Label Content="Super Admin :" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                    <ToggleButton
+                    <ToggleButton x:Name="OwnerSuperAdmin"
                         Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                        Click="Blocage_OnClick" HorizontalAlignment="Left" Margin="10 1 0 0"/>
+                        Click="ToggleSuperAdmin_OnClick" HorizontalAlignment="Left" Margin="10 1 0 0"/>
 
                 </DockPanel>
                   

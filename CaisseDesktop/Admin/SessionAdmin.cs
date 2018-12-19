@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Media;
 using CaisseServer;
 using CaisseServer.Events;
 
@@ -14,9 +12,15 @@ namespace CaisseDesktop.Admin
 
         public static bool IsAuthenticated() => CurrentAdmin != null;
 
-        public static bool HasPermission(string permission) =>
-            IsAuthenticated() && CurrentAdmin.HasPermission(permission);
+        public static bool HasPermission(string permission) => true; // for the moment
+                                                                     //IsAuthenticated() && CurrentAdmin.HasPermission(permission);
 
+        public static bool HasNotPermission(string permission)
+        {
+            SystemSounds.Beep.Play();
+            //IsAuthenticated() && CurrentAdmin.HasPermission(permission);
+            return true; // for the moment
+        }
         public static bool Login(string login)
         {
             using (var db = new CaisseServerContext())
