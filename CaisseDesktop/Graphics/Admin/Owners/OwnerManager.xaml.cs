@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using CaisseDesktop.Admin;
 using CaisseDesktop.Graphics.Admin.Checkouts.Pages;
 using CaisseDesktop.Graphics.Admin.Events;
+using CaisseLibrary.Concrete.Owners;
 using CaisseServer;
 using CaisseServer.Events;
 
@@ -164,7 +165,6 @@ namespace CaisseDesktop.Graphics.Admin.Owners
 
             SaveableOwner.SuperAdmin = admin;
             OwnerSuperAdmin.IsChecked = admin;
-
         }
 
         private void GenLogin_OnClick(object sender, RoutedEventArgs e)
@@ -177,14 +177,11 @@ namespace CaisseDesktop.Graphics.Admin.Owners
             using (var db = new CaisseServerContext())
             {
                 var logins = db.Owners.Select(t => t.Login).ToList();
-                //do
-                //{
 
-               // } while ();
+                SaveableOwner.Login = new OwnerPassword().GenerateNoDuplicate(7, logins);
 
-
+                FillLogin();
             }
-
         }
     }
 }
