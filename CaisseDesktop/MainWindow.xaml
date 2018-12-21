@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Caisses" Height="450" Width="800"
         WindowStyle="None" ResizeMode="NoResize"  
-        WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        WindowStartupLocation="CenterScreen">
+    <!--WindowState="Maximized"> -->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="49*"/>

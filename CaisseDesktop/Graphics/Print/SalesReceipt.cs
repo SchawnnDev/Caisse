@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using PrinterUtility;
 using PrinterUtility.Enums;
 
@@ -11,23 +12,36 @@ namespace CaisseDesktop.Graphics.Print
         {
         }
 
+        private void GenerateAddress()
+        {
+            BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.Nomarl());
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Center());
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("Association FANABRIQUES\n"));
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("14 avenue Foch\n"));
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("67560 ROSHEIM\n"));
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("TEL : N.C.\n\n"));
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes($"CAISSIER : 161 - {DateTime.Now:dd/MM/yy HH:mm:ss}\n\n"));
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("FACTURE : 14808"));
+        }
+
+        private void GenerateItems()
+        {
+
+        }
+
         public override void Generate()
         {
 
-            BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.DoubleWidth4());
-            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("SEND NUDES\n"));
-
-            var logo = GetLogo("Resources/Images/snapcode.png");
-            BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.Nomarl());
-
-            BytesValue = BytesValue.AddBytes(EscPosEpson.Separator());
+            var logo = GetLogo("Resources/Images/logo-receipt.png");
 
             BytesValue = BytesValue.AddBytes(logo);
 
+            GenerateAddress();
+
             BytesValue = BytesValue.AddBytes(CutPage());
 
-            return;
 
+            /*  return;
             //var logo = GetLogo("Resources/Images/logo_brique.png");
             BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Center());
             //BytesValue = BytesValue.AddBytes(logo);
@@ -61,7 +75,7 @@ namespace CaisseDesktop.Graphics.Print
             BytesValue = BytesValue.AddBytes(EscPosEpson.QrCode.Print("SALUT TOM", QrCodeSize.Gigante));
             BytesValue = BytesValue.AddBytes("-------------------Thank you for coming------------------------\n");
             BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Left());
-            BytesValue = BytesValue.AddBytes(CutPage());
+            BytesValue = BytesValue.AddBytes(CutPage()); */
         }
         /*
         public override void Generate()
