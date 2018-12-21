@@ -29,7 +29,7 @@ namespace CaisseLibrary.Concrete.Owners
             do
             {
                 login = Generate(length);
-            } while (!existing.Contains(login));
+            } while (existing.Contains(login)); 
 
             return login;
 

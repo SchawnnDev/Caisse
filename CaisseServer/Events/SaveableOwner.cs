@@ -44,7 +44,8 @@ namespace CaisseServer.Events
             ? new string[] { }
             : Permissions.Split(',');
 
-        public bool HasPermission(string permission) => SuperAdmin || Permissions.Equals("*") || GetPermissions().Contains(permission);
+        public bool HasPermission(string permission) =>
+            SuperAdmin || Permissions.Equals("*") || GetPermissions().Contains(permission);
 
         public override string ToString() => Name;
     }

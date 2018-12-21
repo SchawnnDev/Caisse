@@ -103,7 +103,7 @@
 
                 <DockPanel Grid.Row="1">
                     <TextBox x:Name="Permission" VerticalAlignment="Center" MinHeight="25" MinWidth="218" MaxWidth="238"/>
-                    <Button x:Name="PermissionAdd" Content="Ajouter" FontWeight="Bold" Cursor="Hand" Margin="10 0 10 0" Click="Save_OnClick" />
+                    <Button x:Name="PermissionAdd" Content="Ajouter" FontWeight="Bold" Cursor="Hand" Margin="10 0 10 0" Click="PermissionAdd_OnClick" />
                 </DockPanel>
 
                 <DockPanel Grid.Row="2">

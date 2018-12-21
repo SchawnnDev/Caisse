@@ -17,9 +17,9 @@ namespace CaisseDesktop.Admin
 
         public static bool HasNotPermission(string permission)
         {
-            SystemSounds.Beep.Play();
+            //SystemSounds.Beep.Play();
             //IsAuthenticated() && CurrentAdmin.HasPermission(permission);
-            return true; // for the moment
+            return false; // for the moment
         }
         public static bool Login(string login)
         {

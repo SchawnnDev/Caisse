@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Concrete\Owners\OwnerPassword.cs" />
     <Compile Include="Data\Cashier.cs" />
     <Compile Include="Data\Checkout.cs" />
