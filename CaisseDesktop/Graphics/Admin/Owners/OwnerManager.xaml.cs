@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using CaisseDesktop.Admin;
 using CaisseDesktop.Graphics.Admin.Checkouts.Pages;
 using CaisseDesktop.Graphics.Admin.Events;
+using CaisseDesktop.Graphics.Admin.Events.Pages;
 using CaisseDesktop.Models;
 using CaisseLibrary.Concrete.Owners;
 using CaisseLibrary.Data;
@@ -144,6 +145,7 @@ namespace CaisseDesktop.Graphics.Admin.Owners
 
             using (var db = new CaisseServerContext())
             {
+                db.Events.Attach(SaveableOwner.Event);
                 db.Entry(SaveableOwner).State = New ? EntityState.Added : EntityState.Modified;
                 db.SaveChanges();
             }
@@ -152,8 +154,18 @@ namespace CaisseDesktop.Graphics.Admin.Owners
             {
                 Mouse.OverrideCursor = null;
                 MessageBox.Show(New ? "Le résponsable a bien été crée !" : "Le résponsable a bien été enregistré !");
-                if (New) ParentWindow.ParentWindow.Add(ParentWindow.Evenement);
-                else ParentWindow.ParentWindow.Update();
+
+                if (New)
+                {
+                    if (ParentWindow.CurrentPage.Equals("EventOwnerPage"))
+                        ((EventOwnerPage) ParentWindow.CurrentPage).Add(SaveableOwner);
+                }
+                else
+                {
+                    if (ParentWindow.CurrentPage.Equals("EventOwnerPage"))
+                        ((EventOwnerPage) ParentWindow.CurrentPage).Update();
+                }
+
                 ToggleBlocked(true);
                 Saved = true;
             });

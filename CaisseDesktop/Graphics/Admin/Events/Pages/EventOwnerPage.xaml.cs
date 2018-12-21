@@ -30,6 +30,10 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             Task.Run(() => Load());
         }
 
+        public void Add(SaveableOwner o) => ResponsableModel.Responables.Add(o);
+
+        public void Update() => OwnersGrid.Items.Refresh();
+
         private void Load()
         {
             Dispatcher.Invoke(() =>
