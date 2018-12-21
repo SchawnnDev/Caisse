@@ -13,7 +13,15 @@ namespace CaisseDesktop.Admin
         public static bool IsAuthenticated() => CurrentAdmin != null;
 
         public static bool HasPermission(string permission) => true; // for the moment
-                                                                     //IsAuthenticated() && CurrentAdmin.HasPermission(permission);
+        //IsAuthenticated() && CurrentAdmin.HasPermission(permission);
+
+        public static void UpdateIfEdited(SaveableOwner owner)
+        {
+
+            if (CurrentAdmin == null || owner == null || CurrentAdmin.Id != owner.Id) return;
+
+            CurrentAdmin = owner;
+        }
 
         public static bool HasNotPermission(string permission)
         {
@@ -21,6 +29,7 @@ namespace CaisseDesktop.Admin
             //IsAuthenticated() && CurrentAdmin.HasPermission(permission);
             return false; // for the moment
         }
+
         public static bool Login(string login)
         {
             using (var db = new CaisseServerContext())

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -20,6 +21,7 @@ using CaisseDesktop.Graphics.Admin.Checkouts.Pages;
 using CaisseDesktop.Graphics.Admin.Events;
 using CaisseDesktop.Graphics.Admin.Events.Pages;
 using CaisseDesktop.Models;
+using CaisseDesktop.Utils;
 using CaisseLibrary.Concrete.Owners;
 using CaisseLibrary.Data;
 using CaisseServer;
@@ -46,12 +48,12 @@ namespace CaisseDesktop.Graphics.Admin.Owners
             SaveableOwner = owner;
             New = owner == null;
             DataContext = new PermissionModel();
+            Closing += OnWindowClosing;
 
             if (New)
             {
                 SaveableOwner = new SaveableOwner
                 {
-                    Event = ParentWindow.Evenement,
                     SuperAdmin = false,
                     Permissions = ""
                 };
@@ -67,29 +69,36 @@ namespace CaisseDesktop.Graphics.Admin.Owners
                 ToggleBlocked(true);
             }
 
-            LoadPermissions();
+            SaveableOwner.Event = ParentWindow.Evenement;
+
         }
 
-        private void LoadPermissions()
+        public void OnWindowClosing(object sender, CancelEventArgs e)
         {
-            var permissions = Model.Permissions?.SelectMany(t => SaveableOwner.Permissions.Split(','))
-                .Select(t => new Permission(t)).ToList();
-            if (permissions == null || permissions.Count == 0)
-            {
-                Model.Permissions = new ObservableCollection<Permission>();
-                return;
-            }
-
-            Model.Permissions = new ObservableCollection<Permission>(permissions);
+            if (Saved || !Saved && Validations.WillClose(true)) return;
+            e.Cancel = true;
         }
 
         private void ToggleBlocked(bool blocked)
         {
+            OwnerSave.IsEnabled = !blocked;
             OwnerName.IsEnabled = !blocked;
             OwnersGrid.IsEnabled = !blocked;
 
+            if (SessionAdmin.HasPermission("owners.permissions.add"))
+                PermissionAdd.IsEnabled = Permission.IsEnabled = !blocked;
+            else
+                PermissionAdd.IsEnabled = Permission.IsEnabled = false;
+
             if (SessionAdmin.HasPermission("owners.login.gen"))
                 GenLogin.IsEnabled = !blocked;
+            else
+                GenLogin.IsEnabled = false;
+
+            if (SessionAdmin.HasPermission("owners.superadmin"))
+                OwnerSuperAdmin.IsEnabled = !blocked;
+            else
+                OwnerSuperAdmin.IsEnabled = false;
 
             Blocage.IsChecked = blocked;
             Blocked = blocked;
@@ -100,6 +109,13 @@ namespace CaisseDesktop.Graphics.Admin.Owners
             OwnerName.Text = SaveableOwner.Name;
             OwnerConnect.Text =
                 $"{SaveableOwner.LastLogin.ToLongDateString()} {SaveableOwner.LastLogin.ToShortTimeString()}";
+            OwnerDisconnect.Text =
+                $"{SaveableOwner.LastLogout.ToLongDateString()} {SaveableOwner.LastLogout.ToShortTimeString()}";
+
+            OwnerSuperAdmin.IsChecked = SaveableOwner.SuperAdmin;
+
+            Model.Permissions = new ObservableCollection<Permission>(SaveableOwner.Permissions.Length > 0 ? SaveableOwner.Permissions.Split(',').Select(t=>new Permission(t)).ToList() : new List<Permission>());
+
             FillLogin();
         }
 
@@ -166,6 +182,8 @@ namespace CaisseDesktop.Graphics.Admin.Owners
                         ((EventOwnerPage) ParentWindow.CurrentPage).Update();
                 }
 
+                SessionAdmin.UpdateIfEdited(SaveableOwner);
+
                 ToggleBlocked(true);
                 Saved = true;
             });
@@ -210,7 +228,7 @@ namespace CaisseDesktop.Graphics.Admin.Owners
             if (SessionAdmin.HasNotPermission("owners.superadmin"))
                 return;
 
-            var admin = !OwnerSuperAdmin.IsChecked ?? false;
+            var admin = OwnerSuperAdmin.IsChecked ?? false;
 
             SaveableOwner.SuperAdmin = admin;
             OwnerSuperAdmin.IsChecked = admin;
@@ -259,5 +277,7 @@ namespace CaisseDesktop.Graphics.Admin.Owners
             SystemSounds.Beep.Play();
             return true;
         }
+
+        
     }
 }

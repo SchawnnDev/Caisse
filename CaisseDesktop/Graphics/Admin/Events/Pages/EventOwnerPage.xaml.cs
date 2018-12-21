@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CaisseDesktop.Graphics.Admin.Checkouts;
+using CaisseDesktop.Graphics.Admin.Owners;
 using CaisseDesktop.Models;
 using CaisseServer;
 using CaisseServer.Events;
@@ -67,7 +68,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
             if (btn?.DataContext is SaveableOwner owner)
             {
-                //new CheckoutManager(ParentWindow, checkout).ShowDialog();
+               new OwnerManager(ParentWindow, owner).ShowDialog();
             }
             else
             {
@@ -78,6 +79,25 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
         private void Delete_OnClick(object sender, RoutedEventArgs e)
         {
+
+            var btn = sender as Button;
+
+            if (btn?.DataContext is SaveableOwner owner)
+            {
+                var result = MessageBox.Show("Es tu sûr de vouloir supprimer ce résponsable ?", "Supprimer un résponsable",
+                    MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+
+                if (result != MessageBoxResult.Yes) return;
+
+                using (var db = new CaisseServerContext())
+                    db.Owners.Remove(owner);
+            }
+            else
+            {
+                MessageBox.Show($"{btn} : le résponsable n'est pas valide.", "Erreur", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+
         }
 
         public override bool CanClose() => true;

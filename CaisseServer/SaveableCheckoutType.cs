@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CaisseServer.Events;
 
 namespace CaisseServer
 {
@@ -11,6 +12,8 @@ namespace CaisseServer
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public SaveableEvent Event { get; set; }
 
         public SaveableCheckoutType()
         {

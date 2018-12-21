@@ -78,7 +78,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             if (btn?.DataContext is SaveableEvent evenement)
             {
-                var result = MessageBox.Show("Es tu sûr de vouloir supprimer l'événement ?", "Supprimer un événement",
+                var result = MessageBox.Show("Es tu sûr de vouloir supprimer cet événement ?", "Supprimer un événement",
                     MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
 
                 if (result != MessageBoxResult.Yes) return;
