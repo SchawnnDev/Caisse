@@ -57,7 +57,7 @@ namespace CaisseDesktop.Graphics.Admin.Owners
                     SuperAdmin = false,
                     Permissions = ""
                 };
-
+                Model.Permissions = new ObservableCollection<Permission>();
                 Saved = false;
                 Blocage.IsChecked = false;
             }

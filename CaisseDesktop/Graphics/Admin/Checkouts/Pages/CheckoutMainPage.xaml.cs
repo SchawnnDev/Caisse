@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CaisseServer;
 using CaisseServer.Events;
 
@@ -26,6 +18,9 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
         private CheckoutManager Manager { get; }
         private ObservableCollection<SaveableCheckoutType> Types { get; set; }
         private ObservableCollection<SaveableOwner> Owners { get; set; }
+        private bool Saved { get; set; }
+        private bool New { get; set; } = true;
+        private bool Blocked { get; set; }
 
         public CheckoutMainPage(CheckoutManager manager)
         {
@@ -44,7 +39,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
             using (var db = new CaisseServerContext())
             {
-                types = new ObservableCollection<SaveableCheckoutType>(db.CheckoutTypes.OrderBy(e => e.Name).ToList());
+                types = new ObservableCollection<SaveableCheckoutType>(db.CheckoutTypes.OrderBy(e => e.Event.Id == Manager.EventManager.Evenement.Id).ToList());
                 owners = new ObservableCollection<SaveableOwner>(db.Owners
                     .Where(t => t.Event.Id == Manager.EventManager.Evenement.Id)
                     .OrderBy(e => e.LastLogin).ToList()); 
