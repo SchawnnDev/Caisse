@@ -18,7 +18,7 @@ namespace CaisseServer
 
         public string Name { get; set; }
 
-        public string Owner { get; set; }
+        public SaveableOwner Owner { get; set; }
 
         public string Details { get; set; }
 

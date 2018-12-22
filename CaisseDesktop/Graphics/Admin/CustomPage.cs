@@ -47,6 +47,14 @@ namespace CaisseDesktop.Graphics.Admin
             return true;
         }
 
+        public static bool Check(ComboBox box)
+        {
+            if (box.SelectedItem != null) return false;
+            box.BorderBrush = Brushes.Red;
+            SystemSounds.Beep.Play();
+            return true;
+        }
+
         public static bool Check(TextBlock block)
         {
             var str = block.Text;
