@@ -32,9 +32,8 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             InitializeComponent();
             Manager = manager;
 
-
             Task.Run(() => LoadInfos());
-        }
+        } 
 
         private void LoadInfos()
         {
@@ -47,7 +46,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             {
                 types = new ObservableCollection<SaveableCheckoutType>(db.CheckoutTypes.OrderBy(e => e.Name).ToList());
                 owners = new ObservableCollection<SaveableOwner>(db.Owners
-                    .Where(t => t.Event.Id == Manager.EventManager.Evenement.Id || t.SuperAdmin)
+                    .Where(t => t.Event.Id == Manager.EventManager.Evenement.Id)
                     .OrderBy(e => e.LastLogin).ToList()); 
             }
 
