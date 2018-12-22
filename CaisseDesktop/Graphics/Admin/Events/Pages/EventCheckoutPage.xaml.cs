@@ -38,6 +38,10 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             Task.Run(() => Load());
         }
 
+        public override void Add<T>(T t) => CaisseModel.Caisses.Add(t as SaveableCheckout);
+
+        public override void Update() => CheckoutsGrid.Items.Refresh();
+
         private void Load()
         {
             Dispatcher.Invoke(() =>

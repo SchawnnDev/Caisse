@@ -42,7 +42,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Button Click="Edit_OnClick">Details</Button>
-                                <Button Click="Delete_OnClick">Supprimer</Button>
+                                <Button Click="Delete_OnClick" Margin="5 0 0 0">Supprimer</Button>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

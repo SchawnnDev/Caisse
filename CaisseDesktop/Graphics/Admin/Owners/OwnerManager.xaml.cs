@@ -3,21 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Media;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using CaisseDesktop.Admin;
-using CaisseDesktop.Graphics.Admin.Checkouts.Pages;
 using CaisseDesktop.Graphics.Admin.Events;
 using CaisseDesktop.Graphics.Admin.Events.Pages;
 using CaisseDesktop.Models;
@@ -171,15 +164,14 @@ namespace CaisseDesktop.Graphics.Admin.Owners
                 Mouse.OverrideCursor = null;
                 MessageBox.Show(New ? "Le résponsable a bien été crée !" : "Le résponsable a bien été enregistré !");
 
-                if (New)
+
+
+                if (ParentWindow.CurrentPage.Equals("EventOwnerPage"))
                 {
-                    if (ParentWindow.CurrentPage.Equals("EventOwnerPage"))
-                        ((EventOwnerPage) ParentWindow.CurrentPage).Add(SaveableOwner);
-                }
-                else
-                {
-                    if (ParentWindow.CurrentPage.Equals("EventOwnerPage"))
-                        ((EventOwnerPage) ParentWindow.CurrentPage).Update();
+                    if (New)
+                        ParentWindow.CurrentPage.Add(SaveableOwner);
+                    else
+                        ParentWindow.CurrentPage.Update();
                 }
 
                 SessionAdmin.UpdateIfEdited(SaveableOwner);
@@ -277,7 +269,6 @@ namespace CaisseDesktop.Graphics.Admin.Owners
             SystemSounds.Beep.Play();
             return true;
         }
-
         
     }
 }

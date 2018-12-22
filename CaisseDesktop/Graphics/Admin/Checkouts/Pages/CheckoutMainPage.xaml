@@ -11,14 +11,14 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="150"/>
+            <ColumnDefinition MaxWidth="120"/>
             <ColumnDefinition/>
-            <ColumnDefinition MaxWidth="150"/>
+            <ColumnDefinition MaxWidth="120"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="50"/>
+            <RowDefinition MaxHeight="30"/>
             <RowDefinition/>
-            <RowDefinition MaxHeight="50"/>
+            <RowDefinition MaxHeight="30"/>
         </Grid.RowDefinitions>
 
         <GroupBox Header="Informations" Grid.Row="1" Grid.Column="1">
@@ -44,7 +44,7 @@
                 <Label Content="Type :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
 
-                <ComboBox Grid.Column="1" Grid.Row="1"  x:Name="CheckoutType" LostFocus="CheckoutType_OnLostFocus" IsEditable="True" Margin="10" MinHeight="25"/>
+                <ComboBox Grid.Column="1" Grid.Row="1"  x:Name="CheckoutType" IsEditable="True" Margin="10" MinHeight="25"/>
 
                 <Label Content="Résponsable :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />

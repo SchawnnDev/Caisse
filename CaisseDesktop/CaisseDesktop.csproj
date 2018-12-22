@@ -162,6 +162,7 @@
     <Compile Include="Models\JourModel.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\ResponsableModel.cs" />
+    <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\ManagerUtils.cs" />
     <Compile Include="Utils\OverrideCursor.cs" />
     <Compile Include="Utils\Parsers.cs" />

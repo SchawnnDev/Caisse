@@ -31,9 +31,9 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             Task.Run(() => Load());
         }
 
-        public void Add(SaveableOwner o) => ResponsableModel.Responables.Add(o);
+        public override void Add<T>(T t) => ResponsableModel.Responables.Add(t as SaveableOwner);
 
-        public void Update() => OwnersGrid.Items.Refresh();
+        public override void Update() => OwnersGrid.Items.Refresh();
 
         private void Load()
         {

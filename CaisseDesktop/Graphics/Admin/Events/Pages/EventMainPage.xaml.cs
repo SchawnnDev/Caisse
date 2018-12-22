@@ -123,6 +123,14 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             Saved = false;
         }
 
+        public override void Update()
+        {
+        }
+
+        public override void Add<T>(T item)
+        {
+        }
+
         public override bool CanClose() => Saved || !Saved && Validations.WillClose(true);
 
         public override bool CanBack() => Saved || Validations.WillClose(true);

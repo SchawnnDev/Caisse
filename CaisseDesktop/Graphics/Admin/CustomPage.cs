@@ -19,6 +19,10 @@ namespace CaisseDesktop.Graphics.Admin
         {
         }
 
+        public abstract void Update();
+
+        public abstract void Add<T>(T item); // in case of a list page
+
         public abstract bool CanClose();
 
         public abstract bool CanBack();
@@ -49,7 +53,7 @@ namespace CaisseDesktop.Graphics.Admin
 
         public static bool Check(ComboBox box)
         {
-            if (box.SelectedItem != null) return false;
+            if (box.SelectedIndex != -1) return false;
             box.BorderBrush = Brushes.Red;
             SystemSounds.Beep.Play();
             return true;

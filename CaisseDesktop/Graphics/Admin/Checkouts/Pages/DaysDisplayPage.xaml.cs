@@ -25,6 +25,14 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             InitializeComponent();
         }
 
+        public override void Update()
+        {
+        }
+
+        public override void Add<T>(T item)
+        {
+        }
+
         public override bool CanClose() => true;
 
         public override bool CanBack() => true;
