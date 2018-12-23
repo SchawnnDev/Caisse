@@ -10,11 +10,13 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="50" />
+            <ColumnDefinition MaxWidth="30" />
             <ColumnDefinition />
+            <ColumnDefinition MaxWidth="5"/>
             <ColumnDefinition />
+            <ColumnDefinition MaxWidth="5" />
             <ColumnDefinition />
-            <ColumnDefinition MaxWidth="50"/>
+            <ColumnDefinition MaxWidth="30"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="50"/>
@@ -22,21 +24,19 @@
             <RowDefinition MaxHeight="50"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+        <DockPanel x:Name="Day1" Grid.Row="1" Grid.Column="1">
+            
+        </DockPanel>
 
-            <Viewbox Stretch="Fill">
-                <Rectangle Fill="CornflowerBlue" />
-            </Viewbox>
-            <Rectangle Height="Auto" Fill="IndianRed" />
+        <DockPanel x:Name="Day2" Grid.Row="1" Grid.Column="3">
 
-        </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Vertical">
+        </DockPanel>
 
-            <Rectangle Height="Auto" Fill="CornflowerBlue" />
-            <Rectangle Height="Auto" Fill="IndianRed" />
+        <DockPanel x:Name="Day3" Grid.Row="1" Grid.Column="5">
 
-        </StackPanel>
+
+        </DockPanel>
 
     </Grid>
 </local:CustomPage>
