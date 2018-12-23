@@ -11,14 +11,14 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="150"/>
+            <ColumnDefinition MaxWidth="120"/>
             <ColumnDefinition/>
-            <ColumnDefinition MaxWidth="150"/>
+            <ColumnDefinition MaxWidth="120"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="50"/>
+            <RowDefinition MaxHeight="30"/>
             <RowDefinition/>
-            <RowDefinition MaxHeight="50"/>
+            <RowDefinition MaxHeight="30"/>
         </Grid.RowDefinitions>
 
         <GroupBox Header="Informations" Grid.Row="1" Grid.Column="1">

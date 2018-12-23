@@ -79,8 +79,23 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
             ParentWindow.Checkout.Name = CheckoutName.Text;
             ParentWindow.Checkout.Details = CheckoutInfos.Text;
-            ParentWindow.Checkout.CheckoutType = (SaveableCheckoutType) CheckoutType.SelectedItem;
             ParentWindow.Checkout.Owner = (SaveableOwner) CheckoutOwner.SelectedItem;
+
+            if (Types.Any(t => t.Name.Equals(CheckoutType.Text)))
+            {
+                ParentWindow.Checkout.CheckoutType = (SaveableCheckoutType) CheckoutType.SelectedItem;
+            }
+            else
+            {
+                var type = new SaveableCheckoutType
+                {
+                    Event = ParentWindow.Checkout.SaveableEvent,
+                    Name = CheckoutType.Text
+                };
+
+                Types.Add(type);
+                ParentWindow.Checkout.CheckoutType = type;
+            }
 
             Task.Run(() => Save());
         }
@@ -89,28 +104,19 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
         {
             Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
 
-            var type = ParentWindow.Checkout.CheckoutType;
-
             using (var db = new CaisseServerContext())
             {
                 db.Events.Attach(ParentWindow.Checkout.SaveableEvent);
                 db.Owners.Attach(ParentWindow.Checkout.Owner);
 
-                if (Types.Any(t => t.Name.Equals(CheckoutType.Text)))
+                if (db.CheckoutTypes.Any(t => t.Event.Id == ParentWindow.Checkout.SaveableEvent.Id))
                 {
-                    db.CheckoutTypes.Attach(type);
+                    db.CheckoutTypes.Attach(ParentWindow.Checkout.CheckoutType);
                 }
                 else
                 {
-                    type = new SaveableCheckoutType
-                    {
-                        Event = ParentWindow.Checkout.SaveableEvent,
-                        Name = CheckoutType.Text
-                    };
-
-                    db.CheckoutTypes.Add(type);
+                    db.CheckoutTypes.Add(ParentWindow.Checkout.CheckoutType);
                 }
-
 
                 db.Entry(ParentWindow.Checkout).State = New ? EntityState.Added : EntityState.Modified;
                 db.SaveChanges();
@@ -118,8 +124,6 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
             Dispatcher.Invoke(() =>
             {
-                Types.Add(type);
-                ParentWindow.Checkout.CheckoutType = type;
                 Mouse.OverrideCursor = null;
                 MessageBox.Show(New ? "La caisse a bien été crée !" : "La caisse a bien été enregistré !");
 
@@ -179,8 +183,8 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
                 if (!New)
                 {
-                    CheckoutType.SelectedItem = Types.FindIndex(t => t.Id == ParentWindow.Checkout.CheckoutType.Id);
-                    CheckoutOwner.SelectedItem = Owners.FindIndex(t => t.Id == ParentWindow.Checkout.Owner.Id);
+                    CheckoutType.SelectedIndex = Types.FindIndex(t => t.Id == ParentWindow.Checkout.CheckoutType.Id);
+                    CheckoutOwner.SelectedIndex = Owners.FindIndex(t => t.Id == ParentWindow.Checkout.Owner.Id);
                 }
 
                 Mouse.OverrideCursor = null;
