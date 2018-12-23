@@ -128,8 +128,8 @@
     <Compile Include="Graphics\Admin\Checkouts\Pages\CheckoutMainPage.xaml.cs">
       <DependentUpon>CheckoutMainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Graphics\Admin\Checkouts\Pages\DaysDisplayPage.xaml.cs">
-      <DependentUpon>DaysDisplayPage.xaml</DependentUpon>
+    <Compile Include="Graphics\Admin\Checkouts\Pages\CheckoutTimeTablePage.xaml.cs">
+      <DependentUpon>CheckoutTimeTablePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Admin\Events\EvenementBrowser.xaml.cs">
       <DependentUpon>EvenementBrowser.xaml</DependentUpon>
@@ -183,7 +183,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Graphics\Admin\Checkouts\Pages\DaysDisplayPage.xaml">
+    <Page Include="Graphics\Admin\Checkouts\Pages\CheckoutTimeTablePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

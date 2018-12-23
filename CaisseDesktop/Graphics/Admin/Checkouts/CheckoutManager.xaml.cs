@@ -32,7 +32,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
 
         private void DisplayEdt_OnClick(object sender, RoutedEventArgs e)
         {
-            MasterFrame.Content = new DaysDisplayPage();
+            MasterFrame.Content = new CheckoutTimeTablePage();
         }
     }
 }
