@@ -22,6 +22,9 @@ namespace CaisseServer.Events
 
         public bool Pause { get; set; }
 
+        [NotMapped]
+        public bool Blank { get; set; }
+
         public SaveableTimeSlot()
         {
         }

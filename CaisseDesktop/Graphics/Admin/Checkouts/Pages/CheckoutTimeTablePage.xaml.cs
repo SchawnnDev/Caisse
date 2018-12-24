@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CaisseDesktop.Enums;
+using CaisseLibrary.Utils;
+using CaisseServer;
 using CaisseServer.Events;
 
 namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
@@ -28,8 +30,8 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
             var day = new SaveableDay
             {
-                Start = new DateTime(2018, 12, 23, 08, 01, 00),
-                End = new DateTime(2018, 12, 23, 17, 01, 00)
+                Start = new DateTime(2018, 12, 23, 08, 00, 00),
+                End = new DateTime(2018, 12, 23, 17, 00, 00)
             };
 
             var day2 = new SaveableDay
@@ -50,27 +52,45 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 {
                     Day = day,
                     Start = new DateTime(2018, 12, 23, 10, 00, 00),
-                    End = new DateTime(2018, 12, 23, 12, 00, 00)
+                    End = new DateTime(2018, 12, 23, 12, 00, 00),
+                    Cashier = new SaveableCashier
+                    {
+                        FirstName = "Felix",
+                        Name = "Meyer"
+                    }
                 },
                 new SaveableTimeSlot
                 {
                     Day = day,
-                    Start = new DateTime(2018, 12, 23, 14, 01, 00),
-                    End = new DateTime(2018, 12, 23, 15, 01, 00)
+                    Start = new DateTime(2018, 12, 23, 14, 00, 00),
+                    End = new DateTime(2018, 12, 23, 15, 00, 00),
+                    Cashier = new SaveableCashier
+                    {
+                        FirstName = "Paul",
+                        Name = "Meyer"
+                    }
                 },
                 new SaveableTimeSlot
                 {
                     Day = day,
                     Start = new DateTime(2018, 12, 23, 15, 00, 00),
-                    End = new DateTime(2018, 12, 23, 16, 00, 00)
+                    End = new DateTime(2018, 12, 23, 16, 00, 00),
+                    Cashier = new SaveableCashier
+                    {
+                        FirstName = "Thierry",
+                        Name = "Meyer"
+                    }
                 },
             };
 
             Fill(TimeTableDay.DayOne, day, list);
             Fill(TimeTableDay.DayTwo, day2, new List<SaveableTimeSlot>());
             Fill(TimeTableDay.DayThree, day3, new List<SaveableTimeSlot>());
-
+            
         }
+
+        public string DateToHour(DateTime date) =>
+            $"{date.Hour}h{(date.Minute < 10 ? $"0{date.Minute}" : date.Minute.ToString())}";
 
         public override void Update()
         {
@@ -129,7 +149,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             {
                 var dayBtn = new Button
                 {
-                    Content = $"{day.Start.Date:T}\n\n\n{day.Start.Date:d}\n\n\n{day.End.Date:T}",
+                    Content = $"{DateToHour(day.Start)}\n\n\n\n\n\n{DateToHour(day.End)}",
                     Background = brush,
                     Height = double.NaN
                 };
@@ -140,16 +160,21 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 panel.Children.Add(dayBtn);
 
                 return;
-
             }
+
+            slots.AddRange(GenerateBlankSlots(day, slots));
+
+            slots = slots.OrderBy(t => t.Start).ToList();
 
             foreach (var slot in slots)
             {
                 var dayBtn = new Button
                 {
-                    Content = $"{slot.Start.Date:T}\n\n\n{slot.End.Date:T}",
-                    Background = brush,
-                    Height = double.NaN
+                    Content =
+                        $"{DateToHour(slot.Start)}\n\n\n{(slot.Blank ? "Clique ici pour assigner la case." : slot.Cashier.GetFullName())}\n\n\n{DateToHour(slot.End)}",
+                    Background = slot.Blank ? Brushes.Gray : brush,
+                    Height = double.NaN,
+                    DataContext = slot
                 };
 
                 DockPanel.SetDock(dayBtn, Dock.Top);
@@ -158,8 +183,69 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 panel.Children.Add(dayBtn);
             }
 
+            RecalculateHeights(panel);
+        }
+
+        private void RecalculateHeights(DockPanel panel)
+        {
+            if (!(panel.Children[0] is Button dayBtn)) return;
+
+            var height = panel.ActualHeight - dayBtn.ActualHeight;
+
+            if (!(dayBtn.DataContext is SaveableDay day)) return;
+
+            var timeInSeconds =(double) (day.End.ToUnixTimeStamp() - day.Start.ToUnixTimeStamp());
+
+            for (var i = 1; i < panel.Children.Count; i++)
+            {
+                if (!(panel.Children[i] is Button child)) continue;
+                if (!(child.DataContext is SaveableTimeSlot slot)) continue;
+                var slotInSeconds = (double) (slot.End.ToUnixTimeStamp() - slot.Start.ToUnixTimeStamp());
+                child.Height = height * (slotInSeconds / timeInSeconds);
+            }
+
         }
 
         public override string CustomName => "CheckoutTimeTablePage";
+
+        private List<SaveableTimeSlot> GenerateBlankSlots(SaveableDay day, List<SaveableTimeSlot> taken)
+        {
+            var blankSlots = new List<SaveableTimeSlot>();
+
+            var dayStartHour = day.Start.Hour;
+            var dayEndHour = day.End.Hour;
+            var dayStartMinute = day.Start.Minute;
+            var dayEndMinute = day.End.Minute;
+
+            var min = taken.Min(t => t.Start);
+
+            if (min.Hour == dayStartHour && min.Minute != dayStartMinute || min.Hour != dayStartHour)
+            {
+                blankSlots.Add(new SaveableTimeSlot
+                {
+                    Start = day.Start,
+                    End = min
+                });
+            }
+
+            var max = taken.Max(t => t.End);
+
+            if (max.Hour == dayEndHour && max.Minute != dayEndMinute || max.Hour != dayEndHour)
+            {
+                blankSlots.Add(new SaveableTimeSlot
+                {
+                    Start = max,
+                    End = day.End
+                });
+            }
+
+            blankSlots.Select(t =>
+            {
+                t.Blank = true;
+                return t;
+            }).ToList();
+
+            return blankSlots;
+        }
     }
 }

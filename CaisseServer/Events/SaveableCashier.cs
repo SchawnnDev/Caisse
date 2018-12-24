@@ -12,7 +12,6 @@ namespace CaisseServer
     [Table("cashiers")]
     public class SaveableCashier
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -30,7 +29,7 @@ namespace CaisseServer
         /**
          *  If the cashier is missing 
          */
-        
+
         public SaveableCashier Substitute { get; set; }
 
         public SaveableTimeSlot SubstituteTimeSlot { get; set; }
@@ -39,5 +38,6 @@ namespace CaisseServer
         {
         }
 
+        public string GetFullName() => $"{FirstName} {Name}";
     }
 }
