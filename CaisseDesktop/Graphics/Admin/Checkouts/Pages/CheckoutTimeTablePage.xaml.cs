@@ -28,8 +28,8 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
             var day = new SaveableDay
             {
-                Start = new DateTime(2018, 12, 23, 8, 00, 00),
-                End = new DateTime(2018, 12, 23, 17, 00, 00)
+                Start = new DateTime(2018, 12, 23, 08, 01, 00),
+                End = new DateTime(2018, 12, 23, 17, 01, 00)
             };
 
             var day2 = new SaveableDay
@@ -55,8 +55,8 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 new SaveableTimeSlot
                 {
                     Day = day,
-                    Start = new DateTime(2018, 12, 23, 14, 00, 00),
-                    End = new DateTime(2018, 12, 23, 15, 00, 00)
+                    Start = new DateTime(2018, 12, 23, 14, 01, 00),
+                    End = new DateTime(2018, 12, 23, 15, 01, 00)
                 },
                 new SaveableTimeSlot
                 {

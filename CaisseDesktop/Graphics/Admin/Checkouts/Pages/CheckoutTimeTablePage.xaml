@@ -19,9 +19,9 @@
             <ColumnDefinition MaxWidth="30"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="50"/>
+            <RowDefinition MaxHeight="30"/>
             <RowDefinition/>
-            <RowDefinition MaxHeight="50"/>
+            <RowDefinition MaxHeight="30"/>
         </Grid.RowDefinitions>
 
         <DockPanel x:Name="Day1" Grid.Row="1" Grid.Column="1">
