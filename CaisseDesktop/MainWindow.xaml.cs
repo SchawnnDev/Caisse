@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CaisseDesktop.Graphics;
 using CaisseDesktop.Graphics.Admin;
+using CaisseDesktop.Graphics.Common;
 using CaisseDesktop.Graphics.Print;
 using CaisseServer;
 
@@ -57,6 +58,12 @@ namespace CaisseDesktop
         private void ButtonConnection_OnClick(object sender, RoutedEventArgs e)
         {
             new Connection().ShowDialog();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            new Checkout().Show();
+            Close();
         }
     }
 }

@@ -114,7 +114,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
         public void Fill(TimeTableDay timeTableDay, SaveableDay day, List<SaveableTimeSlot> slots)
         {
-            DockPanel panel;
+            Panel panel;
             Brush brush;
             switch (timeTableDay)
             {
@@ -149,7 +149,8 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             {
                 var dayBtn = new Button
                 {
-                    Content = $"{DateToHour(day.Start)}\n\n\n\n\n\n{DateToHour(day.End)}",
+                    Content = $"{DateToHour(day.Start)}\n\n\n\n{DateToHour(day.End)}",
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
                     Background = brush,
                     Height = double.NaN
                 };
@@ -171,19 +172,20 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 var dayBtn = new Button
                 {
                     Content =
-                        $"{DateToHour(slot.Start)}\n\n\n{(slot.Blank ? "Clique ici pour assigner la case." : slot.Cashier.GetFullName())}\n\n\n{DateToHour(slot.End)}",
+                        $"{DateToHour(slot.Start)}\n{(slot.Blank ? "Clique ici pour assigner la case." : slot.Cashier.GetFullName())}\n{DateToHour(slot.End)}",
                     Background = slot.Blank ? Brushes.Gray : brush,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
                     Height = double.NaN,
                     DataContext = slot
                 };
 
-                DockPanel.SetDock(dayBtn, Dock.Top);
+                //DockPanel.SetDock(dayBtn, Dock.Top);
 
                 panel.DataContext = day;
                 panel.Children.Add(dayBtn);
             }
 
-            RecalculateHeights(panel);
+            //RecalculateHeights(panel);
         }
 
         private void RecalculateHeights(DockPanel panel)
@@ -194,7 +196,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
             if (!(dayBtn.DataContext is SaveableDay day)) return;
 
-            var timeInSeconds =(double) (day.End.ToUnixTimeStamp() - day.Start.ToUnixTimeStamp());
+            var timeInSeconds = (double) (day.End.ToUnixTimeStamp() - day.Start.ToUnixTimeStamp());
 
             for (var i = 1; i < panel.Children.Count; i++)
             {
@@ -227,6 +229,25 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                     End = min
                 });
             }
+
+            for (var i = 1; i < taken.Count; i++)
+            {
+
+                var t1 = taken[i - 1].End;
+                var t2 = taken[i].Start;
+
+                if (t1.Hour == t2.Hour && t1.Minute != t2.Hour || t1.Hour != t2.Hour)
+                {
+                    blankSlots.Add(new SaveableTimeSlot
+                    {
+                        Start = t1,
+                        End = t2
+                    });
+                }
+
+
+            }
+
 
             var max = taken.Max(t => t.End);
 

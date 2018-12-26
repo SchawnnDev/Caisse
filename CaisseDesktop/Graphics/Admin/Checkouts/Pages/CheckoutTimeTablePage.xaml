@@ -24,9 +24,9 @@
             <RowDefinition MaxHeight="30"/>
         </Grid.RowDefinitions>
 
-        <DockPanel x:Name="Day1" Grid.Row="1" Grid.Column="1">
+        <StackPanel Orientation="Vertical" x:Name="Day1" Grid.Row="1" Grid.Column="1">
             
-        </DockPanel>
+        </StackPanel>
 
         <DockPanel x:Name="Day2" Grid.Row="1" Grid.Column="3">
 
