@@ -13,8 +13,9 @@
                 <GradientStop Color="#FF2073D6" Offset="1" />
             </LinearGradientBrush>
         </Grid.Background>
-
+        <!--
         <WrapPanel Orientation="Horizontal" x:Name="MainPanel">
+            
             <Border BorderBrush="DimGray" BorderThickness="1" Margin="50" >
                 <StackPanel Orientation="Vertical" Margin="5">
                     <Label FontSize="20" Content="Article #1" HorizontalAlignment="Center" Foreground="White"/>
@@ -109,8 +110,8 @@
                     </StackPanel>
                     <Label Content="100 restants" HorizontalAlignment="Center" Foreground="#DDFFFFFF"></Label>
                 </StackPanel>
-            </Border>
+            </Border> 
         </WrapPanel>
-
+-->
     </Grid>
 </Window>

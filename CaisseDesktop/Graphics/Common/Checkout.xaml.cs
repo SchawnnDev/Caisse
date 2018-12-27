@@ -19,7 +19,7 @@ namespace CaisseDesktop.Graphics.Common
     /// <summary>
     /// Interaction logic for Checkout.xaml
     /// </summary>
-    public partial class Checkout : Window
+    public partial class Checkout
     {
         public Checkout()
         {
@@ -28,19 +28,29 @@ namespace CaisseDesktop.Graphics.Common
             {
                 new SaveableItem
                 {
-                    ImageSrc = ""
+                    Name = "Bananes",
+                    Price = 1.50M,
+                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                 }, new SaveableItem
                 {
-
+                    Name = "Cacao",
+                    Price = 1.50M,
+                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                 }, new SaveableItem
                 {
-
+                    Name = "Café",
+                    Price = 1.50M,
+                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                 }, new SaveableItem
                 {
-
+                    Name = "Chocolat",
+                    Price = 1M,
+                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                 }, new SaveableItem
                 {
-
+                    Name = "Pommes",
+                    Price = 1.8M,
+                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                 },
             });
         }
@@ -93,6 +103,13 @@ namespace CaisseDesktop.Graphics.Common
                 MaxHeight = 55.0
             };
 
+            var icon = new BitmapImage();
+            icon.BeginInit();
+            icon.UriSource = new Uri(item.ImageSrc);
+            icon.EndInit();
+
+            img.Source = icon;
+
             var stackPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
@@ -108,20 +125,33 @@ namespace CaisseDesktop.Graphics.Common
             var textBox = new TextBox
             {
                 Text = "0"
+                ,
+                Padding = new Thickness(1.0),
+                MinWidth = 30.0,
+                Foreground = Brushes.White,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                BorderBrush = Brushes.White,
+                BorderThickness = new Thickness(1.0)
             };
 
             var plusBtn = new Button
             {
-                Content = "+"
+                Content = "+",
             };
 
+            plusBtn.Click += (sender, args) =>
+            {
+                textBox.Text = int.TryParse(textBox.Text, out var actualValue) ? (actualValue+1).ToString() : "0";
+            };
             stackPanel.Children.Add(minusBtn);
             stackPanel.Children.Add(textBox);
             stackPanel.Children.Add(plusBtn);
 
             var remainingPanel = new Label
             {
-                Content = "100 restants"
+                Content = "100 restants",
+                Foreground = Brushes.White,
+                HorizontalAlignment = HorizontalAlignment.Center
             };
 
             panel.Children.Add(label);
