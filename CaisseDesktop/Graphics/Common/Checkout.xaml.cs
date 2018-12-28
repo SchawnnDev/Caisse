@@ -24,8 +24,11 @@ namespace CaisseDesktop.Graphics.Common
         public Checkout()
         {
             InitializeComponent();
-            CreateItemGrid(new List<SaveableItem>
-            {
+
+            Loaded += (sender, args) =>
+
+             CreateItemGrid(new List<SaveableItem>
+             {
                 new SaveableItem
                 {
                     Name = "Bananes",
@@ -43,7 +46,7 @@ namespace CaisseDesktop.Graphics.Common
                     ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                 }, new SaveableItem
                 {
-                    Name = "Chocolat",
+                    Name = "Chocolat chaud",
                     Price = 1M,
                     ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                 }, new SaveableItem
@@ -51,8 +54,23 @@ namespace CaisseDesktop.Graphics.Common
                     Name = "Pommes",
                     Price = 1.8M,
                     ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
+                },new SaveableItem
+                {
+                    Name = "Vin",
+                    Price = 100.8M,
+                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
+                },new SaveableItem
+                {
+                    Name = "Patate",
+                    Price = 1.8M,
+                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
+                },new SaveableItem
+                {
+                    Name = "Poms",
+                    Price = 1.8M,
+                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                 },
-            });
+             });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -62,25 +80,50 @@ namespace CaisseDesktop.Graphics.Common
 
         private void CreateItemGrid(List<SaveableItem> items)
         {
-            var panel = new StackPanel
+            var panel = new WrapPanel
             {
-                Orientation = Orientation.Horizontal
+                Orientation = Orientation.Horizontal,
+                //MaxWidth = ActualWidth
             };
 
             foreach (var item in items)
-                panel.Children.Add(CreateIten(item));
+                panel.Children.Add(CreateItem(item));
 
             MainGrid.Children.Add(panel);
 
         }
 
-        private Border CreateIten(SaveableItem item)
+        /*
+         *            <Border BorderBrush="DimGray" BorderThickness="1" Margin="50" >
+                <StackPanel Orientation="Vertical" Margin="5">
+                    <Label FontSize="20" Content="Article #1" HorizontalAlignment="Center" Foreground="White"/>
+                    <Image MaxWidth="300" MaxHeight="55" Source="../../Resources/Images/logo_brique.png"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
+                        <Button Content="-"></Button>
+                        <TextBox MinWidth="20" Text="0" BorderBrush="#FF673AB7" BorderThickness="2" TextAlignment="Center" Padding="1" Foreground="White"></TextBox>
+                        <Button Content="+"></Button>
+                    </StackPanel>
+                    <Label Content="100 restants" HorizontalAlignment="Center" Foreground="#DDFFFFFF"></Label>
+                </StackPanel>
+            </Border>
+         *
+         *
+         *
+         *
+         *
+         */
+
+        private Border CreateItem(SaveableItem item)
         {
             var border = new Border
             {
                 BorderThickness = new Thickness(1.0),
                 BorderBrush = Brushes.DimGray,
-                Margin = new Thickness(50.0)
+                Margin = new Thickness(40.0),
+
+                //VerticalAlignment = VerticalAlignment.Top
+
             };
 
             var panel = new StackPanel
@@ -97,10 +140,18 @@ namespace CaisseDesktop.Graphics.Common
                 Foreground = Brushes.White
             };
 
+            var priceLabel = new Label
+            {
+                FontSize = 10.0,
+                Content = $"{item.Price} €",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Foreground = Brushes.White
+            };
+
             var img = new Image
             {
-                MaxWidth = 300.0,
-                MaxHeight = 55.0
+                MaxWidth = 400.0,
+                MaxHeight = 65.0
             };
 
             var icon = new BitmapImage();
@@ -131,7 +182,7 @@ namespace CaisseDesktop.Graphics.Common
                 Foreground = Brushes.White,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 BorderBrush = Brushes.White,
-                BorderThickness = new Thickness(1.0)
+                BorderThickness = new Thickness(2.0)
             };
 
             var plusBtn = new Button
@@ -139,9 +190,14 @@ namespace CaisseDesktop.Graphics.Common
                 Content = "+",
             };
 
+            minusBtn.Click += (sender, args) =>
+            {
+                textBox.Text = Math.Max(0, int.TryParse(textBox.Text, out var actualValue) ? (actualValue - 1) : 0).ToString();
+            };
+
             plusBtn.Click += (sender, args) =>
             {
-                textBox.Text = int.TryParse(textBox.Text, out var actualValue) ? (actualValue+1).ToString() : "0";
+                textBox.Text = int.TryParse(textBox.Text, out var actualValue) ? (actualValue + 1).ToString() : "0";
             };
             stackPanel.Children.Add(minusBtn);
             stackPanel.Children.Add(textBox);
@@ -155,6 +211,7 @@ namespace CaisseDesktop.Graphics.Common
             };
 
             panel.Children.Add(label);
+            panel.Children.Add(priceLabel);
             panel.Children.Add(img);
             panel.Children.Add(stackPanel);
             panel.Children.Add(remainingPanel);
