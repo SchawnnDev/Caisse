@@ -11,8 +11,8 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <GroupBox Header="Informations" Grid.Column="0" Margin="5">
@@ -37,15 +37,18 @@
 
                 <Label Content="Login :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox Grid.Column="1" Grid.Row="1"  x:Name="OwnerLogin" Margin="10" VerticalAlignment="Center" MinHeight="25" IsEnabled="False"/>
+                <TextBox Grid.Column="1" Grid.Row="1" x:Name="OwnerLogin" Margin="10" VerticalAlignment="Center"
+                         MinHeight="25" IsEnabled="False" />
 
                 <Label Content="Connexion :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
-                       VerticalAlignment="Center" FontWeight="Bold"  />
-                <TextBox Grid.Column="1" Grid.Row="2" x:Name="OwnerConnect" IsEnabled="False" VerticalAlignment="Center" Margin="10" MinHeight="25"/>
+                       VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBox Grid.Column="1" Grid.Row="2" x:Name="OwnerConnect" IsEnabled="False"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
 
                 <Label Content="Déconnexion :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="OwnerDisconnect" IsEnabled="False" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" Margin="10" MinHeight="25"/>
+                <TextBox x:Name="OwnerDisconnect" IsEnabled="False" Grid.Column="1" Grid.Row="3"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
 
 
                 <DockPanel Grid.Row="4" Grid.Column="1">
@@ -58,8 +61,8 @@
                 <StackPanel Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">
                     <Label Content="Blocage :" FontWeight="Bold" HorizontalAlignment="Center" />
                     <ToggleButton x:Name="Blocage"
-                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                        Click="Blocage_OnClick" />
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  Click="Blocage_OnClick" />
                 </StackPanel>
 
             </Grid>
@@ -70,8 +73,8 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
-                    <RowDefinition MaxHeight="50"/>
-                    <RowDefinition MaxHeight="50"/>
+                    <RowDefinition MaxHeight="50" />
+                    <RowDefinition MaxHeight="50" />
                 </Grid.RowDefinitions>
 
                 <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -102,23 +105,25 @@
                 </DataGrid>
 
                 <DockPanel Grid.Row="1">
-                    <TextBox x:Name="Permission" VerticalAlignment="Center" MinHeight="25" MinWidth="218" MaxWidth="238"/>
-                    <Button x:Name="PermissionAdd" Content="Ajouter" FontWeight="Bold" Cursor="Hand" Margin="10 0 10 0" Click="PermissionAdd_OnClick" />
+                    <TextBox x:Name="Permission" VerticalAlignment="Center" MinHeight="25" MinWidth="218"
+                             MaxWidth="238" />
+                    <Button x:Name="PermissionAdd" Content="Ajouter" FontWeight="Bold" Cursor="Hand" Margin="10 0 10 0"
+                            Click="PermissionAdd_OnClick" />
                 </DockPanel>
 
                 <DockPanel Grid.Row="2">
 
-                    <Label Content="Super Admin :" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Label Content="Super Admin :" FontWeight="Bold" VerticalAlignment="Center"
+                           HorizontalAlignment="Center" />
                     <ToggleButton x:Name="OwnerSuperAdmin"
-                        Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                        Click="ToggleSuperAdmin_OnClick" HorizontalAlignment="Left" Margin="10 1 0 0"/>
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  Click="ToggleSuperAdmin_OnClick" HorizontalAlignment="Left" Margin="10 1 0 0" />
 
                 </DockPanel>
-                  
+
 
             </Grid>
         </GroupBox>
 
     </Grid>
 </Window>
-

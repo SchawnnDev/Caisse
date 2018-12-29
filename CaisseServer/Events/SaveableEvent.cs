@@ -7,7 +7,6 @@ namespace CaisseServer.Events
     [Table("events")]
     public class SaveableEvent
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -21,11 +20,5 @@ namespace CaisseServer.Events
         public string Addresse { get; set; }
 
         public string Description { get; set; }
-
-        public SaveableEvent()
-        {
-
-        }
-
     }
 }

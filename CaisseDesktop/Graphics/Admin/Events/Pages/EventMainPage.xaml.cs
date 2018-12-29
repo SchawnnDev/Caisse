@@ -1,37 +1,18 @@
 ﻿using System.Data.Entity.Migrations;
-using System.Linq;
-using System.Media;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using CaisseDesktop.Graphics.Admin.Checkouts;
-using CaisseDesktop.Models;
 using CaisseDesktop.Utils;
 using CaisseServer;
 using CaisseServer.Events;
-using Xceed.Wpf.Toolkit;
-using MessageBox = System.Windows.MessageBox;
 
 namespace CaisseDesktop.Graphics.Admin.Events.Pages
 {
     /// <summary>
-    /// Interaction logic for MainEventManager.xaml
+    ///     Interaction logic for MainEventManager.xaml
     /// </summary>
     public partial class EventMainPage
     {
-        private bool New { get; } = true;
-        private bool Saved { get; set; } = false;
-        private bool Blocked { get; set; }
-        private EvenementManager ParentWindow { get; }
-
         public EventMainPage(EvenementManager parentWindow)
         {
             InitializeComponent();
@@ -49,6 +30,13 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
                 Blocage.IsChecked = false;
             }
         }
+
+        private bool New { get; } = true;
+        private bool Saved { get; set; }
+        private bool Blocked { get; set; }
+        private EvenementManager ParentWindow { get; }
+
+        public override string CustomName => "EventMainPage";
 
         private void ToggleBlocked(bool blocked)
         {
@@ -131,12 +119,14 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
         {
         }
 
-        public override bool CanClose() => Saved || !Saved && Validations.WillClose(true);
+        public override bool CanClose()
+        {
+            return Saved || !Saved && Validations.WillClose(true);
+        }
 
-        public override bool CanBack() => Saved || Validations.WillClose(true);
-
-        public override string CustomName => "EventMainPage";
-
+        public override bool CanBack()
+        {
+            return Saved || Validations.WillClose(true);
+        }
     }
-
 }

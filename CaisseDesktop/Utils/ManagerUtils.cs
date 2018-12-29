@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using CaisseDesktop.Graphics.Admin;
 
@@ -18,7 +14,9 @@ namespace CaisseDesktop.Utils
                 items[i].IsEnabled = i != active;
         }
 
-        public static bool CanOpen(this CustomPage page, string other) => page != null && !page.Equals(other);
-
+        public static bool CanOpen(this CustomPage page, string other)
+        {
+            return page != null && !page.Equals(other);
+        }
     }
 }

@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Media;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Xceed.Wpf.Toolkit;
-using MessageBox = System.Windows.MessageBox;
 
 namespace CaisseDesktop.Graphics.Admin
 {
     public abstract class CustomPage : Page
     {
-
-        public CustomPage()
-        {
-        }
+        public abstract string CustomName { get; }
 
         public abstract void Update();
 
@@ -27,11 +17,15 @@ namespace CaisseDesktop.Graphics.Admin
 
         public abstract bool CanBack();
 
-        public abstract string CustomName { get; }
+        public bool Equals(CustomPage page)
+        {
+            return Equals(page?.CustomName);
+        }
 
-        public bool Equals(CustomPage page) => Equals(page?.CustomName);
-
-        public bool Equals(string name) => name != null && CustomName.Equals(name);
+        public bool Equals(string name)
+        {
+            return name != null && CustomName.Equals(name);
+        }
 
         public static bool Check(DateTimePicker picker)
         {

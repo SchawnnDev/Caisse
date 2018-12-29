@@ -1,23 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using CaisseServer;
 
 namespace CaisseDesktop.Graphics.Common
 {
     /// <summary>
-    /// Interaction logic for Checkout.xaml
+    ///     Interaction logic for Checkout.xaml
     /// </summary>
     public partial class Checkout
     {
@@ -26,63 +18,68 @@ namespace CaisseDesktop.Graphics.Common
             InitializeComponent();
 
             Loaded += (sender, args) =>
-
-             CreateItemGrid(new List<SaveableItem>
-             {
-                new SaveableItem
+                CreateItemGrid(new List<SaveableItem>
                 {
-                    Name = "Bananes",
-                    Price = 1.50M,
-                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                }, new SaveableItem
-                {
-                    Name = "Cacao",
-                    Price = 1.50M,
-                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                }, new SaveableItem
-                {
-                    Name = "Café",
-                    Price = 1.50M,
-                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                }, new SaveableItem
-                {
-                    Name = "Chocolat chaud",
-                    Price = 1M,
-                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                }, new SaveableItem
-                {
-                    Name = "Pommes",
-                    Price = 1.8M,
-                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                },new SaveableItem
-                {
-                    Name = "Vin",
-                    Price = 100.8M,
-                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                },new SaveableItem
-                {
-                    Name = "Patate",
-                    Price = 1.8M,
-                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                },new SaveableItem
-                {
-                    Name = "Poms",
-                    Price = 1.8M,
-                    ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                },
-             });
+                    new SaveableItem
+                    {
+                        Name = "Bananes",
+                        Price = 1.50M,
+                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
+                    },
+                    new SaveableItem
+                    {
+                        Name = "Cacao",
+                        Price = 1.50M,
+                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
+                    },
+                    new SaveableItem
+                    {
+                        Name = "Café",
+                        Price = 1.50M,
+                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
+                    },
+                    new SaveableItem
+                    {
+                        Name = "Chocolat chaud",
+                        Price = 1M,
+                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
+                    },
+                    new SaveableItem
+                    {
+                        Name = "Pommes",
+                        Price = 1.8M,
+                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
+                    },
+                    new SaveableItem
+                    {
+                        Name = "Vin",
+                        Price = 100.8M,
+                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
+                    },
+                    new SaveableItem
+                    {
+                        Name = "Patate",
+                        Price = 1.8M,
+                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
+                    },
+                    new SaveableItem
+                    {
+                        Name = "Poms",
+                        Price = 1.8M,
+                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
+                    }
+                });
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void CreateItemGrid(List<SaveableItem> items)
         {
             var panel = new WrapPanel
             {
-                Orientation = Orientation.Horizontal,
+                Orientation = Orientation.Horizontal
                 //MaxWidth = ActualWidth
             };
 
@@ -90,7 +87,6 @@ namespace CaisseDesktop.Graphics.Common
                 panel.Children.Add(CreateItem(item));
 
             MainGrid.Children.Add(panel);
-
         }
 
         /*
@@ -120,10 +116,9 @@ namespace CaisseDesktop.Graphics.Common
             {
                 BorderThickness = new Thickness(1.0),
                 BorderBrush = Brushes.DimGray,
-                Margin = new Thickness(40.0),
+                Margin = new Thickness(40.0)
 
                 //VerticalAlignment = VerticalAlignment.Top
-
             };
 
             var panel = new StackPanel
@@ -175,8 +170,7 @@ namespace CaisseDesktop.Graphics.Common
 
             var textBox = new TextBox
             {
-                Text = "0"
-                ,
+                Text = "0",
                 Padding = new Thickness(1.0),
                 MinWidth = 30.0,
                 Foreground = Brushes.White,
@@ -187,12 +181,13 @@ namespace CaisseDesktop.Graphics.Common
 
             var plusBtn = new Button
             {
-                Content = "+",
+                Content = "+"
             };
 
             minusBtn.Click += (sender, args) =>
             {
-                textBox.Text = Math.Max(0, int.TryParse(textBox.Text, out var actualValue) ? (actualValue - 1) : 0).ToString();
+                textBox.Text = Math.Max(0, int.TryParse(textBox.Text, out var actualValue) ? actualValue - 1 : 0)
+                    .ToString();
             };
 
             plusBtn.Click += (sender, args) =>

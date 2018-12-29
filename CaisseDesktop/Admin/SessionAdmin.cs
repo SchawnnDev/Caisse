@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Media;
 using CaisseServer;
 using CaisseServer.Events;
 
@@ -8,16 +7,21 @@ namespace CaisseDesktop.Admin
 {
     public class SessionAdmin
     {
-        public static SaveableOwner CurrentAdmin { get; set; } = null;
+        public static SaveableOwner CurrentAdmin { get; set; }
 
-        public static bool IsAuthenticated() => CurrentAdmin != null;
+        public static bool IsAuthenticated()
+        {
+            return CurrentAdmin != null;
+        }
 
-        public static bool HasPermission(string permission) => true; // for the moment
+        public static bool HasPermission(string permission)
+        {
+            return true;
+        }
         //IsAuthenticated() && CurrentAdmin.HasPermission(permission);
 
         public static void UpdateIfEdited(SaveableOwner owner)
         {
-
             if (CurrentAdmin == null || owner == null || CurrentAdmin.Id != owner.Id) return;
 
             CurrentAdmin = owner;

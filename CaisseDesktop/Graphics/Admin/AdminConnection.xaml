@@ -16,7 +16,7 @@
             <Setter Property="FontSize" Value="20" />
             <Setter Property="FontFamily" Value="Impact" />
             <Setter Property="FontWeight" Value="ExtraBold" />
-            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Cursor" Value="Hand" />
         </Style>
 
 
@@ -64,7 +64,7 @@
             <RowDefinition Height="20*" />
             <RowDefinition Height="10*" />
             <RowDefinition Height="20*" />
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="5*" />
             <RowDefinition Height="45*" />
             <RowDefinition Height="15" MaxHeight="20" />
         </Grid.RowDefinitions>
@@ -72,10 +72,11 @@
         <Image x:Name="Logo" Grid.Column="1" Grid.RowSpan="1"
                gif:ImageBehavior.AnimatedSource="../../Resources/Images/logo.gif" />
         <Label Content="Veuillez saisir votre mot de passe :" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1"
-               VerticalAlignment="Center" FontSize="42" FontFamily="Impact" Foreground="White"/>
+               VerticalAlignment="Center" FontSize="42" FontFamily="Impact" Foreground="White" />
 
         <TextBox x:Name="CashierId" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"
-                 Style="{StaticResource RoundedTextBox}" FontFamily="Impact" FontSize="156" TextAlignment="Center" IsReadOnly="True" VerticalAlignment="Center" />
+                 Style="{StaticResource RoundedTextBox}" FontFamily="Impact" FontSize="156" TextAlignment="Center"
+                 IsReadOnly="True" VerticalAlignment="Center" />
 
         <Grid Grid.Column="1" Grid.Row="4">
             <Grid.ColumnDefinitions>
@@ -91,31 +92,42 @@
             </Grid.RowDefinitions>
 
             <!-- 1 à 3 -->
-            <Button x:Name="One" Grid.Column="0" Grid.Row="0" Content="1" Style="{StaticResource PinPadButton}" Click="PinPadButton_Click" />
-            <Button x:Name="Two" Grid.Column="1" Grid.Row="0" Content="2" Style="{StaticResource PinPadButton}" Click="PinPadButton_Click"/>
-            <Button x:Name="Three" Grid.Column="2" Grid.Row="0" Content="3" Style="{StaticResource PinPadButton}" Click="PinPadButton_Click" />
+            <Button x:Name="One" Grid.Column="0" Grid.Row="0" Content="1" Style="{StaticResource PinPadButton}"
+                    Click="PinPadButton_Click" />
+            <Button x:Name="Two" Grid.Column="1" Grid.Row="0" Content="2" Style="{StaticResource PinPadButton}"
+                    Click="PinPadButton_Click" />
+            <Button x:Name="Three" Grid.Column="2" Grid.Row="0" Content="3" Style="{StaticResource PinPadButton}"
+                    Click="PinPadButton_Click" />
 
             <!-- 4 à 6 -->
-            <Button x:Name="Four" Grid.Column="0" Grid.Row="1" Content="4" Style="{StaticResource PinPadButton}" Click="PinPadButton_Click"/>
-            <Button x:Name="Five" Grid.Column="1" Grid.Row="1" Content="5" Style="{StaticResource PinPadButton}" Click="PinPadButton_Click"/>
-            <Button x:Name="Six" Grid.Column="2" Grid.Row="1" Content="6" Style="{StaticResource PinPadButton}" Click="PinPadButton_Click"/>
+            <Button x:Name="Four" Grid.Column="0" Grid.Row="1" Content="4" Style="{StaticResource PinPadButton}"
+                    Click="PinPadButton_Click" />
+            <Button x:Name="Five" Grid.Column="1" Grid.Row="1" Content="5" Style="{StaticResource PinPadButton}"
+                    Click="PinPadButton_Click" />
+            <Button x:Name="Six" Grid.Column="2" Grid.Row="1" Content="6" Style="{StaticResource PinPadButton}"
+                    Click="PinPadButton_Click" />
 
             <!-- 7 à 9 -->
-            <Button x:Name="Seven" Grid.Column="0" Grid.Row="2" Content="7" Style="{StaticResource PinPadButton}" Click="PinPadButton_Click"/>
-            <Button x:Name="Eight" Grid.Column="1" Grid.Row="2" Content="8" Style="{StaticResource PinPadButton}" Click="PinPadButton_Click"/>
-            <Button x:Name="Nine" Grid.Column="2" Grid.Row="2" Content="9" Style="{StaticResource PinPadButton}" Click="PinPadButton_Click"/>
+            <Button x:Name="Seven" Grid.Column="0" Grid.Row="2" Content="7" Style="{StaticResource PinPadButton}"
+                    Click="PinPadButton_Click" />
+            <Button x:Name="Eight" Grid.Column="1" Grid.Row="2" Content="8" Style="{StaticResource PinPadButton}"
+                    Click="PinPadButton_Click" />
+            <Button x:Name="Nine" Grid.Column="2" Grid.Row="2" Content="9" Style="{StaticResource PinPadButton}"
+                    Click="PinPadButton_Click" />
 
             <!-- supprimer 0 valider -->
             <Button Grid.Column="0" Grid.Row="3" Content="← Supprimer" Background="Red" BorderBrush="White"
-                        FontSize="20" FontFamily="Impact" FontWeight="ExtraBold" Click="PinPadButton_Click" Cursor="Hand"/>
-            <Button Grid.Column="1" Grid.Row="3" Content="⇆" Style="{StaticResource PinPadButton}" Click="Switch_OnClick"/>
+                    FontSize="20" FontFamily="Impact" FontWeight="ExtraBold" Click="PinPadButton_Click" Cursor="Hand" />
+            <Button Grid.Column="1" Grid.Row="3" Content="⇆" Style="{StaticResource PinPadButton}"
+                    Click="Switch_OnClick" />
             <Button Grid.Column="2" Grid.Row="3" Content="✔ Valider" Background="Green" BorderBrush="White"
-                        FontSize="20" FontFamily="Impact" FontWeight="ExtraBold" Click="PinPadButton_Click" Cursor="Hand"/>
+                    FontSize="20" FontFamily="Impact" FontWeight="ExtraBold" Click="PinPadButton_Click" Cursor="Hand" />
 
         </Grid>
 
 
-        <Button Grid.Column="0" Grid.Row="0" Content="↩ Retour" Style="{StaticResource PinPadButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Retour_OnClick"></Button>
+        <Button Grid.Column="0" Grid.Row="0" Content="↩ Retour" Style="{StaticResource PinPadButton}"
+                HorizontalAlignment="Left" VerticalAlignment="Top" Click="Retour_OnClick" />
 
     </Grid>
 </Window>

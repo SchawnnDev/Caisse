@@ -4,16 +4,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using PrinterUtility;
 using PrinterUtility.EscPosEpsonCommands;
 
 namespace CaisseDesktop.Graphics.Print
 {
     public abstract class Ticket
     {
-        public byte[] BytesValue { get; set; }
-        public EscPosEpson EscPosEpson { get; set; }
-        public string Port { get; set; }
-
         protected Ticket(string port)
         {
             EscPosEpson = new EscPosEpson();
@@ -21,12 +18,19 @@ namespace CaisseDesktop.Graphics.Print
             Port = port;
         }
 
-        public byte[] CutPage() => new[]
-            {Convert.ToByte(Convert.ToChar(0x1D)), Convert.ToByte('V'), (byte) 66, (byte) 3};
+        public byte[] BytesValue { get; set; }
+        public EscPosEpson EscPosEpson { get; set; }
+        public string Port { get; set; }
+
+        public byte[] CutPage()
+        {
+            return new[]
+                {Convert.ToByte(Convert.ToChar(0x1D)), Convert.ToByte('V'), (byte) 66, (byte) 3};
+        }
 
         public void Print()
         {
-            PrinterUtility.PrintExtensions.Print(BytesValue, Port);
+            PrintExtensions.Print(BytesValue, Port);
         }
 
         public byte[] GetLogo(string logoPath)
@@ -107,7 +111,9 @@ namespace CaisseDesktop.Graphics.Print
             {
                 var threshold = 127;
                 var index = 0;
-                double multiplier = 500; // this depends on your printer model. for Beiyang you should use 1000 // find tcp width
+                double
+                    multiplier =
+                        500; // this depends on your printer model. for Beiyang you should use 1000 // find tcp width
                 var scale = multiplier / bitmap.Width;
                 var xheight = (int) (bitmap.Height * scale);
                 var xwidth = (int) (bitmap.Width * scale);
@@ -134,6 +140,12 @@ namespace CaisseDesktop.Graphics.Print
             }
         }
 
+        /**
+         *  Generate content
+         */
+
+        public abstract void Generate();
+
         public class BitmapData
         {
             public BitArray Dots { get; set; }
@@ -142,11 +154,5 @@ namespace CaisseDesktop.Graphics.Print
 
             public int Width { get; set; }
         }
-
-        /**
-         *  Generate content
-         */
-
-        public abstract void Generate();
     }
 }

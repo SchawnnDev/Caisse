@@ -13,10 +13,7 @@ namespace CaisseDesktop.Models
             get => _jours;
             set
             {
-                if (Equals(value, _jours))
-                {
-                    return;
-                }
+                if (Equals(value, _jours)) return;
 
                 _jours = value;
                 OnPropertyChanged("Jours");

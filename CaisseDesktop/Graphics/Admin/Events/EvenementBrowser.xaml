@@ -10,7 +10,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="50" />
-            <RowDefinition/>
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0">

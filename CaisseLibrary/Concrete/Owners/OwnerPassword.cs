@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using CaisseLibrary.Interfaces;
 
 namespace CaisseLibrary.Concrete.Owners
@@ -23,16 +20,14 @@ namespace CaisseLibrary.Concrete.Owners
 
         public string GenerateNoDuplicate(int length, IList existing)
         {
-
             string login;
 
             do
             {
                 login = Generate(length);
-            } while (existing.Contains(login)); 
+            } while (existing.Contains(login));
 
             return login;
-
         }
     }
 }

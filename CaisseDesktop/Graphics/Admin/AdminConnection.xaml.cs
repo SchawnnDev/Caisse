@@ -1,34 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Media;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CaisseDesktop.Graphics.Admin
 {
     /// <summary>
-    /// Interaction logic for AdminConnection.xaml
+    ///     Interaction logic for AdminConnection.xaml
     /// </summary>
     public partial class AdminConnection : Window
     {
-        private bool DisplayingNumbers { get; set; } = true;
-        private Button[] Buttons { get; set; }
-        private string Password { get; set; } = "";
-
         public AdminConnection()
         {
             InitializeComponent();
             Buttons = new[] {One, Two, Three, Four, Five, Six, Seven, Eight, Nine};
         }
+
+        private bool DisplayingNumbers { get; set; } = true;
+        private Button[] Buttons { get; }
+        private string Password { get; set; } = "";
 
         private void PinPadButton_Click(object sender, RoutedEventArgs e)
         {

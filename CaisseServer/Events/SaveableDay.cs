@@ -4,11 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CaisseServer.Events
 {
-
     [Table("days")]
     public class SaveableDay
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -18,11 +16,5 @@ namespace CaisseServer.Events
         public DateTime Start { get; set; }
 
         public DateTime End { get; set; }
-
-        public SaveableDay()
-        {
-
-        }
-
     }
 }

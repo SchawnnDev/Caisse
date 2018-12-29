@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CaisseServer.Events;
 
 namespace CaisseDesktop.Models
@@ -18,10 +13,7 @@ namespace CaisseDesktop.Models
             get => _evenements;
             set
             {
-                if (Equals(value, _evenements))
-                {
-                    return;
-                }
+                if (Equals(value, _evenements)) return;
 
                 _evenements = value;
                 OnPropertyChanged("Evenements");

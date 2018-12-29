@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CaisseServer.Events;
 
 namespace CaisseServer
@@ -34,10 +29,9 @@ namespace CaisseServer
 
         public SaveableTimeSlot SubstituteTimeSlot { get; set; }
 
-        public SaveableCashier()
+        public string GetFullName()
         {
+            return $"{FirstName} {Name}";
         }
-
-        public string GetFullName() => $"{FirstName} {Name}";
     }
 }

@@ -15,10 +15,9 @@ namespace CaisseServer
 
         public SaveableEvent Event { get; set; }
 
-        public SaveableCheckoutType()
+        public override string ToString()
         {
+            return Name;
         }
-
-        public override string ToString() => Name;
     }
 }

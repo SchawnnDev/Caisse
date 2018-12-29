@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CaisseDesktop.Utils
 {
     public class OverrideCursor : IDisposable
     {
-        static Stack<Cursor> s_Stack = new Stack<Cursor>();
+        private static readonly Stack<Cursor> s_Stack = new Stack<Cursor>();
 
         public OverrideCursor(Cursor changeToCursor)
         {

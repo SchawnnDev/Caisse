@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="AdminMain" Height="450" Width="800">
     <Grid>
-        <Button Content="Button" Click="ButtonBase_OnClick" HorizontalAlignment="Left" Margin="360,176,0,0" VerticalAlignment="Top" Width="75"/>
-
+        <Button Content="Button" Click="ButtonBase_OnClick" HorizontalAlignment="Left" Margin="360,176,0,0"
+                VerticalAlignment="Top" Width="75" />
 
 
     </Grid>

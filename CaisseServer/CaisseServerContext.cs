@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 using CaisseServer.Events;
 
 namespace CaisseServer
 {
     public class CaisseServerContext : DbContext
     {
+        public CaisseServerContext() : base("CaisseServer")
+        {
+            Configuration.LazyLoadingEnabled = false;
+        }
 
         public DbSet<SaveableCheckout> Checkouts { get; set; }
         public DbSet<SaveableCheckoutType> CheckoutTypes { get; set; }
@@ -27,16 +25,10 @@ namespace CaisseServer
         public DbSet<SaveableTimeSlot> TimeSlots { get; set; }
         public DbSet<SaveableOwner> Owners { get; set; }
 
-        public CaisseServerContext() : base("CaisseServer")
-        {
-            Configuration.LazyLoadingEnabled = false;
-        }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("public");
             base.OnModelCreating(modelBuilder);
         }
-
     }
 }

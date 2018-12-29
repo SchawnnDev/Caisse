@@ -12,7 +12,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using CaisseDesktop.Admin;
 using CaisseDesktop.Graphics.Admin.Events;
-using CaisseDesktop.Graphics.Admin.Events.Pages;
 using CaisseDesktop.Models;
 using CaisseDesktop.Utils;
 using CaisseLibrary.Concrete.Owners;
@@ -23,17 +22,10 @@ using CaisseServer.Events;
 namespace CaisseDesktop.Graphics.Admin.Owners
 {
     /// <summary>
-    /// Interaction logic for OwnerManager.xaml
+    ///     Interaction logic for OwnerManager.xaml
     /// </summary>
     public partial class OwnerManager
     {
-        public EvenementManager ParentWindow { get; set; }
-        private PermissionModel Model => DataContext as PermissionModel;
-        public SaveableOwner SaveableOwner { get; set; }
-        private bool Saved { get; set; }
-        private bool New { get; set; } = true;
-        private bool Blocked { get; set; }
-
         public OwnerManager(EvenementManager parentWindow, SaveableOwner owner)
         {
             InitializeComponent();
@@ -63,8 +55,14 @@ namespace CaisseDesktop.Graphics.Admin.Owners
             }
 
             SaveableOwner.Event = ParentWindow.Evenement;
-
         }
+
+        public EvenementManager ParentWindow { get; set; }
+        private PermissionModel Model => DataContext as PermissionModel;
+        public SaveableOwner SaveableOwner { get; set; }
+        private bool Saved { get; set; }
+        private bool New { get; } = true;
+        private bool Blocked { get; set; }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
@@ -107,7 +105,9 @@ namespace CaisseDesktop.Graphics.Admin.Owners
 
             OwnerSuperAdmin.IsChecked = SaveableOwner.SuperAdmin;
 
-            Model.Permissions = new ObservableCollection<Permission>(SaveableOwner.Permissions.Length > 0 ? SaveableOwner.Permissions.Split(',').Select(t=>new Permission(t)).ToList() : new List<Permission>());
+            Model.Permissions = new ObservableCollection<Permission>(SaveableOwner.Permissions.Length > 0
+                ? SaveableOwner.Permissions.Split(',').Select(t => new Permission(t)).ToList()
+                : new List<Permission>());
 
             FillLogin();
         }
@@ -163,7 +163,6 @@ namespace CaisseDesktop.Graphics.Admin.Owners
             {
                 Mouse.OverrideCursor = null;
                 MessageBox.Show(New ? "Le résponsable a bien été crée !" : "Le résponsable a bien été enregistré !");
-
 
 
                 if (ParentWindow.CurrentPage.Equals("EventOwnerPage"))
@@ -269,6 +268,5 @@ namespace CaisseDesktop.Graphics.Admin.Owners
             SystemSounds.Beep.Play();
             return true;
         }
-        
     }
 }

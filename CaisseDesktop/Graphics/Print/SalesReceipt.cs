@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using PrinterUtility;
-using PrinterUtility.Enums;
 
 namespace CaisseDesktop.Graphics.Print
 {
@@ -20,18 +19,17 @@ namespace CaisseDesktop.Graphics.Print
             BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("14 avenue Foch\n"));
             BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("67560 ROSHEIM\n"));
             BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("TEL : N.C.\n\n"));
-            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes($"CAISSIER : 161 - {DateTime.Now:dd/MM/yy HH:mm:ss}\n\n"));
+            BytesValue =
+                BytesValue.AddBytes(Encoding.ASCII.GetBytes($"CAISSIER : 161 - {DateTime.Now:dd/MM/yy HH:mm:ss}\n\n"));
             BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("FACTURE : 14808"));
         }
 
         private void GenerateItems()
         {
-
         }
 
         public override void Generate()
         {
-
             var logo = GetLogo("Resources/Images/logo-receipt.png");
 
             BytesValue = BytesValue.AddBytes(logo);
@@ -77,6 +75,7 @@ namespace CaisseDesktop.Graphics.Print
             BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Left());
             BytesValue = BytesValue.AddBytes(CutPage()); */
         }
+
         /*
         public override void Generate()
         {

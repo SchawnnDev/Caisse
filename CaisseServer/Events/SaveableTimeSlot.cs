@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CaisseServer.Events
 {
-
     [Table("time_slots")]
     public class SaveableTimeSlot
     {
@@ -22,12 +21,6 @@ namespace CaisseServer.Events
 
         public bool Pause { get; set; }
 
-        [NotMapped]
-        public bool Blank { get; set; }
-
-        public SaveableTimeSlot()
-        {
-        }
-
+        [NotMapped] public bool Blank { get; set; }
     }
 }

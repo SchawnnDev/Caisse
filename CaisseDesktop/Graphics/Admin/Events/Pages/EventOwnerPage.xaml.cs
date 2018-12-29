@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using CaisseDesktop.Graphics.Admin.Checkouts;
 using CaisseDesktop.Graphics.Admin.Owners;
 using CaisseDesktop.Models;
 using CaisseServer;
@@ -13,14 +12,10 @@ using CaisseServer.Events;
 namespace CaisseDesktop.Graphics.Admin.Events.Pages
 {
     /// <summary>
-    /// Interaction logic for EventOwnerPage.xaml
+    ///     Interaction logic for EventOwnerPage.xaml
     /// </summary>
     public partial class EventOwnerPage
     {
-        private ResponsableModel ResponsableModel => OwnersGrid.DataContext as ResponsableModel;
-        private bool New { get; }
-        private EvenementManager ParentWindow { get; }
-
         public EventOwnerPage(EvenementManager parentWindow)
         {
             InitializeComponent();
@@ -31,9 +26,21 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             Task.Run(() => Load());
         }
 
-        public override void Add<T>(T t) => ResponsableModel.Responables.Add(t as SaveableOwner);
+        private ResponsableModel ResponsableModel => OwnersGrid.DataContext as ResponsableModel;
+        private bool New { get; }
+        private EvenementManager ParentWindow { get; }
 
-        public override void Update() => OwnersGrid.Items.Refresh();
+        public override string CustomName => "EventOwnerPage";
+
+        public override void Add<T>(T t)
+        {
+            ResponsableModel.Responables.Add(t as SaveableOwner);
+        }
+
+        public override void Update()
+        {
+            OwnersGrid.Items.Refresh();
+        }
 
         private void Load()
         {
@@ -46,14 +53,12 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             var checkoutsCollection = new ObservableCollection<SaveableOwner>();
 
             if (!New)
-            {
                 using (var db = new CaisseServerContext())
                 {
                     checkoutsCollection = new ObservableCollection<SaveableOwner>(db.Owners
                         .Where(t => t.Event.Id == ParentWindow.Evenement.Id).OrderByDescending(t => t.LastLogin)
                         .ToList());
                 }
-            }
 
             Dispatcher.Invoke(() =>
             {
@@ -67,43 +72,44 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             var btn = sender as Button;
 
             if (btn?.DataContext is SaveableOwner owner)
-            {
-               new OwnerManager(ParentWindow, owner).ShowDialog();
-            }
+                new OwnerManager(ParentWindow, owner).ShowDialog();
             else
-            {
                 MessageBox.Show($"{btn} : le résponsable n'est pas valide.", "Erreur", MessageBoxButton.OK,
                     MessageBoxImage.Error);
-            }
         }
 
         private void Delete_OnClick(object sender, RoutedEventArgs e)
         {
-
             var btn = sender as Button;
 
             if (btn?.DataContext is SaveableOwner owner)
             {
-                var result = MessageBox.Show("Es tu sûr de vouloir supprimer ce résponsable ?", "Supprimer un résponsable",
+                var result = MessageBox.Show("Es tu sûr de vouloir supprimer ce résponsable ?",
+                    "Supprimer un résponsable",
                     MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
 
                 if (result != MessageBoxResult.Yes) return;
 
                 using (var db = new CaisseServerContext())
+                {
                     db.Owners.Remove(owner);
+                }
             }
             else
             {
                 MessageBox.Show($"{btn} : le résponsable n'est pas valide.", "Erreur", MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
-
         }
 
-        public override bool CanClose() => true;
+        public override bool CanClose()
+        {
+            return true;
+        }
 
-        public override bool CanBack() => true;
-
-        public override string CustomName => "EventOwnerPage";
+        public override bool CanBack()
+        {
+            return true;
+        }
     }
 }
