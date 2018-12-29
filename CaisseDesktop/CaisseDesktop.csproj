@@ -141,6 +141,9 @@
     <Compile Include="Graphics\Admin\Events\Pages\EventCheckoutPage.xaml.cs">
       <DependentUpon>EventCheckoutPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Admin\Events\Pages\EventCheckoutTypePage.xaml.cs">
+      <DependentUpon>EventCheckoutTypePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Events\Pages\EventMainPage.xaml.cs">
       <DependentUpon>EventMainPage.xaml</DependentUpon>
     </Compile>
@@ -163,6 +166,7 @@
     <Compile Include="Graphics\Print\Ticket.cs" />
     <Compile Include="Graphics\Print\SalesReceipt.cs" />
     <Compile Include="Models\CaisseModel.cs" />
+    <Compile Include="Models\CheckoutTypeModel.cs" />
     <Compile Include="Models\JourModel.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\ResponsableModel.cs" />
@@ -200,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\Events\Pages\EventCheckoutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\Events\Pages\EventCheckoutTypePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -288,6 +296,8 @@
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Graphics\Admin\Cashiers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

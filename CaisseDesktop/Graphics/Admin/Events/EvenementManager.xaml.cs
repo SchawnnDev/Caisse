@@ -112,6 +112,21 @@ namespace CaisseDesktop.Graphics.Admin.Events
             DisplayCheckouts,
             DisplayOwners,
             EditInfos,
+            DisplayCheckoutTypes
         };
+
+        private void DisplayCheckoutTypes_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen("EventOwnerPage")) return;
+            CustomPage page = new EventCheckoutTypePage();
+            MasterFrame.Content = page;
+            CurrentPage = page;
+            GetMenuItems().DoPageNavigation(3);
+        }
+
+        private void CreateCheckoutType_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

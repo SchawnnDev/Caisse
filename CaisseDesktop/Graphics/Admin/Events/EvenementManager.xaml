@@ -42,6 +42,21 @@
 
                     <MenuItem x:Name="Exporter" Header="_Exporter" />
 
+                </MenuItem>
+
+                <MenuItem Header="_Types de caisses">
+
+                    <MenuItem x:Name="DisplayCheckoutTypes" Header="_Afficher les types" Click="DisplayCheckoutTypes_OnClick"/>
+
+                    <Separator/>
+
+                    <MenuItem x:Name="CreateCheckoutType" Header="_Nouveau type" Click="CreateCheckoutType_OnClick"/>
+
+                    <Separator/>
+
+                    <MenuItem x:Name="ImportCheckoutType" Header="_Importer" />
+
+                    <MenuItem x:Name="ExportCheckoutType" Header="_Exporter" />
 
                 </MenuItem>
 

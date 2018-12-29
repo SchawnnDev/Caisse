@@ -73,7 +73,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             {
                 ParentWindow.Checkout = new SaveableCheckout
                 {
-                    SaveableEvent = ParentWindow.EventManager.Evenement
+                    SaveableEvent = ParentWindow.ParentWindow.Evenement
                 };
             }
 
@@ -128,12 +128,12 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 MessageBox.Show(New ? "La caisse a bien été crée !" : "La caisse a bien été enregistré !");
 
 
-                if (ParentWindow.EventManager.CurrentPage.Equals("EventCheckoutPage"))
+                if (ParentWindow.ParentWindow.CurrentPage.Equals("EventCheckoutPage"))
                 {
                     if (New)
-                        ParentWindow.EventManager.CurrentPage.Add(ParentWindow.Checkout);
+                        ParentWindow.ParentWindow.CurrentPage.Add(ParentWindow.Checkout);
                     else
-                        ParentWindow.EventManager.CurrentPage.Update();
+                        ParentWindow.ParentWindow.CurrentPage.Update();
                 }
 
                 ToggleBlocked(true);
@@ -168,9 +168,9 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             using (var db = new CaisseServerContext())
             {
                 types = new ObservableCollection<SaveableCheckoutType>(db.CheckoutTypes
-                    .OrderBy(e => e.Event.Id == ParentWindow.EventManager.Evenement.Id).ToList());
+                    .OrderBy(e => e.Event.Id == ParentWindow.ParentWindow.Evenement.Id).ToList());
                 owners = new ObservableCollection<SaveableOwner>(db.Owners
-                    .Where(t => t.Event.Id == ParentWindow.EventManager.Evenement.Id)
+                    .Where(t => t.Event.Id == ParentWindow.ParentWindow.Evenement.Id)
                     .OrderBy(e => e.LastLogin).ToList());
             }
 

@@ -24,7 +24,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
     /// </summary>
     public partial class CheckoutTimeTablePage
     {
-        public CheckoutTimeTablePage()
+        public CheckoutTimeTablePage(CheckoutManager parentWindow)
         {
             InitializeComponent();
 
@@ -104,12 +104,12 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
         public override bool CanClose()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public override bool CanBack()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public void Fill(TimeTableDay timeTableDay, SaveableDay day, List<SaveableTimeSlot> slots)
