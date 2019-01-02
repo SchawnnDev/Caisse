@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Concrete\Invoices\Invoice.cs" />
     <Compile Include="Concrete\Owners\OwnerPassword.cs" />
     <Compile Include="Data\Cashier.cs" />
     <Compile Include="Data\Checkout.cs" />
@@ -53,6 +54,12 @@
     <Folder Include="Enums\" />
     <Folder Include="IO\" />
     <Folder Include="Print\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CaisseServer\CaisseServer.csproj">
+      <Project>{6F76194B-A300-4A8C-B59A-83F65AD761BB}</Project>
+      <Name>CaisseServer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,24 +5,16 @@ using System.Windows;
 using System.Windows.Controls;
 using CaisseDesktop.Graphics.Admin.Checkouts.Pages;
 using CaisseDesktop.Graphics.Admin.Events;
-using CaisseDesktop.Graphics.Admin.Events.Pages;
-using CaisseDesktop.Graphics.Admin.Owners;
 using CaisseDesktop.Utils;
 using CaisseServer;
-using CaisseServer.Events;
 
 namespace CaisseDesktop.Graphics.Admin.Checkouts
 {
     /// <summary>
-    /// Interaction logic for CheckoutManager.xaml
+    ///     Interaction logic for CheckoutManager.xaml
     /// </summary>
     public partial class CheckoutManager
     {
-        public SaveableCheckout Checkout { set; get; }
-        private bool IsBack { get; set; } = false;
-        public EvenementManager ParentWindow { get; }
-        public CustomPage CurrentPage { get; set; }
-
         public CheckoutManager(EvenementManager parentWindow, SaveableCheckout checkout)
         {
             InitializeComponent();
@@ -31,6 +23,11 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
             Closing += OnWindowClosing;
             EditInfos_OnClick(null, null);
         }
+
+        public SaveableCheckout Checkout { set; get; }
+        private bool IsBack { get; set; }
+        public EvenementManager ParentWindow { get; }
+        public CustomPage CurrentPage { get; set; }
 
         private void Back_OnClick(object sender, RoutedEventArgs e)
         {
@@ -49,11 +46,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
 
         private void CreateCheckout_OnClick(object sender, RoutedEventArgs e)
         {
-            if (Checkout != null)
-            {
-               // new CheckoutManager(this, null).ShowDialog();
-                return;
-            }
+            if (Checkout != null) return;
 
             if (!MasterFrame.ToCustomPage().Equals("EventMainPage")) return;
 
@@ -83,11 +76,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
 
         private void CreateCashier_OnClick(object sender, RoutedEventArgs e)
         {
-            if (Checkout  != null)
-            {
-               // new OwnerManager(this, null).ShowDialog();
-                return;
-            }
+            if (Checkout != null) return;
 
             if (!MasterFrame.ToCustomPage().Equals("CheckoutMainPage")) return;
 
@@ -96,12 +85,15 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
                 MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private List<MenuItem> GetMenuItems() => new List<MenuItem>
+        private List<MenuItem> GetMenuItems()
         {
-            EditInfos,
-            DisplayCashiers,
-            DisplayEdt
-        };
+            return new List<MenuItem>
+            {
+                EditInfos,
+                DisplayCashiers,
+                DisplayEdt
+            };
+        }
 
         private void DisplayEdt_OnClick(object sender, RoutedEventArgs e)
         {
@@ -118,4 +110,3 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
         }
     }
 }
- 

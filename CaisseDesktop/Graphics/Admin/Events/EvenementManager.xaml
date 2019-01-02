@@ -7,7 +7,8 @@
         xmlns:models="clr-namespace:CaisseDesktop.Models"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Gestion d'un événement" Height="700" Width="1200" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        Title="Gestion d'un événement" Height="700" Width="1200" WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
     <Window.Resources>
 
     </Window.Resources>
@@ -24,19 +25,19 @@
 
                 <MenuItem Header="_Événement">
 
-                    <MenuItem x:Name="EditInfos" Header="_Editer l'événement" Click="EditInfos_OnClick"/>
+                    <MenuItem x:Name="EditInfos" Header="_Editer l'événement" Click="EditInfos_OnClick" />
 
                 </MenuItem>
 
                 <MenuItem Header="_Caisses">
 
-                    <MenuItem x:Name="DisplayCheckouts" Header="_Afficher les caisses" Click="DisplayCheckouts_OnClick"/>
+                    <MenuItem x:Name="DisplayCheckouts" Header="_Afficher les caisses" Click="DisplayCheckouts_OnClick" />
 
-                    <Separator/>
+                    <Separator />
 
-                    <MenuItem x:Name="CreateCheckout" Header="_Nouvelle caisse" Click="CreateCheckout_OnClick"/>
+                    <MenuItem x:Name="CreateCheckout" Header="_Nouvelle caisse" Click="CreateCheckout_OnClick" />
 
-                    <Separator/>
+                    <Separator />
 
                     <MenuItem x:Name="Importer" Header="_Importer" />
 
@@ -46,13 +47,14 @@
 
                 <MenuItem Header="_Types de caisses">
 
-                    <MenuItem x:Name="DisplayCheckoutTypes" Header="_Afficher les types" Click="DisplayCheckoutTypes_OnClick"/>
+                    <MenuItem x:Name="DisplayCheckoutTypes" Header="_Afficher les types"
+                              Click="DisplayCheckoutTypes_OnClick" />
 
-                    <Separator/>
+                    <Separator />
 
-                    <MenuItem x:Name="CreateCheckoutType" Header="_Nouveau type" Click="CreateCheckoutType_OnClick"/>
+                    <MenuItem x:Name="CreateCheckoutType" Header="_Nouveau type" Click="CreateCheckoutType_OnClick" />
 
-                    <Separator/>
+                    <Separator />
 
                     <MenuItem x:Name="ImportCheckoutType" Header="_Importer" />
 
@@ -62,13 +64,13 @@
 
                 <MenuItem Header="_Résponsables">
 
-                    <MenuItem x:Name="DisplayOwners" Header="_Afficher les résponsables" Click="DisplayOwners_OnClick"/>
+                    <MenuItem x:Name="DisplayOwners" Header="_Afficher les résponsables" Click="DisplayOwners_OnClick" />
 
-                    <Separator/>
+                    <Separator />
 
-                    <MenuItem x:Name="CreateOwner" Header="_Nouveau résponsable" Click="CreateOwner_OnClick"/>
+                    <MenuItem x:Name="CreateOwner" Header="_Nouveau résponsable" Click="CreateOwner_OnClick" />
 
-                    <Separator/>
+                    <Separator />
 
                     <MenuItem x:Name="ImportOwners" Header="_Importer" />
 

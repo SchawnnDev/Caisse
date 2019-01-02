@@ -132,6 +132,9 @@
     <Compile Include="Graphics\Admin\Checkouts\Pages\CheckoutTimeTablePage.xaml.cs">
       <DependentUpon>CheckoutTimeTablePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Admin\CheckoutTypes\CheckoutTypeManager.xaml.cs">
+      <DependentUpon>CheckoutTypeManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Events\EvenementBrowser.xaml.cs">
       <DependentUpon>EvenementBrowser.xaml</DependentUpon>
     </Compile>
@@ -192,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\Checkouts\Pages\CheckoutTimeTablePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\CheckoutTypes\CheckoutTypeManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

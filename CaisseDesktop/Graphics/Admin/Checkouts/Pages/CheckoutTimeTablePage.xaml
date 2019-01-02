@@ -12,31 +12,23 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition MaxWidth="30" />
             <ColumnDefinition />
-            <ColumnDefinition MaxWidth="5"/>
+            <ColumnDefinition MaxWidth="5" />
             <ColumnDefinition />
             <ColumnDefinition MaxWidth="5" />
             <ColumnDefinition />
-            <ColumnDefinition MaxWidth="30"/>
+            <ColumnDefinition MaxWidth="30" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="30"/>
-            <RowDefinition/>
-            <RowDefinition MaxHeight="30"/>
+            <RowDefinition MaxHeight="30" />
+            <RowDefinition />
+            <RowDefinition MaxHeight="30" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Vertical" x:Name="Day1" Grid.Row="1" Grid.Column="1">
-            
-        </StackPanel>
+        <StackPanel Orientation="Vertical" x:Name="Day1" Grid.Row="1" Grid.Column="1" />
 
-        <DockPanel x:Name="Day2" Grid.Row="1" Grid.Column="3">
+        <DockPanel x:Name="Day2" Grid.Row="1" Grid.Column="3" />
 
-
-        </DockPanel>
-
-        <DockPanel x:Name="Day3" Grid.Row="1" Grid.Column="5">
-
-
-        </DockPanel>
+        <DockPanel x:Name="Day3" Grid.Row="1" Grid.Column="5" />
 
     </Grid>
 </local:CustomPage>

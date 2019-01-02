@@ -1,13 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data.Entity;
-using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using CaisseDesktop.Graphics.Admin.Events.Pages;
 using CaisseDesktop.Utils;
 using CaisseServer;
 using CaisseServer.Events;
@@ -15,17 +13,10 @@ using CaisseServer.Events;
 namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 {
     /// <summary>
-    /// Interaction logic for CheckoutMainPage.xaml
+    ///     Interaction logic for CheckoutMainPage.xaml
     /// </summary>
     public partial class CheckoutMainPage
     {
-        private CheckoutManager ParentWindow { get; }
-        private ObservableCollection<SaveableCheckoutType> Types { get; set; }
-        private ObservableCollection<SaveableOwner> Owners { get; set; }
-        private bool Saved { get; set; }
-        private bool New { get; set; } = true;
-        private bool Blocked { get; set; }
-
         public CheckoutMainPage(CheckoutManager parent)
         {
             InitializeComponent();
@@ -45,6 +36,15 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
             Task.Run(() => LoadInfos());
         }
+
+        private CheckoutManager ParentWindow { get; }
+        private ObservableCollection<SaveableCheckoutType> Types { get; set; }
+        private ObservableCollection<SaveableOwner> Owners { get; set; }
+        private bool Saved { get; set; }
+        private bool New { get; } = true;
+        private bool Blocked { get; set; }
+
+        public override string CustomName => "CheckoutMainPage";
 
         private void ToggleBlocked(bool blocked)
         {
@@ -70,12 +70,10 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 return;
 
             if (ParentWindow.Checkout == null)
-            {
                 ParentWindow.Checkout = new SaveableCheckout
                 {
                     SaveableEvent = ParentWindow.ParentWindow.Evenement
                 };
-            }
 
             ParentWindow.Checkout.Name = CheckoutName.Text;
             ParentWindow.Checkout.Details = CheckoutInfos.Text;
@@ -110,13 +108,9 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 db.Owners.Attach(ParentWindow.Checkout.Owner);
 
                 if (db.CheckoutTypes.Any(t => t.Event.Id == ParentWindow.Checkout.SaveableEvent.Id))
-                {
                     db.CheckoutTypes.Attach(ParentWindow.Checkout.CheckoutType);
-                }
                 else
-                {
                     db.CheckoutTypes.Add(ParentWindow.Checkout.CheckoutType);
-                }
 
                 db.Entry(ParentWindow.Checkout).State = New ? EntityState.Added : EntityState.Modified;
                 db.SaveChanges();
@@ -154,9 +148,15 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             Saved = false;
         }
 
-        public override bool CanClose() => Saved || !Saved && Validations.WillClose(true);
+        public override bool CanClose()
+        {
+            return Saved || !Saved && Validations.WillClose(true);
+        }
 
-        public override bool CanBack() => Saved || Validations.WillClose(true);
+        public override bool CanBack()
+        {
+            return Saved || Validations.WillClose(true);
+        }
 
         private void LoadInfos()
         {
@@ -219,7 +219,5 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
         public override void Update()
         {
         }
-
-        public override string CustomName => "CheckoutMainPage";
     }
 }

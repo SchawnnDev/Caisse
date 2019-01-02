@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CaisseDesktop.Enums;
 using CaisseLibrary.Utils;
 using CaisseServer;
@@ -20,7 +12,7 @@ using CaisseServer.Events;
 namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 {
     /// <summary>
-    /// Interaction logic for CheckoutTimeTablePage.xaml
+    ///     Interaction logic for CheckoutTimeTablePage.xaml
     /// </summary>
     public partial class CheckoutTimeTablePage
     {
@@ -80,17 +72,20 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                         FirstName = "Thierry",
                         Name = "Meyer"
                     }
-                },
+                }
             };
 
             Fill(TimeTableDay.DayOne, day, list);
             Fill(TimeTableDay.DayTwo, day2, new List<SaveableTimeSlot>());
             Fill(TimeTableDay.DayThree, day3, new List<SaveableTimeSlot>());
-            
         }
 
-        public string DateToHour(DateTime date) =>
-            $"{date.Hour}h{(date.Minute < 10 ? $"0{date.Minute}" : date.Minute.ToString())}";
+        public override string CustomName => "CheckoutTimeTablePage";
+
+        public string DateToHour(DateTime date)
+        {
+            return $"{date.Hour}h{(date.Minute < 10 ? $"0{date.Minute}" : date.Minute.ToString())}";
+        }
 
         public override void Update()
         {
@@ -205,10 +200,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 var slotInSeconds = (double) (slot.End.ToUnixTimeStamp() - slot.Start.ToUnixTimeStamp());
                 child.Height = height * (slotInSeconds / timeInSeconds);
             }
-
         }
-
-        public override string CustomName => "CheckoutTimeTablePage";
 
         private List<SaveableTimeSlot> GenerateBlankSlots(SaveableDay day, List<SaveableTimeSlot> taken)
         {
@@ -222,43 +214,34 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             var min = taken.Min(t => t.Start);
 
             if (min.Hour == dayStartHour && min.Minute != dayStartMinute || min.Hour != dayStartHour)
-            {
                 blankSlots.Add(new SaveableTimeSlot
                 {
                     Start = day.Start,
                     End = min
                 });
-            }
 
             for (var i = 1; i < taken.Count; i++)
             {
-
                 var t1 = taken[i - 1].End;
                 var t2 = taken[i].Start;
 
                 if (t1.Hour == t2.Hour && t1.Minute != t2.Hour || t1.Hour != t2.Hour)
-                {
                     blankSlots.Add(new SaveableTimeSlot
                     {
                         Start = t1,
                         End = t2
                     });
-                }
-
-
             }
 
 
             var max = taken.Max(t => t.End);
 
             if (max.Hour == dayEndHour && max.Minute != dayEndMinute || max.Hour != dayEndHour)
-            {
                 blankSlots.Add(new SaveableTimeSlot
                 {
                     Start = max,
                     End = day.End
                 });
-            }
 
             blankSlots.Select(t =>
             {
