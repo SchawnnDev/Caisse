@@ -10,11 +10,15 @@ namespace CaisseLibrary.Concrete.Invoices
 {
     public class Invoice
     {
-        public DateTime Date { get; set; }
+        public decimal GivenMoney { get; set; }
 
-        public List<SaveableOperation> Operations { get; set; } 
-            //if(!Operations.Any(t=>t.Item.Id == ))
+        public SaveableInvoice SaveableInvoice { get; set; }
 
-        }
+        public List<SaveableOperation> Operations { get; set; }
+        //if(!Operations.Any(t=>t.Item.Id == ))
+
+        public decimal CalculateTotalPrice() => Operations.Sum(t => t.FinalPrice());
+
+        public decimal CalculateGivenBackChange() => GivenMoney - CalculateTotalPrice();
     }
 }

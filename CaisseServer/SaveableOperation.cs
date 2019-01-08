@@ -13,5 +13,8 @@ namespace CaisseServer
         public SaveableItem Item { get; set; }
 
         public int Amount { get; set; }
+
+        public decimal FinalPrice() => Amount * Item.Price;
+
     }
 }

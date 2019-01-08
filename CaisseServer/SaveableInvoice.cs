@@ -13,6 +13,8 @@ namespace CaisseServer
 
         public DateTime Date { get; set; }
 
+        public SaveableCashier Cashier { get; set; }
+
         public SaveablePaymentMethod PaymentMethod { get; set; }
     }
 }

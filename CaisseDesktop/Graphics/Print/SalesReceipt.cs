@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Text;
+using com.epson.pos.driver;
+using CaisseLibrary.Concrete.Invoices;
 using PrinterUtility;
 
 namespace CaisseDesktop.Graphics.Print
 {
     public class SalesReceipt : Ticket
     {
-        public SalesReceipt()
+        private Invoice PrintableInvoice { get; }
+
+        public SalesReceipt(Invoice invoice)
             : base("\\\\PAUL\\EPSON TM-H6000IV Receipt")
         {
+            PrintableInvoice = invoice;
         }
 
-        private void GenerateAddress()
+        private void GenerateHeader()
         {
             BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.Nomarl());
             BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Center());
@@ -19,14 +24,36 @@ namespace CaisseDesktop.Graphics.Print
             BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("14 avenue Foch\n"));
             BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("67560 ROSHEIM\n"));
             BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("TEL : N.C.\n\n"));
+            //
             BytesValue =
-                BytesValue.AddBytes(Encoding.ASCII.GetBytes($"CAISSIER : 161 - {DateTime.Now:dd/MM/yy HH:mm:ss}\n\n"));
-            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes("FACTURE : 14808"));
+                BytesValue.AddBytes(Encoding.ASCII.GetBytes(
+                    $"CAISSIER : {PrintableInvoice.SaveableInvoice.Cashier.Id} - {PrintableInvoice.SaveableInvoice.Date}\n\n"));
+            BytesValue =
+                BytesValue.AddBytes(Encoding.ASCII.GetBytes($"FACTURE : {PrintableInvoice.SaveableInvoice.Id}\n\n"));
         }
 
-        private void GenerateItems()
+        private void GenerateFooter()
         {
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes($"RT : {PrintableInvoice.CalculateTotalPrice()}E - TVA 0% : 0.00E - TTC : {PrintableInvoice.CalculateTotalPrice()} E\n"));
         }
+
+        private void GenerateBody()
+        {
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Left());
+
+            foreach (var operation in PrintableInvoice.Operations)
+            {
+                BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes($"{operation.Amount} {operation.Item.Name}                                     {operation.FinalPrice()}E\n\n"));
+            }
+
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Center());
+            BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.DoubleHeight2());
+            BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.DoubleWidth2());
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes($"TOTAL : {PrintableInvoice.CalculateTotalPrice()}E\n\n"));
+            BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.Nomarl());
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes($"{PrintableInvoice.SaveableInvoice.PaymentMethod.Name} : {PrintableInvoice.GivenMoney} EUR - RENDU : {PrintableInvoice.CalculateGivenBackChange()} EUR\n"));
+        }
+
 
         public override void Generate()
         {
@@ -34,7 +61,15 @@ namespace CaisseDesktop.Graphics.Print
 
             BytesValue = BytesValue.AddBytes(logo);
 
-            GenerateAddress();
+            GenerateHeader();
+
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Separator());
+
+            GenerateBody();
+
+            BytesValue = BytesValue.AddBytes(EscPosEpson.Separator());
+
+            GenerateFooter();
 
             BytesValue = BytesValue.AddBytes(CutPage());
 
