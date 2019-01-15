@@ -89,27 +89,6 @@ namespace CaisseDesktop.Graphics.Common
             MainGrid.Children.Add(panel);
         }
 
-        /*
-         *            <Border BorderBrush="DimGray" BorderThickness="1" Margin="50" >
-                <StackPanel Orientation="Vertical" Margin="5">
-                    <Label FontSize="20" Content="Article #1" HorizontalAlignment="Center" Foreground="White"/>
-                    <Image MaxWidth="300" MaxHeight="55" Source="../../Resources/Images/logo_brique.png"/>
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
-                        <Button Content="-"></Button>
-                        <TextBox MinWidth="20" Text="0" BorderBrush="#FF673AB7" BorderThickness="2" TextAlignment="Center" Padding="1" Foreground="White"></TextBox>
-                        <Button Content="+"></Button>
-                    </StackPanel>
-                    <Label Content="100 restants" HorizontalAlignment="Center" Foreground="#DDFFFFFF"></Label>
-                </StackPanel>
-            </Border>
-         *
-         *
-         *
-         *
-         *
-         */
-
         private Border CreateItem(SaveableItem item)
         {
             var border = new Border
@@ -165,7 +144,7 @@ namespace CaisseDesktop.Graphics.Common
 
             var minusBtn = new Button
             {
-                Content = "-"
+                Content = "-",
             };
 
             var textBox = new TextBox
@@ -176,12 +155,12 @@ namespace CaisseDesktop.Graphics.Common
                 Foreground = Brushes.White,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 BorderBrush = Brushes.White,
-                BorderThickness = new Thickness(2.0)
+                BorderThickness = new Thickness(2.0),
             };
 
             var plusBtn = new Button
             {
-                Content = "+"
+                Content = "+",
             };
 
             minusBtn.Click += (sender, args) =>

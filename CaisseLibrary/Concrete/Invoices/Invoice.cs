@@ -20,5 +20,42 @@ namespace CaisseLibrary.Concrete.Invoices
         public decimal CalculateTotalPrice() => Operations.Sum(t => t.FinalPrice());
 
         public decimal CalculateGivenBackChange() => GivenMoney - CalculateTotalPrice();
+
+        public void AddBuyableItem(SaveableItem item, int nb)
+        {
+            SetBuyableItem(item, Math.Max(0, nb));
+        }
+
+        public void RemoveBuyableItem(SaveableItem item, int nb)
+        {
+            SetBuyableItem(item, Math.Max(0, nb));
+        }
+
+        public int GetBuyableItemNumber(SaveableItem item) => Operations.Any(t => t.Item.Id == item.Id)
+            ? 0
+            : Operations.First(t => t.Item.Id == item.Id).Amount;
+
+        public void SetBuyableItem(SaveableItem item, int nb)
+        {
+            if (Operations.Any(t => t.Item.Id == item.Id))
+            {
+                if (nb == 0)
+                {
+                    Operations.Remove(Operations.FirstOrDefault(t => t.Item.Id == item.Id));
+                }
+                else
+                {
+                    Operations.First(t => t.Item.Id == item.Id).Amount = nb;
+                }
+
+                return;
+            }
+
+            Operations.Add(new SaveableOperation
+            {
+                Amount = nb,
+                Item = item
+            });
+        }
     }
 }

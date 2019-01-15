@@ -14,7 +14,7 @@ namespace CaisseDesktop.Graphics.Print
             : base("\\\\PAUL\\EPSON TM-H6000IV Receipt")
         {
             PrintableInvoice = invoice;
-        }
+        } 
 
         private void GenerateHeader()
         {
