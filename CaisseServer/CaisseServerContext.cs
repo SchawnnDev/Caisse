@@ -19,7 +19,7 @@ namespace CaisseServer
 
         // Events
 
-        public DbSet<SaveableCashier> GameRounds { get; set; }
+        public DbSet<SaveableCashier> Cashiers { get; set; }
         public DbSet<SaveableDay> Days { get; set; }
         public DbSet<SaveableEvent> Events { get; set; }
         public DbSet<SaveableTimeSlot> TimeSlots { get; set; }

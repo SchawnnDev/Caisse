@@ -14,12 +14,27 @@ namespace CaisseLibrary.Concrete.Invoices
 
         public SaveableInvoice SaveableInvoice { get; set; }
 
+        public SaveablePaymentMethod PaymentMethod { get; set; }
+
         public List<SaveableOperation> Operations { get; set; }
-        //if(!Operations.Any(t=>t.Item.Id == ))
+
+        public Invoice(SaveableCashier cashier)
+        {
+
+            SaveableInvoice = new SaveableInvoice
+            {
+                Cashier = cashier
+            };
+
+            Operations = new List<SaveableOperation>();
+
+        }
 
         public decimal CalculateTotalPrice() => Operations.Sum(t => t.FinalPrice());
 
         public decimal CalculateGivenBackChange() => GivenMoney - CalculateTotalPrice();
+
+        public bool IsSomething() => Operations.Any();
 
         public void AddBuyableItem(SaveableItem item, int nb)
         {
@@ -28,7 +43,7 @@ namespace CaisseLibrary.Concrete.Invoices
 
         public void RemoveBuyableItem(SaveableItem item, int nb)
         {
-            SetBuyableItem(item, Math.Max(0, nb));
+            SetBuyableItem(item, Math.Max(0, GetBuyableItemNumber(item) - nb));
         }
 
         public int GetBuyableItemNumber(SaveableItem item) => Operations.Any(t => t.Item.Id == item.Id)

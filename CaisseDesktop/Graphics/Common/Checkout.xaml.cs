@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CaisseLibrary.Concrete.Invoices;
+using CaisseLibrary.Concrete.Session;
 using CaisseServer;
 
 namespace CaisseDesktop.Graphics.Common
@@ -13,9 +15,13 @@ namespace CaisseDesktop.Graphics.Common
     /// </summary>
     public partial class Checkout
     {
+        public Invoice TempInvoice { get; set; }
+
         public Checkout()
         {
             InitializeComponent();
+
+            TempInvoice = new Invoice(CashierSession.ActualCashier);
 
             Loaded += (sender, args) =>
                 CreateItemGrid(new List<SaveableItem>
@@ -77,16 +83,8 @@ namespace CaisseDesktop.Graphics.Common
 
         private void CreateItemGrid(List<SaveableItem> items)
         {
-            var panel = new WrapPanel
-            {
-                Orientation = Orientation.Horizontal
-                //MaxWidth = ActualWidth
-            };
-
             foreach (var item in items)
-                panel.Children.Add(CreateItem(item));
-
-            MainGrid.Children.Add(panel);
+                ItemPanel.Children.Add(CreateItem(item));
         }
 
         private Border CreateItem(SaveableItem item)
@@ -165,14 +163,19 @@ namespace CaisseDesktop.Graphics.Common
 
             minusBtn.Click += (sender, args) =>
             {
-                textBox.Text = Math.Max(0, int.TryParse(textBox.Text, out var actualValue) ? actualValue - 1 : 0)
+                var nb = Math.Max(0, int.TryParse(textBox.Text, out var actualValue) ? actualValue - 1 : 0);
+                textBox.Text = nb
                     .ToString();
+                TempInvoice.RemoveBuyableItem(item, 1);
             };
 
             plusBtn.Click += (sender, args) =>
             {
-                textBox.Text = int.TryParse(textBox.Text, out var actualValue) ? (actualValue + 1).ToString() : "0";
+                var nb = int.TryParse(textBox.Text, out var actualValue) ? actualValue + 1 : 0;
+                textBox.Text = nb.ToString();
+                TempInvoice.AddBuyableItem(item, 1);
             };
+
             stackPanel.Children.Add(minusBtn);
             stackPanel.Children.Add(textBox);
             stackPanel.Children.Add(plusBtn);

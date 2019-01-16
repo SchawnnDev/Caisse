@@ -6,6 +6,7 @@ using CaisseDesktop.Graphics.Admin;
 using CaisseDesktop.Graphics.Common;
 using CaisseDesktop.Graphics.Print;
 using CaisseLibrary.Concrete.Invoices;
+using CaisseLibrary.Concrete.Session;
 using CaisseServer;
 
 namespace CaisseDesktop
@@ -36,7 +37,7 @@ namespace CaisseDesktop
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var ticket = new SalesReceipt(new Invoice()
+            var ticket = new SalesReceipt(new Invoice(CashierSession.ActualCashier)
             {
 
                 SaveableInvoice = new SaveableInvoice
