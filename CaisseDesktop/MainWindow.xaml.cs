@@ -8,6 +8,7 @@ using CaisseDesktop.Graphics.Print;
 using CaisseLibrary.Concrete.Invoices;
 using CaisseLibrary.Concrete.Session;
 using CaisseServer;
+using CaisseServer.Items;
 
 namespace CaisseDesktop
 {

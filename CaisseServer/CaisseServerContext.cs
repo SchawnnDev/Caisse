@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using CaisseServer.Events;
+using CaisseServer.Items;
 
 namespace CaisseServer
 {

@@ -20,5 +20,8 @@ namespace CaisseServer.Events
         public string Addresse { get; set; }
 
         public string Description { get; set; }
+
+        public string ImageSrc { get; set; }
+
     }
 }

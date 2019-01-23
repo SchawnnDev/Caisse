@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CaisseServer;
 using CaisseServer.Events;
+using CaisseServer.Items;
 
 namespace CaisseLibrary.Concrete.Invoices
 {

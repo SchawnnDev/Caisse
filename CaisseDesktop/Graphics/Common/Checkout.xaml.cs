@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using CaisseLibrary.Concrete.Invoices;
 using CaisseLibrary.Concrete.Session;
 using CaisseServer;
+using CaisseServer.Items;
 
 namespace CaisseDesktop.Graphics.Common
 {

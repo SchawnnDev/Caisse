@@ -77,7 +77,7 @@
     <Compile Include="SaveableCheckout.cs" />
     <Compile Include="SaveableCheckoutType.cs" />
     <Compile Include="SaveableInvoice.cs" />
-    <Compile Include="SaveableItem.cs" />
+    <Compile Include="Items\SaveableItem.cs" />
     <Compile Include="SaveableOperation.cs" />
     <Compile Include="SaveablePaymentMethod.cs" />
     <Compile Include="Events\SaveableTimeSlot.cs" />

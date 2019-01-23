@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CaisseServer
+namespace CaisseServer.Items
 {
     [Table("items")]
     public class SaveableItem
@@ -17,5 +17,16 @@ namespace CaisseServer
         public string ImageSrc { get; set; }
 
         public decimal Price { get; set; }
+        
+        public string Color { get; set; }
+
+        public bool Cup { get; set; }
+
+        public bool Active { get; set; }
+
+        public bool NumberingTracking { get; set; }
+
+        public int MaxSellNumberPerDay { get; set; }
+
     }
 }
