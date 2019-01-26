@@ -113,5 +113,11 @@ namespace CaisseDesktop
             new Checkout().Show();
             Close();
         }
+
+        private void ButtonLogin_OnClick(object sender, RoutedEventArgs e)
+        {
+            new Login().Show();
+            Close();
+        }
     }
 }
