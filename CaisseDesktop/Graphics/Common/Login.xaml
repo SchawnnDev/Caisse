@@ -32,10 +32,10 @@
                 Width="24" />
         </Button>
 
-        <PasswordBox Grid.Row="1" Grid.Column="1"
+        <PasswordBox x:Name="Password" Grid.Row="1" Grid.Column="1"
                 Style="{StaticResource MaterialDesignFilledPasswordFieldPasswordBox}"
                 IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledPasswordFieldPasswordBoxEnabledComboBox}"
-                materialDesign:HintAssist.Hint="Password" />
+                materialDesign:HintAssist.Hint="Password"  HorizontalContentAlignment="Center" FontSize="22"/>
 
         <Grid Grid.Column="1" Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -48,65 +48,84 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
 
             <Button Grid.Row="0" Grid.Column="0"
                 Style="{StaticResource MaterialDesignRaisedLightButton}"
-                Height="Auto">
+                Height="Auto" Click="PinPadButton_Click">
                 1
             </Button>
 
             <Button Grid.Row="0" Grid.Column="1"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto">
+                    Height="Auto" Click="PinPadButton_Click">
                 2
             </Button>
 
             <Button Grid.Row="0" Grid.Column="2"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto">
+                    Height="Auto" Click="PinPadButton_Click">
                 3
             </Button>
 
             <Button Grid.Row="1" Grid.Column="0"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto">
+                    Height="Auto" Click="PinPadButton_Click">
                 4
             </Button>
 
             <Button Grid.Row="1" Grid.Column="1"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto">
+                    Height="Auto" Click="PinPadButton_Click">
                 5
             </Button>
 
             <Button Grid.Row="1" Grid.Column="2"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto">
+                    Height="Auto" Click="PinPadButton_Click">
                 6
             </Button>
 
             <Button Grid.Row="2" Grid.Column="0"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto">
+                    Height="Auto" Click="PinPadButton_Click">
                 7
             </Button>
 
             <Button Grid.Row="2" Grid.Column="1"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto">
+                    Height="Auto" Click="PinPadButton_Click">
                 8
             </Button>
 
             <Button Grid.Row="2" Grid.Column="2"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto">
+                    Height="Auto" Click="PinPadButton_Click">
                 9
             </Button>
 
-            <Button Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0" Margin="0 2 0 0"
+            <Button Grid.Row="3" Grid.Column="0"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto">
+                    Height="Auto" Click="PinPadButton_Click">
+                Annuler
+            </Button>
+
+            <Button Grid.Row="3" Grid.Column="1"
+                    Style="{StaticResource MaterialDesignRaisedLightButton}"
+                    Height="Auto" Click="PinPadButton_Click">
+                0
+            </Button>
+
+            <Button Grid.Row="3" Grid.Column="2"
+                    Style="{StaticResource MaterialDesignRaisedLightButton}"
+                    Height="Auto" Click="PinPadButton_Click">
+                Suppr.
+            </Button>
+
+            <Button Grid.Row="4" Grid.ColumnSpan="3" Grid.Column="0" Margin="0 2 0 0"
+                    Style="{StaticResource MaterialDesignRaisedLightButton}"
+                    Height="Auto" Click="Valider_OnClick">
                 Se connecter
             </Button>
 

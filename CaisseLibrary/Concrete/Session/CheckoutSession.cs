@@ -12,6 +12,11 @@ namespace CaisseLibrary.Concrete.Session
 
         public static SaveableCheckout ActualCheckout { get; set; }
 
+        public static void Load()
+        {
+
+        }
+
     }
 
 }
