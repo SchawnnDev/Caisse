@@ -25,7 +25,7 @@
 
         <Button Grid.Column="0" Grid.Row="0" Margin="5"
             Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
-            ToolTip="MaterialDesignFloatingActionMiniLightButton" VerticalAlignment="Top" HorizontalAlignment="Left">
+            ToolTip="MaterialDesignFloatingActionMiniLightButton" VerticalAlignment="Top" HorizontalAlignment="Left" Click="OpenParameters_OnClick">
             <materialDesign:PackIcon
                 Kind="Wrench"
                 Height="24"

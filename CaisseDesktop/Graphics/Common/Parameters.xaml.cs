@@ -15,23 +15,13 @@ using System.Windows.Shapes;
 namespace CaisseDesktop.Graphics.Common
 {
     /// <summary>
-    /// Interaction logic for Login.xaml
+    /// Interaction logic for Parameters.xaml
     /// </summary>
-    public partial class Login : Window
+    public partial class Parameters : Window
     {
-        public Login()
+        public Parameters()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void OpenParameters_OnClick(object sender, RoutedEventArgs e)
-        {
-            new Parameters().ShowDialog();
         }
     }
 }
