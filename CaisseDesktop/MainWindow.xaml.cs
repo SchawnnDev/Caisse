@@ -5,6 +5,7 @@ using CaisseDesktop.Graphics;
 using CaisseDesktop.Graphics.Admin;
 using CaisseDesktop.Graphics.Common;
 using CaisseDesktop.Graphics.Print;
+using CaisseLibrary;
 using CaisseLibrary.Concrete.Invoices;
 using CaisseLibrary.Concrete.Session;
 using CaisseServer;
@@ -27,6 +28,9 @@ namespace CaisseDesktop
 
                 db.Database.CreateIfNotExists();
             }
+
+            Main.Start();
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
