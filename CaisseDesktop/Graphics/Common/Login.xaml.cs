@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseLibrary.IO;
 
 namespace CaisseDesktop.Graphics.Common
 {
@@ -23,6 +24,17 @@ namespace CaisseDesktop.Graphics.Common
         public Login()
         {
             InitializeComponent();
+
+            Loaded += (sender, args) =>
+            {
+                if (!ConfigFile.GetConfig().ContainsKey("event_id"))
+                {
+                    new Parameters().ShowDialog();
+                }
+
+            };
+
+
         }
 
 

@@ -14,18 +14,26 @@ namespace CaisseLibrary.IO
 
         public static void Init()
         {
-            if (!File.Exists(ConfigPath))
-                File.Create(ConfigPath);
+            var configFolderPath =
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Caisse");
+
+            if (!Directory.Exists(configFolderPath))
+                Directory.CreateDirectory(configFolderPath);
+
+            ConfigPath = Path.Combine(configFolderPath, "config.xml");
         }
 
         public static Dictionary<string, string> GetConfig()
         {
             Dictionary<string, string> dic;
-            var serializer = new XmlSerializer(typeof(Dictionary<string, string>));
+
+            if (!File.Exists(ConfigPath) || new FileInfo(ConfigPath).Length == 0) return new List<KeyValuePair<string, string>>().ToDictionary(t=>t.Key,t=>t.Value);
+
+            var serializer = new XmlSerializer(typeof(List<KeyValuePair<string, string>>));
 
             using (var reader = new StreamReader(ConfigPath))
             {
-                dic = (Dictionary<string, string>) serializer.Deserialize(reader);
+                dic = ((List<KeyValuePair<string, string>>) serializer.Deserialize(reader)).ToDictionary(t => t.Key, t => t.Value);
                 reader.Close();
             }
 
@@ -46,14 +54,17 @@ namespace CaisseLibrary.IO
 
         public static void SaveConfig(Dictionary<string, string> config)
         {
-            var serializer = new XmlSerializer(typeof(Dictionary<string, string>));
+            if (!File.Exists(ConfigPath))
+                File.Create(ConfigPath);
+
+            var serializer = new XmlSerializer(typeof(List<KeyValuePair<string, string>>));
 
             try
             {
                 File.WriteAllText(ConfigPath, "");
                 using (var writer = new StreamWriter(ConfigPath, true))
                 {
-                    serializer.Serialize(writer, config);
+                    serializer.Serialize(writer, config.Select(t => new KeyValuePair<string,string>(t.Key,t.Value)).ToList());
                     writer.Close();
                 }
             }
