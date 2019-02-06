@@ -5,29 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Common"
         mc:Ignorable="d"
-        Title="Parameters" Height="450" Width="800">
+        Title="Parameters" Height="270" Width="400" WindowStartupLocation="CenterOwner" ResizeMode="CanMinimize">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
-            <Label Content="Choisir un évenment" VerticalAlignment="Center"></Label>
-            <ComboBox/>
+        <StackPanel Orientation="Vertical">
+
+            <GroupBox Header="Evenements" Margin="5">
+
+                <StackPanel Orientation="Horizontal">
+                    <!-- Left, Top, Right and Bottom-->
+                    <Label Content="Choisir un évenement:" VerticalAlignment="Center" />
+                    <ComboBox x:Name="EventBox" Margin="10,0,0,0" SelectedIndex="0"  SelectionChanged="EventBox_OnSelectionChanged" >
+                        <ListBoxItem>Aucun</ListBoxItem>
+                    </ComboBox>
+                </StackPanel>
+
+            </GroupBox>
+
+            <GroupBox Header="Caisses" Margin="5">
+
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Choisir une caisse:" VerticalAlignment="Center" />
+                    <ComboBox x:Name="CheckoutBox" Margin="10,0,0,0" SelectedIndex="0" IsEnabled="False">
+                        <ListBoxItem>Aucune</ListBoxItem>
+                    </ComboBox>
+                </StackPanel>
+            </GroupBox>
+
+            <Button Margin="5" Content="Enregistrer" Click="Save_Click"></Button>
+
         </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
-            <Label Content="Choisir une caisse" VerticalAlignment="Center"></Label>
-            <ComboBox/>
-        </StackPanel>
-
     </Grid>
 </Window>

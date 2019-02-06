@@ -22,11 +22,8 @@ namespace CaisseDesktop.Graphics.Print
         public EscPosEpson EscPosEpson { get; set; }
         public string Port { get; set; }
 
-        public byte[] CutPage()
-        {
-            return new[]
-                {Convert.ToByte(Convert.ToChar(0x1D)), Convert.ToByte('V'), (byte) 66, (byte) 3};
-        }
+        public byte[] CutPage() => new[]
+            {Convert.ToByte(Convert.ToChar(0x1D)), Convert.ToByte('V'), (byte) 66, (byte) 3};
 
         public void Print()
         {

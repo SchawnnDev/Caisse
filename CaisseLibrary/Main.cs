@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CaisseLibrary.IO;
+using CaisseServer;
+using CaisseServer.Events;
 
 namespace CaisseLibrary
 {
@@ -15,8 +18,12 @@ namespace CaisseLibrary
 
             ConfigFile.Init();
 
-
         }
+
+
+        public static List<SaveableEvent> LoadEvents() => new CaisseServerContext().Events.OrderByDescending(t => t.Start).ToList();
+
+        public static List<SaveableCheckout> LoadCheckouts(int eventId)=> new CaisseServerContext().Checkouts.Where(t=>t.SaveableEvent.Id==eventId).OrderBy(t=>t.CheckoutType.Id).ToList();
 
     }
 }

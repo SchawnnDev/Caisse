@@ -19,7 +19,7 @@ namespace CaisseDesktop.Graphics.Common
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : Window
+    public partial class Login
     {
         public Login()
         {
