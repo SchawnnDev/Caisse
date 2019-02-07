@@ -16,7 +16,7 @@
                     <!-- Left, Top, Right and Bottom-->
                     <Label Content="Choisir un évenement:" VerticalAlignment="Center" />
                     <ComboBox x:Name="EventBox" Margin="10,0,0,0" SelectedIndex="0"  SelectionChanged="EventBox_OnSelectionChanged" >
-                        <ListBoxItem>Aucun</ListBoxItem>
+                        <ComboBoxItem>Aucun</ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
 

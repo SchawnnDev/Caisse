@@ -30,6 +30,12 @@ namespace CaisseDesktop.Graphics.Print
             PrintExtensions.Print(BytesValue, Port);
         }
 
+        public byte[] ImageToByte(Bitmap img)
+        {
+            var converter = new ImageConverter();
+            return (byte[])converter.ConvertTo(img, typeof(byte[]));
+        }
+
         public byte[] GetLogo(string logoPath)
         {
             var byteList = new List<byte>();

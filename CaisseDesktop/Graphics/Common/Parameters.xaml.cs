@@ -44,9 +44,12 @@ namespace CaisseDesktop.Graphics.Common
         {
             CheckoutBox.Items.Clear();
 
+            CheckoutBox.Items.Add(new ComboBoxItem { Content = "Aucune" });
+
+            CheckoutBox.SelectedIndex = 0;
+
             if (checkouts.Count == 0)
             {
-                CheckoutBox.Items.Add(new ComboBoxItem {Name = "Aucune"});
                 CheckoutBox.IsEnabled = false;
                 return;
             }
@@ -63,7 +66,6 @@ namespace CaisseDesktop.Graphics.Common
             }
 
             CheckoutBox.IsEnabled = true;
-
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -74,14 +76,13 @@ namespace CaisseDesktop.Graphics.Common
         {
             if (e.AddedItems.Count == 0 || !(e.AddedItems[0] is ComboBoxItem addedItem)) return;
 
-            if (e.RemovedItems.Count != 0 && (e.RemovedItems[0] is ComboBoxItem removedItem) && removedItem.Content.Equals("Aucun"))
-                EventBox.Items.Remove(addedItem);
+            if (e.RemovedItems.Count != 0 && e.RemovedItems[0] is ComboBoxItem removedItem && removedItem.Content.Equals("Aucun"))
+                    EventBox.Items.Remove(removedItem);
 
             if (!(addedItem.DataContext is SaveableEvent saveableEvent)) return;
 
             ChangeCheckoutBoxItems(Main.LoadCheckouts(saveableEvent.Id));
 
-            MessageBox.Show($"Is Event? {saveableEvent.Name}");
         }
     }
 }

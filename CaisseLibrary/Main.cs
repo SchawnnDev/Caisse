@@ -23,7 +23,7 @@ namespace CaisseLibrary
 
         public static List<SaveableEvent> LoadEvents() => new CaisseServerContext().Events.OrderByDescending(t => t.Start).ToList();
 
-        public static List<SaveableCheckout> LoadCheckouts(int eventId)=> new CaisseServerContext().Checkouts.Where(t=>t.SaveableEvent.Id==eventId).OrderBy(t=>t.CheckoutType.Id).ToList();
+        public static List<SaveableCheckout> LoadCheckouts(int eventId)=> new CaisseServerContext().Checkouts.Include(t=>t.CheckoutType).Where(t=>t.SaveableEvent.Id==eventId).OrderBy(t=>t.CheckoutType.Id).ToList();
 
     }
 }
