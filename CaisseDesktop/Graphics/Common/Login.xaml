@@ -35,7 +35,7 @@
         <PasswordBox x:Name="Password" Grid.Row="1" Grid.Column="1"
                 Style="{StaticResource MaterialDesignFilledPasswordFieldPasswordBox}"
                 IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledPasswordFieldPasswordBoxEnabledComboBox}"
-                materialDesign:HintAssist.Hint="Password"  HorizontalContentAlignment="Center" FontSize="22"/>
+                materialDesign:HintAssist.Hint="Mot de passe"  HorizontalContentAlignment="Center" FontSize="22"/>
 
         <Grid Grid.Column="1" Grid.Row="2">
             <Grid.ColumnDefinitions>

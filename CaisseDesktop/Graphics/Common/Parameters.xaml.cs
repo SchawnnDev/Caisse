@@ -29,10 +29,13 @@ namespace CaisseDesktop.Graphics.Common
     {
 
         private bool New { get; set; }
+        private bool Starting { get; set; }
 
         public Parameters()
         {
             InitializeComponent();
+
+            Starting = true;
 
             var config = ConfigFile.GetConfig();
 
@@ -51,21 +54,41 @@ namespace CaisseDesktop.Graphics.Common
 
             if (!New && EventBox.Items.Count != 1) // if the list is empty, the event doesnt exists anymore
             {
-                EventBox.Items.RemoveAt(0);
-                for (var i = 0; i < EventBox.Items.Count; i++)
+                
+                for (var i = 1; i < EventBox.Items.Count; i++)
                 {
                     var item = EventBox.Items[i];
 
-                    if (item == null || !(item is ComboBoxItem comboBoxItem)) break;
-                    if (!(comboBoxItem.DataContext is SaveableEvent saveableEvent)) break;
-                    if (saveableEvent.Id != int.Parse(config["event"])) break;
+                    if (item == null || !(item is ComboBoxItem comboBoxItem)) continue;
+                    if (!(comboBoxItem.DataContext is SaveableEvent saveableEvent)) continue;
+                    var eventId = int.Parse(config["event"]);
+                    if (saveableEvent.Id != eventId) continue;
                     EventBox.SelectedIndex = i;
+                    EventBox.Items.RemoveAt(0);
+                    ChangeCheckoutBoxItems(Main.LoadCheckouts(eventId));
                 }
 
                 // load checkouts , etc
-                
+
+                if (CheckoutBox.Items.Count != 1)
+                {
+
+                    for (var i = 1; i < EventBox.Items.Count; i++)
+                    {
+                        var item = CheckoutBox.Items[i];
+
+                        if (item == null || !(item is ComboBoxItem comboBoxItem)) continue;
+                        if (!(comboBoxItem.DataContext is SaveableCheckout saveableCheckout)) continue;
+                        if (saveableCheckout.Id != int.Parse(config["checkout"])) continue;
+                        CheckoutBox.SelectedIndex = i;
+                        CheckoutBox.Items.RemoveAt(0);
+                    }
+
+                }
 
             }
+
+            Starting = false;
 
             Closing += OnClosing;
         }
@@ -73,9 +96,16 @@ namespace CaisseDesktop.Graphics.Common
         private void OnClosing(object sender, CancelEventArgs e)
         {
 
-            if (New)
-            {
+            if (!New)
+                return;
 
+            if (Validations.WillClose(false))
+            {
+                Application.Current.Shutdown();
+            }
+            else
+            {
+                e.Cancel = true;
             }
 
         }
@@ -141,6 +171,8 @@ namespace CaisseDesktop.Graphics.Common
 
         private void EventBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (Starting) return;
+
             if (e.AddedItems.Count == 0 || !(e.AddedItems[0] is ComboBoxItem addedItem)) return;
 
             if (e.RemovedItems.Count != 0 && e.RemovedItems[0] is ComboBoxItem removedItem && removedItem.Content.Equals("Aucun"))
@@ -154,6 +186,8 @@ namespace CaisseDesktop.Graphics.Common
 
         private void CheckoutBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (Starting) return;
+
             if (e.RemovedItems.Count == 0 || !(e.RemovedItems[0] is ComboBoxItem removedItem) ||
                 !removedItem.Content.Equals("Aucune")) return;
 
