@@ -27,7 +27,7 @@ namespace CaisseDesktop.Graphics.Common
 
             Loaded += (sender, args) =>
             {
-                if (!ConfigFile.GetConfig().ContainsKey("event_id"))
+                if (!ConfigFile.GetConfig().ContainsKey("event"))
                 {
                     new Parameters().ShowDialog();
                 }

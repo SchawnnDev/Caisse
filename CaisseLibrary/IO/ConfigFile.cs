@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace CaisseLibrary.IO
@@ -25,19 +24,36 @@ namespace CaisseLibrary.IO
 
         public static Dictionary<string, string> GetConfig()
         {
-            Dictionary<string, string> dic;
+            var dic=new Dictionary<string, string>();
 
-            if (!File.Exists(ConfigPath) || new FileInfo(ConfigPath).Length == 0) return new List<KeyValuePair<string, string>>().ToDictionary(t=>t.Key,t=>t.Value);
+            if (!File.Exists(ConfigPath) || new FileInfo(ConfigPath).Length == 0) return dic;
 
-            var serializer = new XmlSerializer(typeof(List<KeyValuePair<string, string>>));
+            var rootElement = XElement.Parse(File.ReadAllText(ConfigPath));
 
-            using (var reader = new StreamReader(ConfigPath))
-            {
-                dic = ((List<KeyValuePair<string, string>>) serializer.Deserialize(reader)).ToDictionary(t => t.Key, t => t.Value);
-                reader.Close();
-            }
+            foreach (var element in rootElement.Elements())
+                dic.Add(element.Name.LocalName, element.Value);
 
             return dic;
+        }
+
+        public static void SetValues(Dictionary<string, string> values)
+        {
+
+            var config = GetConfig();
+
+            foreach (var item in values)
+            {
+
+                if (config.ContainsKey(item.Key))
+                    config[item.Key] = item.Value;
+                else
+                    config.Add(item.Key, item.Value);
+
+            }
+
+            SaveConfig(config);
+
+
         }
 
         public static void SetValue(string key, string value)
@@ -54,17 +70,14 @@ namespace CaisseLibrary.IO
 
         public static void SaveConfig(Dictionary<string, string> config)
         {
-            if (!File.Exists(ConfigPath))
-                File.Create(ConfigPath);
-
-            var serializer = new XmlSerializer(typeof(List<KeyValuePair<string, string>>));
-
+            
             try
             {
                 File.WriteAllText(ConfigPath, "");
                 using (var writer = new StreamWriter(ConfigPath, true))
                 {
-                    serializer.Serialize(writer, config.Select(t => new KeyValuePair<string,string>(t.Key,t.Value)).ToList());
+                    var element = new XElement("root", config.Select(kv => new XElement(kv.Key, kv.Value)));
+                    element.Save(writer);
                     writer.Close();
                 }
             }

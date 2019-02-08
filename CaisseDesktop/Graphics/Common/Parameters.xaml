@@ -26,7 +26,7 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Choisir une caisse:" VerticalAlignment="Center" />
-                    <ComboBox x:Name="CheckoutBox" Margin="10,0,0,0" SelectedIndex="0" IsEnabled="False">
+                    <ComboBox x:Name="CheckoutBox" Margin="10,0,0,0" SelectedIndex="0" IsEnabled="False" SelectionChanged="CheckoutBox_SelectionChanged">
                         <ListBoxItem>Aucune</ListBoxItem>
                     </ComboBox>
                 </StackPanel>
