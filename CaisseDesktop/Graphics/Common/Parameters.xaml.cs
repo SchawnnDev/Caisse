@@ -30,12 +30,14 @@ namespace CaisseDesktop.Graphics.Common
 
         private bool New { get; set; }
         private bool Starting { get; set; }
+        private Login ParentWindow { get; set; }
 
-        public Parameters()
+        public Parameters(Login parentWindow)
         {
             InitializeComponent();
 
             Starting = true;
+            ParentWindow = parentWindow;
 
             var config = ConfigFile.GetConfig();
 
@@ -164,6 +166,7 @@ namespace CaisseDesktop.Graphics.Common
             CheckoutSession.ActualCheckout = saveableCheckout;
             // validate
             New = false;
+            ParentWindow.UpdateLabels();
             Close();
 
 

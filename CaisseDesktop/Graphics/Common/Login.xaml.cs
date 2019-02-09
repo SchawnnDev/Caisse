@@ -4,6 +4,7 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -12,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseLibrary.Concrete.Session;
 using CaisseLibrary.IO;
 
 namespace CaisseDesktop.Graphics.Common
@@ -21,6 +23,8 @@ namespace CaisseDesktop.Graphics.Common
     /// </summary>
     public partial class Login
     {
+        private Timer UpdateTimer { get; set; }
+
         public Login()
         {
             InitializeComponent();
@@ -29,18 +33,40 @@ namespace CaisseDesktop.Graphics.Common
             {
                 if (!ConfigFile.GetConfig().ContainsKey("event"))
                 {
-                    new Parameters().ShowDialog();
+                    new Parameters(this).ShowDialog();
                 }
+
+
+                UpdateTimer = new Timer(1000) { AutoReset = true, Enabled = true }; // 1000 ms => 1 sec
+                UpdateTimer.Elapsed += (o, eventArgs) =>
+                {
+                    DateLabel.Dispatcher.Invoke(() =>
+                    {
+                        DateLabel.Content = DateTime.Now.ToString("hh:mm:ss MM/dd/yyyy");
+                    });
+                };
+
 
             };
 
+            Closed += OnClosed;
 
         }
 
+        public void UpdateLabels()
+        {
+            CheckoutNameLabel.Content = $"Caisse: {CheckoutSession.ActualCheckout.Name}";
+        }
+
+        private void OnClosed(object sender, EventArgs e)
+        {
+            UpdateTimer.Stop();
+            UpdateTimer.Dispose();
+        }
 
         private void OpenParameters_OnClick(object sender, RoutedEventArgs e)
         {
-            new Parameters().ShowDialog();
+            new Parameters(this).ShowDialog();
         }
 
         private void PinPadButton_Click(object sender, RoutedEventArgs e)
@@ -71,7 +97,7 @@ namespace CaisseDesktop.Graphics.Common
             {
 
                 Password.Password = "";
-           
+
             }
         }
 
