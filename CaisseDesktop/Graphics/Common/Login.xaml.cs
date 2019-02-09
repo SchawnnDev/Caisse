@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseLibrary;
 using CaisseLibrary.Concrete.Session;
 using CaisseLibrary.IO;
 
@@ -31,9 +32,22 @@ namespace CaisseDesktop.Graphics.Common
 
             Loaded += (sender, args) =>
             {
-                if (!ConfigFile.GetConfig().ContainsKey("event"))
+
+                var config = ConfigFile.GetConfig();
+
+                if (!config.ContainsKey("event"))
                 {
                     new Parameters(this).ShowDialog();
+                }
+                else if (config.ContainsKey("checkout"))
+                {
+                    var eventId = int.Parse("event");
+                    var checkoutId = int.Parse("checkout");
+
+                    //var loadedEvent = Main.
+
+                    // check if event is existing & checkout too, then load them and save them to CheckoutSession & ...
+
                 }
 
 
