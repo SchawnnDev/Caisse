@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using CaisseLibrary;
 using CaisseLibrary.Concrete.Session;
 using CaisseLibrary.IO;
+using CaisseServer;
 
 namespace CaisseDesktop.Graphics.Common
 {
@@ -41,13 +42,25 @@ namespace CaisseDesktop.Graphics.Common
                 }
                 else if (config.ContainsKey("checkout"))
                 {
-                    var eventId = int.Parse("event");
-                    var checkoutId = int.Parse("checkout");
+                    var eventId = int.Parse(config["event"]);
+                    var checkoutId = int.Parse(config["checkout"]);
 
-                    //var loadedEvent = Main.
+                    using (var db = new CaisseServerContext())
+                    {
 
-                    // check if event is existing & checkout too, then load them and save them to CheckoutSession & ...
+                        if (db.Events.Any(t => t.Id == eventId) && db.Checkouts.Any(t=>t.Id == checkoutId))
+                        {
+                            Main.ActualEvent = db.Events.Single(t => t.Id == eventId);
+                            CheckoutSession.ActualCheckout = db.Checkouts.Single(t => t.Id == checkoutId);
+                            UpdateLabels();
+                        }
 
+                    }
+
+                }
+                else
+                {
+                    new Parameters(this).ShowDialog();
                 }
 
 
