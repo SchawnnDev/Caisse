@@ -25,7 +25,7 @@
 
         <Button Grid.Column="0" Grid.Row="0" Margin="5"
             Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
-            ToolTip="MaterialDesignFloatingActionMiniLightButton" VerticalAlignment="Top" HorizontalAlignment="Left" Click="OpenParameters_OnClick">
+            VerticalAlignment="Top" HorizontalAlignment="Left" Click="OpenParameters_OnClick">
             <materialDesign:PackIcon
                 Kind="Wrench"
                 Height="24"
@@ -35,7 +35,7 @@
         <PasswordBox x:Name="Password" Grid.Row="1" Grid.Column="1"
                 Style="{StaticResource MaterialDesignFilledPasswordFieldPasswordBox}"
                 IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledPasswordFieldPasswordBoxEnabledComboBox}"
-                materialDesign:HintAssist.Hint="Mot de passe" HorizontalContentAlignment="Center" FontSize="22"/>
+                materialDesign:HintAssist.Hint="Identifiant" HorizontalContentAlignment="Center" FontSize="22" MaxLength="7"/>
 
         <Grid Grid.Column="1" Grid.Row="2">
             <Grid.ColumnDefinitions>

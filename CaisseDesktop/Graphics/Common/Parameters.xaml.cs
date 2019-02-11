@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using CaisseDesktop.Utils;
 using CaisseLibrary;
 using CaisseLibrary.Concrete.Session;
@@ -23,21 +12,18 @@ using CaisseServer.Events;
 namespace CaisseDesktop.Graphics.Common
 {
     /// <summary>
-    /// Interaction logic for Parameters.xaml
+    ///     Interaction logic for Parameters.xaml
     /// </summary>
     public partial class Parameters
     {
-
-        private bool New { get; set; }
-        private bool Starting { get; set; }
-        private Login ParentWindow { get; set; }
-
         public Parameters(Login parentWindow)
         {
             InitializeComponent();
 
+            var valueExists = false;
             Starting = true;
             ParentWindow = parentWindow;
+            Owner = parentWindow; // center of screen
 
             var config = ConfigFile.GetConfig();
 
@@ -56,7 +42,6 @@ namespace CaisseDesktop.Graphics.Common
 
             if (!New && EventBox.Items.Count != 1) // if the list is empty, the event doesnt exists anymore
             {
-                
                 for (var i = 1; i < EventBox.Items.Count; i++)
                 {
                     var item = EventBox.Items[i];
@@ -73,8 +58,6 @@ namespace CaisseDesktop.Graphics.Common
                 // load checkouts , etc
 
                 if (CheckoutBox.Items.Count != 1)
-                {
-
                     for (var i = 1; i < EventBox.Items.Count; i++)
                     {
                         var item = CheckoutBox.Items[i];
@@ -84,39 +67,38 @@ namespace CaisseDesktop.Graphics.Common
                         if (saveableCheckout.Id != int.Parse(config["checkout"])) continue;
                         CheckoutBox.SelectedIndex = i;
                         CheckoutBox.Items.RemoveAt(0);
+                        valueExists = true;
                     }
-
-                }
-
             }
 
             Starting = false;
 
+            if (!valueExists)
+                New = true;
+
             Closing += OnClosing;
         }
 
+        private bool New { get; set; }
+        private bool Starting { get; }
+        private Login ParentWindow { get; }
+
         private void OnClosing(object sender, CancelEventArgs e)
         {
-
             if (!New)
                 return;
 
             if (Validations.WillClose(false))
-            {
                 Application.Current.Shutdown();
-            }
             else
-            {
                 e.Cancel = true;
-            }
-
         }
 
         private void ChangeCheckoutBoxItems(List<SaveableCheckout> checkouts)
         {
             CheckoutBox.Items.Clear();
 
-            CheckoutBox.Items.Add(new ComboBoxItem { Content = "Aucune" });
+            CheckoutBox.Items.Add(new ComboBoxItem {Content = "Aucune"});
 
             CheckoutBox.SelectedIndex = 0;
 
@@ -142,7 +124,6 @@ namespace CaisseDesktop.Graphics.Common
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-
             if (EventBox.SelectedItem == null || !(EventBox.SelectedItem is ComboBoxItem eventItem) ||
                 eventItem.Content.Equals("Aucun") || !(eventItem.DataContext is SaveableEvent saveableEvent))
             {
@@ -151,16 +132,17 @@ namespace CaisseDesktop.Graphics.Common
             }
 
             if (CheckoutBox.SelectedItem == null || !(CheckoutBox.SelectedItem is ComboBoxItem checkoutItem) ||
-                checkoutItem.Content.Equals("Aucune") || !(checkoutItem.DataContext is SaveableCheckout saveableCheckout))
+                checkoutItem.Content.Equals("Aucune") ||
+                !(checkoutItem.DataContext is SaveableCheckout saveableCheckout))
             {
-                Validations.ShowWarning("Veuillez selectionner une caisse");
+                Validations.ShowWarning("Veuillez sélectionner une caisse");
                 return;
             }
 
             ConfigFile.SetValues(new Dictionary<string, string>
-                {
-                    {"event", saveableEvent.Id.ToString()}, {"checkout", saveableCheckout.Id.ToString()}
-                });
+            {
+                {"event", saveableEvent.Id.ToString()}, {"checkout", saveableCheckout.Id.ToString()}
+            });
 
             Main.ActualEvent = saveableEvent;
             CheckoutSession.ActualCheckout = saveableCheckout;
@@ -168,8 +150,6 @@ namespace CaisseDesktop.Graphics.Common
             New = false;
             ParentWindow.UpdateLabels();
             Close();
-
-
         }
 
         private void EventBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -178,13 +158,13 @@ namespace CaisseDesktop.Graphics.Common
 
             if (e.AddedItems.Count == 0 || !(e.AddedItems[0] is ComboBoxItem addedItem)) return;
 
-            if (e.RemovedItems.Count != 0 && e.RemovedItems[0] is ComboBoxItem removedItem && removedItem.Content.Equals("Aucun"))
+            if (e.RemovedItems.Count != 0 && e.RemovedItems[0] is ComboBoxItem removedItem &&
+                removedItem.Content.Equals("Aucun"))
                 EventBox.Items.Remove(removedItem);
 
             if (!(addedItem.DataContext is SaveableEvent saveableEvent)) return;
 
             ChangeCheckoutBoxItems(Main.LoadCheckouts(saveableEvent.Id));
-
         }
 
         private void CheckoutBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -195,7 +175,6 @@ namespace CaisseDesktop.Graphics.Common
                 !removedItem.Content.Equals("Aucune")) return;
 
             CheckoutBox.Items.Remove(removedItem);
-
         }
     }
 }

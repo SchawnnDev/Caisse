@@ -31,6 +31,7 @@ namespace CaisseDesktop.Graphics.Common
         {
             InitializeComponent();
 
+
             Loaded += (sender, args) =>
             {
 
@@ -53,6 +54,10 @@ namespace CaisseDesktop.Graphics.Common
                             Main.ActualEvent = db.Events.Single(t => t.Id == eventId);
                             CheckoutSession.ActualCheckout = db.Checkouts.Single(t => t.Id == checkoutId);
                             UpdateLabels();
+                        }
+                        else
+                        {
+                            new Parameters(this).ShowDialog();
                         }
 
                     }
@@ -133,10 +138,20 @@ namespace CaisseDesktop.Graphics.Common
             if (Password.Password.Length != 7)
             {
                 SystemSounds.Beep.Play();
-                MessageBox.Show("Le n° n'est pas valide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("L'identifiant n'est pas valide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
+
+                var cashier = CashierSession.Login(Password.Password);
+
+                if (cashier == null)
+                {
+                    MessageBox.Show("L'identifiant n'est pas valide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+
                 //TODO: Si ce n'est pas encore l'heure du caissier, le prevenir et demander si il est sûr de vouloir continuer
                 MessageBox.Show("Bien connecté.", "Yeah", MessageBoxButton.OK, MessageBoxImage.Hand);
             }

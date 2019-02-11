@@ -11,18 +11,17 @@ namespace CaisseLibrary.Concrete.Session
     {
         public static SaveableCashier ActualCashier { get; set; }
 
-        public static bool Login(int login)
+        public static SaveableCashier Login(string login)
         {
-            if (login == 0) return false;
+            if (login.Length == 0) return null;
 
             using (var db = new CaisseServerContext())
             {
-                if (!db.Cashiers.Any(t => t.TimeSlot.Day.Checkout.Id == CheckoutSession.ActualCheckout.Id && t.Login == login)) return false;
-                ActualCashier = db.Cashiers.FirstOrDefault(t =>
-                    t.TimeSlot.Day.Checkout.Id == CheckoutSession.ActualCheckout.Id && t.Login == login);
+                if (!db.Cashiers.Any(t => t.TimeSlot.Day.Checkout.Id == CheckoutSession.ActualCheckout.Id && t.Login .Equals( login))) return null;
+                return db.Cashiers.FirstOrDefault(t =>
+                    t.TimeSlot.Day.Checkout.Id == CheckoutSession.ActualCheckout.Id && t.Login.Equals(login));
             }
 
-            return true;
         }
 
         public static void Logout()
