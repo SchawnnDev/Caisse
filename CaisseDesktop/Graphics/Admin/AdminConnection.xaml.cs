@@ -74,7 +74,7 @@ namespace CaisseDesktop.Graphics.Admin
 
         private void Retour_OnClick(object sender, RoutedEventArgs e)
         {
-            new Connection().Show();
+            //new Connection().Show();
             Close();
         }
 

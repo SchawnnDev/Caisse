@@ -130,7 +130,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void CreateCheckoutType_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using CaisseDesktop.Graphics.Admin;
 using CaisseDesktop.Utils;
 using CaisseLibrary;
 using CaisseLibrary.Concrete.Session;
@@ -175,6 +176,12 @@ namespace CaisseDesktop.Graphics.Common
                 !removedItem.Content.Equals("Aucune")) return;
 
             CheckoutBox.Items.Remove(removedItem);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var connection = new AdminConnection();
+            connection.ShowDialog();
         }
     }
 }

@@ -5,10 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Common"
         mc:Ignorable="d"
-        Title="Parameters" Height="270" Width="400" WindowStartupLocation="CenterOwner" ResizeMode="CanMinimize">
+        Title="Parameters" Height="350" Width="400" WindowStartupLocation="CenterOwner" ResizeMode="CanMinimize">
     <Grid>
 
         <StackPanel Orientation="Vertical">
+
+            <GroupBox Header="Fonctionnalitées" Margin="5">
+
+                <StackPanel Orientation="Horizontal">
+                    <!-- Left, Top, Right and Bottom-->
+                    <Button Content="Remettre à zéro"></Button>
+                    <Button Margin="5 0 0 0" Content="Connexion administrateur" HorizontalAlignment="Right" Click="Button_Click"/>
+                </StackPanel>
+
+            </GroupBox>
 
             <GroupBox Header="Evenements" Margin="5">
 
