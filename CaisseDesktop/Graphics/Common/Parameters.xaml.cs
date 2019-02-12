@@ -59,7 +59,7 @@ namespace CaisseDesktop.Graphics.Common
                 // load checkouts , etc
 
                 if (CheckoutBox.Items.Count != 1)
-                    for (var i = 1; i < EventBox.Items.Count; i++)
+                    for (var i = 1; i < CheckoutBox.Items.Count; i++)
                     {
                         var item = CheckoutBox.Items[i];
 

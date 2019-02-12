@@ -74,7 +74,7 @@ namespace CaisseDesktop.Graphics.Common
                 {
                     DateLabel.Dispatcher.Invoke(() =>
                     {
-                        DateLabel.Content = DateTime.Now.ToString("hh:mm:ss MM/dd/yyyy");
+                        DateLabel.Content = DateTime.Now.ToString("hh:mm:ss dd/MM/yyyy");
                     });
                 };
 
