@@ -139,6 +139,12 @@
     <Compile Include="Graphics\Admin\CheckoutTypes\CheckoutTypeManager.xaml.cs">
       <DependentUpon>CheckoutTypeManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Admin\CheckoutTypes\Pages\CheckoutTypeItemManager.xaml.cs">
+      <DependentUpon>CheckoutTypeItemManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\Admin\CheckoutTypes\Pages\CheckoutTypeMainPage.xaml.cs">
+      <DependentUpon>CheckoutTypeMainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Events\EvenementBrowser.xaml.cs">
       <DependentUpon>EvenementBrowser.xaml</DependentUpon>
     </Compile>
@@ -209,6 +215,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\CheckoutTypes\CheckoutTypeManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\CheckoutTypes\Pages\CheckoutTypeItemManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\CheckoutTypes\Pages\CheckoutTypeMainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

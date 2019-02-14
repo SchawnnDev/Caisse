@@ -22,6 +22,8 @@ namespace CaisseServer.Items
 
         public bool Cup { get; set; }
 
+        public int ItemType { get; set; }
+
         public bool Active { get; set; }
 
         public bool NumberingTracking { get; set; }

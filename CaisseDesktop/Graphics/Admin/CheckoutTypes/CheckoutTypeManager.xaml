@@ -5,8 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.CheckoutTypes"
         mc:Ignorable="d"
-        Title="CheckoutTypeManager" Height="450" Width="800">
+        Title="Gestion d'un type de caisse" Height="700" Width="1200">
+    <Window.Resources>
+
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0">
+            <Menu DockPanel.Dock="Top">
+
+                <MenuItem x:Name="Back" Header="_Retour"  />
+
+                <MenuItem  x:Name="EditInfos" Header="_Gérer les informations" />
+
+                <MenuItem Header="_Emploi du temps">
+
+                    <MenuItem x:Name="DisplayEdt" Header="_Afficher" />
+
+                    <Separator />
+
+                    <MenuItem x:Name="AddDay" Header="_Ajouter un jour" />
+
+                </MenuItem>
+
+                <MenuItem Header="_Caissiers">
+
+                    <MenuItem x:Name="DisplayCashiers" Header="_Afficher" />
+
+                    <Separator />
+
+                    <MenuItem x:Name="AddCashier" Header="_Ajouter un caissier" />
+
+                </MenuItem>
+
+            </Menu>
+
+        </DockPanel>
+        <Frame x:Name="MasterFrame" Grid.Row="1" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>
