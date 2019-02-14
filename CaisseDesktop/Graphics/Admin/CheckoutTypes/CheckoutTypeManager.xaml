@@ -45,6 +45,22 @@
             </Menu>
 
         </DockPanel>
-        <Frame x:Name="MasterFrame" Grid.Row="1" NavigationUIVisibility="Hidden" />
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+
+            <GroupBox Header="GroupBox" Margin="5">
+                <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            </GroupBox>
+        </Grid>
+        
     </Grid>
 </Window>
