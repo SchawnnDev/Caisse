@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,17 +12,53 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseServer;
 
 namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
 {
     /// <summary>
     /// Interaction logic for CheckoutTypeManager.xaml
     /// </summary>
-    public partial class CheckoutTypeManager : Window
+    public partial class CheckoutTypeManager
     {
-        public CheckoutTypeManager()
+        public SaveableCheckoutType CheckoutType { get; set; }
+
+        public CheckoutTypeManager(SaveableCheckoutType type)
         {
             InitializeComponent();
+
+            CheckoutType = type;
+
+            if (type == null) return;
+
+            Task.Run(() => LoadCheckoutNames());
+        }
+
+
+        private async void LoadCheckoutNames()
+        {
+            if (CheckoutType == null) return;
+
+            using (var db = new CaisseServerContext())
+            {
+                var checkoutNames = await db.Checkouts.Where(t => t.CheckoutType.Id == CheckoutType.Id)
+                    .Select(t => t.Name).ToListAsync();
+                CheckoutNameList.Dispatcher.Invoke(() =>
+                {
+                    foreach (var checkoutName in checkoutNames)
+                        CheckoutNameList.Items.Add(checkoutName);
+                });
+            }
+        }
+
+        private void Edit_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Delete_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

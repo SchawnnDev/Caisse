@@ -5,6 +5,7 @@ using System.Media;
 using System.Windows;
 using System.Windows.Controls;
 using CaisseDesktop.Graphics.Admin.Checkouts;
+using CaisseDesktop.Graphics.Admin.CheckoutTypes;
 using CaisseDesktop.Graphics.Admin.Events.Pages;
 using CaisseDesktop.Graphics.Admin.Owners;
 using CaisseDesktop.Utils;
@@ -130,6 +131,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void CreateCheckoutType_OnClick(object sender, RoutedEventArgs e)
         {
+            new CheckoutTypeManager(null).ShowDialog();
         }
     }
 }

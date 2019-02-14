@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.CheckoutTypes"
+        xmlns:models="clr-namespace:CaisseDesktop.Models"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=models:ItemModel, IsDesignTimeCreatable=False}"
         Title="Gestion d'un type de caisse" Height="700" Width="1200">
     <Window.Resources>
 
@@ -18,9 +20,9 @@
         <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
 
-                <MenuItem x:Name="Back" Header="_Retour"  />
+                <MenuItem x:Name="Back" Header="_Retour" />
 
-                <MenuItem  x:Name="EditInfos" Header="_Gérer les informations" />
+                <MenuItem x:Name="EditInfos" Header="_Gérer les informations" />
 
                 <MenuItem Header="_Emploi du temps">
 
@@ -48,19 +50,76 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition MaxWidth="400" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition />
+                <RowDefinition MaxHeight="80"/>
             </Grid.RowDefinitions>
 
 
-            <GroupBox Header="GroupBox" Margin="5">
-                <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <GroupBox Header="Informations" Margin="5" Grid.Column="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MaxWidth="100" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MaxHeight="100"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Label Content="Nom :" HorizontalAlignment="Left"
+                           VerticalAlignment="Center" FontWeight="Bold" Grid.Row="0" Grid.Column="0" />
+                    <TextBox x:Name="CheckoutName" TextWrapping="NoWrap"
+                             VerticalAlignment="Center" Margin="10" MinHeight="25" Grid.Row="0" Grid.Column="1" />
+
+                    <Label Content="Caisses :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
+                           VerticalAlignment="Top" FontWeight="Bold" />
+                    <ListView x:Name="CheckoutNameList" Grid.Column="1" Grid.Row="1" />
+
+
+                </Grid>
             </GroupBox>
+
+            <GroupBox Header="Liste des articles" Margin="5" Grid.Column="1" Grid.Row="0">
+                <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ItemsSource="{Binding Items, IsAsync=true}" IsReadOnly="True" x:Name="ItemsGrid"
+                          AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Position" Binding="{Binding Position}" />
+                        <DataGridTextColumn Header="Nom" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Couleur" Binding="{Binding Color}" />
+                        <DataGridTextColumn Header="Type" Binding="{Binding ItemType}" />
+                        <DataGridTextColumn Header="Prix" Binding="{Binding Price}" />
+                        <DataGridTextColumn Header="Est actif" Binding="{Binding Active}" />
+                        <DataGridTemplateColumn Header="Actions">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Click="Edit_OnClick">Editer</Button>
+                                        <Button Click="Delete_OnClick" Margin="5 0 0 0">Supprimer</Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Display Shipping Addresses" />
+                            <Separator />
+                            <MenuItem Header="Edit" />
+                            <MenuItem Header="Delete" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+
+                </DataGrid>
+            </GroupBox>
+
+            <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Sauvegarder"></Button>
         </Grid>
-        
+
     </Grid>
 </Window>

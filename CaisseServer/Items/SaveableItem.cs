@@ -17,12 +17,15 @@ namespace CaisseServer.Items
         public string ImageSrc { get; set; }
 
         public decimal Price { get; set; }
+
+        public int Position { get; set; }
         
         public string Color { get; set; }
 
-        public bool Cup { get; set; }
+        //public bool Cup { get; set; }
 
-        public int ItemType { get; set; }
+        //public int ItemType { get; set; }
+        public string ItemType { get; set; }
 
         public bool Active { get; set; }
 
