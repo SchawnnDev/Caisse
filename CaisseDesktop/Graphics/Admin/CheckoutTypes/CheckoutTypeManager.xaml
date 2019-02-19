@@ -22,26 +22,15 @@
 
                 <MenuItem x:Name="Back" Header="_Retour" />
 
-                <MenuItem x:Name="EditInfos" Header="_Gérer les informations" />
+                <MenuItem Header="_Articles">
 
-                <MenuItem Header="_Emploi du temps">
-
-                    <MenuItem x:Name="DisplayEdt" Header="_Afficher" />
+                    <MenuItem x:Name="AddArticle" Header="_Ajouter un article" Click="AddArticle_OnClick"/>
 
                     <Separator />
 
-                    <MenuItem x:Name="AddDay" Header="_Ajouter un jour" />
+                    <MenuItem x:Name="ImportArticle" Header="_Importer un article" />
 
-                </MenuItem>
-
-                <MenuItem Header="_Caissiers">
-
-                    <MenuItem x:Name="DisplayCashiers" Header="_Afficher" />
-
-                    <Separator />
-
-                    <MenuItem x:Name="AddCashier" Header="_Ajouter un caissier" />
-
+                    <MenuItem x:Name="ExportArticle" Header="_Exporter un article" />
                 </MenuItem>
 
             </Menu>

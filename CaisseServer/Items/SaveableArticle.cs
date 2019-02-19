@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace CaisseServer.Items
 {
     [Table("items")]
-    public class SaveableItem
+    public class SaveableArticle
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -26,6 +26,8 @@ namespace CaisseServer.Items
 
         //public int ItemType { get; set; }
         public string ItemType { get; set; }
+
+        public bool NeedsCup { get; set; }
 
         public bool Active { get; set; }
 

@@ -25,51 +25,51 @@ namespace CaisseDesktop.Graphics.Common
             TempInvoice = new Invoice(CashierSession.ActualCashier);
 
             Loaded += (sender, args) =>
-                CreateItemGrid(new List<SaveableItem>
+                CreateItemGrid(new List<SaveableArticle>
                 {
-                    new SaveableItem
+                    new SaveableArticle
                     {
                         Name = "Bananes",
                         Price = 1.50M,
                         ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                     },
-                    new SaveableItem
+                    new SaveableArticle
                     {
                         Name = "Cacao",
                         Price = 1.50M,
                         ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                     },
-                    new SaveableItem
+                    new SaveableArticle
                     {
                         Name = "Café",
                         Price = 1.50M,
                         ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                     },
-                    new SaveableItem
+                    new SaveableArticle
                     {
                         Name = "Chocolat chaud",
                         Price = 1M,
                         ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                     },
-                    new SaveableItem
+                    new SaveableArticle
                     {
                         Name = "Pommes",
                         Price = 1.8M,
                         ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                     },
-                    new SaveableItem
+                    new SaveableArticle
                     {
                         Name = "Vin",
                         Price = 100.8M,
                         ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                     },
-                    new SaveableItem
+                    new SaveableArticle
                     {
                         Name = "Patate",
                         Price = 1.8M,
                         ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                     },
-                    new SaveableItem
+                    new SaveableArticle
                     {
                         Name = "Poms",
                         Price = 1.8M,
@@ -82,13 +82,13 @@ namespace CaisseDesktop.Graphics.Common
         {
         }
 
-        private void CreateItemGrid(List<SaveableItem> items)
+        private void CreateItemGrid(List<SaveableArticle> items)
         {
             foreach (var item in items)
                 ItemPanel.Children.Add(CreateItem(item));
         }
 
-        private Border CreateItem(SaveableItem item)
+        private Border CreateItem(SaveableArticle item)
         {
             var border = new Border
             {

@@ -127,6 +127,9 @@
     <Compile Include="Graphics\Admin\AdminMain.xaml.cs">
       <DependentUpon>AdminMain.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Admin\Articles\ArticleManager.xaml.cs">
+      <DependentUpon>ArticleManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Checkouts\CheckoutManager.xaml.cs">
       <DependentUpon>CheckoutManager.xaml</DependentUpon>
     </Compile>
@@ -194,6 +197,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\AdminMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\Articles\ArticleManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

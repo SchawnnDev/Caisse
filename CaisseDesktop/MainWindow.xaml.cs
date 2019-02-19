@@ -70,7 +70,7 @@ namespace CaisseDesktop
                     new SaveableOperation
                     {
                         Amount = 5,
-                        Item = new SaveableItem
+                        Item = new SaveableArticle
                         {
                             Name = "CREPE",
                             Price = 2m
@@ -78,7 +78,7 @@ namespace CaisseDesktop
                     }, new SaveableOperation
                     {
                         Amount = 2,
-                        Item = new SaveableItem
+                        Item = new SaveableArticle
                         {
                             Name = "PIZZA",
                             Price = 6.5m
@@ -86,7 +86,7 @@ namespace CaisseDesktop
                     }, new SaveableOperation
                     {
                         Amount = 4,
-                        Item = new SaveableItem
+                        Item = new SaveableArticle
                         {
                             Name = "BOISSON",
                             Price = 2.5m
@@ -94,7 +94,7 @@ namespace CaisseDesktop
                     }, new SaveableOperation
                     {
                         Amount = 1,
-                        Item = new SaveableItem
+                        Item = new SaveableArticle
                         {
                             Name = "BIERE",
                             Price = 3.5m

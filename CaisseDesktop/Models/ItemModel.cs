@@ -12,9 +12,9 @@ namespace CaisseDesktop.Models
 {
     public class ItemModel : INotifyPropertyChanged
     {
-        private ObservableCollection<SaveableItem> _items;
+        private ObservableCollection<SaveableArticle> _items;
 
-        public ObservableCollection<SaveableItem> Items
+        public ObservableCollection<SaveableArticle> Items
         {
             get => _items;
             set

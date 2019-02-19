@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseDesktop.Graphics.Admin.Articles;
 using CaisseServer;
 
 namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
@@ -59,6 +60,11 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
         private void Delete_OnClick(object sender, RoutedEventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        private void AddArticle_OnClick(object sender, RoutedEventArgs e)
+        {
+            new ArticleManager(null).ShowDialog();
         }
     }
 }

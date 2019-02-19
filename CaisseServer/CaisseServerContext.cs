@@ -15,7 +15,7 @@ namespace CaisseServer
         public DbSet<SaveableCheckoutType> CheckoutTypes { get; set; }
         public DbSet<SaveablePaymentMethod> PaymentMethods { get; set; }
         public DbSet<SaveableOperation> Operations { get; set; }
-        public DbSet<SaveableItem> Items { get; set; }
+        public DbSet<SaveableArticle> Items { get; set; }
         public DbSet<SaveableInvoice> Invoices { get; set; }
 
         // Events

@@ -37,21 +37,21 @@ namespace CaisseLibrary.Concrete.Invoices
 
         public bool IsSomething() => Operations.Any();
 
-        public void AddBuyableItem(SaveableItem item, int nb)
+        public void AddBuyableItem(SaveableArticle item, int nb)
         {
             SetBuyableItem(item, Math.Max(0, nb));
         }
 
-        public void RemoveBuyableItem(SaveableItem item, int nb)
+        public void RemoveBuyableItem(SaveableArticle item, int nb)
         {
             SetBuyableItem(item, Math.Max(0, GetBuyableItemNumber(item) - nb));
         }
 
-        public int GetBuyableItemNumber(SaveableItem item) => Operations.Any(t => t.Item.Id == item.Id)
+        public int GetBuyableItemNumber(SaveableArticle item) => Operations.Any(t => t.Item.Id == item.Id)
             ? 0
             : Operations.First(t => t.Item.Id == item.Id).Amount;
 
-        public void SetBuyableItem(SaveableItem item, int nb)
+        public void SetBuyableItem(SaveableArticle item, int nb)
         {
             if (Operations.Any(t => t.Item.Id == item.Id))
             {
