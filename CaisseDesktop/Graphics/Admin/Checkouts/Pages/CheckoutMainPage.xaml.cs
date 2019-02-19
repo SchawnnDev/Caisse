@@ -191,27 +191,6 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             });
         }
 
-        /*
-
-        private void CheckoutType_OnLostFocus(object sender, RoutedEventArgs e)
-        {
-            var comboBox = (ComboBox) sender;
-            if (comboBox.SelectedItem != null)
-                return;
-
-            using (var db = new CaisseServerContext())
-            {
-                db.Events.Attach(ParentWindow.Checkout.SaveableEvent);
-                var newItem = new SaveableCheckoutType
-                {
-                    Name = comboBox.Text
-                };
-                Types.Add(newItem);
-                comboBox.SelectedItem = newItem;
-                db.CheckoutTypes.Add(newItem);
-            }
-        } */
-
         public override void Add<T>(T t)
         {
         }

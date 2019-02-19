@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="ArticleManager" Height="450" Width="800">
     <Grid>
-         <Grid.RowDefinitions>
-             <RowDefinition/>
-             <RowDefinition MaxHeight="80"/>
-         </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition MaxHeight="80"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -37,7 +37,7 @@
                 <TextBox Height="25" Width="Auto" Grid.Row="0" Grid.Column="1"/>
                 <!-- ### 2 ### -->
                 <Label Content="Type :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
-                <ComboBox x:Name="EventBox" SelectedIndex="0" Grid.Row="1" Grid.Column="1">
+                <ComboBox x:Name="EventBox" SelectedIndex="0" Grid.Row="1" Grid.Column="1" SelectionChanged="Type_OnSelectionChanged">
                     <ComboBoxItem>Tickets</ComboBoxItem>
                     <ComboBoxItem>Alimentation</ComboBoxItem>
                     <ComboBoxItem>Consignes</ComboBoxItem>
@@ -56,10 +56,38 @@
             </Grid>
 
         </GroupBox>
-        <GroupBox Header="Personnalisation" Grid.Row="0" Grid.Column="1" Margin="5" />
+        <GroupBox Header="Personnalisation" Grid.Row="0" Grid.Column="1" Margin="5" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="150"/>
+                    <RowDefinition/>
+                    <RowDefinition MaxHeight="15"/>
+                    <RowDefinition/>
+                    <RowDefinition MaxHeight="10"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Border BorderBrush="DarkSlateBlue" BorderThickness="2" Grid.ColumnSpan="2" Margin="20">
+                    <Image x:Name="ArticleImage"  Source="/CaisseDesktop;component/Resources/Images/ticket.png" Margin="2"/>
+                </Border>
+
+                <DockPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  LastChildFill="True" VerticalAlignment="Center">
+                    <Button Content="Editer" Click="EditImageFile_OnClick"></Button>
+                    <TextBox x:Name="ImagePath" IsReadOnly="True" Margin="4,0,0,0"  TextWrapping="NoWrap"  ScrollViewer.VerticalScrollBarVisibility="Disabled">../Resources/Images/ticket.png</TextBox>
+                </DockPanel>
+
+                <Label Content="Choisir une couleur :" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"></Label>
+                <xctk:ColorPicker Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
+
+
+            </Grid>
+        </GroupBox>
         <GroupBox Header="Options" Grid.Row="0" Grid.Column="2" Margin="5" />
-        
-        
+
+
 
     </Grid>
 </Window>

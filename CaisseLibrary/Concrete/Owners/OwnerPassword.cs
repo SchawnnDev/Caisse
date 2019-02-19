@@ -9,7 +9,7 @@ namespace CaisseLibrary.Concrete.Owners
     {
         public string Generate(int length)
         {
-            const string valid = "123456789ABCXYZ/*-";
+            const string valid = "0123456789";
             var res = new StringBuilder();
             var rnd = new Random();
 
