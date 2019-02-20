@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Articles"
+        xmlns:models="clr-namespace:CaisseDesktop.Models"
         mc:Ignorable="d"
-        Title="ArticleManager" Height="450" Width="800">
+        d:DataContext="{d:DesignInstance Type=models:MaxSellNumberModel, IsDesignTimeCreatable=False}"
+        Title="ArticleManager" Height="450" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition MaxHeight="80"/>
+            <RowDefinition MaxHeight="60"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -46,11 +48,14 @@
                 <Label Content="Prix :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"/>
                 <TextBox DataObject.Pasting="Number_OnPasting" PreviewTextInput="Price_OnPreviewTextInput" Height="25" Width="Auto" Grid.Row="2" Grid.Column="1"/>
                 <!-- ### 4 ### -->
-                <TextBlock TextWrapping="WrapWithOverflow" Text="Nb ventes par jour:" DockPanel.Dock="Left" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+                <TextBlock TextWrapping="WrapWithOverflow" Text="Nb ventes max/jour:" DockPanel.Dock="Left" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
                 <TextBox Height="25" Width="Auto" Grid.Row="3" Grid.Column="1"/>
                 <!-- ### 5 ### -->
                 <Label Content="Actif :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0"/>
-                <TextBox Height="25" Width="Auto" Grid.Row="4" Grid.Column="1"/>
+
+                <ToggleButton x:Name="Activate"
+                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                              Click="Active_OnClick" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"/>
                 <!-- ### 6 ### -->
 
             </Grid>
@@ -85,7 +90,73 @@
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Options" Grid.Row="0" Grid.Column="2" Margin="5" />
+        <GroupBox Header="Options" Grid.Row="0" Grid.Column="2" Margin="5" >
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MaxWidth="70"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <!-- ### 1 ### -->
+                <TextBlock TextWrapping="WrapWithOverflow" Text="Besoin de gobelet :" DockPanel.Dock="Left" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                <ToggleButton x:Name="NeedsCup"
+                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                              Click="NeedsCup_OnClick" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"/>
+                <!-- ### 2 ### -->
+                <Label Content="Tracking :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
+                <ToggleButton x:Name="Tracking"
+                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                              Click="NeedsCup_OnClick" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"/>
+                <!-- ### 3 ### -->
+                <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ItemsSource="{Binding MaxSellNumbers, IsAsync=true}" IsReadOnly="True" x:Name="MaxSellNumber"
+                          AutoGenerateColumns="False" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Jour" Binding="{Binding Day.Start, StringFormat={}{0:dd/MM/yyyy}}" />
+                        <DataGridTextColumn Header="Nombre" Binding="{Binding Amount}" />
+                        <DataGridTemplateColumn Header="Actions">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Margin="5 0 0 0" Click="DeleteMaxSellNumber_OnClick">Supprimer</Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                <!--
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Display Shipping Addresses" />
+                            <Separator />
+                            <MenuItem Header="Edit" />
+                            <MenuItem Header="Delete" />
+                        </ContextMenu>
+                    </DataGrid.ContextMenu> -->
+
+                </DataGrid>
+
+                <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                    <ComboBox x:Name="DayBox" SelectedIndex="0" SelectionChanged="Type_OnSelectionChanged">
+                        <ComboBoxItem>01/01/2000</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBox DataObject.Pasting="Number_OnPasting" PreviewTextInput="Price_OnPreviewTextInput" VerticalAlignment="Center" MinWidth="100" Margin="5,0,5,0"/>
+                    <Button Content="Ajouter"></Button>
+                </StackPanel>
+
+            </Grid>
+
+        </GroupBox>
+        <Button Content="Sauvegarder" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center"/>
 
 
 

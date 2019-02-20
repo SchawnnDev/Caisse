@@ -185,6 +185,7 @@
     <Compile Include="Models\CheckoutTypeModel.cs" />
     <Compile Include="Models\ItemModel.cs" />
     <Compile Include="Models\JourModel.cs" />
+    <Compile Include="Models\MaxSellNumberModel.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\ResponsableModel.cs" />
     <Compile Include="Utils\Extensions.cs" />

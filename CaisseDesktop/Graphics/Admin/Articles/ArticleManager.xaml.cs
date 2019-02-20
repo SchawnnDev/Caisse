@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using CaisseServer.Items;
 using Microsoft.Win32;
 using Path = System.IO.Path;
@@ -21,13 +13,13 @@ namespace CaisseDesktop.Graphics.Admin.Articles
     /// <summary>
     /// Interaction logic for ArticleManager.xaml
     /// </summary>
-    public partial class ArticleManager : Window
+    public partial class ArticleManager
     {
         private static readonly Regex PasteRegex = new Regex("([0-9]*[.])?[0-9]+"); //regex that matches allowed text
         private static readonly Regex InsertRegex = new Regex("([0-9]|[.]|[,])"); //regex that matches allowed text
         private SaveableArticle Article { get; }
         private bool Start { get; set; } = true;
-
+         
         private bool New { get; set; }
         public ArticleManager(SaveableArticle article)
         {
@@ -35,6 +27,9 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             Article = article;
             New = article == null;
+
+            if (New)
+                Article = new SaveableArticle();
 
             Loaded += (sender, args) => { Start = false; };
 
@@ -115,7 +110,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
         private void EditImageFile_OnClick(object sender, RoutedEventArgs e)
         {
-            var openFileDialog = new OpenFileDialog()
+            var openFileDialog = new OpenFileDialog
             {
                 Title = "Selectionne une image",
                 InitialDirectory = New || string.IsNullOrWhiteSpace(Article.ImageSrc) ? Environment.GetFolderPath(Environment.SpecialFolder.Desktop) : Article.ImageSrc,
@@ -128,6 +123,20 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             ImagePath.Text = path;
             ArticleImage.Source = new BitmapImage(new Uri(path));
 
+        }
+
+        private void Active_OnClick(object sender, RoutedEventArgs e)
+        {
+            Article.Active = !Article.Active;
+        }
+
+        private void NeedsCup_OnClick(object sender, RoutedEventArgs e)
+        {
+            Article.NeedsCup = !Article.NeedsCup;
+        }
+
+        private void DeleteMaxSellNumber_OnClick(object sender, RoutedEventArgs e)
+        {
         }
     }
 }
