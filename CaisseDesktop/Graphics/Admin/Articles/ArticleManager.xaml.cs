@@ -17,6 +17,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
     {
         private static readonly Regex PasteRegex = new Regex("([0-9]*[.])?[0-9]+"); //regex that matches allowed text
         private static readonly Regex InsertRegex = new Regex("([0-9]|[.]|[,])"); //regex that matches allowed text
+        private static readonly Regex OnlyNumbersRegex = new Regex("([0-9])"); //regex that matches allowed text
         private SaveableArticle Article { get; }
         private bool Start { get; set; } = true;
          
@@ -33,6 +34,11 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             Loaded += (sender, args) => { Start = false; };
 
+
+        }
+
+        public void Fill()
+        {
 
         }
 
@@ -137,6 +143,20 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
         private void DeleteMaxSellNumber_OnClick(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void OnlyNumbers_OnPasting(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(string)))
+            {
+                var text = (string)e.DataObject.GetData(typeof(string));
+                if (text != null && !OnlyNumbersRegex.IsMatch(text))
+                    e.CancelCommand();
+            }
+            else
+            {
+                e.CancelCommand();
+            }
         }
     }
 }
