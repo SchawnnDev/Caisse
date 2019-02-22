@@ -144,7 +144,7 @@
                 </DataGrid>
 
                 <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
-                    <ComboBox x:Name="DayBox" SelectedIndex="0" SelectionChanged="Type_OnSelectionChanged">
+                    <ComboBox x:Name="ArticleDaysBox" SelectedIndex="0" SelectionChanged="Type_OnSelectionChanged">
                         <ComboBoxItem>01/01/2000</ComboBoxItem>
                     </ComboBox>
 

@@ -22,7 +22,7 @@ namespace CaisseDesktop.Models
                 if (Equals(value, _items)) return;
 
                 _items = value;
-                OnPropertyChanged("Items");
+                OnPropertyChanged("Articles");
             }
         }
 

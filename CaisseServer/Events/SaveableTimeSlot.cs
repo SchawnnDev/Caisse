@@ -13,6 +13,8 @@ namespace CaisseServer.Events
 
         public SaveableDay Day { get; set; }
 
+        public SaveableCheckout Checkout { get; set; }
+
         public DateTime Start { get; set; }
 
         public DateTime End { get; set; }

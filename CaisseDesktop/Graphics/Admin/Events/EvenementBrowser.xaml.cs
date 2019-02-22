@@ -13,7 +13,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
     /// <summary>
     ///     Interaction logic for EvenementBrowser.xaml
     /// </summary>
-    public partial class EvenementBrowser : Window
+    public partial class EvenementBrowser
     {
         public EvenementBrowser()
         {

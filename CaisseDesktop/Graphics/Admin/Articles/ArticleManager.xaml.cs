@@ -1,12 +1,18 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CaisseDesktop.Models;
 using CaisseDesktop.Utils;
+using CaisseServer;
 using CaisseServer.Items;
 using Microsoft.Win32;
 using Path = System.IO.Path;
@@ -23,8 +29,9 @@ namespace CaisseDesktop.Graphics.Admin.Articles
         private static readonly Regex OnlyNumbersRegex = new Regex("([0-9])"); //regex that matches allowed text
         private SaveableArticle Article { get; }
         private bool Start { get; set; } = true;
-         
         private bool New { get; set; }
+        private MaxSellNumberModel Model => DataContext as MaxSellNumberModel;
+
         public ArticleManager(SaveableArticle article)
         {
             InitializeComponent();
@@ -36,10 +43,48 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                 Article = new SaveableArticle();
             else Fill();
 
+            Task.Run(() => Load());
+
             Loaded += (sender, args) => { Start = false; };
 
 
         }
+
+        private void Load()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                DataContext = new MaxSellNumberModel();
+                Mouse.OverrideCursor = Cursors.Wait;
+            });
+
+            ObservableCollection<SaveableArticleMaxSellNumber> collection;
+
+            using (var db = new CaisseServerContext())
+            {
+                collection = new ObservableCollection<SaveableArticleMaxSellNumber>(db.ArticleMaxSellNumbers.Where(e => e.Article.Id == Article.Id).OrderByDescending(e => e.Day).Include(e => e.Day).ToList());
+
+
+                foreach (var day in db.Days.Where(t => t.Event.Id == Article.Type.Event.Id).OrderBy(t => t.Start).ToList())
+                {
+                    var date = day.Start;
+                    if (!collection.Any(t => t.Day.Start.Year == date.Year && t.Day.Start.Month == date.Month && t.Day.Start.Day == date.Day)) continue;
+                    ArticleDaysBox.Items.Add(new ComboBoxItem
+                    {
+                        Content = date.ToString("dd/MM/yyyy"),
+                        DataContext = day
+                    });
+                }
+
+            }
+
+            Dispatcher.Invoke(() =>
+            {
+                Model.MaxSellNumbers = collection;
+                Mouse.OverrideCursor = null;
+            });
+        }
+
 
         public void Fill()
         {
@@ -73,7 +118,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             {
                 e.CancelCommand();
             }
-    }
+        }
 
         private void Type_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {

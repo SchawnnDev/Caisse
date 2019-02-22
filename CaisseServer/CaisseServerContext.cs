@@ -15,7 +15,6 @@ namespace CaisseServer
         public DbSet<SaveableCheckoutType> CheckoutTypes { get; set; }
         public DbSet<SaveablePaymentMethod> PaymentMethods { get; set; }
         public DbSet<SaveableOperation> Operations { get; set; }
-        public DbSet<SaveableArticle> Items { get; set; }
         public DbSet<SaveableInvoice> Invoices { get; set; }
 
         // Events
@@ -25,6 +24,11 @@ namespace CaisseServer
         public DbSet<SaveableEvent> Events { get; set; }
         public DbSet<SaveableTimeSlot> TimeSlots { get; set; }
         public DbSet<SaveableOwner> Owners { get; set; }
+
+        // items
+
+        public DbSet<SaveableArticle> Articles { get; set; }
+        public DbSet<SaveableArticleMaxSellNumber> ArticleMaxSellNumbers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
