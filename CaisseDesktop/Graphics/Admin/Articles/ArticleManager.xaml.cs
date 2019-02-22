@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CaisseDesktop.Utils;
 using CaisseServer.Items;
 using Microsoft.Win32;
 using Path = System.IO.Path;
@@ -31,6 +34,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             if (New)
                 Article = new SaveableArticle();
+            else Fill();
 
             Loaded += (sender, args) => { Start = false; };
 
@@ -39,7 +43,16 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
         public void Fill()
         {
-
+            ArticleName.Text = Article.Name;
+            ArticleType.SelectedIndex = GetIndex(Article.ItemType);
+            ArticlePrice.Text = Article.Price.ToString(CultureInfo.CurrentCulture);
+            ArticleMaxSellPerDay.Text = Article.MaxSellNumberPerDay.ToString();
+            ArticleActivated.IsChecked = Article.Active;
+            ArticleImage.Source = new BitmapImage(new Uri(Article.ImageSrc));
+            ArticleImagePath.Text = Article.ImageSrc;
+            ArticleColor.SelectedColor = System.Drawing.ColorTranslator.FromHtml(Article.Color).Convert();
+            ArticleNeedsCup.IsChecked = Article.NeedsCup;
+            ArticleTracking.IsChecked = Article.NumberingTracking;
         }
 
         private void Price_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -67,24 +80,25 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             if (Start || e.AddedItems.Count != 1 || !(e.AddedItems[0] is ComboBoxItem item)) return;
 
-            var id = 0;
-
-            switch (item.Content)
-            {
-                case "Tickets":
-                    break;
-                case "Alimentation":
-                    id = 1;
-                    break;
-                case "Consignes":
-                    id = 2;
-                    break;
-                default:
-                    return;
-            }
+            var id = GetIndex((string)item.Content);
 
             if (Article == null || string.IsNullOrWhiteSpace(Article.ImageSrc))
                 EditImage(id); // change image when select other type
+        }
+
+        private int GetIndex(string name)
+        {
+            switch (name)
+            {
+                /*case "Tickets":
+                    return 0; */
+                case "Alimentation":
+                    return 1;
+                case "Consignes":
+                    return 2;
+                default:
+                    return 0;
+            }
         }
 
         private void EditImage(int type)
@@ -110,7 +124,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Resources/Images/{name}.png");
 
             ArticleImage.Source = new BitmapImage(new Uri(path));
-            ImagePath.Text = $"../Resources/Images/{name}.png";
+            ArticleImagePath.Text = $"../Resources/Images/{name}.png";
 
         }
 
@@ -126,7 +140,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             if (openFileDialog.ShowDialog() != true) return;
 
             var path = openFileDialog.FileName;
-            ImagePath.Text = path;
+            ArticleImagePath.Text = path;
             ArticleImage.Source = new BitmapImage(new Uri(path));
 
         }
@@ -158,5 +172,14 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                 e.CancelCommand();
             }
         }
+
+        private void AddMaxSellPerDay_OnClick(object sender, RoutedEventArgs e)
+        {
+
+            if (CustomPage.Check(MaxSellPerDayBox)) return;
+
+
+        }
+
     }
 }

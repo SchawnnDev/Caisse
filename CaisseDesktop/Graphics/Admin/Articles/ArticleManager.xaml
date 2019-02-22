@@ -39,7 +39,7 @@
                 <TextBox x:Name="ArticleName" Height="25" Width="Auto" Grid.Row="0" Grid.Column="1"/>
                 <!-- ### 2 ### -->
                 <Label Content="Type :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
-                <ComboBox x:Name="TypeBox" SelectedIndex="0" Grid.Row="1" Grid.Column="1" SelectionChanged="Type_OnSelectionChanged">
+                <ComboBox x:Name="ArticleType" SelectedIndex="0" Grid.Row="1" Grid.Column="1" SelectionChanged="Type_OnSelectionChanged">
                     <ComboBoxItem>Tickets</ComboBoxItem>
                     <ComboBoxItem>Alimentation</ComboBoxItem>
                     <ComboBoxItem>Consignes</ComboBoxItem>
@@ -49,11 +49,11 @@
                 <TextBox x:Name="ArticlePrice"  DataObject.Pasting="Number_OnPasting" PreviewTextInput="Price_OnPreviewTextInput" Height="25" Width="Auto" Grid.Row="2" Grid.Column="1"/>
                 <!-- ### 4 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Nb ventes max/jour:" DockPanel.Dock="Left" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-                <TextBox x:Name="MaxSellPerDay"  DataObject.Pasting="OnlyNumbers_OnPasting" Height="25" Width="Auto" Grid.Row="3" Grid.Column="1"/>
+                <TextBox x:Name="ArticleMaxSellPerDay"  DataObject.Pasting="OnlyNumbers_OnPasting" Height="25" Width="Auto" Grid.Row="3" Grid.Column="1"/>
                 <!-- ### 5 ### -->
                 <Label Content="Actif :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0"/>
 
-                <ToggleButton x:Name="Activate"
+                <ToggleButton x:Name="ArticleActivated"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
                               Click="Active_OnClick" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"/>
                 <!-- ### 6 ### -->
@@ -81,12 +81,11 @@
 
                 <DockPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  LastChildFill="True" VerticalAlignment="Center">
                     <Button Content="Editer" Click="EditImageFile_OnClick"></Button>
-                    <TextBox x:Name="ImagePath" IsReadOnly="True" Margin="4,0,0,0"  TextWrapping="NoWrap"  ScrollViewer.VerticalScrollBarVisibility="Disabled">../Resources/Images/ticket.png</TextBox>
+                    <TextBox x:Name="ArticleImagePath" IsReadOnly="True" Margin="4,0,0,0"  TextWrapping="NoWrap"  ScrollViewer.VerticalScrollBarVisibility="Disabled">../Resources/Images/ticket.png</TextBox>
                 </DockPanel>
 
                 <Label Content="Choisir une couleur :" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"></Label>
-                <xctk:ColorPicker Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
-
+                <xctk:ColorPicker x:Name="ArticleColor"  Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
 
             </Grid>
         </GroupBox>
@@ -107,12 +106,12 @@
 
                 <!-- ### 1 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Besoin de gobelet :" DockPanel.Dock="Left" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
-                <ToggleButton x:Name="NeedsCup"
+                <ToggleButton x:Name="ArticleNeedsCup"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
                               Click="NeedsCup_OnClick" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"/>
                 <!-- ### 2 ### -->
                 <Label Content="Tracking :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
-                <ToggleButton x:Name="Tracking"
+                <ToggleButton x:Name="ArticleTracking"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
                               Click="NeedsCup_OnClick" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"/>
                 <!-- ### 3 ### -->
@@ -149,8 +148,8 @@
                         <ComboBoxItem>01/01/2000</ComboBoxItem>
                     </ComboBox>
 
-                    <TextBox DataObject.Pasting="OnlyNumbers_OnPasting" PreviewTextInput="Price_OnPreviewTextInput" VerticalAlignment="Center" MinWidth="100" Margin="5,0,5,0" />
-                    <Button Content="Ajouter"></Button>
+                    <TextBox x:Name="MaxSellPerDayBox" DataObject.Pasting="OnlyNumbers_OnPasting" PreviewTextInput="Price_OnPreviewTextInput" VerticalAlignment="Center" MinWidth="100" Margin="5,0,5,0" />
+                    <Button Content="Ajouter" Click="AddMaxSellPerDay_OnClick"></Button>
                 </StackPanel>
 
             </Grid>
