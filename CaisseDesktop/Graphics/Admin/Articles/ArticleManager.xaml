@@ -1,4 +1,5 @@
-﻿<Window xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"  x:Class="CaisseDesktop.Graphics.Admin.Articles.ArticleManager"
+﻿<Window xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        x:Class="CaisseDesktop.Graphics.Admin.Articles.ArticleManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,113 +8,125 @@
         xmlns:models="clr-namespace:CaisseDesktop.Models"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:MaxSellNumberModel, IsDesignTimeCreatable=False}"
-        Title="ArticleManager" Height="450" Width="1000">
+        Title="ArticleManager" Height="450" Width="1000"  WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition MaxHeight="60"/>
+            <RowDefinition />
+            <RowDefinition MaxHeight="60" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <GroupBox Header="Informations" Grid.Row="0" Grid.Column="0" Margin="5" >
+        <GroupBox Header="Informations" Grid.Row="0" Grid.Column="0" Margin="5">
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MaxWidth="60"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition MaxWidth="60" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <!-- ### 1 ### -->
-                <Label Content="Nom :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
-                <TextBox x:Name="ArticleName" Height="25" Width="Auto" Grid.Row="0" Grid.Column="1"/>
+                <Label Content="Nom :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" />
+                <TextBox x:Name="ArticleName" Height="25" Width="Auto" Grid.Row="0" Grid.Column="1" />
                 <!-- ### 2 ### -->
-                <Label Content="Type :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
-                <ComboBox x:Name="ArticleType" SelectedIndex="0" Grid.Row="1" Grid.Column="1" SelectionChanged="Type_OnSelectionChanged">
+                <Label Content="Type :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
+                <ComboBox x:Name="ArticleType" SelectedIndex="0" Grid.Row="1" Grid.Column="1"
+                          SelectionChanged="Type_OnSelectionChanged">
                     <ComboBoxItem>Tickets</ComboBoxItem>
                     <ComboBoxItem>Alimentation</ComboBoxItem>
                     <ComboBoxItem>Consignes</ComboBoxItem>
                 </ComboBox>
                 <!-- ### 3 ### -->
-                <Label Content="Prix :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"/>
-                <TextBox x:Name="ArticlePrice"  DataObject.Pasting="Number_OnPasting" PreviewTextInput="Price_OnPreviewTextInput" Height="25" Width="Auto" Grid.Row="2" Grid.Column="1"/>
+                <Label Content="Prix :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" />
+                <TextBox x:Name="ArticlePrice" DataObject.Pasting="Number_OnPasting"
+                         PreviewTextInput="Price_OnPreviewTextInput" Height="25" Width="Auto" Grid.Row="2"
+                         Grid.Column="1" />
                 <!-- ### 4 ### -->
-                <TextBlock TextWrapping="WrapWithOverflow" Text="Nb ventes max/jour:" DockPanel.Dock="Left" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-                <TextBox x:Name="ArticleMaxSellPerDay"  DataObject.Pasting="OnlyNumbers_OnPasting" Height="25" Width="Auto" Grid.Row="3" Grid.Column="1"/>
+                <TextBlock TextWrapping="WrapWithOverflow" Text="Nb ventes max/jour:" DockPanel.Dock="Left"
+                           Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" />
+                <TextBox x:Name="ArticleMaxSellPerDay" DataObject.Pasting="OnlyNumbers_OnPasting" Height="25"
+                         Width="Auto" Grid.Row="3" Grid.Column="1" />
                 <!-- ### 5 ### -->
-                <Label Content="Actif :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0"/>
+                <Label Content="Actif :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
 
                 <ToggleButton x:Name="ArticleActivated"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                              Click="Active_OnClick" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left"/>
+                              Click="Active_OnClick" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" />
                 <!-- ### 6 ### -->
 
             </Grid>
 
         </GroupBox>
-        <GroupBox Header="Personnalisation" Grid.Row="0" Grid.Column="1" Margin="5" >
+        <GroupBox Header="Personnalisation" Grid.Row="0" Grid.Column="1" Margin="5">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition MinHeight="150"/>
-                    <RowDefinition/>
-                    <RowDefinition MaxHeight="15"/>
-                    <RowDefinition/>
-                    <RowDefinition MaxHeight="10"/>
+                    <RowDefinition MinHeight="150" />
+                    <RowDefinition />
+                    <RowDefinition MaxHeight="15" />
+                    <RowDefinition />
+                    <RowDefinition MaxHeight="10" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <Border BorderBrush="DarkSlateBlue" BorderThickness="2" Grid.ColumnSpan="2" Margin="20">
-                    <Image x:Name="ArticleImage"  Source="/CaisseDesktop;component/Resources/Images/ticket.png" Margin="2"/>
+                    <Image x:Name="ArticleImage" Source="/CaisseDesktop;component/Resources/Images/ticket.png"
+                           Margin="2" />
                 </Border>
 
-                <DockPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  LastChildFill="True" VerticalAlignment="Center">
-                    <Button Content="Editer" Click="EditImageFile_OnClick"></Button>
-                    <TextBox x:Name="ArticleImagePath" IsReadOnly="True" Margin="4,0,0,0"  TextWrapping="NoWrap"  ScrollViewer.VerticalScrollBarVisibility="Disabled">../Resources/Images/ticket.png</TextBox>
+                <DockPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" LastChildFill="True"
+                           VerticalAlignment="Center">
+                    <Button Content="Editer" Click="EditImageFile_OnClick" />
+                    <TextBox x:Name="ArticleImagePath" IsReadOnly="True" Margin="4,0,0,0" TextWrapping="NoWrap"
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        ../Resources/Images/ticket.png
+                    </TextBox>
                 </DockPanel>
 
-                <Label Content="Choisir une couleur :" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"></Label>
-                <xctk:ColorPicker x:Name="ArticleColor"  Grid.Row="3" Grid.Column="1" VerticalAlignment="Center"/>
+                <Label Content="Choisir une couleur :" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" />
+                <xctk:ColorPicker x:Name="ArticleColor" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" />
 
             </Grid>
         </GroupBox>
-        <GroupBox Header="Options" Grid.Row="0" Grid.Column="2" Margin="5" >
+        <GroupBox Header="Options" Grid.Row="0" Grid.Column="2" Margin="5">
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MaxWidth="70"></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition MaxWidth="70" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <!-- ### 1 ### -->
-                <TextBlock TextWrapping="WrapWithOverflow" Text="Besoin de gobelet :" DockPanel.Dock="Left" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                <TextBlock TextWrapping="WrapWithOverflow" Text="Besoin de gobelet :" DockPanel.Dock="Left"
+                           Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" />
                 <ToggleButton x:Name="ArticleNeedsCup"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                              Click="NeedsCup_OnClick" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left"/>
+                              Click="NeedsCup_OnClick" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" />
                 <!-- ### 2 ### -->
-                <Label Content="Tracking :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
+                <Label Content="Tracking :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="1"
+                       Grid.Column="0" />
                 <ToggleButton x:Name="ArticleTracking"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                              Click="NeedsCup_OnClick" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left"/>
+                              Click="NeedsCup_OnClick" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" />
                 <!-- ### 3 ### -->
                 <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
                           ItemsSource="{Binding MaxSellNumbers, IsAsync=true}" IsReadOnly="True" x:Name="MaxSellNumber"
@@ -131,7 +144,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
-                <!--
+                    <!--
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Display Shipping Addresses" />
@@ -148,15 +161,17 @@
                         <ComboBoxItem>01/01/2000</ComboBoxItem>
                     </ComboBox>
 
-                    <TextBox x:Name="MaxSellPerDayBox" DataObject.Pasting="OnlyNumbers_OnPasting" PreviewTextInput="Price_OnPreviewTextInput" VerticalAlignment="Center" MinWidth="100" Margin="5,0,5,0" />
-                    <Button Content="Ajouter" Click="AddMaxSellPerDay_OnClick"></Button>
+                    <TextBox x:Name="MaxSellPerDayBox" DataObject.Pasting="OnlyNumbers_OnPasting"
+                             PreviewTextInput="Price_OnPreviewTextInput" VerticalAlignment="Center" MinWidth="100"
+                             Margin="5,0,5,0" />
+                    <Button x:Name="AddMaxSellPerDayButton" Content="Ajouter" Click="AddMaxSellPerDay_OnClick" />
                 </StackPanel>
 
             </Grid>
 
         </GroupBox>
-        <Button Content="Sauvegarder" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center"/>
-
+        <Button Content="Sauvegarder" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1"
+                VerticalAlignment="Center" />
 
 
     </Grid>

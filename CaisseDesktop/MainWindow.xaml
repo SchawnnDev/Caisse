@@ -10,20 +10,20 @@
         WindowStartupLocation="CenterScreen">
     <!--WindowState="Maximized"> -->
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="49*" />
-            <ColumnDefinition Width="743*" />
-        </Grid.ColumnDefinitions>
-        <Button Content="Connect" Grid.Column="1" HorizontalAlignment="Left" Margin="365.4,302,0,0"
-                VerticalAlignment="Top" Width="111" Click="Button_Click" />
-        <Button Content="Print" Grid.Column="1" HorizontalAlignment="Left" Margin="115,153,0,0" VerticalAlignment="Top"
-                Width="75" Click="ButtonBase_OnClick" />
-        <Button Content="Connect" Grid.Column="1" HorizontalAlignment="Left" Margin="529.4,131,0,0"
-                VerticalAlignment="Top" Width="124" Click="ButtonConnection_OnClick" />
-        <Button Content="Afficher caisse" Grid.Column="1" HorizontalAlignment="Left" Margin="65.4,302,0,0"
-                VerticalAlignment="Top" Width="125" Height="77" Click="Button_Click_1" />
-        <Button Content="Login" Grid.Column="1" HorizontalAlignment="Left" Margin="340.4,48,0,0"
-            VerticalAlignment="Top" Width="111" Click="ButtonLogin_OnClick" />
+
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Content="Ouvrir administration" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" Click="Button_Click" Margin="5" />
+            <Button Content="Test impression" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Click="ButtonBase_OnClick" Margin="5"/>
+            <Button Content="Ancienne connection" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" Click="ButtonConnection_OnClick" Margin="5"/>
+            <Button Content="Afficher caisse" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" Click="Button_Click_1" Margin="5"/>
+            <Button Content="Se connecter caissier" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" Click="ButtonLogin_OnClick" Margin="5"/>
+        </StackPanel>
+
 
     </Grid>
 </Window>

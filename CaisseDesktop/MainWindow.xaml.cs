@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using CaisseDesktop.Graphics;
 using CaisseDesktop.Graphics.Admin;
+using CaisseDesktop.Graphics.Admin.Events;
 using CaisseDesktop.Graphics.Common;
 using CaisseDesktop.Graphics.Print;
 using CaisseLibrary;
@@ -35,8 +36,8 @@ namespace CaisseDesktop
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var window = new AdminMain();
-            window.Show();
+            var browser = new EvenementBrowser();
+            browser.Show();
             Close();
         }
 
@@ -109,7 +110,8 @@ namespace CaisseDesktop
 
         private void ButtonConnection_OnClick(object sender, RoutedEventArgs e)
         {
-            new Connection().ShowDialog();
+            new Connection().Show();
+            Close();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

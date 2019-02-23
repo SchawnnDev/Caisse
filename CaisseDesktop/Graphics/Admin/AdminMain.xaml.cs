@@ -15,8 +15,7 @@ namespace CaisseDesktop.Graphics.Admin
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var browser = new EvenementBrowser();
-            browser.ShowDialog();
+
         }
     }
 }

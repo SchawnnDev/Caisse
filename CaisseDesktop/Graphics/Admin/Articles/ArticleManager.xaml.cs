@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Globalization;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using CaisseDesktop.Models;
 using CaisseDesktop.Utils;
 using CaisseServer;
+using CaisseServer.Events;
 using CaisseServer.Items;
 using Microsoft.Win32;
 using Path = System.IO.Path;
@@ -45,7 +47,11 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             Task.Run(() => Load());
 
-            Loaded += (sender, args) => { Start = false; };
+            Loaded += (sender, args) =>
+            {
+                Start = false;
+                SwitchButtons(GetIndex(Article.ItemType));
+            };
 
 
         }
@@ -59,13 +65,15 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             });
 
             ObservableCollection<SaveableArticleMaxSellNumber> collection;
+            List<SaveableDay> days;
 
             using (var db = new CaisseServerContext())
             {
-                collection = new ObservableCollection<SaveableArticleMaxSellNumber>(db.ArticleMaxSellNumbers.Where(e => e.Article.Id == Article.Id).OrderByDescending(e => e.Day).Include(e => e.Day).ToList());
+                collection = New ? new ObservableCollection<SaveableArticleMaxSellNumber>() :new ObservableCollection<SaveableArticleMaxSellNumber>(db.ArticleMaxSellNumbers.Where(e => e.Article.Id == Article.Id).Include(e => e.Day).OrderByDescending(e => e.Day.Start).ToList());
 
+                days = New ? new List<SaveableDay>() : db.Days.Where(t => t.Event.Id == Article.Type.Event.Id).OrderBy(t => t.Start).ToList();
 
-                foreach (var day in db.Days.Where(t => t.Event.Id == Article.Type.Event.Id).OrderBy(t => t.Start).ToList())
+                foreach (var day in days)
                 {
                     var date = day.Start;
                     if (!collection.Any(t => t.Day.Start.Year == date.Year && t.Day.Start.Month == date.Month && t.Day.Start.Day == date.Day)) continue;
@@ -80,7 +88,17 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             Dispatcher.Invoke(() =>
             {
+
                 Model.MaxSellNumbers = collection;
+
+                if (days.Count == 0)
+                {
+                    MaxSellPerDayBox.IsEnabled = false;
+                    ArticleDaysBox.IsEnabled = false;
+                    //AddMaxSellPerDayButton.IsEnabled = false;
+                    AddMaxSellPerDayButton.Content = "Infos";
+                }
+                
                 Mouse.OverrideCursor = null;
             });
         }
@@ -98,6 +116,35 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             ArticleColor.SelectedColor = System.Drawing.ColorTranslator.FromHtml(Article.Color).Convert();
             ArticleNeedsCup.IsChecked = Article.NeedsCup;
             ArticleTracking.IsChecked = Article.NumberingTracking;
+        }
+
+        public void SwitchButtons(int type)
+        {
+
+            switch (type)
+            {
+                case 0:
+                    ArticleNeedsCup.IsEnabled = false;
+                    ArticleNeedsCup.IsChecked = false;
+                    Article.NeedsCup = false;
+                    ArticleTracking.IsEnabled = true;
+                    break;
+                case 1:
+                    ArticleNeedsCup.IsEnabled = true;
+                    ArticleTracking.IsChecked = false;
+                    Article.NumberingTracking = false;
+                    ArticleTracking.IsEnabled = false;
+                    break;
+                case 2:
+                    ArticleNeedsCup.IsChecked = false;
+                    ArticleTracking.IsChecked = false;
+                    Article.NumberingTracking = false;
+                    Article.NeedsCup = false;
+                    ArticleNeedsCup.IsEnabled = false;
+                    ArticleTracking.IsEnabled = false;
+                    break;
+            }
+
         }
 
         private void Price_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -127,8 +174,10 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             var id = GetIndex((string)item.Content);
 
-            if (Article == null || string.IsNullOrWhiteSpace(Article.ImageSrc))
+            if (Article == null || string.IsNullOrWhiteSpace(Article.ImageSrc)) { 
                 EditImage(id); // change image when select other type
+                SwitchButtons(id);
+            }
         }
 
         private int GetIndex(string name)
@@ -220,6 +269,12 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
         private void AddMaxSellPerDay_OnClick(object sender, RoutedEventArgs e)
         {
+
+            if (AddMaxSellPerDayButton.Content.Equals("Infos"))
+            {
+                MessageBox.Show("Veuillez ajouter des jours dans la page de gestion de l'évenement.");
+                return;
+            }
 
             if (CustomPage.Check(MaxSellPerDayBox)) return;
 
