@@ -78,6 +78,22 @@
 
                 </MenuItem>
 
+                <MenuItem Header="_Jours">
+
+                    <MenuItem x:Name="DisplayDays" Header="_Afficher les jours" Click="DisplayDays_OnClick" />
+
+                    <Separator />
+
+                    <MenuItem x:Name="CreateDay" Header="_Nouveau jour" Click="CreateDay_OnClick" />
+
+                    <Separator />
+
+                    <MenuItem x:Name="ImportDays" Header="_Importer" />
+
+                    <MenuItem x:Name="ExportDays" Header="_Exporter" />
+
+                </MenuItem>
+
             </Menu>
 
         </DockPanel>

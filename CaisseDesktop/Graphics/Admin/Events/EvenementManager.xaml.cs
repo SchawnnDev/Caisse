@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using CaisseDesktop.Graphics.Admin.Checkouts;
 using CaisseDesktop.Graphics.Admin.CheckoutTypes;
+using CaisseDesktop.Graphics.Admin.Days;
 using CaisseDesktop.Graphics.Admin.Events.Pages;
 using CaisseDesktop.Graphics.Admin.Owners;
 using CaisseDesktop.Utils;
@@ -116,7 +117,8 @@ namespace CaisseDesktop.Graphics.Admin.Events
                 DisplayCheckouts,
                 DisplayOwners,
                 EditInfos,
-                DisplayCheckoutTypes
+                DisplayCheckoutTypes,
+                DisplayDays
             };
         }
 
@@ -131,7 +133,44 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void CreateCheckoutType_OnClick(object sender, RoutedEventArgs e)
         {
-            new CheckoutTypeManager(null).ShowDialog();
+
+            if (Evenement != null)
+            {
+                new CheckoutTypeManager(null).ShowDialog();
+                return;
+            }
+
+            if (!MasterFrame.ToCustomPage().Equals("EventMainPage")) return;
+
+            SystemSounds.Beep.Play();
+            MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+
+        }
+
+        private void CreateDay_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (Evenement != null)
+            {
+                new DayManager(this, null).ShowDialog();
+                return;
+            }
+
+            if (!MasterFrame.ToCustomPage().Equals("EventMainPage")) return;
+
+            SystemSounds.Beep.Play();
+            MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+
+        }
+
+        private void DisplayDays_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen("EventDayPage")) return;
+            CustomPage page = new EventDayPage(this);
+            MasterFrame.Content = page;
+            CurrentPage = page;
+            GetMenuItems().DoPageNavigation(4);
         }
     }
 }

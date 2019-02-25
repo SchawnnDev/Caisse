@@ -1,0 +1,41 @@
+﻿<local:CustomPage x:Class="CaisseDesktop.Graphics.Admin.Events.Pages.EventDayPage"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin"
+                  xmlns:models="clr-namespace:CaisseDesktop.Models"
+                  mc:Ignorable="d"
+                  d:DataContext="{d:DesignInstance Type=models:JourModel, IsDesignTimeCreatable=False}"
+                  d:DesignHeight="450" d:DesignWidth="800"
+                  Title="EventDayPage">
+
+    <Grid>
+
+        <GroupBox Header="Gérer les jours" Margin="5">
+
+            <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ItemsSource="{Binding Jours, IsAsync=true}" IsReadOnly="True" x:Name="DaysGrid"
+                      AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                    <DataGridTextColumn Header="Début" Binding="{Binding Start}" />
+                    <DataGridTextColumn Header="Fin" Binding="{Binding End}" />
+                    <DataGridTemplateColumn Header="Actions">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Click="Edit_OnClick">Editer</Button>
+                                    <Button Margin="5 0 0 0" Click="Delete_OnClick">Supprimer</Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+        </GroupBox>
+
+    </Grid>
+</local:CustomPage>
