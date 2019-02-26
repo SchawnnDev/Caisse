@@ -4,8 +4,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Days"
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="CaisseDesktop.Graphics.Admin.Days.DayManager"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    x:Class="CaisseDesktop.Graphics.Admin.Days.DayManager"
+    xmlns:models="clr-namespace:CaisseDesktop.Models"
     mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=models:DayPickerModel, IsDesignTimeCreatable=False}"
     Title="Gestion d'un jour" Height="250" Width="400" WindowStartupLocation="CenterOwner">
     <Grid>
         <Grid.RowDefinitions>
@@ -13,8 +17,121 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <DatePicker Text="Début de la journée"  Grid.Row="0" Margin="10"/>
-        <DatePicker Text="Fin de la journée" Grid.Row="1" Margin="10"/>
+
+        <materialDesign:DialogHost Identifier="RootDialog" Grid.Row="0">
+
+            <StackPanel
+                Orientation="Horizontal">
+                <TextBlock
+                    Text="{Binding Start, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"
+                    VerticalAlignment="Center"
+                    FontSize="24" />
+                <Button
+                    Margin="8 0 0 0"
+                    Content="..."
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                    <Button.CommandParameter>
+                        <Grid
+                            Margin="-1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height="*" />
+                                <RowDefinition
+                                    Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <StackPanel
+                                Grid.Row="0"
+                                Orientation="Horizontal">
+                                <Calendar
+                                    x:Name="CombinedCalendar"
+                                    Margin="-1 -4 -1 0" />
+                                <materialDesign:Clock
+                                    x:Name="CombinedClock"
+                                    DisplayAutomation="CycleWithSeconds"
+                                    Is24Hours="True" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Row="1"
+                                Margin="8"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                                <Button
+                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                    CommandParameter="0"
+                                    Style="{DynamicResource MaterialDesignFlatButton}">
+                                    CANCEL
+                                </Button>
+                                <Button
+                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                    CommandParameter="1"
+                                    Style="{DynamicResource MaterialDesignFlatButton}">
+                                    OK
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Button.CommandParameter>
+                </Button>
+            </StackPanel>
+
+        </materialDesign:DialogHost>
+
+        <materialDesign:DialogHost Grid.Row="1">
+            <StackPanel
+                Orientation="Horizontal">
+                <TextBlock
+                    Text="{Binding End, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"
+                    VerticalAlignment="Center"
+                    FontSize="24" />
+                <Button
+                    Margin="8 0 0 0"
+                    Content="..."
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                    <Button.CommandParameter>
+                        <Grid
+                            Margin="-1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height="*" />
+                                <RowDefinition
+                                    Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <StackPanel
+                                Grid.Row="0"
+                                Orientation="Horizontal">
+                                <Calendar
+                                    x:Name="EndCombinedCalendar"
+                                    Margin="-1 -4 -1 0" />
+                                <materialDesign:Clock
+                                    x:Name="EndCombinedClock"
+                                    DisplayAutomation="CycleWithSeconds"
+                                    Is24Hours="True" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Row="1"
+                                Margin="8"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                                <Button
+                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                    CommandParameter="0"
+                                    Style="{DynamicResource MaterialDesignFlatButton}">
+                                    CANCEL
+                                </Button>
+                                <Button
+                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                    CommandParameter="1"
+                                    Style="{DynamicResource MaterialDesignFlatButton}">
+                                    OK
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Button.CommandParameter>
+                </Button>
+            </StackPanel>
+
+        </materialDesign:DialogHost>
+
+        <!--<xctk:DateTimePicker Text="Début de la journée"  Grid.Row="0" Margin="10"/> -->
         <Button x:Name="SaveDayButton" Content="Sauvegarder" Grid.Row="2" Margin="10" />
 
     </Grid>

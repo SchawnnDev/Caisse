@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using CaisseDesktop.Graphics.Admin.Events;
+using CaisseDesktop.Models;
 using CaisseServer.Events;
+using MaterialDesignThemes.Wpf;
 
 namespace CaisseDesktop.Graphics.Admin.Days
 {
@@ -22,15 +13,15 @@ namespace CaisseDesktop.Graphics.Admin.Days
     public partial class DayManager : Window
     {
 
-        private EvenementManager Parent { get; }
+        private EvenementManager Manager { get; }
         private SaveableDay Day { get; }
         private bool New { get; }
 
-        public DayManager(EvenementManager parent, SaveableDay day)
+        public DayManager(EvenementManager manager, SaveableDay day)
         {
             InitializeComponent();
-            this.Owner = parent;
-            Parent = parent;
+            this.Owner = manager;
+            Manager = manager;
             Day = day;
             New = day == null;
 
@@ -41,5 +32,24 @@ namespace CaisseDesktop.Graphics.Admin.Days
             }
 
         }
+
+        public void CalendarDialogOpenedEventHandler(object sender, DialogOpenedEventArgs eventArgs)
+        {
+//            Calendar.SelectedDate = ((DayPickerModel)DataContext).Date;
+        }
+
+        public void CalendarDialogClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if (!Equals(eventArgs.Parameter, "1")) return;
+            /*
+            if (!Calendar.SelectedDate.HasValue)
+            {
+                eventArgs.Cancel();
+                return;
+            } */
+
+           // ((DayPickerModel)DataContext).Date = Calendar.SelectedDate.Value;
+        }
+
     }
 }

@@ -186,6 +186,7 @@
     <Compile Include="Graphics\Print\SalesReceipt.cs" />
     <Compile Include="Models\CaisseModel.cs" />
     <Compile Include="Models\CheckoutTypeModel.cs" />
+    <Compile Include="Models\DayPickerModel.cs" />
     <Compile Include="Models\ItemModel.cs" />
     <Compile Include="Models\JourModel.cs" />
     <Compile Include="Models\MaxSellNumberModel.cs" />
