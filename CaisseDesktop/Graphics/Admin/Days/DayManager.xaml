@@ -10,28 +10,35 @@
     xmlns:models="clr-namespace:CaisseDesktop.Models"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=models:DayPickerModel, IsDesignTimeCreatable=False}"
-    Title="Gestion d'un jour" Height="250" Width="400" WindowStartupLocation="CenterOwner">
+    Title="Gestion d'un jour" Height="200" Width="400" WindowStartupLocation="CenterOwner" ResizeMode="CanMinimize" >
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="100"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <materialDesign:DialogHost Identifier="RootDialog" Grid.Row="0">
+        <materialDesign:DialogHost Identifier="RootDialog" Grid.Row="0" Grid.Column="1">
 
+            
             <StackPanel
                 Orientation="Horizontal">
                 <TextBlock
-                    Text="{Binding Start, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"
+                    Text="{Binding Start, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
                     VerticalAlignment="Center"
                     FontSize="24" />
                 <Button
                     Margin="8 0 0 0"
-                    Content="..."
-                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                    materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
+                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler">
+                    <materialDesign:PackIcon Kind="ClockStart" />
                     <Button.CommandParameter>
-                        <Grid
+                        <Grid Name="StartGrid"
                             Margin="-1">
                             <Grid.RowDefinitions>
                                 <RowDefinition
@@ -44,6 +51,7 @@
                                 Orientation="Horizontal">
                                 <Calendar
                                     x:Name="CombinedCalendar"
+                                    Language="fr-FR"
                                     Margin="-1 -4 -1 0" />
                                 <materialDesign:Clock
                                     x:Name="CombinedClock"
@@ -59,7 +67,7 @@
                                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                                     CommandParameter="0"
                                     Style="{DynamicResource MaterialDesignFlatButton}">
-                                    CANCEL
+                                    ANNULER
                                 </Button>
                                 <Button
                                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
@@ -72,22 +80,24 @@
                     </Button.CommandParameter>
                 </Button>
             </StackPanel>
-
+            
         </materialDesign:DialogHost>
 
-        <materialDesign:DialogHost Grid.Row="1">
+        <materialDesign:DialogHost Grid.Row="1" Grid.Column="1">
             <StackPanel
                 Orientation="Horizontal">
                 <TextBlock
-                    Text="{Binding End, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}"
+                    Text="{Binding End, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
                     VerticalAlignment="Center"
                     FontSize="24" />
                 <Button
                     Margin="8 0 0 0"
-                    Content="..."
-                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                    materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
+                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler">
+                    <materialDesign:PackIcon Kind="ClockEnd" />
                     <Button.CommandParameter>
-                        <Grid
+                        <Grid Name="EndGrid"
                             Margin="-1">
                             <Grid.RowDefinitions>
                                 <RowDefinition
@@ -100,7 +110,8 @@
                                 Orientation="Horizontal">
                                 <Calendar
                                     x:Name="EndCombinedCalendar"
-                                    Margin="-1 -4 -1 0" />
+                                    Margin="-1 -4 -1 0"
+                                    Language="fr-FR"/>
                                 <materialDesign:Clock
                                     x:Name="EndCombinedClock"
                                     DisplayAutomation="CycleWithSeconds"
@@ -115,7 +126,7 @@
                                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                                     CommandParameter="0"
                                     Style="{DynamicResource MaterialDesignFlatButton}">
-                                    CANCEL
+                                    ANNULER
                                 </Button>
                                 <Button
                                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
@@ -131,8 +142,10 @@
 
         </materialDesign:DialogHost>
 
+        <TextBlock Text="Début du jour :" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10"></TextBlock>
+        <TextBlock Text="Fin du jour :" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10"/>
         <!--<xctk:DateTimePicker Text="Début de la journée"  Grid.Row="0" Margin="10"/> -->
-        <Button x:Name="SaveDayButton" Content="Sauvegarder" Grid.Row="2" Margin="10" />
+        <Button x:Name="SaveDayButton" Content="Sauvegarder" Click="SaveDayButton_OnClick" Grid.Row="2" Margin="10" Grid.Column="0" Grid.ColumnSpan="2" />
 
     </Grid>
 </Window>
