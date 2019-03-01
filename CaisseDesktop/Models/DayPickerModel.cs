@@ -13,10 +13,10 @@ namespace CaisseDesktop.Models
         private DateTime _start;
         private DateTime _end;
 
-        public DayPickerModel()
+        public DayPickerModel(DateTime start, DateTime end)
         {
-            Start = DateTime.Now;
-            End = DateTime.Now;
+            Start = start;
+            End = end;
         }
 
         public DateTime Start
