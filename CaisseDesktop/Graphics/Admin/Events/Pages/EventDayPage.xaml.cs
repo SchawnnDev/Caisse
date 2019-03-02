@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CaisseDesktop.Graphics.Admin.Days;
 using CaisseDesktop.Graphics.Admin.Owners;
 using CaisseDesktop.Models;
 using CaisseServer;
@@ -25,10 +26,13 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
     /// </summary>
     public partial class EventDayPage
     {
+        private EvenementManager Manager { get; }
+
         public EventDayPage(EvenementManager parentWindow)
         {
             InitializeComponent();
             ParentWindow = parentWindow;
+            Manager = parentWindow;
 
             New = parentWindow.Evenement == null;
 
@@ -81,7 +85,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             var btn = sender as Button;
 
             if (btn?.DataContext is SaveableDay day)
-                btn = btn; //new OwnerManager(ParentWindow, day).ShowDialog();
+                new DayManager(Manager, day).ShowDialog(); //new OwnerManager(ParentWindow, day).ShowDialog();
             else
                 MessageBox.Show($"{btn} : le jour n'est pas valide.", "Erreur", MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -101,7 +105,9 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
                 using (var db = new CaisseServerContext())
                 {
+                    db.Days.Attach(day);
                     db.Days.Remove(day);
+                    db.SaveChanges();
                 }
             }
             else

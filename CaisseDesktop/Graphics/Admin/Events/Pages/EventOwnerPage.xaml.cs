@@ -81,7 +81,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
         private void Delete_OnClick(object sender, RoutedEventArgs e)
         {
             var btn = sender as Button;
-
+            
             if (btn?.DataContext is SaveableOwner owner)
             {
                 var result = MessageBox.Show("Es tu sûr de vouloir supprimer ce résponsable ?",
@@ -92,8 +92,13 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
                 using (var db = new CaisseServerContext())
                 {
+                    db.Owners.Attach(owner);
                     db.Owners.Remove(owner);
+                    db.SaveChanges();
                 }
+
+                ResponsableModel.Responables.Remove(owner);
+
             }
             else
             {

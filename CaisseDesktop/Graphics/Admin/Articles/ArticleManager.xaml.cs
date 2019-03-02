@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CaisseDesktop.Graphics.Admin.CheckoutTypes;
 using CaisseDesktop.Models;
 using CaisseDesktop.Utils;
 using CaisseServer;
@@ -33,13 +34,15 @@ namespace CaisseDesktop.Graphics.Admin.Articles
         private bool Start { get; set; } = true;
         private bool New { get; set; }
         private MaxSellNumberModel Model => DataContext as MaxSellNumberModel;
+        private CheckoutTypeManager Manager { get; }
 
-        public ArticleManager(SaveableArticle article)
+        public ArticleManager(CheckoutTypeManager manager, SaveableArticle article)
         {
             InitializeComponent();
 
             Article = article;
             New = article == null;
+            Manager = manager;
 
             if (New)
                 Article = new SaveableArticle();
@@ -69,20 +72,9 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             using (var db = new CaisseServerContext())
             {
-                collection = New ? new ObservableCollection<SaveableArticleMaxSellNumber>() :new ObservableCollection<SaveableArticleMaxSellNumber>(db.ArticleMaxSellNumbers.Where(e => e.Article.Id == Article.Id).Include(e => e.Day).OrderByDescending(e => e.Day.Start).ToList());
+                collection = New ? new ObservableCollection<SaveableArticleMaxSellNumber>() : new ObservableCollection<SaveableArticleMaxSellNumber>(db.ArticleMaxSellNumbers.Where(e => e.Article.Id == Article.Id).Include(e => e.Day).OrderByDescending(e => e.Day.Start).ToList());
 
-                days = New ? new List<SaveableDay>() : db.Days.Where(t => t.Event.Id == Article.Type.Event.Id).OrderBy(t => t.Start).ToList();
-
-                foreach (var day in days)
-                {
-                    var date = day.Start;
-                    if (!collection.Any(t => t.Day.Start.Year == date.Year && t.Day.Start.Month == date.Month && t.Day.Start.Day == date.Day)) continue;
-                    ArticleDaysBox.Items.Add(new ComboBoxItem
-                    {
-                        Content = date.ToString("dd/MM/yyyy"),
-                        DataContext = day
-                    });
-                }
+                days = db.Days.Where(t => t.Event.Id == Manager.Manager.Evenement.Id).OrderBy(t => t.Start).ToList();
 
             }
 
@@ -98,7 +90,25 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                     //AddMaxSellPerDayButton.IsEnabled = false;
                     AddMaxSellPerDayButton.Content = "Infos";
                 }
-                
+                else
+                {
+
+                    ArticleDaysBox.Items.Clear();
+
+                    foreach (var day in days)
+                    {
+                        var date = day.Start;
+                        if (collection.Any(t => t.Day.Start.Year == date.Year && t.Day.Start.Month == date.Month && t.Day.Start.Day == date.Day)) continue;
+                        ArticleDaysBox.Items.Add(new ComboBoxItem
+                        {
+                            Content = date.ToString("dd/MM/yyyy"),
+                            DataContext = day
+                        });
+                    }
+
+                    ArticleDaysBox.SelectedIndex = 0;
+                }
+
                 Mouse.OverrideCursor = null;
             });
         }
@@ -174,7 +184,8 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             var id = GetIndex((string)item.Content);
 
-            if (Article == null || string.IsNullOrWhiteSpace(Article.ImageSrc)) { 
+            if (Article == null || string.IsNullOrWhiteSpace(Article.ImageSrc))
+            {
                 EditImage(id); // change image when select other type
                 SwitchButtons(id);
             }
@@ -251,6 +262,34 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
         private void DeleteMaxSellNumber_OnClick(object sender, RoutedEventArgs e)
         {
+            var btn = sender as Button;
+
+            if (btn?.DataContext is SaveableArticleMaxSellNumber maxSellNumber)
+            {
+                var result = MessageBox.Show("Es tu sûr de vouloir supprimer ce nb max de ventes ?",
+                    "Supprimer un nb max de ventes",
+                    MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+
+                if (result != MessageBoxResult.Yes) return;
+
+                if (maxSellNumber.Article != null)
+                {
+                    using (var db = new CaisseServerContext())
+                    {
+                        db.ArticleMaxSellNumbers.Attach(maxSellNumber);
+                        db.ArticleMaxSellNumbers.Remove(maxSellNumber);
+                        db.SaveChanges();
+                    }
+
+                }
+
+                Model.MaxSellNumbers.Remove(maxSellNumber);
+            }
+            else
+            {
+                MessageBox.Show($"{btn} : le nb max de ventes n'est pas valide.", "Erreur", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
 
         private void OnlyNumbers_OnPasting(object sender, DataObjectPastingEventArgs e)
@@ -277,6 +316,26 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             }
 
             if (CustomPage.Check(MaxSellPerDayBox)) return;
+            if (!(ArticleDaysBox.SelectedItem is ComboBoxItem item)) return;
+            var day = item.DataContext as SaveableDay;
+
+            var maxSellPerDay = new SaveableArticleMaxSellNumber
+            {
+                Day = day,
+                Amount = int.Parse(MaxSellPerDayBox.Text)
+            };
+
+            Model.MaxSellNumbers.Add(maxSellPerDay);
+            ArticleDaysBox.Items.RemoveAt(ArticleDaysBox.SelectedIndex);
+            ArticleDaysBox.SelectedIndex = 0;
+            MaxSellPerDayBox.Text = "";
+
+            if (ArticleDaysBox.Items.Count != 0) return;
+
+            MaxSellPerDayBox.IsEnabled = false;
+            ArticleDaysBox.IsEnabled = false;
+            //AddMaxSellPerDayButton.IsEnabled = false;
+            AddMaxSellPerDayButton.Content = "Infos";
 
 
         }

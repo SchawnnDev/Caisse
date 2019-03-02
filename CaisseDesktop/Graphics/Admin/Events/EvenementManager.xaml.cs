@@ -136,7 +136,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             if (Evenement != null)
             {
-                new CheckoutTypeManager(null).ShowDialog();
+                new CheckoutTypeManager(this,null).ShowDialog();
                 return;
             }
 

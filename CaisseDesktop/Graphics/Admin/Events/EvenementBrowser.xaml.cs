@@ -80,6 +80,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
                 using (var db = new CaisseServerContext())
                 {
+                    db.Events.Attach(evenement);
                     db.Events.Remove(evenement);
                 }
             }

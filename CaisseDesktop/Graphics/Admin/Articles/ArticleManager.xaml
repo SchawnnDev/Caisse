@@ -8,7 +8,7 @@
         xmlns:models="clr-namespace:CaisseDesktop.Models"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:MaxSellNumberModel, IsDesignTimeCreatable=False}"
-        Title="ArticleManager" Height="450" Width="1000"  WindowStartupLocation="CenterScreen">
+        Title="ArticleManager" Height="450" Width="1050"  WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CaisseDesktop.Graphics.Admin.Articles;
+using CaisseDesktop.Graphics.Admin.Events;
 using CaisseServer;
 
 namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
@@ -23,12 +24,14 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
     public partial class CheckoutTypeManager
     {
         public SaveableCheckoutType CheckoutType { get; set; }
+        public EvenementManager Manager { get; }
 
-        public CheckoutTypeManager(SaveableCheckoutType type)
+        public CheckoutTypeManager(EvenementManager manager, SaveableCheckoutType type)
         {
             InitializeComponent();
 
             CheckoutType = type;
+            Manager = manager;
 
             if (type == null) return;
 
@@ -64,7 +67,7 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
 
         private void AddArticle_OnClick(object sender, RoutedEventArgs e)
         {
-            new ArticleManager(null).ShowDialog();
+            new ArticleManager(this,null).ShowDialog();
         }
     }
 }

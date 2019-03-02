@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Data.Entity.Migrations;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using CaisseDesktop.Graphics.Admin.Events;
 using CaisseDesktop.Models;
+using CaisseDesktop.Utils;
 using CaisseLibrary.Utils;
 using CaisseServer;
 using CaisseServer.Events;
@@ -36,8 +40,12 @@ namespace CaisseDesktop.Graphics.Admin.Days
             CombinedCalendar.BlackoutDates.Add(new CalendarDateRange(manager.Evenement.End.AddDays(1),
                 DateTime.MaxValue));
 
-            if (New)
-                Day = new SaveableDay();
+            if (!New) return;
+
+            Day = new SaveableDay
+            {
+                Event = manager.Evenement
+            };
         }
 
         public void CombinedDialogOpenedEventHandler(object sender, DialogOpenedEventArgs eventArgs)
@@ -46,13 +54,13 @@ namespace CaisseDesktop.Graphics.Admin.Days
 
             if (grid.Name.Equals("StartGrid"))
             {
-                CombinedCalendar.SelectedDate = ((DayPickerModel) DataContext).Start;
-                CombinedClock.Time = ((DayPickerModel) DataContext).Start;
+                CombinedCalendar.SelectedDate = ((DayPickerModel)DataContext).Start;
+                CombinedClock.Time = ((DayPickerModel)DataContext).Start;
                 return;
             }
 
-            EndCombinedCalendar.SelectedDate = ((DayPickerModel) DataContext).End;
-            EndCombinedClock.Time = ((DayPickerModel) DataContext).End;
+            EndCombinedCalendar.SelectedDate = ((DayPickerModel)DataContext).End;
+            EndCombinedClock.Time = ((DayPickerModel)DataContext).End;
         }
 
         public void CombinedDialogClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
@@ -69,27 +77,28 @@ namespace CaisseDesktop.Graphics.Admin.Days
 
             if (FirstClose)
             {
-                ((DayPickerModel) DataContext).Start = ((DayPickerModel) DataContext).End = combined;
+                ((DayPickerModel)DataContext).Start = ((DayPickerModel)DataContext).End = combined;
                 FirstClose = false;
                 return;
             }
 
-            if (start) ((DayPickerModel) DataContext).Start = combined;
-            else ((DayPickerModel) DataContext).End = combined;
+            if (start) ((DayPickerModel)DataContext).Start = combined;
+            else ((DayPickerModel)DataContext).End = combined;
         }
 
         private void SaveDayButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var pickerModel = (DayPickerModel) DataContext;
+            var pickerModel = (DayPickerModel)DataContext;
 
-            var test = (long) pickerModel.End.ToUnixTimeStamp() - (long) pickerModel.Start.ToUnixTimeStamp();
+            var test = (long)pickerModel.End.ToUnixTimeStamp() - (long)pickerModel.Start.ToUnixTimeStamp();
 
             if (test <= 0)
             {
                 MessageBox.Show("La fin de l'évenement ne peut pas être avant le début.");
                 return;
             }
-            else if (test > 60 * 60 * 24 &&
+
+            if (test > 60 * 60 * 24 &&
                      MessageBox.Show("Le jour dure plus de 24h, es-tu sûr de vouloir sauvegarder ?",
                          "Jour supérieur à 24h.", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
             {
@@ -135,16 +144,48 @@ namespace CaisseDesktop.Graphics.Admin.Days
 
             }
 
-
-            MessageBox.Show("Sauvegarde...");
-
+            //MessageBox.Show("Sauvegarde...");
 
         }
 
-
-        private void Save(CaisseServerContext context)
+        private void Save(CaisseServerContext db)
         {
+            Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
 
+            Debug.Assert(CombinedCalendar.SelectedDate != null, "CombinedCalendar.SelectedDate != null");
+            Debug.Assert(EndCombinedCalendar.SelectedDate != null, "EndCombinedCalendar.SelectedDate != null");
+
+            Day.Start = CombinedCalendar.SelectedDate.Value;
+            Day.End = EndCombinedCalendar.SelectedDate.Value;
+            db.Events.Attach(Day.Event);
+
+            if (New)
+            {
+                db.Days.Add(Day);
+            }
+            else
+            {
+                db.Days.Attach(Day);
+                db.Days.AddOrUpdate(Day);
+            }
+            
+            db.SaveChanges();
+
+            Dispatcher.Invoke(() =>
+            {
+
+                if (Manager.MasterFrame.ToCustomPage().CustomName.Equals("EventDayPage"))
+                {
+                    if (New) Manager.MasterFrame.ToCustomPage().Add(Day);
+                    else Manager.MasterFrame.ToCustomPage().Update();
+                }
+
+                Mouse.OverrideCursor = null;
+                MessageBox.Show(New ? "Le jour a bien été crée !" : "Le jour a bien été enregistré !");
+
+                Close();
+
+            });
         }
     }
 
