@@ -54,8 +54,8 @@
                 <!-- ### 4 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Nb ventes max/jour:" DockPanel.Dock="Left"
                            Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" />
-                <TextBox x:Name="ArticleMaxSellPerDay" DataObject.Pasting="OnlyNumbers_OnPasting" Height="25"
-                         Width="Auto" Grid.Row="3" Grid.Column="1" />
+                <TextBox x:Name="ArticleMaxSellPerDay" DataObject.Pasting="OnlyNumbers_OnPasting" PreviewTextInput="OnlyNumbers_OnPreviewTextInput"
+                         Height="25" Width="Auto" Grid.Row="3" Grid.Column="1" />
                 <!-- ### 5 ### -->
                 <Label Content="Actif :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
 
@@ -126,7 +126,7 @@
                        Grid.Column="0" />
                 <ToggleButton x:Name="ArticleTracking"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                              Click="NeedsCup_OnClick" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" />
+                              Click="Tracking_OnClick" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" />
                 <!-- ### 3 ### -->
                 <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
                           ItemsSource="{Binding MaxSellNumbers, IsAsync=true}" IsReadOnly="True" x:Name="MaxSellNumber"
@@ -162,7 +162,7 @@
                     </ComboBox>
 
                     <TextBox x:Name="MaxSellPerDayBox" DataObject.Pasting="OnlyNumbers_OnPasting"
-                             PreviewTextInput="Price_OnPreviewTextInput" VerticalAlignment="Center" MinWidth="100"
+                             PreviewTextInput="OnlyNumbers_OnPreviewTextInput" VerticalAlignment="Center" MinWidth="100"
                              Margin="5,0,5,0" />
                     <Button x:Name="AddMaxSellPerDayButton" Content="Ajouter" Click="AddMaxSellPerDay_OnClick" />
                 </StackPanel>
@@ -171,7 +171,7 @@
 
         </GroupBox>
         <Button Content="Sauvegarder" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1"
-                VerticalAlignment="Center" />
+                VerticalAlignment="Center" Click="Save_OnClick" />
 
 
     </Grid>

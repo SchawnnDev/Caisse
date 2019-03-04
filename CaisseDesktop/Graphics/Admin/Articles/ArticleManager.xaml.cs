@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
+using System.Media;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -45,8 +46,16 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             Manager = manager;
 
             if (New)
-                Article = new SaveableArticle();
-            else Fill();
+            {
+                Article = new SaveableArticle
+                {
+                    Type = manager.CheckoutType
+                };
+            }
+            else
+            {
+                Fill();
+            }
 
             Task.Run(() => Load());
 
@@ -85,10 +94,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
                 if (days.Count == 0)
                 {
-                    MaxSellPerDayBox.IsEnabled = false;
-                    ArticleDaysBox.IsEnabled = false;
-                    //AddMaxSellPerDayButton.IsEnabled = false;
-                    AddMaxSellPerDayButton.Content = "Infos";
+                    ToggleMaxSellPerDayBox(false);
                 }
                 else
                 {
@@ -133,28 +139,45 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             switch (type)
             {
-                case 0:
+                case 0: //tickets
                     ArticleNeedsCup.IsEnabled = false;
                     ArticleNeedsCup.IsChecked = false;
                     Article.NeedsCup = false;
                     ArticleTracking.IsEnabled = true;
+                    ArticleMaxSellPerDay.IsEnabled = true;
+                    //
+                    ToggleMaxSellPerDay(true);
                     break;
-                case 1:
+                case 1://alimentation
                     ArticleNeedsCup.IsEnabled = true;
                     ArticleTracking.IsChecked = false;
                     Article.NumberingTracking = false;
                     ArticleTracking.IsEnabled = false;
+                    ArticleMaxSellPerDay.IsEnabled = true;
+                    //
+                    ToggleMaxSellPerDay(true);
                     break;
-                case 2:
+                case 2://consignes
+                    ArticleMaxSellPerDay.IsEnabled = false;
                     ArticleNeedsCup.IsChecked = false;
                     ArticleTracking.IsChecked = false;
                     Article.NumberingTracking = false;
                     Article.NeedsCup = false;
                     ArticleNeedsCup.IsEnabled = false;
                     ArticleTracking.IsEnabled = false;
+                    //
+                    ToggleMaxSellPerDay(false);
                     break;
             }
 
+        }
+
+        private void ToggleMaxSellPerDay(bool toggle)
+        {
+            MaxSellPerDayBox.IsEnabled = toggle && ArticleDaysBox.Items.Count != 0;
+            ArticleDaysBox.IsEnabled = toggle && ArticleDaysBox.Items.Count != 0;
+            AddMaxSellPerDayButton.IsEnabled = toggle && ArticleDaysBox.Items.Count != 0;
+            MaxSellNumber.IsEnabled = toggle;
         }
 
         private void Price_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -189,6 +212,22 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                 EditImage(id); // change image when select other type
                 SwitchButtons(id);
             }
+        }
+
+        private string GetType(int index)
+        {
+            var name = "Tickets";
+            switch (index)
+            {
+                case 1:
+                    name = "Alimentation";
+                    break;
+                case 2:
+                    name = "Consignes";
+                    break;
+            }
+
+            return name;
         }
 
         private int GetIndex(string name)
@@ -259,6 +298,10 @@ namespace CaisseDesktop.Graphics.Admin.Articles
         {
             Article.NeedsCup = !Article.NeedsCup;
         }
+        private void Tracking_OnClick(object sender, RoutedEventArgs e)
+        {
+            Article.NumberingTracking = !Article.NumberingTracking;
+        }
 
         private void DeleteMaxSellNumber_OnClick(object sender, RoutedEventArgs e)
         {
@@ -266,7 +309,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             if (btn?.DataContext is SaveableArticleMaxSellNumber maxSellNumber)
             {
-                var result = MessageBox.Show("Es tu sûr de vouloir supprimer ce nb max de ventes ?",
+                var result = MessageBox.Show("Es-tu sûr de vouloir supprimer ce nb max de ventes ?",
                     "Supprimer un nb max de ventes",
                     MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
 
@@ -286,12 +329,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                 Model.MaxSellNumbers.Remove(maxSellNumber);
 
                 if (ArticleDaysBox.Items.Count == 0)
-                {
-                    MaxSellPerDayBox.IsEnabled = true;
-                    ArticleDaysBox.IsEnabled = true;
-                    //AddMaxSellPerDayButton.IsEnabled = false;
-                    AddMaxSellPerDayButton.Content = "Ajouter";
-                }
+                    ToggleMaxSellPerDayBox(true);
 
                 ArticleDaysBox.Items.Add(new ComboBoxItem
                 {
@@ -349,12 +387,84 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             if (ArticleDaysBox.Items.Count != 0) return;
 
-            MaxSellPerDayBox.IsEnabled = false;
-            ArticleDaysBox.IsEnabled = false;
-            //AddMaxSellPerDayButton.IsEnabled = false;
-            AddMaxSellPerDayButton.Content = "Infos";
+            ToggleMaxSellPerDayBox(false);
+
+        }
+
+        public void ToggleMaxSellPerDayBox(bool toggle)
+        {
+            MaxSellPerDayBox.IsEnabled = toggle;
+            ArticleDaysBox.IsEnabled = toggle;
+            AddMaxSellPerDayButton.Content = !toggle ? "Infos" : "Ajouter";
+        }
+
+        private void OnlyNumbers_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !OnlyNumbersRegex.IsMatch(e.Text);
+        }
 
 
+        private void Save_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (CustomPage.Check(ArticleName) || CustomPage.Check(ArticlePrice) ||
+                CustomPage.Check(ArticleMaxSellPerDay))
+                return;
+
+            if (ArticleColor.SelectedColor == null)
+            {
+                ArticleColor.BorderBrush = Brushes.Red;
+                SystemSounds.Beep.Play();
+                return;
+            }
+
+            Article.Name = ArticleName.Text;
+            Article.Price = decimal.Parse(ArticlePrice.Text.Replace('.', ','));
+            Article.MaxSellNumberPerDay = int.Parse(ArticleMaxSellPerDay.Text);
+            Article.Color = System.Drawing.ColorTranslator.ToHtml(ArticleColor.SelectedColor.Value.Convert());
+            Article.ItemType = GetType(ArticleType.SelectedIndex);
+
+            Task.Run(() => Save());
+        }
+
+        private void Save()
+        {
+            Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
+
+            using (var db = new CaisseServerContext())
+            {
+
+                if (New)
+                {
+                    db.CheckoutTypes.Attach(Article.Type);
+                    db.Articles.Add(Article);
+                }
+                else
+                {
+                    db.Articles.Attach(Article);
+                }
+
+
+                db.Entry(Article).State = New ? EntityState.Added : EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            Dispatcher.Invoke(() =>
+            {
+                Mouse.OverrideCursor = null;
+                MessageBox.Show(New ? "L'article a bien été crée !" : "L'article a bien été enregistré !");
+
+
+                if (ParentWindow.ParentWindow.CurrentPage.Equals("EventCheckoutPage"))
+                {
+                    if (New)
+                        ParentWindow.ParentWindow.CurrentPage.Add(ParentWindow.Checkout);
+                    else
+                        ParentWindow.ParentWindow.CurrentPage.Update();
+                }
+
+                ToggleBlocked(true);
+                Saved = true;
+            });
         }
 
     }

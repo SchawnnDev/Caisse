@@ -109,6 +109,8 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
                     db.Days.Remove(day);
                     db.SaveChanges();
                 }
+
+                JourModel.Jours.Remove(day);
             }
             else
             {
