@@ -284,6 +284,23 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                 }
 
                 Model.MaxSellNumbers.Remove(maxSellNumber);
+
+                if (ArticleDaysBox.Items.Count == 0)
+                {
+                    MaxSellPerDayBox.IsEnabled = true;
+                    ArticleDaysBox.IsEnabled = true;
+                    //AddMaxSellPerDayButton.IsEnabled = false;
+                    AddMaxSellPerDayButton.Content = "Ajouter";
+                }
+
+                ArticleDaysBox.Items.Add(new ComboBoxItem
+                {
+                    Content = maxSellNumber.Day.Start.ToString("dd/MM/yyyy"),
+                    DataContext = maxSellNumber.Day
+                });
+
+                ArticleDaysBox.SelectedIndex = 0;
+
             }
             else
             {

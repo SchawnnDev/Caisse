@@ -98,7 +98,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             if (btn?.DataContext is SaveableDay day)
             {
                 var result = MessageBox.Show("Es tu sûr de vouloir supprimer ce jour ?",
-                    "Supprimer un résponsable",
+                    "Supprimer un jour",
                     MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
 
                 if (result != MessageBoxResult.Yes) return;
