@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Text;
-using com.epson.pos.driver;
 using CaisseLibrary.Concrete.Invoices;
 using PrinterUtility;
 

@@ -64,8 +64,6 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                 Start = false;
                 SwitchButtons(GetIndex(Article.ItemType));
             };
-
-
         }
 
         private void Load()
@@ -81,15 +79,17 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             using (var db = new CaisseServerContext())
             {
-                collection = New ? new ObservableCollection<SaveableArticleMaxSellNumber>() : new ObservableCollection<SaveableArticleMaxSellNumber>(db.ArticleMaxSellNumbers.Where(e => e.Article.Id == Article.Id).Include(e => e.Day).OrderByDescending(e => e.Day.Start).ToList());
+                collection = New
+                    ? new ObservableCollection<SaveableArticleMaxSellNumber>()
+                    : new ObservableCollection<SaveableArticleMaxSellNumber>(db.ArticleMaxSellNumbers
+                        .Where(e => e.Article.Id == Article.Id).Include(e => e.Day).OrderByDescending(e => e.Day.Start)
+                        .ToList());
 
                 days = db.Days.Where(t => t.Event.Id == Manager.Manager.Evenement.Id).OrderBy(t => t.Start).ToList();
-
             }
 
             Dispatcher.Invoke(() =>
             {
-
                 Model.MaxSellNumbers = collection;
 
                 if (days.Count == 0)
@@ -98,13 +98,14 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                 }
                 else
                 {
-
                     ArticleDaysBox.Items.Clear();
 
                     foreach (var day in days)
                     {
                         var date = day.Start;
-                        if (collection.Any(t => t.Day.Start.Year == date.Year && t.Day.Start.Month == date.Month && t.Day.Start.Day == date.Day)) continue;
+                        if (collection.Any(t =>
+                            t.Day.Start.Year == date.Year && t.Day.Start.Month == date.Month &&
+                            t.Day.Start.Day == date.Day)) continue;
                         ArticleDaysBox.Items.Add(new ComboBoxItem
                         {
                             Content = date.ToString("dd/MM/yyyy"),
@@ -136,7 +137,6 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
         public void SwitchButtons(int type)
         {
-
             switch (type)
             {
                 case 0: //tickets
@@ -148,7 +148,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                     //
                     ToggleMaxSellPerDay(true);
                     break;
-                case 1://alimentation
+                case 1: //alimentation
                     ArticleNeedsCup.IsEnabled = true;
                     ArticleTracking.IsChecked = false;
                     Article.NumberingTracking = false;
@@ -157,7 +157,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                     //
                     ToggleMaxSellPerDay(true);
                     break;
-                case 2://consignes
+                case 2: //consignes
                     ArticleMaxSellPerDay.IsEnabled = false;
                     ArticleNeedsCup.IsChecked = false;
                     ArticleTracking.IsChecked = false;
@@ -169,7 +169,6 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                     ToggleMaxSellPerDay(false);
                     break;
             }
-
         }
 
         private void ToggleMaxSellPerDay(bool toggle)
@@ -183,14 +182,13 @@ namespace CaisseDesktop.Graphics.Admin.Articles
         private void Price_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !InsertRegex.IsMatch(e.Text);
-
         }
 
         private void Number_OnPasting(object sender, DataObjectPastingEventArgs e)
         {
             if (e.DataObject.GetDataPresent(typeof(string)))
             {
-                var text = (string)e.DataObject.GetData(typeof(string));
+                var text = (string) e.DataObject.GetData(typeof(string));
                 if (text != null && !PasteRegex.IsMatch(text))
                     e.CancelCommand();
             }
@@ -202,10 +200,9 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
         private void Type_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             if (Start || e.AddedItems.Count != 1 || !(e.AddedItems[0] is ComboBoxItem item)) return;
 
-            var id = GetIndex((string)item.Content);
+            var id = GetIndex((string) item.Content);
 
             if (Article == null || string.IsNullOrWhiteSpace(Article.ImageSrc))
             {
@@ -247,7 +244,6 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
         private void EditImage(int type)
         {
-
             var name = "ticket";
 
             switch (type)
@@ -269,7 +265,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             ArticleImage.Source = new BitmapImage(new Uri(path));
             ArticleImagePath.Text = $"../Resources/Images/{name}.png";
-
+            Article.ImageSrc = path;
         }
 
         private void EditImageFile_OnClick(object sender, RoutedEventArgs e)
@@ -277,7 +273,9 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             var openFileDialog = new OpenFileDialog
             {
                 Title = "Selectionne une image",
-                InitialDirectory = New || string.IsNullOrWhiteSpace(Article.ImageSrc) ? Environment.GetFolderPath(Environment.SpecialFolder.Desktop) : Article.ImageSrc,
+                InitialDirectory = New || string.IsNullOrWhiteSpace(Article.ImageSrc)
+                    ? Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+                    : Article.ImageSrc,
                 Filter = "Fichier images|*.png;*.jpg;*.jpeg;*.gif"
             };
 
@@ -286,7 +284,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             var path = openFileDialog.FileName;
             ArticleImagePath.Text = path;
             ArticleImage.Source = new BitmapImage(new Uri(path));
-
+            Article.ImageSrc = path;
         }
 
         private void Active_OnClick(object sender, RoutedEventArgs e)
@@ -298,6 +296,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
         {
             Article.NeedsCup = !Article.NeedsCup;
         }
+
         private void Tracking_OnClick(object sender, RoutedEventArgs e)
         {
             Article.NumberingTracking = !Article.NumberingTracking;
@@ -323,7 +322,6 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                         db.ArticleMaxSellNumbers.Remove(maxSellNumber);
                         db.SaveChanges();
                     }
-
                 }
 
                 Model.MaxSellNumbers.Remove(maxSellNumber);
@@ -338,7 +336,6 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                 });
 
                 ArticleDaysBox.SelectedIndex = 0;
-
             }
             else
             {
@@ -351,7 +348,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
         {
             if (e.DataObject.GetDataPresent(typeof(string)))
             {
-                var text = (string)e.DataObject.GetData(typeof(string));
+                var text = (string) e.DataObject.GetData(typeof(string));
                 if (text != null && !OnlyNumbersRegex.IsMatch(text))
                     e.CancelCommand();
             }
@@ -363,7 +360,6 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
         private void AddMaxSellPerDay_OnClick(object sender, RoutedEventArgs e)
         {
-
             if (AddMaxSellPerDayButton.Content.Equals("Infos"))
             {
                 MessageBox.Show("Veuillez ajouter des jours dans la page de gestion de l'évenement.");
@@ -388,7 +384,6 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             if (ArticleDaysBox.Items.Count != 0) return;
 
             ToggleMaxSellPerDayBox(false);
-
         }
 
         public void ToggleMaxSellPerDayBox(bool toggle)
@@ -432,7 +427,6 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             using (var db = new CaisseServerContext())
             {
-
                 if (New)
                 {
                     db.CheckoutTypes.Attach(Article.Type);
@@ -453,19 +447,11 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                 Mouse.OverrideCursor = null;
                 MessageBox.Show(New ? "L'article a bien été crée !" : "L'article a bien été enregistré !");
 
-
-                if (ParentWindow.ParentWindow.CurrentPage.Equals("EventCheckoutPage"))
-                {
-                    if (New)
-                        ParentWindow.ParentWindow.CurrentPage.Add(ParentWindow.Checkout);
-                    else
-                        ParentWindow.ParentWindow.CurrentPage.Update();
-                }
-
-                ToggleBlocked(true);
-                Saved = true;
+                if (New)
+                    Manager.Add(Article);
+                else
+                    Manager.Update();
             });
         }
-
     }
 }

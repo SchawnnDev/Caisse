@@ -125,7 +125,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
         private void DisplayCheckoutTypes_OnClick(object sender, RoutedEventArgs e)
         {
             if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen("EventOwnerPage")) return;
-            CustomPage page = new EventCheckoutTypePage();
+            CustomPage page = new EventCheckoutTypePage(this);
             MasterFrame.Content = page;
             CurrentPage = page;
             GetMenuItems().DoPageNavigation(3);

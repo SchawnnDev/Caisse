@@ -10,18 +10,18 @@ using CaisseServer.Items;
 
 namespace CaisseDesktop.Models
 {
-    public class ItemModel : INotifyPropertyChanged
+    public class ArticleModel : INotifyPropertyChanged
     {
-        private ObservableCollection<SaveableArticle> _items;
+        private ObservableCollection<SaveableArticle> _articles;
 
-        public ObservableCollection<SaveableArticle> Items
+        public ObservableCollection<SaveableArticle> Articles
         {
-            get => _items;
+            get => _articles;
             set
             {
-                if (Equals(value, _items)) return;
+                if (Equals(value, _articles)) return;
 
-                _items = value;
+                _articles = value;
                 OnPropertyChanged("Articles");
             }
         }

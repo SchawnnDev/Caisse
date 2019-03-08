@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.CheckoutTypes"
         xmlns:models="clr-namespace:CaisseDesktop.Models"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=models:ItemModel, IsDesignTimeCreatable=False}"
+        d:DataContext="{d:DesignInstance Type=models:ArticleModel, IsDesignTimeCreatable=False}"
         Title="Gestion d'un type de caisse" Height="700" Width="1200">
     <Window.Resources>
 
@@ -61,7 +61,7 @@
 
                     <Label Content="Nom :" HorizontalAlignment="Left"
                            VerticalAlignment="Center" FontWeight="Bold" Grid.Row="0" Grid.Column="0" />
-                    <TextBox x:Name="CheckoutName" TextWrapping="NoWrap"
+                    <TextBox x:Name="CheckoutTypeName" TextWrapping="NoWrap"
                              VerticalAlignment="Center" Margin="10" MinHeight="25" Grid.Row="0" Grid.Column="1" />
 
                     <Label Content="Caisses :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
@@ -74,7 +74,7 @@
 
             <GroupBox Header="Liste des articles" Margin="5" Grid.Column="1" Grid.Row="0">
                 <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                          ItemsSource="{Binding Items, IsAsync=true}" IsReadOnly="True" x:Name="ItemsGrid"
+                          ItemsSource="{Binding Articles, IsAsync=true}" IsReadOnly="True" x:Name="ArticlesGrid"
                           AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Position" Binding="{Binding Position}" />
@@ -107,7 +107,7 @@
                 </DataGrid>
             </GroupBox>
 
-            <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Sauvegarder"></Button>
+            <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Sauvegarder" Click="Save_OnClick"></Button>
         </Grid>
 
     </Grid>
