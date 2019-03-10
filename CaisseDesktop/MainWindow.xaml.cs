@@ -116,7 +116,7 @@ namespace CaisseDesktop
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            new Checkout().Show();
+            new Checkout(null).Show();
             Close();
         }
 

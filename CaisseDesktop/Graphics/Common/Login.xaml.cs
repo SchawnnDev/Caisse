@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -52,7 +53,7 @@ namespace CaisseDesktop.Graphics.Common
                         if (db.Events.Any(t => t.Id == eventId) && db.Checkouts.Any(t=>t.Id == checkoutId))
                         {
                             Main.ActualEvent = db.Events.Single(t => t.Id == eventId);
-                            CheckoutSession.ActualCheckout = db.Checkouts.Single(t => t.Id == checkoutId);
+                            CheckoutSession.ActualCheckout = db.Checkouts.Where(t => t.Id == checkoutId).Include(t=>t.CheckoutType).First();
                             UpdateLabels();
                         }
                         else
@@ -142,6 +143,11 @@ namespace CaisseDesktop.Graphics.Common
             }
             else
             {
+                new Checkout(CheckoutSession.ActualCheckout).Show();
+                Close();
+
+                return;
+
 
                 var cashier = CashierSession.Login(Password.Password);
 
@@ -153,7 +159,8 @@ namespace CaisseDesktop.Graphics.Common
 
 
                 //TODO: Si ce n'est pas encore l'heure du caissier, le prevenir et demander si il est sûr de vouloir continuer
-                MessageBox.Show("Bien connecté.", "Yeah", MessageBoxButton.OK, MessageBoxImage.Hand);
+                //MessageBox.Show("Bien connecté.", "Yeah", MessageBoxButton.OK, MessageBoxImage.Hand);
+
             }
         }
     }

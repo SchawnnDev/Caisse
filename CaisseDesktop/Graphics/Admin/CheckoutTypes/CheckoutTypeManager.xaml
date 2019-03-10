@@ -79,7 +79,6 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Position" Binding="{Binding Position}" />
                         <DataGridTextColumn Header="Nom" Binding="{Binding Name}" />
-                        <DataGridTextColumn Header="Couleur" Binding="{Binding Color}" />
                         <DataGridTextColumn Header="Type" Binding="{Binding ItemType}" />
                         <DataGridTextColumn Header="Prix" Binding="{Binding Price}" />
                         <DataGridTextColumn Header="Est actif" Binding="{Binding Active}" />

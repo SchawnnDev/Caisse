@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -85,6 +86,21 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
             {
                 Model.Articles = collection;
                 Mouse.OverrideCursor = null;
+
+                ArticlesGrid.Loaded += (sender, args) =>
+                {
+                    var i = 0;
+
+                    foreach (var article in collection)
+                    {
+                        var s = new Style(typeof(DataGridCellsPresenter));
+                        s.Setters.Add(new Setter(BackgroundProperty,
+                            new BrushConverter().ConvertFrom(article.Color) as SolidColorBrush));
+                        var row = (DataGridRow) ArticlesGrid.ItemContainerGenerator.ContainerFromIndex(i++);
+                        row.Style = s;
+                    }
+                };
+
             });
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CaisseServer;
+using CaisseServer.Items;
 
 namespace CaisseLibrary.Concrete.Session
 {

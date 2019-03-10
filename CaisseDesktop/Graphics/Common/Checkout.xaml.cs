@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -17,15 +18,17 @@ namespace CaisseDesktop.Graphics.Common
     public partial class Checkout
     {
         public Invoice TempInvoice { get; set; }
+        private SaveableCheckout ActualCheckout { get; set; }
 
-        public Checkout()
+        public Checkout(SaveableCheckout checkout)
         {
             InitializeComponent();
 
             TempInvoice = new Invoice(CashierSession.ActualCashier);
+            ActualCheckout = checkout;
 
-            Loaded += (sender, args) =>
-                CreateItemGrid(new List<SaveableArticle>
+            var tempList =
+                new List<SaveableArticle>
                 {
                     new SaveableArticle
                     {
@@ -75,7 +78,28 @@ namespace CaisseDesktop.Graphics.Common
                         Price = 1.8M,
                         ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
                     }
-                });
+                };
+
+            Loaded += (sender, args) =>
+            {
+                if (checkout == null)
+                {
+                    CreateItemGrid(tempList);
+                    return;
+                }
+
+                using (var db = new CaisseServerContext())
+                {
+                   // db.CheckoutTypes.Attach(checkout.CheckoutType);
+                    var articles = db.Articles.Where(t => t != null && t.Type.Id == checkout.CheckoutType.Id)
+                        .OrderBy(t => t.Position).ToList();
+
+                    if (articles.Count != 0)
+                    {
+                        CreateItemGrid(articles);
+                    }
+                }
+            };
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
