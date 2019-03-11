@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using CaisseIO;
+using CaisseIO.Exceptions;
 
 namespace CaisseServer.Events
 {
@@ -55,14 +56,43 @@ namespace CaisseServer.Events
             return Name;
         }
 
-        public object[] Export()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Import(object[] args)
         {
-            throw new NotImplementedException();
+
+            if (args.Length != 9) throw new IllegalArgumentNumberException(9, "résponsable");
+            if (!args[0].ToString().ToLower().Equals("owner")) throw new TypeNotRecognisedException("résponsable (Owner)");
+
+            Id = args[1] is int i ? i : 0;
+            Login = args[2] as string;
+            Name = args[3] as string;
+            Permissions = args[4] as string;
+            LastLogin = args[5] is DateTime time ? time : new DateTime();
+            LastLogout = args[6] is DateTime dateTime ? dateTime : new DateTime();
+            SuperAdmin = args[8] is bool b && b;
+
+            if (args[7] is SaveableEvent saveableEvent)
+            {
+                Event = saveableEvent;
+            }
+            else
+            {
+                Event = new SaveableEvent();
+                Event.Import(args[7] as object[]);
+            }
+
         }
+
+        public object[] Export() => new object[]
+        {
+            "Owner",
+            Id,
+            Login,
+            Name,
+            Permissions,
+            LastLogin,
+            LastLogout,
+            Event.Export(),
+            SuperAdmin
+        };
     }
 }

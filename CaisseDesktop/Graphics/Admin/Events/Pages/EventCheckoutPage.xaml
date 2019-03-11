@@ -34,7 +34,7 @@
 
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Display Shipping Addresses" />
+                        <MenuItem Header="Display Shipping Addresss" />
                         <Separator />
                         <MenuItem Header="Edit" />
                         <MenuItem Header="Delete" />

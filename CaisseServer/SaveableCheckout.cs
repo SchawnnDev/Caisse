@@ -23,19 +23,16 @@ namespace CaisseServer
 
         public SaveableEvent SaveableEvent { get; set; }
 
-        public object[] Export()
+        public object[] Export() => new object[]
         {
-            return new object[]
-            {
-                "Checkout",
-                Id,
-                Name,
-                Owner.Export(),
-                Details,
-                CheckoutType.Export(),
-                SaveableEvent.Export()
-            };
-        }
+            "Checkout",
+            Id,
+            Name,
+            Owner.Export(),
+            Details,
+            CheckoutType.Export(),
+            SaveableEvent.Export()
+        };
 
         public void Import(object[] args)
         {
@@ -56,14 +53,25 @@ namespace CaisseServer
                 Owner.Import(args[3] as object[]);
             }
 
+            if (args[5] is SaveableCheckoutType type)
+            {
+                CheckoutType = type;
+            }
+            else
+            {
+                CheckoutType = new SaveableCheckoutType();
+                CheckoutType.Import(args[5] as object[]);
+            }
 
-            CheckoutType = new SaveableCheckoutType();
-            CheckoutType.Import(args[5] as object[]);
-
-            SaveableEvent = new SaveableEvent();
-            SaveableEvent.Import(args[6] as object[]);
-            
-
+            if (args[6] is SaveableEvent saveableEvent)
+            {
+                SaveableEvent = saveableEvent;
+            }
+            else
+            {
+                SaveableEvent = new SaveableEvent();
+                SaveableEvent.Import(args[6] as object[]);
+            }
 
         }
     }

@@ -56,7 +56,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             EventStart.Value = ParentWindow.Evenement.Start;
             EventEnd.Value = ParentWindow.Evenement.End;
             EventDescription.Text = ParentWindow.Evenement.Description;
-            EventAddresse.Text = ParentWindow.Evenement.Addresse;
+            EventAddresse.Text = ParentWindow.Evenement.Address;
         }
 
         private void Save_OnClick(object sender, RoutedEventArgs e)
@@ -70,7 +70,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
             ParentWindow.Evenement.Name = EventName.Text;
             ParentWindow.Evenement.Description = EventDescription.Text;
-            ParentWindow.Evenement.Addresse = EventAddresse.Text;
+            ParentWindow.Evenement.Address = EventAddresse.Text;
             ParentWindow.Evenement.Start = EventStart.Value.GetValueOrDefault();
             ParentWindow.Evenement.End = EventEnd.Value.GetValueOrDefault();
 

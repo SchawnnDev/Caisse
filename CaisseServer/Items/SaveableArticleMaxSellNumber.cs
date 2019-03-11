@@ -4,7 +4,7 @@ using CaisseServer.Events;
 
 namespace CaisseServer.Items
 {
-    [Table("item_max_sell_numbers")]
+    [Table("article_max_sell_numbers")]
     public class SaveableArticleMaxSellNumber
     {
         [Key]

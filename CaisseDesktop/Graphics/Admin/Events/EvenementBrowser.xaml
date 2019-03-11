@@ -35,7 +35,7 @@
                 <DataGridTextColumn Header="Nom" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Début" Binding="{Binding Start, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
                 <DataGridTextColumn Header="Fin" Binding="{Binding End, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
-                <DataGridTextColumn Header="Addresse" Binding="{Binding Addresse}" />
+                <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
                 <DataGridTemplateColumn Header="Actions">
                     <DataGridTemplateColumn.CellTemplate>
@@ -51,7 +51,7 @@
 
             <DataGrid.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Display Shipping Addresses" />
+                    <MenuItem Header="Display Shipping Addresss" />
                     <Separator />
                     <MenuItem Header="Edit" />
                     <MenuItem Header="Delete" />

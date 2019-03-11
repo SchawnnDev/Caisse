@@ -54,7 +54,7 @@
                                      ShowButtonSpinner="False" Margin="10" MinHeight="25" TextAlignment="Left"
                                      AutoCloseCalendar="True" />
 
-                <Label Content="Addresse :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
+                <Label Content="Address :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
                 <TextBox x:Name="EventAddresse" Grid.Column="1" Grid.Row="3" AcceptsReturn="True" TextWrapping="NoWrap"
                          Margin="10" MinHeight="25" />

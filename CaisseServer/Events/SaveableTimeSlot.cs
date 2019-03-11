@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CaisseIO.Exceptions;
 
 namespace CaisseServer.Events
 {
@@ -24,5 +25,63 @@ namespace CaisseServer.Events
         public bool Pause { get; set; }
 
         [NotMapped] public bool Blank { get; set; }
+
+        public void Import(object[] args)
+        {
+
+            if (args.Length != 7) throw new IllegalArgumentNumberException(8, "créneau horaire");
+            if (!args[0].ToString().ToLower().Equals("timeslot")) throw new TypeNotRecognisedException("créneau horaire (TimeSlot)");
+
+            Id = args[1] is int i ? i : 0;
+            Start = args[4] is DateTime time ? time : new DateTime();
+            End = args[5] is DateTime dateTime ? dateTime : new DateTime();
+            Pause = args[7] is bool b && b;
+
+            if (args[2] is SaveableDay day)
+            {
+                Day = day;
+            }
+            else
+            {
+                Day = new SaveableDay();
+                Day.Import(args[2] as object[]);
+            }
+
+            if (args[3] is SaveableCheckout checkout)
+            {
+                Checkout = checkout;
+            }
+            else
+            {
+                Checkout = new SaveableCheckout();
+                Checkout.Import(args[3] as object[]);
+            }
+
+
+            if (args[6] is SaveableCashier cashier)
+            {
+                Cashier = cashier;
+            }
+            else
+            {
+                Cashier = new SaveableCashier();
+                Cashier.Import(args[6] as object[]);
+            }
+
+
+        }
+
+        public object[] Export() => new object[]
+        {
+            "TimeSlot",
+            Id,
+            Day,
+            Checkout,
+            Start,
+            End,
+            Cashier,
+            Pause
+        };
+
     }
 }

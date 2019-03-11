@@ -32,12 +32,12 @@
 
                     <MenuItem x:Name="import" Header="_Import">
                         <MenuItem x:Name="ImportCustomer" Header="_Customers" />
-                        <MenuItem x:Name="ImportShippingAddress" Header="_Shipping Addresses" />
+                        <MenuItem x:Name="ImportShippingAddress" Header="_Shipping Addresss" />
                     </MenuItem>
 
                     <MenuItem x:Name="export" Header="_Export">
                         <MenuItem x:Name="ExportCustomer" Header="_Customers" />
-                        <MenuItem x:Name="ExportShippingAddress" Header="_Shipping Addresses" />
+                        <MenuItem x:Name="ExportShippingAddress" Header="_Shipping Addresss" />
                     </MenuItem>
 
                 </MenuItem>
