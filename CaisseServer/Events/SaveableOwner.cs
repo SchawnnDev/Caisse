@@ -2,11 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using CaisseIO;
 
 namespace CaisseServer.Events
 {
     [Table("owners")]
-    public class SaveableOwner
+    public class SaveableOwner : IImportable, IExportable
     {
         public SaveableOwner()
         {
@@ -52,6 +53,16 @@ namespace CaisseServer.Events
         public override string ToString()
         {
             return Name;
+        }
+
+        public object[] Export()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Import(object[] args)
+        {
+            throw new NotImplementedException();
         }
     }
 }

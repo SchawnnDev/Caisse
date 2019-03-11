@@ -1,11 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CaisseIO;
 
 namespace CaisseServer.Events
 {
     [Table("events")]
-    public class SaveableEvent
+    public class SaveableEvent : IImportable, IExportable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -23,5 +24,14 @@ namespace CaisseServer.Events
 
         public string ImageSrc { get; set; }
 
+        public void Import(object[] args)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object[] Export()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

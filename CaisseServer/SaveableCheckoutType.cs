@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CaisseIO;
 using CaisseServer.Events;
 
 namespace CaisseServer
 {
     [Table("checkout_types")]
-    public class SaveableCheckoutType
+    public class SaveableCheckoutType : IImportable, IExportable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,6 +19,16 @@ namespace CaisseServer
         public override string ToString()
         {
             return Name;
+        }
+
+        public object[] Export()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Import(object[] args)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
