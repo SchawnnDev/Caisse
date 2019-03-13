@@ -31,7 +31,6 @@ namespace CaisseDesktop
             }
 
             Main.Start();
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -45,7 +44,6 @@ namespace CaisseDesktop
         {
             var ticket = new SalesReceipt(new Invoice(CashierSession.ActualCashier)
             {
-
                 SaveableInvoice = new SaveableInvoice
                 {
                     Cashier = new SaveableCashier
@@ -53,15 +51,13 @@ namespace CaisseDesktop
                         Id = 12
                     },
 
-                    Id = 14808
-                    ,
+                    Id = 14808,
                     PaymentMethod = new SaveablePaymentMethod
                     {
                         Name = "ESPECE"
                     },
 
                     Date = DateTime.Now
-
                 },
 
                 GivenMoney = 50m,
@@ -76,7 +72,8 @@ namespace CaisseDesktop
                             Name = "CREPE",
                             Price = 2m
                         }
-                    }, new SaveableOperation
+                    },
+                    new SaveableOperation
                     {
                         Amount = 2,
                         Item = new SaveableArticle
@@ -84,7 +81,8 @@ namespace CaisseDesktop
                             Name = "PIZZA",
                             Price = 6.5m
                         }
-                    }, new SaveableOperation
+                    },
+                    new SaveableOperation
                     {
                         Amount = 4,
                         Item = new SaveableArticle
@@ -92,7 +90,8 @@ namespace CaisseDesktop
                             Name = "BOISSON",
                             Price = 2.5m
                         }
-                    }, new SaveableOperation
+                    },
+                    new SaveableOperation
                     {
                         Amount = 1,
                         Item = new SaveableArticle
@@ -102,7 +101,6 @@ namespace CaisseDesktop
                         }
                     },
                 }
-
             });
             ticket.Generate();
             ticket.Print();

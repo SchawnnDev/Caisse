@@ -28,9 +28,9 @@ namespace CaisseServer.Events
 
         public void Import(object[] args)
         {
-
             if (args.Length != 7) throw new IllegalArgumentNumberException(8, "créneau horaire");
-            if (!args[0].ToString().ToLower().Equals("timeslot")) throw new TypeNotRecognisedException("créneau horaire (TimeSlot)");
+            if (!args[0].ToString().ToLower().Equals("timeslot"))
+                throw new TypeNotRecognisedException("créneau horaire (TimeSlot)");
 
             Id = args[1] as int? ?? 0;
             Start = args[4] is DateTime time ? time : new DateTime();
@@ -67,8 +67,6 @@ namespace CaisseServer.Events
                 Cashier = new SaveableCashier();
                 Cashier.Import(args[6] as object[]);
             }
-
-
         }
 
         public object[] Export() => new object[]
@@ -82,6 +80,5 @@ namespace CaisseServer.Events
             Cashier,
             Pause
         };
-
     }
 }

@@ -41,9 +41,9 @@ namespace CaisseServer
 
         public void Import(object[] args)
         {
-
             if (args.Length != 7) throw new IllegalArgumentNumberException(7, "caissier");
-            if (!args[0].ToString().ToLower().Equals("cashier")) throw new TypeNotRecognisedException("caissier (Cashier)");
+            if (!args[0].ToString().ToLower().Equals("cashier"))
+                throw new TypeNotRecognisedException("caissier (Cashier)");
 
             Id = args[1] as int? ?? 0;
             Login = args[2] as string;
@@ -60,7 +60,6 @@ namespace CaisseServer
                 TimeSlot = new SaveableTimeSlot();
                 TimeSlot.Import(args[5] as object[]);
             }
-
         }
 
         public object[] Export() => new object[]

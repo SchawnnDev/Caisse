@@ -36,9 +36,9 @@ namespace CaisseServer
 
         public void Import(object[] args)
         {
-
             if (args.Length != 7) throw new IllegalArgumentNumberException(7, "caisse");
-            if (!args[0].ToString().ToLower().Equals("checkout")) throw new TypeNotRecognisedException("caisse (Checkout)");
+            if (!args[0].ToString().ToLower().Equals("checkout"))
+                throw new TypeNotRecognisedException("caisse (Checkout)");
 
             Id = args[1] as int? ?? 0;
             Name = args[2] as string;
@@ -73,7 +73,6 @@ namespace CaisseServer
                 Event = new SaveableEvent();
                 Event.Import(args[6] as object[]);
             }
-
         }
     }
 }

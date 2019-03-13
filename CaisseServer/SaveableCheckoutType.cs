@@ -33,7 +33,8 @@ namespace CaisseServer
         public void Import(object[] args)
         {
             if (args.Length != 3) throw new IllegalArgumentNumberException(3, "type de caisse");
-            if (!args[0].ToString().ToLower().Equals("checkouttype")) throw new TypeNotRecognisedException("type de caisse (CheckoutType)");
+            if (!args[0].ToString().ToLower().Equals("checkouttype"))
+                throw new TypeNotRecognisedException("type de caisse (CheckoutType)");
 
             Id = args[1] as int? ?? 0;
             Name = args[2] as string;

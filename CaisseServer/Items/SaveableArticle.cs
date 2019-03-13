@@ -65,7 +65,6 @@ namespace CaisseServer.Items
                 Type = new SaveableCheckoutType();
                 Type.Import(args[12] as object[]);
             }
-
         }
 
         public object[] Export() => new object[]

@@ -6,8 +6,6 @@ namespace CaisseIO
 {
     public interface IExportable
     {
-
         object[] Export();
-
     }
 }

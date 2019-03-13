@@ -24,7 +24,7 @@
 
                 <MenuItem Header="_Articles">
 
-                    <MenuItem x:Name="AddArticle" Header="_Ajouter un article" Click="AddArticle_OnClick"/>
+                    <MenuItem x:Name="AddArticle" Header="_Ajouter un article" Click="AddArticle_OnClick" />
 
                     <Separator />
 
@@ -44,7 +44,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />
-                <RowDefinition MaxHeight="80"/>
+                <RowDefinition MaxHeight="80" />
             </Grid.RowDefinitions>
 
 
@@ -55,7 +55,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition MaxHeight="100"/>
+                        <RowDefinition MaxHeight="100" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
@@ -106,7 +106,8 @@
                 </DataGrid>
             </GroupBox>
 
-            <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Sauvegarder" Click="Save_OnClick"></Button>
+            <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Sauvegarder"
+                    Click="Save_OnClick" />
         </Grid>
 
     </Grid>

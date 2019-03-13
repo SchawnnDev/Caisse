@@ -21,7 +21,6 @@ namespace CaisseServer.Events
 
         public void Import(object[] args)
         {
-
             if (args.Length != 5) throw new IllegalArgumentNumberException(5, "jour");
             if (!args[0].ToString().ToLower().Equals("day")) throw new TypeNotRecognisedException("jour (Day)");
 
@@ -38,7 +37,6 @@ namespace CaisseServer.Events
                 Event = new SaveableEvent();
                 Event.Import(args[2] as object[]);
             }
-
         }
 
         public object[] Export() => new object[]
@@ -49,6 +47,5 @@ namespace CaisseServer.Events
             Start,
             End
         };
-
     }
 }

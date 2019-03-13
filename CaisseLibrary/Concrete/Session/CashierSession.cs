@@ -17,11 +17,11 @@ namespace CaisseLibrary.Concrete.Session
 
             using (var db = new CaisseServerContext())
             {
-                if (!db.Cashiers.Any(t => t.TimeSlot.Checkout.Id == CheckoutSession.ActualCheckout.Id && t.Login .Equals( login))) return null;
+                if (!db.Cashiers.Any(t =>
+                    t.TimeSlot.Checkout.Id == CheckoutSession.ActualCheckout.Id && t.Login.Equals(login))) return null;
                 return db.Cashiers.FirstOrDefault(t =>
                     t.TimeSlot.Checkout.Id == CheckoutSession.ActualCheckout.Id && t.Login.Equals(login));
             }
-
         }
 
         public static void Logout()

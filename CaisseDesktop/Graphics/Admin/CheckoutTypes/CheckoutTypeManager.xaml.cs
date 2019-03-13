@@ -46,11 +46,10 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
             Task.Run(() => Load());
 
             if (New) return;
-            
+
             CheckoutTypeName.Text = type.Name;
 
             Task.Run(() => LoadCheckoutNames());
-
         }
 
         public void Add(SaveableArticle article)
@@ -100,7 +99,6 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
                         row.Style = s;
                     }
                 };
-
             });
         }
 
@@ -200,7 +198,9 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
                 }
 
                 Mouse.OverrideCursor = null;
-                MessageBox.Show(New ? "Le type de caisse a bien été crée !" : "Le type de caisse a bien été enregistré !");
+                MessageBox.Show(New
+                    ? "Le type de caisse a bien été crée !"
+                    : "Le type de caisse a bien été enregistré !");
             });
         }
     }

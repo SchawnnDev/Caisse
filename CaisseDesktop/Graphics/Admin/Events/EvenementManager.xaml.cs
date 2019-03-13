@@ -133,10 +133,9 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void CreateCheckoutType_OnClick(object sender, RoutedEventArgs e)
         {
-
             if (Evenement != null)
             {
-                new CheckoutTypeManager(this,null).ShowDialog();
+                new CheckoutTypeManager(this, null).ShowDialog();
                 return;
             }
 
@@ -145,7 +144,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
             SystemSounds.Beep.Play();
             MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
                 MessageBoxButton.OK, MessageBoxImage.Error);
-
         }
 
         private void CreateDay_OnClick(object sender, RoutedEventArgs e)
@@ -161,7 +159,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
             SystemSounds.Beep.Play();
             MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
                 MessageBoxButton.OK, MessageBoxImage.Error);
-
         }
 
         private void DisplayDays_OnClick(object sender, RoutedEventArgs e)

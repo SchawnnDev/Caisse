@@ -22,9 +22,9 @@ namespace CaisseServer.Items
 
         public void Import(object[] args)
         {
-
             if (args.Length != 5) throw new IllegalArgumentNumberException(5, "nombre max de vente");
-            if (!args[0].ToString().ToLower().Equals("articlemaxsellnumber")) throw new TypeNotRecognisedException("nombre max de vente (ArticleMaxSellNumber)");
+            if (!args[0].ToString().ToLower().Equals("articlemaxsellnumber"))
+                throw new TypeNotRecognisedException("nombre max de vente (ArticleMaxSellNumber)");
 
             Id = args[1] as int? ?? 0;
             Amount = args[4] as int? ?? 0;
@@ -48,7 +48,6 @@ namespace CaisseServer.Items
                 Article = new SaveableArticle();
                 Article.Import(args[3] as object[]);
             }
-
         }
 
         public object[] Export() => new object[]
@@ -59,7 +58,5 @@ namespace CaisseServer.Items
             Article.Export(),
             Amount
         };
-
     }
-
 }

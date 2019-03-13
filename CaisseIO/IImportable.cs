@@ -6,8 +6,6 @@ namespace CaisseIO
 {
     public interface IImportable
     {
-
         void Import(object[] args);
-
     }
 }

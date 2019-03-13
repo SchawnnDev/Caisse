@@ -33,9 +33,9 @@ namespace CaisseServer
 
         public void Import(object[] args)
         {
-
             if (args.Length != 6) throw new IllegalArgumentNumberException(6, "moyen de paiement");
-            if (!args[0].ToString().ToLower().Equals("paymentmethod")) throw new TypeNotRecognisedException("moyen de paiement (PaymentMethod)");
+            if (!args[0].ToString().ToLower().Equals("paymentmethod"))
+                throw new TypeNotRecognisedException("moyen de paiement (PaymentMethod)");
 
             Id = args[1] as int? ?? 0;
             Name = args[2] as string;
@@ -52,8 +52,6 @@ namespace CaisseServer
                 Event = new SaveableEvent();
                 Event.Import(args[5] as object[]);
             }
-
         }
-
     }
 }

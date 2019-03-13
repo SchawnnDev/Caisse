@@ -28,6 +28,5 @@ namespace CaisseServer
             Item.Export(),
             Amount
         };
-
     }
 }

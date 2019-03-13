@@ -90,7 +90,7 @@ namespace CaisseDesktop.Graphics.Common
 
                 using (var db = new CaisseServerContext())
                 {
-                   // db.CheckoutTypes.Attach(checkout.CheckoutType);
+                    // db.CheckoutTypes.Attach(checkout.CheckoutType);
                     var articles = db.Articles.Where(t => t != null && t.Type.Id == checkout.CheckoutType.Id)
                         .OrderBy(t => t.Position).ToList();
 

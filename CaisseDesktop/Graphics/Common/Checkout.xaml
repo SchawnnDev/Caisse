@@ -29,24 +29,24 @@
             </Grid.Background>
 
             <Grid.RowDefinitions>
-                <RowDefinition MaxHeight="150"/>
+                <RowDefinition MaxHeight="150" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <ListBox Grid.Row="0">
-                <ListBoxItem Content="Article 1"></ListBoxItem>
-                <ListBoxItem Content="Article 1"></ListBoxItem>
-                <ListBoxItem Content="Article 1"></ListBoxItem>
-                <ListBoxItem Content="Article 1"></ListBoxItem>
-                <ListBoxItem Content="Article 1"></ListBoxItem>
-                <ListBoxItem Content="Article 1"></ListBoxItem>
-                <ListBoxItem Content="Article 1"></ListBoxItem>
-                <ListBoxItem Content="Article 1"></ListBoxItem>
-                <ListBoxItem Content="Article 1"></ListBoxItem>
-                <ListBoxItem Content="Article 1"></ListBoxItem>
-                <ListBoxItem Content="Article 1"></ListBoxItem>
+                <ListBoxItem Content="Article 1" />
+                <ListBoxItem Content="Article 1" />
+                <ListBoxItem Content="Article 1" />
+                <ListBoxItem Content="Article 1" />
+                <ListBoxItem Content="Article 1" />
+                <ListBoxItem Content="Article 1" />
+                <ListBoxItem Content="Article 1" />
+                <ListBoxItem Content="Article 1" />
+                <ListBoxItem Content="Article 1" />
+                <ListBoxItem Content="Article 1" />
+                <ListBoxItem Content="Article 1" />
             </ListBox>
 
         </Grid>
 
-        </Grid>
+    </Grid>
 </Window>

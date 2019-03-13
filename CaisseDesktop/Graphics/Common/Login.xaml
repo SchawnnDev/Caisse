@@ -9,23 +9,23 @@
         Title="Se connecter" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition MinHeight="150"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition MaxHeight="25"></RowDefinition>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition MinHeight="150" />
+            <RowDefinition />
+            <RowDefinition MaxHeight="25" />
 
 
         </Grid.RowDefinitions>
 
         <Button Grid.Column="0" Grid.Row="0" Margin="5"
-            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
-            VerticalAlignment="Top" HorizontalAlignment="Left" Click="OpenParameters_OnClick">
+                Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                VerticalAlignment="Top" HorizontalAlignment="Left" Click="OpenParameters_OnClick">
             <materialDesign:PackIcon
                 Kind="Wrench"
                 Height="24"
@@ -33,27 +33,28 @@
         </Button>
 
         <PasswordBox x:Name="Password" Grid.Row="1" Grid.Column="1"
-                Style="{StaticResource MaterialDesignFilledPasswordFieldPasswordBox}"
-                IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledPasswordFieldPasswordBoxEnabledComboBox}"
-                materialDesign:HintAssist.Hint="Identifiant" HorizontalContentAlignment="Center" FontSize="22" MaxLength="7"/>
+                     Style="{StaticResource MaterialDesignFilledPasswordFieldPasswordBox}"
+                     IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledPasswordFieldPasswordBoxEnabledComboBox}"
+                     materialDesign:HintAssist.Hint="Identifiant" HorizontalContentAlignment="Center" FontSize="22"
+                     MaxLength="7" />
 
         <Grid Grid.Column="1" Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <Button Grid.Row="0" Grid.Column="0"
-                Style="{StaticResource MaterialDesignRaisedLightButton}"
-                Height="Auto" Click="PinPadButton_Click">
+                    Style="{StaticResource MaterialDesignRaisedLightButton}"
+                    Height="Auto" Click="PinPadButton_Click">
                 1
             </Button>
 
@@ -132,13 +133,17 @@
         </Grid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0">
-            <Label x:Name="DbStatusLabel" Content="Base de données : OK" FontSize="10" HorizontalAlignment="Right" FontWeight="Bold" />
-            <Label x:Name="ServerStatusLabel" Content="Connexion au serveur : OK" FontSize="10" HorizontalAlignment="Right" FontWeight="Bold" />
+            <Label x:Name="DbStatusLabel" Content="Base de données : OK" FontSize="10" HorizontalAlignment="Right"
+                   FontWeight="Bold" />
+            <Label x:Name="ServerStatusLabel" Content="Connexion au serveur : OK" FontSize="10"
+                   HorizontalAlignment="Right" FontWeight="Bold" />
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right">
-            <Label x:Name="CheckoutNameLabel" Content="Caisse: [Nom]" FontSize="10" HorizontalAlignment="Right" FontWeight="Bold" />
-            <Label x:Name="DateLabel" Content="01:16:00 09/02/2019" FontSize="10" HorizontalAlignment="Right" FontWeight="Bold" />
+            <Label x:Name="CheckoutNameLabel" Content="Caisse: [Nom]" FontSize="10" HorizontalAlignment="Right"
+                   FontWeight="Bold" />
+            <Label x:Name="DateLabel" Content="01:16:00 09/02/2019" FontSize="10" HorizontalAlignment="Right"
+                   FontWeight="Bold" />
         </StackPanel>
 
     </Grid>
