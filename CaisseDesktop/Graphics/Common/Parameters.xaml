@@ -14,8 +14,9 @@
 
                 <StackPanel Orientation="Horizontal">
                     <!-- Left, Top, Right and Bottom-->
-                    <Button Content="Remettre à zéro"></Button>
-                    <Button Margin="5 0 0 0" Content="Connexion administrateur" HorizontalAlignment="Right" Click="Button_Click"/>
+                    <Button Content="Remettre à zéro" />
+                    <Button Margin="5 0 0 0" Content="Connexion administrateur" HorizontalAlignment="Right"
+                            Click="Button_Click" />
                 </StackPanel>
 
             </GroupBox>
@@ -25,7 +26,8 @@
                 <StackPanel Orientation="Horizontal">
                     <!-- Left, Top, Right and Bottom-->
                     <Label Content="Choisir un évenement:" VerticalAlignment="Center" />
-                    <ComboBox x:Name="EventBox" Margin="10,0,0,0" SelectedIndex="0"  SelectionChanged="EventBox_OnSelectionChanged" >
+                    <ComboBox x:Name="EventBox" Margin="10,0,0,0" SelectedIndex="0"
+                              SelectionChanged="EventBox_OnSelectionChanged">
                         <ComboBoxItem>Aucun</ComboBoxItem>
                     </ComboBox>
                 </StackPanel>
@@ -36,13 +38,14 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Choisir une caisse:" VerticalAlignment="Center" />
-                    <ComboBox x:Name="CheckoutBox" Margin="10,0,0,0" SelectedIndex="0" IsEnabled="False" SelectionChanged="CheckoutBox_SelectionChanged">
+                    <ComboBox x:Name="CheckoutBox" Margin="10,0,0,0" SelectedIndex="0" IsEnabled="False"
+                              SelectionChanged="CheckoutBox_SelectionChanged">
                         <ListBoxItem>Aucune</ListBoxItem>
                     </ComboBox>
                 </StackPanel>
             </GroupBox>
 
-            <Button Margin="5" Content="Enregistrer" Click="Save_Click"></Button>
+            <Button Margin="5" Content="Enregistrer" Click="Save_Click" />
 
         </StackPanel>
     </Grid>

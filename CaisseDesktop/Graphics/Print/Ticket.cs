@@ -33,7 +33,7 @@ namespace CaisseDesktop.Graphics.Print
         public byte[] ImageToByte(Bitmap img)
         {
             var converter = new ImageConverter();
-            return (byte[])converter.ConvertTo(img, typeof(byte[]));
+            return (byte[]) converter.ConvertTo(img, typeof(byte[]));
         }
 
         public byte[] GetLogo(string logoPath)

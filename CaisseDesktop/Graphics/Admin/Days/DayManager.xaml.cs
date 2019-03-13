@@ -54,13 +54,13 @@ namespace CaisseDesktop.Graphics.Admin.Days
 
             if (grid.Name.Equals("StartGrid"))
             {
-                CombinedCalendar.SelectedDate = ((DayPickerModel)DataContext).Start;
-                CombinedClock.Time = ((DayPickerModel)DataContext).Start;
+                CombinedCalendar.SelectedDate = ((DayPickerModel) DataContext).Start;
+                CombinedClock.Time = ((DayPickerModel) DataContext).Start;
                 return;
             }
 
-            EndCombinedCalendar.SelectedDate = ((DayPickerModel)DataContext).End;
-            EndCombinedClock.Time = ((DayPickerModel)DataContext).End;
+            EndCombinedCalendar.SelectedDate = ((DayPickerModel) DataContext).End;
+            EndCombinedClock.Time = ((DayPickerModel) DataContext).End;
         }
 
         public void CombinedDialogClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
@@ -77,20 +77,20 @@ namespace CaisseDesktop.Graphics.Admin.Days
 
             if (FirstClose)
             {
-                ((DayPickerModel)DataContext).Start = ((DayPickerModel)DataContext).End = combined;
+                ((DayPickerModel) DataContext).Start = ((DayPickerModel) DataContext).End = combined;
                 FirstClose = false;
                 return;
             }
 
-            if (start) ((DayPickerModel)DataContext).Start = combined;
-            else ((DayPickerModel)DataContext).End = combined;
+            if (start) ((DayPickerModel) DataContext).Start = combined;
+            else ((DayPickerModel) DataContext).End = combined;
         }
 
         private void SaveDayButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var pickerModel = (DayPickerModel)DataContext;
+            var pickerModel = (DayPickerModel) DataContext;
 
-            var test = (long)pickerModel.End.ToUnixTimeStamp() - (long)pickerModel.Start.ToUnixTimeStamp();
+            var test = (long) pickerModel.End.ToUnixTimeStamp() - (long) pickerModel.Start.ToUnixTimeStamp();
 
             if (test <= 0)
             {
@@ -99,8 +99,8 @@ namespace CaisseDesktop.Graphics.Admin.Days
             }
 
             if (test > 60 * 60 * 24 &&
-                     MessageBox.Show("Le jour dure plus de 24h, es-tu sûr de vouloir sauvegarder ?",
-                         "Jour supérieur à 24h.", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                MessageBox.Show("Le jour dure plus de 24h, es-tu sûr de vouloir sauvegarder ?",
+                    "Jour supérieur à 24h.", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
             {
                 return;
             }
@@ -121,7 +121,6 @@ namespace CaisseDesktop.Graphics.Admin.Days
 
                 foreach (var day in days)
                 {
-
                     // < 0 : date est avant valeur
                     // == 0 : date est égale valeur
                     // > 0 date est après valeur
@@ -137,15 +136,12 @@ namespace CaisseDesktop.Graphics.Admin.Days
                             "Jour chevauche un autre.", MessageBoxButton.YesNo) != MessageBoxResult.Yes) continue;
                     Save(db);
                     return;
-
                 }
 
                 Save(db);
-
             }
 
             //MessageBox.Show("Sauvegarde...");
-
         }
 
         private void Save(CaisseServerContext db)
@@ -168,12 +164,11 @@ namespace CaisseDesktop.Graphics.Admin.Days
                 db.Days.Attach(Day);
                 db.Days.AddOrUpdate(Day);
             }
-            
+
             db.SaveChanges();
 
             Dispatcher.Invoke(() =>
             {
-
                 if (Manager.MasterFrame.ToCustomPage().CustomName.Equals("EventDayPage"))
                 {
                     if (New) Manager.MasterFrame.ToCustomPage().Add(Day);
@@ -184,9 +179,7 @@ namespace CaisseDesktop.Graphics.Admin.Days
                 MessageBox.Show(New ? "Le jour a bien été crée !" : "Le jour a bien été enregistré !");
 
                 Close();
-
             });
         }
     }
-
 }

@@ -24,7 +24,7 @@ namespace CaisseLibrary.IO
 
         public static Dictionary<string, string> GetConfig()
         {
-            var dic=new Dictionary<string, string>();
+            var dic = new Dictionary<string, string>();
 
             if (!File.Exists(ConfigPath) || new FileInfo(ConfigPath).Length == 0) return dic;
 
@@ -38,22 +38,17 @@ namespace CaisseLibrary.IO
 
         public static void SetValues(Dictionary<string, string> values)
         {
-
             var config = GetConfig();
 
             foreach (var item in values)
             {
-
                 if (config.ContainsKey(item.Key))
                     config[item.Key] = item.Value;
                 else
                     config.Add(item.Key, item.Value);
-
             }
 
             SaveConfig(config);
-
-
         }
 
         public static void SetValue(string key, string value)
@@ -70,7 +65,6 @@ namespace CaisseLibrary.IO
 
         public static void SaveConfig(Dictionary<string, string> config)
         {
-            
             try
             {
                 File.WriteAllText(ConfigPath, "");

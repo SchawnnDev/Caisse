@@ -6,8 +6,5 @@ namespace CaisseIO
 {
     public interface IDataType
     {
-
-
-
     }
 }

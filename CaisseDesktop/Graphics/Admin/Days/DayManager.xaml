@@ -10,11 +10,11 @@
     xmlns:models="clr-namespace:CaisseDesktop.Models"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=models:DayPickerModel, IsDesignTimeCreatable=False}"
-    Title="Gestion d'un jour" Height="200" Width="400" WindowStartupLocation="CenterOwner" ResizeMode="CanMinimize" >
+    Title="Gestion d'un jour" Height="200" Width="400" WindowStartupLocation="CenterOwner" ResizeMode="CanMinimize">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="100"/>
-            <ColumnDefinition/>
+            <ColumnDefinition MaxWidth="100" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -24,7 +24,7 @@
 
         <materialDesign:DialogHost Identifier="RootDialog" Grid.Row="0" Grid.Column="1">
 
-            
+
             <StackPanel
                 Orientation="Horizontal">
                 <TextBlock
@@ -39,7 +39,7 @@
                     <materialDesign:PackIcon Kind="ClockStart" />
                     <Button.CommandParameter>
                         <Grid Name="StartGrid"
-                            Margin="-1">
+                              Margin="-1">
                             <Grid.RowDefinitions>
                                 <RowDefinition
                                     Height="*" />
@@ -80,7 +80,7 @@
                     </Button.CommandParameter>
                 </Button>
             </StackPanel>
-            
+
         </materialDesign:DialogHost>
 
         <materialDesign:DialogHost Grid.Row="1" Grid.Column="1">
@@ -98,7 +98,7 @@
                     <materialDesign:PackIcon Kind="ClockEnd" />
                     <Button.CommandParameter>
                         <Grid Name="EndGrid"
-                            Margin="-1">
+                              Margin="-1">
                             <Grid.RowDefinitions>
                                 <RowDefinition
                                     Height="*" />
@@ -111,7 +111,7 @@
                                 <Calendar
                                     x:Name="EndCombinedCalendar"
                                     Margin="-1 -4 -1 0"
-                                    Language="fr-FR"/>
+                                    Language="fr-FR" />
                                 <materialDesign:Clock
                                     x:Name="EndCombinedClock"
                                     DisplayAutomation="CycleWithSeconds"
@@ -142,10 +142,13 @@
 
         </materialDesign:DialogHost>
 
-        <TextBlock Text="Début du jour :" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10"></TextBlock>
-        <TextBlock Text="Fin du jour :" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10"/>
+        <TextBlock Text="Début du jour :" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"
+                   VerticalAlignment="Center" Margin="10" />
+        <TextBlock Text="Fin du jour :" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"
+                   VerticalAlignment="Center" Margin="10" />
         <!--<xctk:DateTimePicker Text="Début de la journée"  Grid.Row="0" Margin="10"/> -->
-        <Button x:Name="SaveDayButton" Content="Sauvegarder" Click="SaveDayButton_OnClick" Grid.Row="2" Margin="10" Grid.Column="0" Grid.ColumnSpan="2" />
+        <Button x:Name="SaveDayButton" Content="Sauvegarder" Click="SaveDayButton_OnClick" Grid.Row="2" Margin="10"
+                Grid.Column="0" Grid.ColumnSpan="2" />
 
     </Grid>
 </Window>

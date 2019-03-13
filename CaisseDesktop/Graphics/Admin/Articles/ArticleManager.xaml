@@ -8,7 +8,7 @@
         xmlns:models="clr-namespace:CaisseDesktop.Models"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:MaxSellNumberModel, IsDesignTimeCreatable=False}"
-        Title="ArticleManager" Height="450" Width="1050"  WindowStartupLocation="CenterScreen">
+        Title="ArticleManager" Height="450" Width="1050" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -54,7 +54,8 @@
                 <!-- ### 4 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Nb ventes max/jour:" DockPanel.Dock="Left"
                            Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" />
-                <TextBox x:Name="ArticleMaxSellPerDay" DataObject.Pasting="OnlyNumbers_OnPasting" PreviewTextInput="OnlyNumbers_OnPreviewTextInput"
+                <TextBox x:Name="ArticleMaxSellPerDay" DataObject.Pasting="OnlyNumbers_OnPasting"
+                         PreviewTextInput="OnlyNumbers_OnPreviewTextInput"
                          Height="25" Width="Auto" Grid.Row="3" Grid.Column="1" />
                 <!-- ### 5 ### -->
                 <Label Content="Actif :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="4" Grid.Column="0" />
@@ -162,7 +163,8 @@
                     </ComboBox>
 
                     <TextBox x:Name="MaxSellPerDayBox" DataObject.Pasting="OnlyNumbers_OnPasting"
-                             PreviewTextInput="OnlyNumbers_OnPreviewTextInput" VerticalAlignment="Center" MinWidth="100"
+                             PreviewTextInput="OnlyNumbers_OnPreviewTextInput" VerticalAlignment="Center"
+                             MinWidth="100"
                              Margin="5,0,5,0" />
                     <Button x:Name="AddMaxSellPerDayButton" Content="Ajouter" Click="AddMaxSellPerDay_OnClick" />
                 </StackPanel>

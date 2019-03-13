@@ -21,14 +21,12 @@ namespace CaisseLibrary.Concrete.Invoices
 
         public Invoice(SaveableCashier cashier)
         {
-
             SaveableInvoice = new SaveableInvoice
             {
                 Cashier = cashier
             };
 
             Operations = new List<SaveableOperation>();
-
         }
 
         public decimal CalculateTotalPrice() => Operations.Sum(t => t.FinalPrice());

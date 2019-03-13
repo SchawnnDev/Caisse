@@ -9,14 +9,11 @@ namespace CaisseLibrary
 {
     public class Main
     {
-
         public static SaveableEvent ActualEvent { get; set; }
 
         public static void Start()
         {
-
             ConfigFile.Init();
-
         }
 
         public static List<SaveableEvent> LoadEvents()

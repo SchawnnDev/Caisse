@@ -14,7 +14,7 @@ namespace CaisseDesktop.Graphics.Print
             : base("\\\\PAUL\\EPSON TM-H6000IV Receipt")
         {
             PrintableInvoice = invoice;
-        } 
+        }
 
         private void GenerateHeader()
         {
@@ -34,7 +34,8 @@ namespace CaisseDesktop.Graphics.Print
 
         private void GenerateFooter()
         {
-            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes($"RT : {PrintableInvoice.CalculateTotalPrice()}E - TVA 0% : 0.00E - TTC : {PrintableInvoice.CalculateTotalPrice()} E\n"));
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes(
+                $"RT : {PrintableInvoice.CalculateTotalPrice()}E - TVA 0% : 0.00E - TTC : {PrintableInvoice.CalculateTotalPrice()} E\n"));
         }
 
         private void GenerateBody()
@@ -43,15 +44,18 @@ namespace CaisseDesktop.Graphics.Print
 
             foreach (var operation in PrintableInvoice.Operations)
             {
-                BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes($"{operation.Amount} {operation.Item.Name}                                     {operation.FinalPrice()}E\n\n"));
+                BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes(
+                    $"{operation.Amount} {operation.Item.Name}                                     {operation.FinalPrice()}E\n\n"));
             }
 
             BytesValue = BytesValue.AddBytes(EscPosEpson.Alignment.Center());
             BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.DoubleHeight2());
             BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.DoubleWidth2());
-            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes($"TOTAL : {PrintableInvoice.CalculateTotalPrice()}E\n\n"));
+            BytesValue =
+                BytesValue.AddBytes(Encoding.ASCII.GetBytes($"TOTAL : {PrintableInvoice.CalculateTotalPrice()}E\n\n"));
             BytesValue = BytesValue.AddBytes(EscPosEpson.CharSize.Nomarl());
-            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes($"{PrintableInvoice.SaveableInvoice.PaymentMethod.Name} : {PrintableInvoice.GivenMoney} EUR - RENDU : {PrintableInvoice.CalculateGivenBackChange()} EUR\n"));
+            BytesValue = BytesValue.AddBytes(Encoding.ASCII.GetBytes(
+                $"{PrintableInvoice.SaveableInvoice.PaymentMethod.Name} : {PrintableInvoice.GivenMoney} EUR - RENDU : {PrintableInvoice.CalculateGivenBackChange()} EUR\n"));
         }
 
 
