@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Media;
 using System.Windows;
 using System.Windows.Controls;
@@ -168,6 +169,15 @@ namespace CaisseDesktop.Graphics.Admin.Events
             MasterFrame.Content = page;
             CurrentPage = page;
             GetMenuItems().DoPageNavigation(4);
+        }
+
+        private void Export_OnClick(object sender, RoutedEventArgs e)
+        {
+
+            if (Evenement == null) return;
+
+            MessageBox.Show(string.Join(",",Evenement.Export().Where(t=>t!=null).Select(t=> t.ToString()).ToArray()));
+
         }
     }
 }

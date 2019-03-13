@@ -70,10 +70,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 return;
 
             if (ParentWindow.Checkout == null)
-                ParentWindow.Checkout = new SaveableCheckout
-                {
-                    Event = ParentWindow.ParentWindow.Evenement
-                };
+                ParentWindow.Checkout = new SaveableCheckout();
 
             ParentWindow.Checkout.Name = CheckoutName.Text;
             ParentWindow.Checkout.Details = CheckoutInfos.Text;
@@ -82,17 +79,6 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             if (Types.Any(t => t.Name.Equals(CheckoutType.Text)))
             {
                 ParentWindow.Checkout.CheckoutType = (SaveableCheckoutType) CheckoutType.SelectedItem;
-            }
-            else
-            {
-                var type = new SaveableCheckoutType
-                {
-                    Event = ParentWindow.Checkout.Event,
-                    Name = CheckoutType.Text
-                };
-
-                Types.Add(type);
-                ParentWindow.Checkout.CheckoutType = type;
             }
 
             Task.Run(() => Save());
@@ -104,10 +90,11 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
             using (var db = new CaisseServerContext())
             {
-                db.Events.Attach(ParentWindow.Checkout.Event);
+                db.CheckoutTypes.Attach(ParentWindow.Checkout.CheckoutType);
+                db.Events.Attach(ParentWindow.Checkout.CheckoutType.Event);
                 db.Owners.Attach(ParentWindow.Checkout.Owner);
 
-                if (db.CheckoutTypes.Any(t => t.Event.Id == ParentWindow.Checkout.Event.Id))
+                if (db.CheckoutTypes.Any(t => t.Event.Id == ParentWindow.Checkout.CheckoutType.Id))
                     db.CheckoutTypes.Attach(ParentWindow.Checkout.CheckoutType);
                 else
                     db.CheckoutTypes.Add(ParentWindow.Checkout.CheckoutType);

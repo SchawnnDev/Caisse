@@ -20,22 +20,20 @@ namespace CaisseServer.Events
 
         public DateTime End { get; set; }
 
-        public SaveableCashier Cashier { get; set; }
-
         public bool Pause { get; set; }
 
         [NotMapped] public bool Blank { get; set; }
 
         public void Import(object[] args)
         {
-            if (args.Length != 7) throw new IllegalArgumentNumberException(8, "créneau horaire");
+            if (args.Length != 7) throw new IllegalArgumentNumberException(7, "créneau horaire");
             if (!args[0].ToString().ToLower().Equals("timeslot"))
                 throw new TypeNotRecognisedException("créneau horaire (TimeSlot)");
 
             Id = args[1] as int? ?? 0;
             Start = args[4] is DateTime time ? time : new DateTime();
             End = args[5] is DateTime dateTime ? dateTime : new DateTime();
-            Pause = args[7] is bool b && b;
+            Pause = args[6] is bool b && b;
 
             if (args[2] is SaveableDay day)
             {
@@ -58,15 +56,6 @@ namespace CaisseServer.Events
             }
 
 
-            if (args[6] is SaveableCashier cashier)
-            {
-                Cashier = cashier;
-            }
-            else
-            {
-                Cashier = new SaveableCashier();
-                Cashier.Import(args[6] as object[]);
-            }
         }
 
         public object[] Export() => new object[]
@@ -77,7 +66,6 @@ namespace CaisseServer.Events
             Checkout,
             Start,
             End,
-            Cashier,
             Pause
         };
     }

@@ -45,33 +45,18 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                     Day = day,
                     Start = new DateTime(2018, 12, 23, 10, 00, 00),
                     End = new DateTime(2018, 12, 23, 12, 00, 00),
-                    Cashier = new SaveableCashier
-                    {
-                        FirstName = "Felix",
-                        Name = "Meyer"
-                    }
                 },
                 new SaveableTimeSlot
                 {
                     Day = day,
                     Start = new DateTime(2018, 12, 23, 14, 00, 00),
                     End = new DateTime(2018, 12, 23, 15, 00, 00),
-                    Cashier = new SaveableCashier
-                    {
-                        FirstName = "Paul",
-                        Name = "Meyer"
-                    }
                 },
                 new SaveableTimeSlot
                 {
                     Day = day,
                     Start = new DateTime(2018, 12, 23, 15, 00, 00),
                     End = new DateTime(2018, 12, 23, 16, 00, 00),
-                    Cashier = new SaveableCashier
-                    {
-                        FirstName = "Thierry",
-                        Name = "Meyer"
-                    }
                 }
             };
 
@@ -167,7 +152,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 var dayBtn = new Button
                 {
                     Content =
-                        $"{DateToHour(slot.Start)}\n{(slot.Blank ? "Clique ici pour assigner la case." : slot.Cashier.GetFullName())}\n{DateToHour(slot.End)}",
+                        $"{DateToHour(slot.Start)}\n{(slot.Blank ? "Clique ici pour assigner la case." : "Paul Meyer")}\n{DateToHour(slot.End)}",
                     Background = slot.Blank ? Brushes.Gray : brush,
                     HorizontalContentAlignment = HorizontalAlignment.Center,
                     Height = double.NaN,

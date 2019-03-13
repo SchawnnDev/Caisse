@@ -29,7 +29,7 @@ namespace CaisseLibrary
             using (var db = new CaisseServerContext())
             {
                 return db.Checkouts.Include(t => t.CheckoutType)
-                    .Where(t => t.Event.Id == eventId).OrderBy(t => t.CheckoutType.Id).ToList();
+                    .Where(t => t.CheckoutType.Event.Id == eventId).OrderBy(t => t.CheckoutType.Id).ToList();
             }
         }
     }
