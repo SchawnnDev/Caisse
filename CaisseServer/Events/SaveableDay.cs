@@ -25,7 +25,7 @@ namespace CaisseServer.Events
             if (args.Length != 5) throw new IllegalArgumentNumberException(5, "jour");
             if (!args[0].ToString().ToLower().Equals("day")) throw new TypeNotRecognisedException("jour (Day)");
 
-            Id = args[1] is int i ? i : 0;
+            Id = args[1] as int? ?? 0;
             Start = args[3] is DateTime dateTime ? dateTime : new DateTime();
             End = args[4] is DateTime time ? time : new DateTime();
 

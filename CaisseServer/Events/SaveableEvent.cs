@@ -29,9 +29,9 @@ namespace CaisseServer.Events
         {
 
             if (args.Length != 8) throw new IllegalArgumentNumberException(8,"événement");
-            if (!args[0].ToString().ToLower().Equals("Event")) throw new TypeNotRecognisedException("événement (Event)");
+            if (!args[0].ToString().ToLower().Equals("event")) throw new TypeNotRecognisedException("événement (Event)");
 
-            Id = args[1] is int i ? i : 0;
+            Id = args[1] as int? ?? 0;
             Name = args[2] as string;
             Start = args[3] is DateTime time ? time : new DateTime();
             End = args[4] is DateTime dateTime ? dateTime : new DateTime();

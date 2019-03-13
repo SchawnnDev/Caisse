@@ -62,7 +62,7 @@ namespace CaisseServer.Events
             if (args.Length != 9) throw new IllegalArgumentNumberException(9, "résponsable");
             if (!args[0].ToString().ToLower().Equals("owner")) throw new TypeNotRecognisedException("résponsable (Owner)");
 
-            Id = args[1] is int i ? i : 0;
+            Id = args[1] as int? ?? 0;
             Login = args[2] as string;
             Name = args[3] as string;
             Permissions = args[4] as string;

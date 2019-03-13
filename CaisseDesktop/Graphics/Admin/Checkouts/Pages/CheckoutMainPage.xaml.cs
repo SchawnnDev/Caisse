@@ -72,7 +72,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             if (ParentWindow.Checkout == null)
                 ParentWindow.Checkout = new SaveableCheckout
                 {
-                    SaveableEvent = ParentWindow.ParentWindow.Evenement
+                    Event = ParentWindow.ParentWindow.Evenement
                 };
 
             ParentWindow.Checkout.Name = CheckoutName.Text;
@@ -87,7 +87,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             {
                 var type = new SaveableCheckoutType
                 {
-                    Event = ParentWindow.Checkout.SaveableEvent,
+                    Event = ParentWindow.Checkout.Event,
                     Name = CheckoutType.Text
                 };
 
@@ -104,10 +104,10 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
             using (var db = new CaisseServerContext())
             {
-                db.Events.Attach(ParentWindow.Checkout.SaveableEvent);
+                db.Events.Attach(ParentWindow.Checkout.Event);
                 db.Owners.Attach(ParentWindow.Checkout.Owner);
 
-                if (db.CheckoutTypes.Any(t => t.Event.Id == ParentWindow.Checkout.SaveableEvent.Id))
+                if (db.CheckoutTypes.Any(t => t.Event.Id == ParentWindow.Checkout.Event.Id))
                     db.CheckoutTypes.Attach(ParentWindow.Checkout.CheckoutType);
                 else
                     db.CheckoutTypes.Add(ParentWindow.Checkout.CheckoutType);

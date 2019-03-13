@@ -13,8 +13,6 @@ namespace CaisseServer.Items
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public SaveableCheckoutType Type { get; set; }
-
         public string Name { get; set; }
 
         public string ImageSrc { get; set; }
@@ -22,7 +20,7 @@ namespace CaisseServer.Items
         public decimal Price { get; set; }
 
         public int Position { get; set; }
-        
+
         public string Color { get; set; }
 
         //public bool Cup { get; set; }
@@ -38,33 +36,53 @@ namespace CaisseServer.Items
 
         public int MaxSellNumberPerDay { get; set; }
 
+        public SaveableCheckoutType Type { get; set; }
+
         public void Import(object[] args)
         {
+            if (args.Length != 13) throw new IllegalArgumentNumberException(13, "article");
+            if (!args[0].ToString().ToLower().Equals("article"))
+                throw new TypeNotRecognisedException("article (Article)");
 
-            if (args.Length != 8) throw new IllegalArgumentNumberException(8, "événement");
-            if (!args[0].ToString().ToLower().Equals("Event")) throw new TypeNotRecognisedException("événement (Event)");
-
-            Id = args[1] is int i ? i : 0;
+            Id = args[1] as int? ?? 0;
             Name = args[2] as string;
-            Start = args[3] is DateTime time ? time : new DateTime();
-            End = args[4] is DateTime dateTime ? dateTime : new DateTime();
-            Address = args[5] as string;
-            Description = args[6] as string;
-            ImageSrc = args[7] as string;
+            ImageSrc = args[3] as string;
+            Price = args[4] as decimal? ?? 0;
+            Position = args[5] as int? ?? 0;
+            Color = args[6] as string;
+            ItemType = args[7] as string;
+            NeedsCup = args[8] as bool? ?? false;
+            Active = args[9] as bool? ?? false;
+            NumberingTracking = args[10] as bool? ?? false;
+            MaxSellNumberPerDay = args[11] as int? ?? 0;
+
+            if (args[12] is SaveableCheckoutType checkoutType)
+            {
+                Type = checkoutType;
+            }
+            else
+            {
+                Type = new SaveableCheckoutType();
+                Type.Import(args[12] as object[]);
+            }
 
         }
 
         public object[] Export() => new object[]
         {
-            "Event",
+            "Article",
             Id,
             Name,
-            Start,
-            End,
-            Address,
-            Description,
-            ImageSrc
+            ImageSrc,
+            Price,
+            Position,
+            Color,
+            ItemType,
+            NeedsCup,
+            Active,
+            NumberingTracking,
+            MaxSellNumberPerDay,
+            Type
         };
-
     }
 }

@@ -87,5 +87,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CaisseIO\CaisseIO.csproj">
+      <Project>{71CB6B4B-92B8-426F-8EA9-1F40F29B6DC3}</Project>
+      <Name>CaisseIO</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

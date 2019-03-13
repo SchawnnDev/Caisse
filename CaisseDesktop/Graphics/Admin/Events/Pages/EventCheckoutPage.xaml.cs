@@ -56,7 +56,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
                 using (var db = new CaisseServerContext())
                 {
                     checkoutsCollection = new ObservableCollection<SaveableCheckout>(db.Checkouts
-                        .Where(t => t.SaveableEvent.Id == ParentWindow.Evenement.Id).Include(t => t.CheckoutType)
+                        .Where(t => t.Event.Id == ParentWindow.Evenement.Id).Include(t => t.CheckoutType)
                         .Include(t => t.Owner).ToList());
                 }
 

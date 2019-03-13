@@ -21,7 +21,7 @@ namespace CaisseServer
 
         public SaveableCheckoutType CheckoutType { get; set; }
 
-        public SaveableEvent SaveableEvent { get; set; }
+        public SaveableEvent Event { get; set; }
 
         public object[] Export() => new object[]
         {
@@ -31,15 +31,16 @@ namespace CaisseServer
             Owner.Export(),
             Details,
             CheckoutType.Export(),
-            SaveableEvent.Export()
+            Event.Export()
         };
 
         public void Import(object[] args)
         {
 
-            if(args.Length != 7 || !args[0].ToString().Equals("Checkout")) throw new TypeNotRecognisedException("Pas assez d'arguments pour importer cette caisse.");
+            if (args.Length != 7) throw new IllegalArgumentNumberException(7, "caisse");
+            if (!args[0].ToString().ToLower().Equals("checkout")) throw new TypeNotRecognisedException("caisse (Checkout)");
 
-            Id = args[1] is int i ? i : 0;
+            Id = args[1] as int? ?? 0;
             Name = args[2] as string;
             Details = args[4] as string;
 
@@ -65,12 +66,12 @@ namespace CaisseServer
 
             if (args[6] is SaveableEvent saveableEvent)
             {
-                SaveableEvent = saveableEvent;
+                Event = saveableEvent;
             }
             else
             {
-                SaveableEvent = new SaveableEvent();
-                SaveableEvent.Import(args[6] as object[]);
+                Event = new SaveableEvent();
+                Event.Import(args[6] as object[]);
             }
 
         }

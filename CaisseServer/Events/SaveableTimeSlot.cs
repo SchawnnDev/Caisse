@@ -32,7 +32,7 @@ namespace CaisseServer.Events
             if (args.Length != 7) throw new IllegalArgumentNumberException(8, "créneau horaire");
             if (!args[0].ToString().ToLower().Equals("timeslot")) throw new TypeNotRecognisedException("créneau horaire (TimeSlot)");
 
-            Id = args[1] is int i ? i : 0;
+            Id = args[1] as int? ?? 0;
             Start = args[4] is DateTime time ? time : new DateTime();
             End = args[5] is DateTime dateTime ? dateTime : new DateTime();
             Pause = args[7] is bool b && b;
