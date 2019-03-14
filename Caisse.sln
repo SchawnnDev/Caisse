@@ -11,6 +11,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseLibrary", "CaisseLibrary\CaisseLibrary.csproj", "{3115494D-C5A1-4242-BE2E-CE8B14123569}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseServer", "CaisseServer\CaisseServer.csproj", "{6F76194B-A300-4A8C-B59A-83F65AD761BB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{71CB6B4B-92B8-426F-8EA9-1F40F29B6DC3} = {71CB6B4B-92B8-426F-8EA9-1F40F29B6DC3}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3B9322C0-32EF-456D-9C69-A457ABC7F255}"
 	ProjectSection(SolutionItems) = preProject
