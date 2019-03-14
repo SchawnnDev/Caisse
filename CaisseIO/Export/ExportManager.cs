@@ -13,7 +13,7 @@ namespace CaisseIO.Export
         private string Path { get; }
 
 
-        public ExportManager(string path, object[] o) : this(path, new List<object[]> {o})
+        public ExportManager(string path, object[] o) : this(path, new List<object[]> { o })
         {
         }
 
@@ -30,22 +30,26 @@ namespace CaisseIO.Export
 
             if (!(obj[0] is string str)) return null;
 
+            object returnObject = obj;
+
             if (SortedObjects.ContainsKey(str))
             {
                 var i = obj[1] as int? ?? 0;
 
-                if (SortedObjects["str"].Any(t => (int) t[1] == i))
+                if (SortedObjects[str].All(t => (int) t[1] != i))
                 {
-                    return i;
+                    SortedObjects[str].Add(obj);
                 }
-                else
-                {
-                    SortedObjects["str"].Add(obj);
-                }
+
+                returnObject = i;
+
             }
 
+            SortedObjects.Add(str, new List<object[]>{obj});
 
-                for (var index = 0; index < obj.Length; index++)
+            returnObject = obj[1] as int? ?? 0;
+
+            for (var index = 0; index < obj.Length; index++)
             {
                 var o = obj[index];
 
@@ -54,13 +58,14 @@ namespace CaisseIO.Export
                     obj[index] = Recursiv(z);
                 }
 
-
             }
-            return null;
+
+            return returnObject;
         }
 
         public void Analyse()
         {
+
             foreach (var o in Objects)
             {
                 if (o == null || o.Length <= 1) continue;
@@ -69,11 +74,11 @@ namespace CaisseIO.Export
 
                 if (SortedObjects.ContainsKey(str))
                 {
-                    SortedObjects[str].Add(o);
+                    SortedObjects[str].Add(Re);
                 }
                 else
                 {
-                    SortedObjects.Add(str, new List<object[]> {o});
+                    SortedObjects.Add(str, new List<object[]> { o });
                 }
             }
 
