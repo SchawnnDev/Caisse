@@ -15,9 +15,9 @@ namespace CaisseServer
 
         public string Name { get; set; }
 
-        public decimal MinFee { get; set; }
+        public string Type { get; set; }
 
-        public string AcceptedDetails { get; set; }
+        public decimal MinFee { get; set; }
 
         public SaveableEvent Event { get; set; } // needs a review.
 
@@ -26,8 +26,8 @@ namespace CaisseServer
             "PaymentMethod",
             Id,
             Name,
+            Type,
             MinFee,
-            AcceptedDetails,
             Event.Export()
         };
 
@@ -39,8 +39,8 @@ namespace CaisseServer
 
             Id = args[1] as int? ?? 0;
             Name = args[2] as string;
-            MinFee = args[3] as decimal? ?? 0;
-            AcceptedDetails = args[4] as string;
+            Type = args[3] as string;
+            MinFee = args[4] as decimal? ?? 0;
 
 
             if (args[5] is SaveableEvent saveableEvent)

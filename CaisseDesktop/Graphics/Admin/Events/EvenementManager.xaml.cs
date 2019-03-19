@@ -10,6 +10,7 @@ using CaisseDesktop.Graphics.Admin.CheckoutTypes;
 using CaisseDesktop.Graphics.Admin.Days;
 using CaisseDesktop.Graphics.Admin.Events.Pages;
 using CaisseDesktop.Graphics.Admin.Owners;
+using CaisseDesktop.Graphics.Admin.PaymentMethods;
 using CaisseDesktop.Utils;
 using CaisseServer.Events;
 
@@ -49,6 +50,19 @@ namespace CaisseDesktop.Graphics.Admin.Events
             e.Cancel = true;
         }
 
+        private List<MenuItem> GetMenuItems()
+        {
+            return new List<MenuItem>
+            {
+                DisplayCheckouts,
+                DisplayOwners,
+                EditInfos,
+                DisplayCheckoutTypes,
+                DisplayDays,
+                DisplayPaymentMethods
+            };
+        }
+
         private void CreateCheckout_OnClick(object sender, RoutedEventArgs e)
         {
             if (Evenement != null)
@@ -57,43 +71,8 @@ namespace CaisseDesktop.Graphics.Admin.Events
                 return;
             }
 
-            if (!MasterFrame.ToCustomPage().Equals("EventMainPage")) return;
+            CheckInfos();
 
-            SystemSounds.Beep.Play();
-            MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
-                MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
-        private void DisplayCheckouts_OnClick(object sender, RoutedEventArgs e)
-        {
-            var check = MasterFrame.ToCustomPage();
-
-            if (!check.CanOpen("EventCheckoutPage")) return;
-
-            if (check != null && !check.CanClose()) return;
-
-            CustomPage page = new EventCheckoutPage(this);
-            MasterFrame.Content = page;
-            CurrentPage = page;
-            GetMenuItems().DoPageNavigation(0);
-        }
-
-        private void EditInfos_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen("EventMainPage")) return;
-            CustomPage page = new EventMainPage(this);
-            MasterFrame.Content = page;
-            CurrentPage = page;
-            GetMenuItems().DoPageNavigation(2);
-        }
-
-        private void DisplayOwners_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen("EventOwnerPage")) return;
-            CustomPage page = new EventOwnerPage(this);
-            MasterFrame.Content = page;
-            CurrentPage = page;
-            GetMenuItems().DoPageNavigation(1);
         }
 
         private void CreateOwner_OnClick(object sender, RoutedEventArgs e)
@@ -104,32 +83,8 @@ namespace CaisseDesktop.Graphics.Admin.Events
                 return;
             }
 
-            if (!MasterFrame.ToCustomPage().Equals("EventMainPage")) return;
+            CheckInfos();
 
-            SystemSounds.Beep.Play();
-            MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
-                MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
-        private List<MenuItem> GetMenuItems()
-        {
-            return new List<MenuItem>
-            {
-                DisplayCheckouts,
-                DisplayOwners,
-                EditInfos,
-                DisplayCheckoutTypes,
-                DisplayDays
-            };
-        }
-
-        private void DisplayCheckoutTypes_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen("EventCheckoutTypePage")) return;
-            CustomPage page = new EventCheckoutTypePage(this);
-            MasterFrame.Content = page;
-            CurrentPage = page;
-            GetMenuItems().DoPageNavigation(3);
         }
 
         private void CreateCheckoutType_OnClick(object sender, RoutedEventArgs e)
@@ -140,11 +95,8 @@ namespace CaisseDesktop.Graphics.Admin.Events
                 return;
             }
 
-            if (!MasterFrame.ToCustomPage().Equals("EventMainPage")) return;
+            CheckInfos();
 
-            SystemSounds.Beep.Play();
-            MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
-                MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void CreateDay_OnClick(object sender, RoutedEventArgs e)
@@ -155,20 +107,50 @@ namespace CaisseDesktop.Graphics.Admin.Events
                 return;
             }
 
-            if (!MasterFrame.ToCustomPage().Equals("EventMainPage")) return;
+            CheckInfos();
 
-            SystemSounds.Beep.Play();
-            MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
-                MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void CreatePaymentMethod_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (Evenement != null)
+            {
+                new PaymentMethodManager(this, null).ShowDialog();
+                return;
+            }
+
+            CheckInfos();
+
+        }
+
+        private void DisplayCheckouts_OnClick(object sender, RoutedEventArgs e)
+        {
+            Display(new EventCheckoutPage(this), 0);
+        }
+
+        private void DisplayOwners_OnClick(object sender, RoutedEventArgs e)
+        {
+            Display(new EventOwnerPage(this), 1);
+        }
+
+        private void EditInfos_OnClick(object sender, RoutedEventArgs e)
+        {
+            Display(new EventMainPage(this), 2);
+        }
+
+        private void DisplayCheckoutTypes_OnClick(object sender, RoutedEventArgs e)
+        {
+            Display(new EventCheckoutTypePage(this), 3);
         }
 
         private void DisplayDays_OnClick(object sender, RoutedEventArgs e)
         {
-            if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen("EventDayPage")) return;
-            CustomPage page = new EventDayPage(this);
-            MasterFrame.Content = page;
-            CurrentPage = page;
-            GetMenuItems().DoPageNavigation(4);
+            Display(new EventDayPage(this), 4);
+        }
+
+        private void DisplayPaymentMethods_OnClick(object sender, RoutedEventArgs e)
+        {
+            Display(new EventPaymentMethodPage(this), 5);
         }
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
@@ -176,8 +158,27 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             if (Evenement == null) return;
 
-            MessageBox.Show(string.Join(",",Evenement.Export().Where(t=>t!=null).Select(t=> t.ToString()).ToArray()));
+            MessageBox.Show(string.Join(",", Evenement.Export().Where(t => t != null).Select(t => t.ToString()).ToArray()));
 
         }
+
+        private void Display(CustomPage page, int navigation)
+        {
+            if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen(page.CustomName)) return;
+            MasterFrame.Content = page;
+            CurrentPage = page;
+            GetMenuItems().DoPageNavigation(navigation);
+        }
+
+        private void CheckInfos()
+        {
+            if (!MasterFrame.ToCustomPage().Equals("EventMainPage")) return;
+
+            SystemSounds.Beep.Play();
+            MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
     }
+
 }

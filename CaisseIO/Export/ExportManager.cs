@@ -74,7 +74,7 @@ namespace CaisseIO.Export
 
                 if (SortedObjects.ContainsKey(str))
                 {
-                    SortedObjects[str].Add(Re);
+                    //SortedObjects[str].Add();
                 }
                 else
                 {

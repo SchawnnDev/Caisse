@@ -98,6 +98,22 @@
 
                 </MenuItem>
 
+                <MenuItem Header="_Moyens de paiement">
+
+                    <MenuItem x:Name="DisplayPaymentMethods" Header="_Afficher les moyens de paiement" Click="DisplayPaymentMethods_OnClick" />
+
+                    <Separator />
+
+                    <MenuItem x:Name="CreatePaymentMethod" Header="_Nouveau moyen de paiement" Click="CreatePaymentMethod_OnClick" />
+
+                    <Separator />
+
+                    <MenuItem x:Name="ImportPaymentMethods" Header="_Importer" />
+
+                    <MenuItem x:Name="ExportPaymentMethods" Header="_Exporter" />
+
+                </MenuItem>
+
             </Menu>
 
         </DockPanel>
