@@ -16,53 +16,79 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
     /// </summary>
     public partial class CheckoutTimeTablePage
     {
+
+        private List<SaveableDay> Days {get;}
+
+        private int StartRange { get; set; } = 1;
+
         public CheckoutTimeTablePage(CheckoutManager parentWindow)
         {
             InitializeComponent();
 
-            var day = new SaveableDay
+            using (var db = new CaisseServerContext())
             {
-                Start = new DateTime(2018, 12, 23, 08, 00, 00),
-                End = new DateTime(2018, 12, 23, 17, 00, 00)
-            };
 
-            var day2 = new SaveableDay
-            {
-                Start = new DateTime(2018, 12, 24, 08, 00, 00),
-                End = new DateTime(2018, 12, 24, 17, 00, 00)
-            };
+                Days = db.Days.Where(t=>t.Event.Id == parentWindow.ParentWindow.Evenement.Id).OrderByDescending(t=>t.Start).ToList();
 
-            var day3 = new SaveableDay
-            {
-                Start = new DateTime(2018, 12, 25, 08, 00, 00),
-                End = new DateTime(2018, 12, 25, 17, 00, 00)
-            };
+            }
 
-            var list = new List<SaveableTimeSlot>
-            {
-                new SaveableTimeSlot
+                /*
+
+                var day = new SaveableDay
                 {
-                    Day = day,
-                    Start = new DateTime(2018, 12, 23, 10, 00, 00),
-                    End = new DateTime(2018, 12, 23, 12, 00, 00),
-                },
-                new SaveableTimeSlot
-                {
-                    Day = day,
-                    Start = new DateTime(2018, 12, 23, 14, 00, 00),
-                    End = new DateTime(2018, 12, 23, 15, 00, 00),
-                },
-                new SaveableTimeSlot
-                {
-                    Day = day,
-                    Start = new DateTime(2018, 12, 23, 15, 00, 00),
-                    End = new DateTime(2018, 12, 23, 16, 00, 00),
-                }
-            };
+                    Start = new DateTime(2018, 12, 23, 08, 00, 00),
+                    End = new DateTime(2018, 12, 23, 17, 00, 00)
+                };
 
-            Fill(TimeTableDay.DayOne, day, list);
-            Fill(TimeTableDay.DayTwo, day2, new List<SaveableTimeSlot>());
-            Fill(TimeTableDay.DayThree, day3, new List<SaveableTimeSlot>());
+                var day2 = new SaveableDay
+                {
+                    Start = new DateTime(2018, 12, 24, 08, 00, 00),
+                    End = new DateTime(2018, 12, 24, 17, 00, 00)
+                };
+
+                var day3 = new SaveableDay
+                {
+                    Start = new DateTime(2018, 12, 25, 08, 00, 00),
+                    End = new DateTime(2018, 12, 25, 17, 00, 00)
+                };
+
+                var list = new List<SaveableTimeSlot>
+                {
+                    new SaveableTimeSlot
+                    {
+                        Day = day,
+                        Start = new DateTime(2018, 12, 23, 10, 00, 00),
+                        End = new DateTime(2018, 12, 23, 12, 00, 00),
+                    },
+                    new SaveableTimeSlot
+                    {
+                        Day = day,
+                        Start = new DateTime(2018, 12, 23, 14, 00, 00),
+                        End = new DateTime(2018, 12, 23, 15, 00, 00),
+                    },
+                    new SaveableTimeSlot
+                    {
+                        Day = day,
+                        Start = new DateTime(2018, 12, 23, 15, 00, 00),
+                        End = new DateTime(2018, 12, 23, 16, 00, 00),
+                    }
+                }; */
+
+                //  Fill(TimeTableDay.DayOne, day, list);
+
+
+            var range = Days.Count > 3 ? 3 : Days.Count;
+
+            if (range == 0)
+            {
+                return;
+            }
+
+            for (var i = 0; i < range; i++)
+            {
+                Fill((TimeTableDay)i, Days[i], new List<SaveableTimeSlot>());
+            }
+
         }
 
         public override string CustomName => "CheckoutTimeTablePage";

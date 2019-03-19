@@ -40,6 +40,12 @@ namespace CaisseDesktop.Graphics.Admin.Days
             CombinedCalendar.BlackoutDates.Add(new CalendarDateRange(manager.Evenement.End.AddDays(1),
                 DateTime.MaxValue));
 
+
+            EndCombinedCalendar.BlackoutDates.Add(new CalendarDateRange(DateTime.MinValue,
+                manager.Evenement.Start.AddDays(-1)));
+            EndCombinedCalendar.BlackoutDates.Add(new CalendarDateRange(manager.Evenement.End.AddDays(1),
+                DateTime.MaxValue));
+
             if (!New) return;
 
             Day = new SaveableDay

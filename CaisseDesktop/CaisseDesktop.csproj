@@ -154,6 +154,9 @@
     <Compile Include="Graphics\Admin\Events\EvenementManager.xaml.cs">
       <DependentUpon>EvenementManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Admin\Events\Pages\EventPaymentMethodPage.xaml.cs">
+      <DependentUpon>EventPaymentMethodPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Events\Pages\EventCheckoutPage.xaml.cs">
       <DependentUpon>EventCheckoutPage.xaml</DependentUpon>
     </Compile>
@@ -172,6 +175,9 @@
     </Compile>
     <Compile Include="Graphics\Admin\Owners\OwnerManager.xaml.cs">
       <DependentUpon>OwnerManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\Admin\PaymentMethods\PaymentMethodManager.xaml.cs">
+      <DependentUpon>PaymentMethodManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Admin\Statistics\AdminStatisticsMain.xaml.cs">
       <DependentUpon>AdminStatisticsMain.xaml</DependentUpon>
@@ -196,6 +202,7 @@
     <Compile Include="Models\ArticleModel.cs" />
     <Compile Include="Models\JourModel.cs" />
     <Compile Include="Models\MaxSellNumberModel.cs" />
+    <Compile Include="Models\PaymentMethodModel.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\ResponsableModel.cs" />
     <Compile Include="Utils\ColorUtils.cs" />
@@ -244,6 +251,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Graphics\Admin\Events\Pages\EventPaymentMethodPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Graphics\Admin\Events\Pages\EventCheckoutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -265,6 +276,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\Owners\OwnerManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\PaymentMethods\PaymentMethodManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

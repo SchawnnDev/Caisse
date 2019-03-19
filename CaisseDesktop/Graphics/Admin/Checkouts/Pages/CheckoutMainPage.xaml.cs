@@ -91,7 +91,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             using (var db = new CaisseServerContext())
             {
                 db.CheckoutTypes.Attach(ParentWindow.Checkout.CheckoutType);
-                db.Events.Attach(ParentWindow.Checkout.CheckoutType.Event);
+                //db.Events.Attach(ParentWindow.Checkout.CheckoutType.Event);
                 db.Owners.Attach(ParentWindow.Checkout.Owner);
 
                 if (db.CheckoutTypes.Any(t => t.Event.Id == ParentWindow.Checkout.CheckoutType.Id))

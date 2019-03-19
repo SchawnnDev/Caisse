@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using CaisseDesktop.Graphics;
-using CaisseDesktop.Graphics.Admin;
 using CaisseDesktop.Graphics.Admin.Events;
 using CaisseDesktop.Graphics.Common;
 using CaisseDesktop.Graphics.Print;
@@ -26,8 +25,8 @@ namespace CaisseDesktop
             using (var db = new CaisseServerContext())
             {
                 //TEST
-
-                db.Database.CreateIfNotExists();
+                //db.Database.Delete();
+                  db.Database.CreateIfNotExists();
             }
 
             Main.Start();
