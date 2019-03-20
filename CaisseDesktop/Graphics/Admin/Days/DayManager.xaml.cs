@@ -33,7 +33,6 @@ namespace CaisseDesktop.Graphics.Admin.Days
             Day = day;
             New = day == null;
             FirstClose = New;
-            DataContext = new DayPickerModel(manager.Evenement.Start, manager.Evenement.Start.AddHours(24));
 
             CombinedCalendar.BlackoutDates.Add(new CalendarDateRange(DateTime.MinValue,
                 manager.Evenement.Start.AddDays(-1)));
@@ -46,7 +45,14 @@ namespace CaisseDesktop.Graphics.Admin.Days
             EndCombinedCalendar.BlackoutDates.Add(new CalendarDateRange(manager.Evenement.End.AddDays(1),
                 DateTime.MaxValue));
 
-            if (!New) return;
+            if (!New)
+            {
+                DataContext = new DayPickerModel(day.Start, day.End);
+                return;
+            }
+
+            DataContext = new DayPickerModel(manager.Evenement.Start, manager.Evenement.Start.AddHours(24));
+
 
             Day = new SaveableDay
             {
@@ -77,11 +83,12 @@ namespace CaisseDesktop.Graphics.Admin.Days
             var start = grid.Name.Equals("StartGrid");
             var date = start ? CombinedCalendar.SelectedDate : EndCombinedCalendar.SelectedDate;
             if (date == null) return;
-            var combined = date.Value.AddSeconds(start
-                ? CombinedClock.Time.TimeOfDay.TotalSeconds
-                : EndCombinedClock.Time.TimeOfDay.TotalSeconds);
+            var combined = SetTime(date.Value, start ? CombinedClock.Time : EndCombinedClock.Time);
+             //var combined = date.Value.AddSeconds(start
+             //   ? CombinedClock.Time.TimeOfDay.TotalSeconds
+             //   : EndCombinedClock.Time.TimeOfDay.TotalSeconds);
 
-            if (FirstClose)
+            if (FirstClose && New) // If new then the start = end date
             {
                 ((DayPickerModel) DataContext).Start = ((DayPickerModel) DataContext).End = combined;
                 FirstClose = false;
@@ -91,6 +98,8 @@ namespace CaisseDesktop.Graphics.Admin.Days
             if (start) ((DayPickerModel) DataContext).Start = combined;
             else ((DayPickerModel) DataContext).End = combined;
         }
+
+        public DateTime SetTime(DateTime date, DateTime time) => new DateTime(date.Year,date.Month,date.Day,time.Hour,time.Minute,time.Second);
 
         private void SaveDayButton_OnClick(object sender, RoutedEventArgs e)
         {
@@ -118,8 +127,8 @@ namespace CaisseDesktop.Graphics.Admin.Days
                 return;
             }
 
-            var start = CombinedCalendar.SelectedDate.Value;
-            var end = EndCombinedCalendar.SelectedDate.Value;
+            var start = ((DayPickerModel)DataContext).Start;
+            var end = ((DayPickerModel)DataContext).End;
 
             using (var db = new CaisseServerContext())
             {
@@ -139,7 +148,7 @@ namespace CaisseDesktop.Graphics.Admin.Days
                     if ((start.CompareTo(day.Start) <= 0 || day.End.CompareTo(end) >= 0) &&
                         (start.CompareTo(day.Start) >= 0 || day.End.CompareTo(end) <= 0) || MessageBox.Show(
                             "Le jour chevauche un autre jour déjà enregistré, es-tu sûr de vouloir sauvegarder ?",
-                            "Jour chevauche un autre.", MessageBoxButton.YesNo) != MessageBoxResult.Yes) continue;
+                            "Jour chevauche un autre.", MessageBoxButton.YesNo) != MessageBoxResult.Yes) return;
                     Save(db);
                     return;
                 }
@@ -157,8 +166,8 @@ namespace CaisseDesktop.Graphics.Admin.Days
             Debug.Assert(CombinedCalendar.SelectedDate != null, "CombinedCalendar.SelectedDate != null");
             Debug.Assert(EndCombinedCalendar.SelectedDate != null, "EndCombinedCalendar.SelectedDate != null");
 
-            Day.Start = CombinedCalendar.SelectedDate.Value;
-            Day.End = EndCombinedCalendar.SelectedDate.Value;
+            Day.Start = ((DayPickerModel) DataContext).Start;
+            Day.End = ((DayPickerModel)DataContext).End;
             db.Events.Attach(Day.Event);
 
             if (New)
@@ -167,7 +176,7 @@ namespace CaisseDesktop.Graphics.Admin.Days
             }
             else
             {
-                db.Days.Attach(Day);
+                //db.Days.Attach(Day);
                 db.Days.AddOrUpdate(Day);
             }
 

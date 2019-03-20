@@ -19,8 +19,8 @@
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-                    <DataGridTextColumn Header="Début" Binding="{Binding Start}" />
-                    <DataGridTextColumn Header="Fin" Binding="{Binding End}" />
+                    <DataGridTextColumn Header="Début" Binding="{Binding Start, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
+                    <DataGridTextColumn Header="Fin" Binding="{Binding End, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
                     <DataGridTemplateColumn Header="Actions">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
