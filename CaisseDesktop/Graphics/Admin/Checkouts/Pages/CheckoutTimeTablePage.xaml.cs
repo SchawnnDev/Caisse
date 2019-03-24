@@ -16,10 +16,9 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
     /// </summary>
     public partial class CheckoutTimeTablePage
     {
+        private List<SaveableDay> Days { get; }
 
-        private List<SaveableDay> Days {get;}
-
-        private int StartRange { get; set; } = 1;
+        private int PageIndex { get; set; }
 
         public CheckoutTimeTablePage(CheckoutManager parentWindow)
         {
@@ -27,54 +26,14 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
             using (var db = new CaisseServerContext())
             {
-
-                Days = db.Days.Where(t=>t.Event.Id == parentWindow.ParentWindow.Evenement.Id).OrderByDescending(t=>t.Start).ToList();
-
+                Days = db.Days.Where(t => t.Event.Id == parentWindow.ParentWindow.Evenement.Id)
+                    .OrderBy(t => t.Start).ToList();
             }
 
-                /*
-
-                var day = new SaveableDay
-                {
-                    Start = new DateTime(2018, 12, 23, 08, 00, 00),
-                    End = new DateTime(2018, 12, 23, 17, 00, 00)
-                };
-
-                var day2 = new SaveableDay
-                {
-                    Start = new DateTime(2018, 12, 24, 08, 00, 00),
-                    End = new DateTime(2018, 12, 24, 17, 00, 00)
-                };
-
-                var day3 = new SaveableDay
-                {
-                    Start = new DateTime(2018, 12, 25, 08, 00, 00),
-                    End = new DateTime(2018, 12, 25, 17, 00, 00)
-                };
-
-                var list = new List<SaveableTimeSlot>
-                {
-                    new SaveableTimeSlot
-                    {
-                        Day = day,
-                        Start = new DateTime(2018, 12, 23, 10, 00, 00),
-                        End = new DateTime(2018, 12, 23, 12, 00, 00),
-                    },
-                    new SaveableTimeSlot
-                    {
-                        Day = day,
-                        Start = new DateTime(2018, 12, 23, 14, 00, 00),
-                        End = new DateTime(2018, 12, 23, 15, 00, 00),
-                    },
-                    new SaveableTimeSlot
-                    {
-                        Day = day,
-                        Start = new DateTime(2018, 12, 23, 15, 00, 00),
-                        End = new DateTime(2018, 12, 23, 16, 00, 00),
-                    }
-                }; */
-
-                //  Fill(TimeTableDay.DayOne, day, list);
+            if (Days.Count > 3)
+            {
+                ForwardBtn.IsEnabled = true;
+            }
 
 
             var range = Days.Count > 3 ? 3 : Days.Count;
@@ -86,9 +45,8 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
             for (var i = 0; i < range; i++)
             {
-                Fill((TimeTableDay)i, Days[i], new List<SaveableTimeSlot>());
+                Fill((TimeTableDay) i, Days[i], new List<SaveableTimeSlot>(), false);
             }
-
         }
 
         public override string CustomName => "CheckoutTimeTablePage";
@@ -118,7 +76,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             return true;
         }
 
-        public void Fill(TimeTableDay timeTableDay, SaveableDay day, List<SaveableTimeSlot> slots)
+        public void Fill(TimeTableDay timeTableDay, SaveableDay day, List<SaveableTimeSlot> slots, bool set)
         {
             Panel panel;
             Brush brush;
@@ -140,7 +98,6 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                     throw new ArgumentOutOfRangeException(nameof(timeTableDay), timeTableDay, null);
             }
 
-            //TimeTableGrid.ColumnDefinitions[1].
 
             var label = new Button
             {
@@ -149,6 +106,10 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             };
 
             DockPanel.SetDock(label, Dock.Top);
+
+            if (set)
+                panel.Children.Clear();
+
             panel.Children.Add(label);
 
             if (slots.Count == 0)
@@ -261,6 +222,39 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             }).ToList();
 
             return blankSlots;
+        }
+
+        private void ForwardBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            PageIndex++;
+
+            if (PageIndex >= Days.Count - 3)
+                ForwardBtn.IsEnabled = false;
+
+            if (!BackBtn.IsEnabled)
+                BackBtn.IsEnabled = true;
+
+            FillAll();
+        }
+
+        private void BackBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            PageIndex--;
+
+            if (PageIndex <= 0)
+                BackBtn.IsEnabled = false;
+
+            if (!ForwardBtn.IsEnabled)
+                ForwardBtn.IsEnabled = true;
+
+            FillAll();
+        }
+
+        private void FillAll()
+        {
+            Fill(TimeTableDay.DayOne, Days[PageIndex], new List<SaveableTimeSlot>(), true);
+            Fill(TimeTableDay.DayTwo, Days[PageIndex + 1], new List<SaveableTimeSlot>(), true);
+            Fill(TimeTableDay.DayThree, Days[PageIndex + 2], new List<SaveableTimeSlot>(), true);
         }
     }
 }
