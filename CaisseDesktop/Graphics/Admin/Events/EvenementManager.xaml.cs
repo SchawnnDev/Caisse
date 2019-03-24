@@ -72,7 +72,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
             }
 
             CheckInfos();
-
         }
 
         private void CreateOwner_OnClick(object sender, RoutedEventArgs e)
@@ -84,7 +83,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
             }
 
             CheckInfos();
-
         }
 
         private void CreateCheckoutType_OnClick(object sender, RoutedEventArgs e)
@@ -96,7 +94,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
             }
 
             CheckInfos();
-
         }
 
         private void CreateDay_OnClick(object sender, RoutedEventArgs e)
@@ -108,7 +105,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
             }
 
             CheckInfos();
-
         }
 
         private void CreatePaymentMethod_OnClick(object sender, RoutedEventArgs e)
@@ -120,7 +116,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
             }
 
             CheckInfos();
-
         }
 
         private void DisplayCheckouts_OnClick(object sender, RoutedEventArgs e)
@@ -155,11 +150,10 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void Export_OnClick(object sender, RoutedEventArgs e)
         {
-
             if (Evenement == null) return;
 
-            MessageBox.Show(string.Join(",", Evenement.Export().Where(t => t != null).Select(t => t.ToString()).ToArray()));
-
+            MessageBox.Show(string.Join(",",
+                Evenement.Export().Where(t => t != null).Select(t => t.ToString()).ToArray()));
         }
 
         private void Display(CustomPage page, int navigation)
@@ -178,7 +172,5 @@ namespace CaisseDesktop.Graphics.Admin.Events
             MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
                 MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
     }
-
 }

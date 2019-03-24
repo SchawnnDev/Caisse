@@ -60,7 +60,6 @@ namespace CaisseServer
                 CheckoutType = new SaveableCheckoutType();
                 CheckoutType.Import(args[5] as object[]);
             }
-
         }
     }
 }

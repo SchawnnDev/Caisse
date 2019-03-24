@@ -41,7 +41,7 @@ namespace CaisseDesktop.Graphics.Print
         public byte[] ImageToByte(Bitmap img)
         {
             var converter = new ImageConverter();
-            return (byte[])converter.ConvertTo(img, typeof(byte[]));
+            return (byte[]) converter.ConvertTo(img, typeof(byte[]));
         }
 
         public byte[] GetLogo(string logoPath)
@@ -80,25 +80,25 @@ namespace CaisseDesktop.Graphics.Print
                 //bw.Write(width[1]);  // width high byte
 
                 for (var x = 0; x < data.Width; ++x)
-                    for (var k = 0; k < 3; ++k)
+                for (var k = 0; k < 3; ++k)
+                {
+                    byte slice = 0;
+                    for (var b = 0; b < 8; ++b)
                     {
-                        byte slice = 0;
-                        for (var b = 0; b < 8; ++b)
-                        {
-                            var y = (offset / 8 + k) * 8 + b;
-                            // Calculate the location of the pixel we want in the bit array.
-                            // It'll be at (y * width) + x.
-                            var i = y * data.Width + x;
+                        var y = (offset / 8 + k) * 8 + b;
+                        // Calculate the location of the pixel we want in the bit array.
+                        // It'll be at (y * width) + x.
+                        var i = y * data.Width + x;
 
-                            // If the image is shorter than 24 dots, pad with zero.
-                            var v = false;
-                            if (i < dots.Length) v = dots[i];
-                            slice |= (byte)((v ? 1 : 0) << (7 - b));
-                        }
-
-                        byteList.Add(slice);
-                        //bw.Write(slice);
+                        // If the image is shorter than 24 dots, pad with zero.
+                        var v = false;
+                        if (i < dots.Length) v = dots[i];
+                        slice |= (byte) ((v ? 1 : 0) << (7 - b));
                     }
+
+                    byteList.Add(slice);
+                    //bw.Write(slice);
+                }
 
                 offset += 24;
                 byteList.Add(Convert.ToByte(0x0A));
@@ -118,7 +118,7 @@ namespace CaisseDesktop.Graphics.Print
 
         public BitmapData GetBitmapData(string bmpFileName)
         {
-            using (var bitmap = (Bitmap)Image.FromFile(bmpFileName))
+            using (var bitmap = (Bitmap) Image.FromFile(bmpFileName))
             {
                 var threshold = 127;
                 var index = 0;
@@ -126,27 +126,27 @@ namespace CaisseDesktop.Graphics.Print
                     multiplier =
                         500; // this depends on your printer model. for Beiyang you should use 1000 // find tcp width
                 var scale = multiplier / bitmap.Width;
-                var xheight = (int)(bitmap.Height * scale);
-                var xwidth = (int)(bitmap.Width * scale);
+                var xheight = (int) (bitmap.Height * scale);
+                var xwidth = (int) (bitmap.Width * scale);
                 var dimensions = xwidth * xheight;
                 var dots = new BitArray(dimensions);
 
                 for (var y = 0; y < xheight; y++)
-                    for (var x = 0; x < xwidth; x++)
-                    {
-                        var _x = (int)(x / scale);
-                        var _y = (int)(y / scale);
-                        var color = bitmap.GetPixel(_x, _y);
-                        var luminance = (int)(color.R * 0.3 + color.G * 0.59 + color.B * 0.11);
-                        dots[index] = luminance < threshold;
-                        index++;
-                    }
+                for (var x = 0; x < xwidth; x++)
+                {
+                    var _x = (int) (x / scale);
+                    var _y = (int) (y / scale);
+                    var color = bitmap.GetPixel(_x, _y);
+                    var luminance = (int) (color.R * 0.3 + color.G * 0.59 + color.B * 0.11);
+                    dots[index] = luminance < threshold;
+                    index++;
+                }
 
                 return new BitmapData
                 {
                     Dots = dots,
-                    Height = (int)(bitmap.Height * scale),
-                    Width = (int)(bitmap.Width * scale)
+                    Height = (int) (bitmap.Height * scale),
+                    Width = (int) (bitmap.Width * scale)
                 };
             }
         }

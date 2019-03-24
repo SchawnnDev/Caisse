@@ -6,7 +6,5 @@
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.PaymentMethods"
         mc:Ignorable="d"
         Title="PaymentMethodManager" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <Grid />
 </Window>

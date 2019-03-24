@@ -27,9 +27,9 @@
 
                     <MenuItem x:Name="EditInfos" Header="_Editer l'événement" Click="EditInfos_OnClick" />
 
-                    <Separator/>
+                    <Separator />
 
-                    <MenuItem x:Name="Export" Header="_Exporter" Click="Export_OnClick"></MenuItem>
+                    <MenuItem x:Name="Export" Header="_Exporter" Click="Export_OnClick" />
 
                 </MenuItem>
 
@@ -100,11 +100,13 @@
 
                 <MenuItem Header="_Moyens de paiement">
 
-                    <MenuItem x:Name="DisplayPaymentMethods" Header="_Afficher les moyens de paiement" Click="DisplayPaymentMethods_OnClick" />
+                    <MenuItem x:Name="DisplayPaymentMethods" Header="_Afficher les moyens de paiement"
+                              Click="DisplayPaymentMethods_OnClick" />
 
                     <Separator />
 
-                    <MenuItem x:Name="CreatePaymentMethod" Header="_Nouveau moyen de paiement" Click="CreatePaymentMethod_OnClick" />
+                    <MenuItem x:Name="CreatePaymentMethod" Header="_Nouveau moyen de paiement"
+                              Click="CreatePaymentMethod_OnClick" />
 
                     <Separator />
 

@@ -84,9 +84,9 @@ namespace CaisseDesktop.Graphics.Admin.Days
             var date = start ? CombinedCalendar.SelectedDate : EndCombinedCalendar.SelectedDate;
             if (date == null) return;
             var combined = SetTime(date.Value, start ? CombinedClock.Time : EndCombinedClock.Time);
-             //var combined = date.Value.AddSeconds(start
-             //   ? CombinedClock.Time.TimeOfDay.TotalSeconds
-             //   : EndCombinedClock.Time.TimeOfDay.TotalSeconds);
+            //var combined = date.Value.AddSeconds(start
+            //   ? CombinedClock.Time.TimeOfDay.TotalSeconds
+            //   : EndCombinedClock.Time.TimeOfDay.TotalSeconds);
 
             if (FirstClose && New) // If new then the start = end date
             {
@@ -99,7 +99,8 @@ namespace CaisseDesktop.Graphics.Admin.Days
             else ((DayPickerModel) DataContext).End = combined;
         }
 
-        public DateTime SetTime(DateTime date, DateTime time) => new DateTime(date.Year,date.Month,date.Day,time.Hour,time.Minute,time.Second);
+        public DateTime SetTime(DateTime date, DateTime time) =>
+            new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
 
         private void SaveDayButton_OnClick(object sender, RoutedEventArgs e)
         {
@@ -127,8 +128,8 @@ namespace CaisseDesktop.Graphics.Admin.Days
                 return;
             }
 
-            var start = ((DayPickerModel)DataContext).Start;
-            var end = ((DayPickerModel)DataContext).End;
+            var start = ((DayPickerModel) DataContext).Start;
+            var end = ((DayPickerModel) DataContext).End;
 
             using (var db = new CaisseServerContext())
             {
@@ -167,7 +168,7 @@ namespace CaisseDesktop.Graphics.Admin.Days
             Debug.Assert(EndCombinedCalendar.SelectedDate != null, "EndCombinedCalendar.SelectedDate != null");
 
             Day.Start = ((DayPickerModel) DataContext).Start;
-            Day.End = ((DayPickerModel)DataContext).End;
+            Day.End = ((DayPickerModel) DataContext).End;
             db.Events.Attach(Day.Event);
 
             if (New)

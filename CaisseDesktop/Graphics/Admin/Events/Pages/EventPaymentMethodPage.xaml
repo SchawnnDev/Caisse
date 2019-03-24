@@ -14,13 +14,14 @@
         <GroupBox Header="Gérer les moyens de paiement" Margin="5">
 
             <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      ItemsSource="{Binding PaymentMethods, IsAsync=true}" IsReadOnly="True" x:Name="PaymentMethodsGrid"
+                      ItemsSource="{Binding PaymentMethods, IsAsync=true}" IsReadOnly="True"
+                      x:Name="PaymentMethodsGrid"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
                     <DataGridTextColumn Header="Nom" Binding="{Binding Name}" />
                     <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
-                    <DataGridTextColumn Header="Montant minimum" Binding="{Binding MinFee}"/>
+                    <DataGridTextColumn Header="Montant minimum" Binding="{Binding MinFee}" />
                     <DataGridTemplateColumn Header="Actions">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

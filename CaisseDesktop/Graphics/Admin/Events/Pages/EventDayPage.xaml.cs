@@ -70,7 +70,8 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
                 using (var db = new CaisseServerContext())
                 {
                     daysCollection = new ObservableCollection<SaveableDay>(db.Days
-                        .Where(t => t.Event.Id == ParentWindow.Evenement.Id).Include(t=>t.Event).OrderByDescending(t => t.Start)
+                        .Where(t => t.Event.Id == ParentWindow.Evenement.Id).Include(t => t.Event)
+                        .OrderByDescending(t => t.Start)
                         .ToList());
                 }
 

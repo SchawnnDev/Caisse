@@ -56,7 +56,8 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             if (!New)
                 using (var db = new CaisseServerContext())
                 {
-                    paymentMethodsCollection = new ObservableCollection<SaveablePaymentMethod>(db.PaymentMethods.Where(t => t.Event.Id == ParentWindow.Evenement.Id).ToList());
+                    paymentMethodsCollection = new ObservableCollection<SaveablePaymentMethod>(db.PaymentMethods
+                        .Where(t => t.Event.Id == ParentWindow.Evenement.Id).ToList());
                 }
 
             Dispatcher.Invoke(() =>

@@ -26,7 +26,7 @@ namespace CaisseDesktop
             {
                 //TEST
                 //db.Database.Delete();
-                  db.Database.CreateIfNotExists();
+                db.Database.CreateIfNotExists();
             }
 
             Main.Start();

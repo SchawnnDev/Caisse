@@ -54,8 +54,6 @@ namespace CaisseServer.Events
                 Checkout = new SaveableCheckout();
                 Checkout.Import(args[3] as object[]);
             }
-
-
         }
 
         public object[] Export() => new object[]

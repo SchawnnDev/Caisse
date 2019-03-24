@@ -48,12 +48,10 @@ namespace CaisseDesktop.Graphics.Admin.PaymentMethods
                 FillTextBoxes();
                 New = false;
             }
-
         }
 
         private void FillTextBoxes()
         {
         }
-
     }
 }

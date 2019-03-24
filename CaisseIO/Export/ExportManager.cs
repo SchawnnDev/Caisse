@@ -13,7 +13,7 @@ namespace CaisseIO.Export
         private string Path { get; }
 
 
-        public ExportManager(string path, object[] o) : this(path, new List<object[]> { o })
+        public ExportManager(string path, object[] o) : this(path, new List<object[]> {o})
         {
         }
 
@@ -42,10 +42,9 @@ namespace CaisseIO.Export
                 }
 
                 returnObject = i;
-
             }
 
-            SortedObjects.Add(str, new List<object[]>{obj});
+            SortedObjects.Add(str, new List<object[]> {obj});
 
             returnObject = obj[1] as int? ?? 0;
 
@@ -57,7 +56,6 @@ namespace CaisseIO.Export
                 {
                     obj[index] = Recursiv(z);
                 }
-
             }
 
             return returnObject;
@@ -65,7 +63,6 @@ namespace CaisseIO.Export
 
         public void Analyse()
         {
-
             foreach (var o in Objects)
             {
                 if (o == null || o.Length <= 1) continue;
@@ -78,7 +75,7 @@ namespace CaisseIO.Export
                 }
                 else
                 {
-                    SortedObjects.Add(str, new List<object[]> { o });
+                    SortedObjects.Add(str, new List<object[]> {o});
                 }
             }
 
