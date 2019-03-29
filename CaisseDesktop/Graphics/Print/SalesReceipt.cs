@@ -11,7 +11,7 @@ namespace CaisseDesktop.Graphics.Print
         private Invoice PrintableInvoice { get; }
 
         public SalesReceipt(Invoice invoice)
-            : base("\\\\PAUL\\EPSON TM-H6000IV Receipt")
+            : base("\\\\PAUL\\epson tm-h6000iv")
         {
             PrintableInvoice = invoice;
         }

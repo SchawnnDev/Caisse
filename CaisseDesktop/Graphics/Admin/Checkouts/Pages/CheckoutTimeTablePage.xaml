@@ -24,13 +24,14 @@
             <RowDefinition MaxHeight="45" />
         </Grid.RowDefinitions>
 
-        <DockPanel  x:Name="Day1" Grid.Row="1" Grid.Column="1" />
+        <DockPanel x:Name="Day1" Grid.Row="1" Grid.Column="1" />
 
         <DockPanel x:Name="Day2" Grid.Row="1" Grid.Column="3" />
 
         <DockPanel x:Name="Day3" Grid.Row="1" Grid.Column="5" />
 
-        <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
             <Button x:Name="BackBtn" IsEnabled="False" Click="BackBtn_OnClick">🡸</Button>
             <Button x:Name="ForwardBtn" Margin="10 0 0 0" IsEnabled="False" Click="ForwardBtn_OnClick">🡺</Button>
         </StackPanel>

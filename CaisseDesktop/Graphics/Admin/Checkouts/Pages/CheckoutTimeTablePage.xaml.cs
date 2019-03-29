@@ -35,7 +35,6 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 ForwardBtn.IsEnabled = true;
             }
 
-
             var range = Days.Count > 3 ? 3 : Days.Count;
 
             if (range == 0)
