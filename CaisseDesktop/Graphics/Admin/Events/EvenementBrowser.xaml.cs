@@ -95,5 +95,11 @@ namespace CaisseDesktop.Graphics.Admin.Events
         {
             new EvenementManager(this, null).ShowDialog();
         }
-    }
+
+		private void Back_Click(object sender, RoutedEventArgs e)
+		{
+			new MainWindow().Show();
+			Close();
+		}
+	}
 }
