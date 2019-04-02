@@ -26,12 +26,22 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 
         private void TimeSlotCashier_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void Save_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+        }
+
+        private void TimeSlotStart_OnSelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
+        {
+        }
+
+        private void TimeSlotEnd_OnSelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
+        {
+        }
+
+        private void TimeSlotPause_OnClick(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

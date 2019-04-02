@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using CaisseDesktop.Enums;
+using CaisseDesktop.Graphics.Admin.TimeSlots;
 using CaisseLibrary.Utils;
 using CaisseServer;
 using CaisseServer.Events;
@@ -118,10 +119,12 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                     Content = $"{DateToHour(day.Start)}\n\n\n\n{DateToHour(day.End)}",
                     HorizontalContentAlignment = HorizontalAlignment.Center,
                     Background = brush,
-                    Height = double.NaN
+                    Height = double.NaN,
                 };
 
                 DockPanel.SetDock(dayBtn, Dock.Top);
+
+                dayBtn.Click += (sender, e) => { new TimeSlotManager().ShowDialog(); };
 
                 panel.DataContext = day;
                 panel.Children.Add(dayBtn);

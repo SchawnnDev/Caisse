@@ -7,6 +7,7 @@ namespace CaisseDesktop.Graphics.Admin
 {
     public abstract class CustomPage : Page
     {
+
         public abstract string CustomName { get; }
 
         public abstract void Update();

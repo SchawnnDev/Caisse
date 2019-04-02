@@ -64,16 +64,6 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
             GetMenuItems().DoPageNavigation(0);
         }
 
-        /*
-        private void DisplayOwners_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen("EventOwnerPage")) return;
-            CustomPage page = new EventOwnerPage(this);
-            MasterFrame.Content = page;
-            CurrentPage = page;
-            GetMenuItems().DoPageNavigation(1);
-        } */
-
         private void CreateCashier_OnClick(object sender, RoutedEventArgs e)
         {
             if (Checkout != null) return;
@@ -107,6 +97,20 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
             MasterFrame.Content = page;
             CurrentPage = page;
             GetMenuItems().DoPageNavigation(2);
+        }
+
+        private void DisplayCashiers_OnClick(object sender, RoutedEventArgs e)
+        {
+            var check = MasterFrame.ToCustomPage();
+
+            if (!check.CanOpen("CheckoutCashierPage")) return;
+
+            if (check != null && !check.CanClose()) return;
+
+            CustomPage page = new CheckoutCashierPage(this);
+            MasterFrame.Content = page;
+            CurrentPage = page;
+            GetMenuItems().DoPageNavigation(1);
         }
     }
 }

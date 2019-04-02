@@ -136,6 +136,9 @@
     <Compile Include="Graphics\Admin\Checkouts\CheckoutManager.xaml.cs">
       <DependentUpon>CheckoutManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Admin\Checkouts\Pages\CheckoutCashierPage.xaml.cs">
+      <DependentUpon>CheckoutCashierPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Checkouts\Pages\CheckoutMainPage.xaml.cs">
       <DependentUpon>CheckoutMainPage.xaml</DependentUpon>
     </Compile>
@@ -200,6 +203,7 @@
     <Compile Include="Graphics\Print\Ticket.cs" />
     <Compile Include="Graphics\Print\SalesReceipt.cs" />
     <Compile Include="Models\CaisseModel.cs" />
+    <Compile Include="Models\CashierModel.cs" />
     <Compile Include="Models\CheckoutTypeModel.cs" />
     <Compile Include="Models\DayPickerModel.cs" />
     <Compile Include="Models\ArticleModel.cs" />
@@ -227,6 +231,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\Checkouts\CheckoutManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\Checkouts\Pages\CheckoutCashierPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

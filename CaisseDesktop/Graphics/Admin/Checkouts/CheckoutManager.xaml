@@ -31,7 +31,7 @@
 
                 <MenuItem Header="_Caissiers">
 
-                    <MenuItem x:Name="DisplayCashiers" Header="_Afficher" />
+                    <MenuItem x:Name="DisplayCashiers" Header="_Afficher" Click="DisplayCashiers_OnClick" />
 
                     <Separator />
 
