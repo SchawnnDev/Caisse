@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.TimeSlots"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Gestion d'un créneau horaire" Height="300" Width="500">
+        Title="Gestion d'un créneau horaire" Height="300" Width="520">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="0"/>
@@ -75,33 +75,40 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MaxWidth="60" />
+                    <ColumnDefinition MaxWidth="80" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <!-- ### 1 ### -->
                 <Label Content="Début :" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" />
 
-                <materialDesign:TimePicker x:Name="TimeSlotSubstituteStart" WithSeconds="False" Text="Choisir l'heure"
+                <materialDesign:TimePicker x:Name="TimeSlotSubstituteStart" WithSeconds="False" Text="Choisir l'heure" IsEnabled="False"
                                            Is24Hours="True"
-                                           Height="30" Width="Auto" Grid.Row="0" Grid.Column="1" 
-                                           SelectedTimeChanged="TimeSlotStart_OnSelectedTimeChanged" VerticalAlignment="Center" Margin="0,12,0,15" />
+                                            Grid.Row="0" Grid.Column="1" 
+                                           SelectedTimeChanged="TimeSlotStart_OnSelectedTimeChanged" VerticalAlignment="Center" Margin="0,11,0,7" />
 
                 <!-- ### 2 ### -->
                 <Label Content="Fin :" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" />
-                <materialDesign:TimePicker x:Name="TimeSlotSubstituteEnd" WithSeconds="False" Text="Choisir l'heure"
+                <materialDesign:TimePicker x:Name="TimeSlotSubstituteEnd" WithSeconds="False" Text="Choisir l'heure" IsEnabled="False"
                                            Is24Hours="True"
                                            Height="30" Width="Auto" Grid.Row="1" Grid.Column="1" 
-                                           SelectedTimeChanged="TimeSlotEnd_OnSelectedTimeChanged" VerticalAlignment="Stretch" Margin="0,12,0,16" />
+                                           SelectedTimeChanged="TimeSlotEnd_OnSelectedTimeChanged" VerticalAlignment="Stretch" Margin="0,9,0,4"/>
 
                 <!-- ### 3 ### -->
                 <Label Content="Caissier :" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />
-                <ComboBox x:Name="TimeSlotSubstituteCashier" SelectedIndex="0" Grid.Row="2" Grid.Column="1"
+                <ComboBox x:Name="TimeSlotSubstituteCashier" SelectedIndex="0" Grid.Row="2" Grid.Column="1" IsEnabled="False"
                           SelectionChanged="TimeSlotCashier_OnSelectionChanged">
                     <ComboBoxItem>Aucun</ComboBoxItem>
                 </ComboBox>
+
+                <!-- ### 4 ### -->
+                <Label Content="Remplaçant :"  VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" />
+                <ToggleButton x:Name="TimeSlotSubstitute"
+                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                              Click="TimeSlotSubstitute_OnClick" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" />
 
             </Grid>
 

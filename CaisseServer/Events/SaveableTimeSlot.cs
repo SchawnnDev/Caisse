@@ -22,11 +22,13 @@ namespace CaisseServer.Events
 
         public bool Pause { get; set; }
 
+        public SaveableSubstituteTimeSlot SubstituteTimeSlot { get; set; }
+
         [NotMapped] public bool Blank { get; set; }
 
         public void Import(object[] args)
         {
-            if (args.Length != 7) throw new IllegalArgumentNumberException(7, "créneau horaire");
+            if (args.Length != 8) throw new IllegalArgumentNumberException(7, "créneau horaire");
             if (!args[0].ToString().ToLower().Equals("timeslot"))
                 throw new TypeNotRecognisedException("créneau horaire (TimeSlot)");
 
@@ -54,6 +56,17 @@ namespace CaisseServer.Events
                 Checkout = new SaveableCheckout();
                 Checkout.Import(args[3] as object[]);
             }
+
+            if (args[7] is SaveableSubstituteTimeSlot timeSlot)
+            {
+                SubstituteTimeSlot = timeSlot;
+            }
+            else
+            {
+                SubstituteTimeSlot = new SaveableSubstituteTimeSlot();
+                SubstituteTimeSlot.Import(args[7] as object[]);
+            }
+
         }
 
         public object[] Export() => new object[]
@@ -64,7 +77,8 @@ namespace CaisseServer.Events
             Checkout,
             Start,
             End,
-            Pause
+            Pause,
+            SubstituteTimeSlot
         };
     }
 }

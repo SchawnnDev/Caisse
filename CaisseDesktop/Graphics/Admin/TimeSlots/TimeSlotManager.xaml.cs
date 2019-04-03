@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseServer.Events;
 
 namespace CaisseDesktop.Graphics.Admin.TimeSlots
 {
@@ -19,9 +20,61 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
     /// </summary>
     public partial class TimeSlotManager : Window
     {
-        public TimeSlotManager()
+        private SaveableTimeSlot TimeSlot { get; set; }
+        private DateTime Start { get; }
+        private DateTime End { get; }
+        private bool New { get; }
+
+        public TimeSlotManager(SaveableTimeSlot timeSlot, DateTime start, DateTime end)
         {
             InitializeComponent();
+            TimeSlot = timeSlot;
+            Start = start;
+            End = end;
+            New = timeSlot == null;
+            Fill();
+        }
+
+        private void TogglePause()
+        {
+            var pause = TimeSlot.Pause = !TimeSlot.Pause;
+
+            TimeSlotCashier.IsEnabled = pause;
+            ToggleSubstitute(false);
+        }
+
+        private void ToggleSubstitute(bool toggle)
+        {
+            if (toggle && !TimeSlot.SubstituteTimeSlot.Substitute) return;
+            TimeSlotSubstituteStart.IsEnabled = toggle;
+            TimeSlotSubstituteEnd.IsEnabled = toggle;
+            TimeSlotSubstituteCashier.IsEnabled = toggle;
+        }
+
+        private void Fill()
+        {
+            /**
+             * Fill cashier slots, substitute slots & check if cashier exists
+             */
+            if (New)
+            {
+                TimeSlotStart.SelectedTime = Start;
+                TimeSlotEnd.SelectedTime = End;
+                return;
+            }
+
+            TimeSlotStart.SelectedTime = TimeSlot.Start;
+            TimeSlotEnd.SelectedTime = TimeSlot.End;
+
+            // set and find cashier
+
+            if (TimeSlot.SubstituteTimeSlot == null) return;
+
+            TimeSlotSubstituteStart.SelectedTime = TimeSlot.SubstituteTimeSlot.Start;
+            TimeSlotSubstituteEnd.SelectedTime = TimeSlot.SubstituteTimeSlot.End;
+
+            // set and find substitute
+
         }
 
         private void TimeSlotCashier_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -34,14 +87,35 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 
         private void TimeSlotStart_OnSelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
         {
+            TimeSlot.Start = e.NewValue ?? Start;
         }
 
         private void TimeSlotEnd_OnSelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
         {
+            TimeSlot.End = e.NewValue ?? End;
         }
 
         private void TimeSlotPause_OnClick(object sender, RoutedEventArgs e)
         {
+            TogglePause();
+        }
+
+        private void TimeSlotSubstitute_OnClick(object sender, RoutedEventArgs e)
+        {
+            CheckSubstituteTimeSlot(); // important
+            var substitute = TimeSlot.SubstituteTimeSlot.Substitute = !TimeSlot.SubstituteTimeSlot.Substitute;
+            ToggleSubstitute(substitute);
+        }
+
+        private void CheckSubstituteTimeSlot()
+        {
+            if (TimeSlot.SubstituteTimeSlot != null) return;
+
+            TimeSlot.SubstituteTimeSlot = new SaveableSubstituteTimeSlot
+            {
+                TimeSlot = this.TimeSlot
+            };
+
         }
     }
 }

@@ -44,17 +44,6 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
             e.Cancel = true;
         }
 
-        private void CreateCheckout_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (Checkout != null) return;
-
-            if (!MasterFrame.ToCustomPage().Equals("EventMainPage")) return;
-
-            SystemSounds.Beep.Play();
-            MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
-                MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
         private void EditInfos_OnClick(object sender, RoutedEventArgs e)
         {
             if (MasterFrame.Content != null && !MasterFrame.ToCustomPage().CanOpen("CheckoutMainPage")) return;
@@ -66,7 +55,11 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
 
         private void CreateCashier_OnClick(object sender, RoutedEventArgs e)
         {
-            if (Checkout != null) return;
+            if (Checkout != null)
+            {
+                // new CashierManager(this);
+                return;
+            }
 
             if (!MasterFrame.ToCustomPage().Equals("CheckoutMainPage")) return;
 

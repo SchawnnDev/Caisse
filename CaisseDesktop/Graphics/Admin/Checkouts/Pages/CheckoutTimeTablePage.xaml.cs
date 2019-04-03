@@ -124,7 +124,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
                 DockPanel.SetDock(dayBtn, Dock.Top);
 
-                dayBtn.Click += (sender, e) => { new TimeSlotManager().ShowDialog(); };
+                dayBtn.Click += (sender, e) => { new TimeSlotManager(null, day.Start, day.End).ShowDialog(); };
 
                 panel.DataContext = day;
                 panel.Children.Add(dayBtn);
