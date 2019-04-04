@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseServer;
 using CaisseServer.Events;
 
 namespace CaisseDesktop.Graphics.Admin.TimeSlots
@@ -20,19 +21,37 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
     /// </summary>
     public partial class TimeSlotManager : Window
     {
+	    private SaveableSubstituteTimeSlot SubstituteTimeSlot { get; set; }
         private SaveableTimeSlot TimeSlot { get; set; }
         private DateTime Start { get; }
         private DateTime End { get; }
         private bool New { get; }
+	    private bool Starting { get; set; } = true;
 
-        public TimeSlotManager(SaveableTimeSlot timeSlot, DateTime start, DateTime end)
+        public TimeSlotManager(SaveableTimeSlot timeSlot, SaveableDay day, SaveableCheckout checkout, DateTime start, DateTime end)
         {
             InitializeComponent();
             TimeSlot = timeSlot;
             Start = start;
             End = end;
             New = timeSlot == null;
-            Fill();
+
+	        if (New)
+	        {
+		        TimeSlot = new SaveableTimeSlot
+		        {
+					Checkout =  checkout,
+					Day =  day
+		        };
+	        }
+	        else
+	        {
+		        Fill();
+			}
+
+            
+
+	        Loaded += (sender, args) => { Starting = false; };
         }
 
         private void TogglePause()
@@ -44,8 +63,9 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
         }
 
         private void ToggleSubstitute(bool toggle)
-        {
-            if (toggle && !TimeSlot.SubstituteTimeSlot.Substitute) return;
+		{ 
+			CheckSubstituteTimeSlot();
+            if (toggle && !SubstituteTimeSlot.Substitute) return;
             TimeSlotSubstituteStart.IsEnabled = toggle;
             TimeSlotSubstituteEnd.IsEnabled = toggle;
             TimeSlotSubstituteCashier.IsEnabled = toggle;
@@ -68,10 +88,10 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 
             // set and find cashier
 
-            if (TimeSlot.SubstituteTimeSlot == null) return;
+            if (SubstituteTimeSlot == null) return;
 
-            TimeSlotSubstituteStart.SelectedTime = TimeSlot.SubstituteTimeSlot.Start;
-            TimeSlotSubstituteEnd.SelectedTime = TimeSlot.SubstituteTimeSlot.End;
+            TimeSlotSubstituteStart.SelectedTime = SubstituteTimeSlot.Start;
+            TimeSlotSubstituteEnd.SelectedTime = SubstituteTimeSlot.End;
 
             // set and find substitute
 
@@ -87,12 +107,14 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 
         private void TimeSlotStart_OnSelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
         {
+	        if (Starting) return;
             TimeSlot.Start = e.NewValue ?? Start;
         }
 
         private void TimeSlotEnd_OnSelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
         {
-            TimeSlot.End = e.NewValue ?? End;
+	        if (Starting) return;
+			TimeSlot.End = e.NewValue ?? End;
         }
 
         private void TimeSlotPause_OnClick(object sender, RoutedEventArgs e)
@@ -103,15 +125,15 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
         private void TimeSlotSubstitute_OnClick(object sender, RoutedEventArgs e)
         {
             CheckSubstituteTimeSlot(); // important
-            var substitute = TimeSlot.SubstituteTimeSlot.Substitute = !TimeSlot.SubstituteTimeSlot.Substitute;
+            var substitute = SubstituteTimeSlot.Substitute = !SubstituteTimeSlot.Substitute;
             ToggleSubstitute(substitute);
         }
 
         private void CheckSubstituteTimeSlot()
         {
-            if (TimeSlot.SubstituteTimeSlot != null) return;
+            if (SubstituteTimeSlot != null) return;
 
-            TimeSlot.SubstituteTimeSlot = new SaveableSubstituteTimeSlot
+            SubstituteTimeSlot = new SaveableSubstituteTimeSlot
             {
                 TimeSlot = this.TimeSlot
             };
