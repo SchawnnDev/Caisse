@@ -21,9 +21,12 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
         private int PageIndex { get; set; }
 
+		private CheckoutManager ParentWindow { get; set; }
+
         public CheckoutTimeTablePage(CheckoutManager parentWindow)
         {
             InitializeComponent();
+	        ParentWindow = parentWindow;
 
             using (var db = new CaisseServerContext())
             {
@@ -124,7 +127,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
                 DockPanel.SetDock(dayBtn, Dock.Top);
 
-                dayBtn.Click += (sender, e) => { new TimeSlotManager(null, day.Start, day.End).ShowDialog(); };
+                dayBtn.Click += (sender, e) => { new TimeSlotManager(null, day, ParentWindow.Checkout, day.Start, day.End).ShowDialog(); };
 
                 panel.DataContext = day;
                 panel.Children.Add(dayBtn);

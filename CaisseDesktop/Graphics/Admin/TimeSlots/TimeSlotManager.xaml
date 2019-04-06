@@ -99,10 +99,7 @@
 
                 <!-- ### 3 ### -->
                 <Label Content="Caissier :" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />
-                <ComboBox x:Name="TimeSlotSubstituteCashier" SelectedIndex="0" Grid.Row="2" Grid.Column="1" IsEnabled="False"
-                          SelectionChanged="TimeSlotCashier_OnSelectionChanged">
-                    <ComboBoxItem>Aucun</ComboBoxItem>
-                </ComboBox>
+                <Button x:Name="TimeSlotSubstituteCashier" Grid.Row="2" Grid.Column="1" IsEnabled="False" Content="Créer" HorizontalAlignment="Left" VerticalAlignment="Center" />
 
                 <!-- ### 4 ### -->
                 <Label Content="Remplaçant :"  VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" />

@@ -46,6 +46,13 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 	        }
 	        else
 	        {
+
+		        using (var db = new CaisseServerContext()) // Charger le substitute timeslot
+		        {
+			        if (db.SubstituteTimeSlots.Any(t => t.TimeSlot.Id == timeSlot.Id))
+				        SubstituteTimeSlot = db.SubstituteTimeSlots.First(t => t.TimeSlot.Id == timeSlot.Id);
+		        }
+
 		        Fill();
 			}
 
@@ -58,8 +65,10 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
         {
             var pause = TimeSlot.Pause = !TimeSlot.Pause;
 
-            TimeSlotCashier.IsEnabled = pause;
-            ToggleSubstitute(false);
+            TimeSlotCashier.IsEnabled = !pause;
+			
+            ToggleSubstitute(!pause);
+	        TimeSlotSubstitute.IsEnabled = !pause;
         }
 
         private void ToggleSubstitute(bool toggle)
@@ -84,20 +93,26 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
             }
 
             TimeSlotStart.SelectedTime = TimeSlot.Start;
+	        TimeSlotStart.Text = TimeSlot.Start.ToString("t");
             TimeSlotEnd.SelectedTime = TimeSlot.End;
+	        TimeSlotEnd.Text = TimeSlot.End.ToString("t");
 
             // set and find cashier
 
             if (SubstituteTimeSlot == null) return;
 
             TimeSlotSubstituteStart.SelectedTime = SubstituteTimeSlot.Start;
-            TimeSlotSubstituteEnd.SelectedTime = SubstituteTimeSlot.End;
+	        TimeSlotSubstituteStart.Text = SubstituteTimeSlot.Start.ToString("t");
+			TimeSlotSubstituteEnd.SelectedTime = SubstituteTimeSlot.End;
+	        TimeSlotSubstituteEnd.Text = SubstituteTimeSlot.End.ToString("t");
 
-            // set and find substitute
+			TimeSlotSubstituteCashier.Content = $"{SubstituteTimeSlot.}"
 
-        }
+			// set and find substitute
 
-        private void TimeSlotCashier_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		}
+
+		private void TimeSlotCashier_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
         }
 
