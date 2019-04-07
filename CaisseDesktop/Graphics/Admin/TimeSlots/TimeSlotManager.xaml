@@ -29,7 +29,6 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
-                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MaxWidth="60" />
@@ -58,54 +57,37 @@
                     <ComboBoxItem>Aucun</ComboBoxItem>
                 </ComboBox>
 
-                <!-- ### 4 ### -->
-                <Label Content="Pause :"  VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" />
-                <ToggleButton x:Name="TimeSlotPause"
-                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                              Click="TimeSlotPause_OnClick" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" />
-
             </Grid>
 
         </GroupBox>
 
-        <GroupBox Header="Remplacement" Grid.Row="1" Grid.Column="3" Margin="5">
+        <GroupBox Header="Options supplémentaires" Grid.Row="1" Grid.Column="3" Margin="5">
 
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
-                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MaxWidth="80" />
+                    <ColumnDefinition MaxWidth="90" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <!-- ### 1 ### -->
-                <Label Content="Début :" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" />
-
-                <materialDesign:TimePicker x:Name="TimeSlotSubstituteStart" WithSeconds="False" Text="Choisir l'heure" IsEnabled="False"
-                                           Is24Hours="True"
-                                            Grid.Row="0" Grid.Column="1" 
-                                           SelectedTimeChanged="TimeSlotStart_OnSelectedTimeChanged" VerticalAlignment="Center" Margin="0,11,0,7" />
-
+                <TextBlock TextWrapping="WrapWithOverflow" Text="Ce créneau est une pause :"  VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" />
+                <ToggleButton x:Name="TimeSlotPause"
+                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                              Click="TimeSlotPause_OnClick" Grid.Row="0" Grid.Column="1" />
                 <!-- ### 2 ### -->
-                <Label Content="Fin :" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" />
-                <materialDesign:TimePicker x:Name="TimeSlotSubstituteEnd" WithSeconds="False" Text="Choisir l'heure" IsEnabled="False"
-                                           Is24Hours="True"
-                                           Height="30" Width="Auto" Grid.Row="1" Grid.Column="1" 
-                                           SelectedTimeChanged="TimeSlotEnd_OnSelectedTimeChanged" VerticalAlignment="Stretch" Margin="0,9,0,4"/>
+                <TextBlock TextWrapping="WrapWithOverflow" Text="Assigner un remplaçant :" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" />
+                <Button x:Name="TimeSlotSubstituteCashier" Grid.Row="1" Grid.Column="1" IsEnabled="False" Content="Créer" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                 <!-- ### 3 ### -->
-                <Label Content="Caissier :" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />
-                <Button x:Name="TimeSlotSubstituteCashier" Grid.Row="2" Grid.Column="1" IsEnabled="False" Content="Créer" HorizontalAlignment="Left" VerticalAlignment="Center" />
-
-                <!-- ### 4 ### -->
-                <Label Content="Remplaçant :"  VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" />
+                <TextBlock TextWrapping="WrapWithOverflow" Text="Remplaçant :"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />
                 <ToggleButton x:Name="TimeSlotSubstitute"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                              Click="TimeSlotSubstitute_OnClick" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" />
+                              Click="TimeSlotSubstitute_OnClick" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" />
 
             </Grid>
 

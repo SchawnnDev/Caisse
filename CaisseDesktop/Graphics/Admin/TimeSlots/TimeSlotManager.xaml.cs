@@ -21,7 +21,8 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
     /// </summary>
     public partial class TimeSlotManager : Window
     {
-	    private SaveableSubstituteTimeSlot SubstituteTimeSlot { get; set; }
+		private SaveableCashier Cashier { get; set; }
+	    private SaveableSubstitute Substitute { get; set; }
         private SaveableTimeSlot TimeSlot { get; set; }
         private DateTime Start { get; }
         private DateTime End { get; }
@@ -49,8 +50,30 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 
 		        using (var db = new CaisseServerContext()) // Charger le substitute timeslot
 		        {
-			        if (db.SubstituteTimeSlots.Any(t => t.TimeSlot.Id == timeSlot.Id))
-				        SubstituteTimeSlot = db.SubstituteTimeSlots.First(t => t.TimeSlot.Id == timeSlot.Id);
+			        if (db.Substitutes.Any(t => t.TimeSlot.Id == timeSlot.Id))
+				        Substitute = db.Substitutes.First(t => t.TimeSlot.Id == timeSlot.Id);
+
+			        if (db.Cashiers.Any(t => t.TimeSlot.Id == timeSlot.Id))
+				        Cashier = db.Cashiers.First(t => t.TimeSlot.Id == timeSlot.Id);
+
+			        var cashiers = db.Cashiers.Where(t=>t.TimeSlot.Checkout.Id == timeSlot.Checkout.Id).ToList();
+
+			        var i = 1;
+
+			        foreach (var cashier in cashiers)
+			        {
+				        var item = new ComboBoxItem
+				        {
+					        Content = $"[{cashier.Id}] {cashier.GetFullName()}", DataContext = cashier
+				        };
+				        TimeSlotCashier.Items.Add(item);
+
+				        if (CashierExists() && cashier.Id == Cashier.Id)
+					        TimeSlotCashier.SelectedIndex = i;
+
+				        i++;
+			        }
+
 		        }
 
 		        Fill();
@@ -61,7 +84,11 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 	        Loaded += (sender, args) => { Starting = false; };
         }
 
-        private void TogglePause()
+	    private bool SubstituteExists() => Substitute != null;
+
+	    private bool CashierExists() => Cashier != null;
+
+		private void TogglePause()
         {
             var pause = TimeSlot.Pause = !TimeSlot.Pause;
 
@@ -73,11 +100,13 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 
         private void ToggleSubstitute(bool toggle)
 		{ 
+		
+			/*
 			CheckSubstituteTimeSlot();
             if (toggle && !SubstituteTimeSlot.Substitute) return;
             TimeSlotSubstituteStart.IsEnabled = toggle;
             TimeSlotSubstituteEnd.IsEnabled = toggle;
-            TimeSlotSubstituteCashier.IsEnabled = toggle;
+            TimeSlotSubstituteCashier.IsEnabled = toggle; */
         }
 
         private void Fill()
@@ -88,8 +117,8 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
             if (New)
             {
                 TimeSlotStart.SelectedTime = Start;
-                TimeSlotEnd.SelectedTime = End;
-                return;
+				TimeSlotEnd.SelectedTime = End;
+				return;
             }
 
             TimeSlotStart.SelectedTime = TimeSlot.Start;
@@ -97,18 +126,17 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
             TimeSlotEnd.SelectedTime = TimeSlot.End;
 	        TimeSlotEnd.Text = TimeSlot.End.ToString("t");
 
-            // set and find cashier
+			// set and find cashier
 
-            if (SubstituteTimeSlot == null) return;
+	  //      if (CashierExists())
+		//        TimeSlotCashierLastConnection.Text = Cashier.LastConnection.ToString("f");
 
-            TimeSlotSubstituteStart.SelectedTime = SubstituteTimeSlot.Start;
-	        TimeSlotSubstituteStart.Text = SubstituteTimeSlot.Start.ToString("t");
-			TimeSlotSubstituteEnd.SelectedTime = SubstituteTimeSlot.End;
-	        TimeSlotSubstituteEnd.Text = SubstituteTimeSlot.End.ToString("t");
+	        // set and find substitute
+			if (!SubstituteExists()) return;
 
-			TimeSlotSubstituteCashier.Content = $"{SubstituteTimeSlot.}"
+			//TimeSlotSubstituteCashier.Content = $"{SubstituteTimeSlot.}"
+			// button set name of substitute if exists
 
-			// set and find substitute
 
 		}
 
@@ -140,18 +168,18 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
         private void TimeSlotSubstitute_OnClick(object sender, RoutedEventArgs e)
         {
             CheckSubstituteTimeSlot(); // important
-            var substitute = SubstituteTimeSlot.Substitute = !SubstituteTimeSlot.Substitute;
-            ToggleSubstitute(substitute);
+            //var substitute = SubstituteTimeSlot.Substitute = !SubstituteTimeSlot.Substitute;
+            //ToggleSubstitute(substitute);
         }
 
         private void CheckSubstituteTimeSlot()
         {
-            if (SubstituteTimeSlot != null) return;
+            /*if (SubstituteTimeSlot != null) return;
 
             SubstituteTimeSlot = new SaveableSubstituteTimeSlot
             {
                 TimeSlot = this.TimeSlot
-            };
+            };*/
 
         }
     }
