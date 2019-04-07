@@ -5,24 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop"
         mc:Ignorable="d"
-        Title="Caisses" Height="450" Width="800"
+        Title="Caisses" Height="200" Width="350"
         WindowStyle="None" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
     <!--WindowState="Maximized"> -->
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="10"/>
+            <RowDefinition/>
+            <RowDefinition MaxHeight="10"/>
+            <RowDefinition/>
+            <RowDefinition MaxHeight="10"/>
+            <RowDefinition/>
+            <RowDefinition MaxHeight="10"/>
+        </Grid.RowDefinitions>
+        <Image Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Source="Resources/Images/logo_brique.png" />
+        <TextBlock x:Name="StatusText" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"  Text="Chargement..." HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ProgressBar Grid.Row="5" Grid.ColumnSpan="3" Grid.Column="0" Margin="10" IsIndeterminate="True" MinHeight="30"/>
 
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Content="Ouvrir administration" HorizontalAlignment="Center"
-                    VerticalAlignment="Center" Click="Button_Click" Margin="5" />
-            <Button Content="Test impression" HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Click="ButtonBase_OnClick" Margin="5" />
-            <Button Content="Ancienne connection" HorizontalAlignment="Center"
-                    VerticalAlignment="Center" Click="ButtonConnection_OnClick" Margin="5" />
-            <Button Content="Afficher caisse" HorizontalAlignment="Center"
-                    VerticalAlignment="Center" Click="Button_Click_1" Margin="5" />
-            <Button Content="Se connecter caissier" HorizontalAlignment="Center"
-                    VerticalAlignment="Center" Click="ButtonLogin_OnClick" Margin="5" />
-        </StackPanel>
 
 
     </Grid>

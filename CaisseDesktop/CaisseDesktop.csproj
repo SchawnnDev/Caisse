@@ -212,6 +212,9 @@
     <Compile Include="Models\PaymentMethodModel.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\ResponsableModel.cs" />
+    <Compile Include="SelectionWindow.xaml.cs">
+      <DependentUpon>SelectionWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ColorUtils.cs" />
     <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\ManagerUtils.cs" />
@@ -327,6 +330,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Graphics\Connection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SelectionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

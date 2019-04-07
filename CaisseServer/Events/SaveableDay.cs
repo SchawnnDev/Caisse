@@ -19,14 +19,17 @@ namespace CaisseServer.Events
 
         public DateTime End { get; set; }
 
+        public string Color { get; set; }
+
         public void Import(object[] args)
         {
-            if (args.Length != 5) throw new IllegalArgumentNumberException(5, "jour");
+            if (args.Length != 6) throw new IllegalArgumentNumberException(6, "jour");
             if (!args[0].ToString().ToLower().Equals("day")) throw new TypeNotRecognisedException("jour (Day)");
 
             Id = args[1] as int? ?? 0;
             Start = args[3] is DateTime dateTime ? dateTime : new DateTime();
             End = args[4] is DateTime time ? time : new DateTime();
+            Color = args[5] as string;
 
             if (args[2] is SaveableEvent saveableEvent)
             {
@@ -45,7 +48,8 @@ namespace CaisseServer.Events
             Id,
             Event.Export(),
             Start,
-            End
+            End,
+            Color
         };
     }
 }

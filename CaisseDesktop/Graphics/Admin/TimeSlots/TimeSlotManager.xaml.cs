@@ -96,13 +96,14 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 			TimeSlotCashier.IsEnabled = !pause;
 			TimeSlotSubstitute.IsEnabled = !pause;
 
+            TimeSlotSubstituteCashier.IsEnabled = !pause && SubstituteExists() && Substitute.Active;
 
-			//		TimeSlotSubstituteCashier.IsEnabled = SubstituteExists() ? (Substitute.Active ? 
-	
+            TimeSlotSubstitute.IsEnabled = !pause;
 
-		
 
-		}
+
+
+        }
 
 		private void ToggleSubstitute(bool toggle)
 		{

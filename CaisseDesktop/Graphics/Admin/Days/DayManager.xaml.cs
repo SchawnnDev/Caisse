@@ -48,6 +48,7 @@ namespace CaisseDesktop.Graphics.Admin.Days
             if (!New)
             {
                 DataContext = new DayPickerModel(day.Start, day.End);
+                DayColor.SelectedColor = System.Drawing.ColorTranslator.FromHtml(Day.Color).Convert();
                 return;
             }
 
@@ -166,7 +167,9 @@ namespace CaisseDesktop.Graphics.Admin.Days
 
             Debug.Assert(CombinedCalendar.SelectedDate != null, "CombinedCalendar.SelectedDate != null");
             Debug.Assert(EndCombinedCalendar.SelectedDate != null, "EndCombinedCalendar.SelectedDate != null");
+            Debug.Assert(DayColor.SelectedColor != null, "DayColor.SelectedColor != null");
 
+            Day.Color = System.Drawing.ColorTranslator.ToHtml(DayColor.SelectedColor.Value.Convert());
             Day.Start = ((DayPickerModel) DataContext).Start;
             Day.End = ((DayPickerModel) DataContext).End;
             db.Events.Attach(Day.Event);

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using CaisseDesktop.Graphics;
 using CaisseDesktop.Graphics.Admin.Events;
@@ -22,105 +24,50 @@ namespace CaisseDesktop
         {
             InitializeComponent();
 
+            Loaded += (sender, args) => Task.Run(() => Start());
+        }
+
+        public void Start()
+        {
             using (var db = new CaisseServerContext())
             {
                 //TEST
                 //db.Database.Delete();
+                StatusText.Dispatcher.Invoke(() => SetStatusText(0));
                 db.Database.CreateIfNotExists();
             }
 
+            StatusText.Dispatcher.Invoke(() => SetStatusText(1));
+
             Main.Start();
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var browser = new EvenementBrowser();
-            browser.Show();
-            Close();
-        }
+            // Start the application
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            var ticket = new SalesReceipt(new Invoice(CashierSession.ActualCashier)
+            StatusText.Dispatcher.Invoke(() => SetStatusText(2));
+
+            Thread.Sleep(2000);
+
+            Dispatcher.Invoke(() =>
             {
-                SaveableInvoice = new SaveableInvoice
-                {
-                    Cashier = new SaveableCashier
-                    {
-                        Id = 12
-                    },
-
-                    Id = 14808,
-                    PaymentMethod = new SaveablePaymentMethod
-                    {
-                        Name = "ESPECE"
-                    },
-
-                    Date = DateTime.Now
-                },
-
-                GivenMoney = 50m,
-
-                Operations = new List<SaveableOperation>
-                {
-                    new SaveableOperation
-                    {
-                        Amount = 5,
-                        Item = new SaveableArticle
-                        {
-                            Name = "CREPE",
-                            Price = 2m
-                        }
-                    },
-                    new SaveableOperation
-                    {
-                        Amount = 2,
-                        Item = new SaveableArticle
-                        {
-                            Name = "PIZZA",
-                            Price = 6.5m
-                        }
-                    },
-                    new SaveableOperation
-                    {
-                        Amount = 4,
-                        Item = new SaveableArticle
-                        {
-                            Name = "BOISSON",
-                            Price = 2.5m
-                        }
-                    },
-                    new SaveableOperation
-                    {
-                        Amount = 1,
-                        Item = new SaveableArticle
-                        {
-                            Name = "BIERE",
-                            Price = 3.5m
-                        }
-                    },
-                }
+                new SelectionWindow().Show();
+                Close();
             });
-            ticket.Generate();
-            ticket.Print();
         }
 
-        private void ButtonConnection_OnClick(object sender, RoutedEventArgs e)
+        private void SetStatusText(int id)
         {
-            new Connection().Show();
-            Close();
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            new Checkout(null).Show();
-            Close();
-        }
-
-        private void ButtonLogin_OnClick(object sender, RoutedEventArgs e)
-        {
-            new Login().Show();
-            Close();
+            switch (id)
+            {
+                case 0:
+                    StatusText.Text = "Creation de la base de données...";
+                    break;
+                case 1:
+                    StatusText.Text = "Chargement de la librairie...";
+                    break;
+                case 2:
+                    StatusText.Text = "Démarrage de l'application...";
+                    break;
+            }
         }
     }
 }

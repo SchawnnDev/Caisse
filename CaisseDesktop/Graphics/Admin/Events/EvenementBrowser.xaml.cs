@@ -98,7 +98,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
 		private void Back_Click(object sender, RoutedEventArgs e)
 		{
-			new MainWindow().Show();
+			new SelectionWindow().Show();
 			Close();
 		}
 	}
