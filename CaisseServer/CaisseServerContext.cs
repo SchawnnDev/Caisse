@@ -23,12 +23,12 @@ namespace CaisseServer
         public DbSet<SaveableDay> Days { get; set; }
         public DbSet<SaveableEvent> Events { get; set; }
         public DbSet<SaveableTimeSlot> TimeSlots { get; set; }
-		public DbSet<SaveableSubstituteTimeSlot> SubstituteTimeSlots { get; set; }
         public DbSet<SaveableOwner> Owners { get; set; }
+	    public DbSet<SaveableSubstitute> Substitutes { get; set; }
 
-        // items
+		// items
 
-        public DbSet<SaveableArticle> Articles { get; set; }
+		public DbSet<SaveableArticle> Articles { get; set; }
         public DbSet<SaveableArticleMaxSellNumber> ArticleMaxSellNumbers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

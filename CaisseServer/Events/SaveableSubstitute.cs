@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CaisseIO;
 using CaisseIO.Exceptions;
@@ -22,7 +23,12 @@ namespace CaisseServer
 
         public SaveableTimeSlot TimeSlot { get; set; }
 
-        public string GetFullName()
+	    public DateTime LastConnection { get; set; }
+
+		public bool Active { get; set; }
+
+
+		public string GetFullName()
         {
             return $"{FirstName} {Name}";
         }
