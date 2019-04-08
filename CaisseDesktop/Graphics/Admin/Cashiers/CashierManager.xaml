@@ -35,7 +35,7 @@
                 <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
                 <TextBox  x:Name="CashierLogin" Margin="10" VerticalAlignment="Center"
                          MinHeight="25" MinWidth="150" IsEnabled="False" />
-                <Button x:Name="GenLogin" Content="Générer login" FontWeight="Bold"
+                <Button x:Name="GenLogin" Content="Générer" FontWeight="Bold"
                         Margin="5" Cursor="Hand" Click="GenLogin_OnClick" />
                 </StackPanel>
 
@@ -46,7 +46,7 @@
 
                 <DockPanel Grid.Row="4" Grid.Column="1">
                     <Button x:Name="CashierDelete" Content="Supprimer" FontWeight="Bold"
-                            Margin="5" Cursor="Hand" Click="Save_OnClick" />
+                            Margin="5" Cursor="Hand" Click="Delete_OnClick" />
                     <Button x:Name="CashierSave" Content="Enregistrer" FontWeight="Bold"
                             Margin="5" Cursor="Hand" Click="Save_OnClick" />
                 </DockPanel>

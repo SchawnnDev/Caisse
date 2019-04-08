@@ -69,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CaisseServerContext.cs" />
-    <Compile Include="Events\SaveableSubstitute.cs" />
     <Compile Include="Events\SaveableEvent.cs" />
     <Compile Include="Events\SaveableOwner.cs" />
     <Compile Include="Items\SaveableArticleMaxSellNumber.cs" />

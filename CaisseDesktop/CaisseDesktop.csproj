@@ -133,6 +133,9 @@
     <Compile Include="Graphics\Admin\Articles\ArticleManager.xaml.cs">
       <DependentUpon>ArticleManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Admin\Cashiers\CashierManager.xaml.cs">
+      <DependentUpon>CashierManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Admin\Checkouts\CheckoutManager.xaml.cs">
       <DependentUpon>CheckoutManager.xaml</DependentUpon>
     </Compile>
@@ -232,6 +235,10 @@
     <Page Include="Graphics\Admin\Articles\ArticleManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\Cashiers\CashierManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Graphics\Admin\Checkouts\CheckoutManager.xaml">
       <SubType>Designer</SubType>
@@ -393,7 +400,6 @@
     <Resource Include="Resources\icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Graphics\Admin\Cashiers\" />
     <Folder Include="Graphics\Admin\Substitute\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
