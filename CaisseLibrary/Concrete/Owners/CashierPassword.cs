@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using CaisseLibrary.Interfaces;
 
 namespace CaisseLibrary.Concrete.Owners
 {
-    public class OwnerPassword : IPassword
+    public class CashierPassword : IPassword
     {
         private const string Valid = "0123456789";
 
         public string Generate(int length)
         {
+
             var res = new StringBuilder();
             var rnd = new Random();
 

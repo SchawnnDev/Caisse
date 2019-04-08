@@ -21,7 +21,7 @@ namespace CaisseServer
 
         public string Name { get; set; }
 
-	    public DateTime LastConnection { get; set; }
+	    public DateTime LastActivity { get; set; }
 
 		public bool Active { get; set; }
 
@@ -40,7 +40,7 @@ namespace CaisseServer
             Login = args[2] as string;
             FirstName = args[3] as string;
             Name = args[4] as string;
-            LastConnection = args[5] as DateTime? ?? new DateTime();
+            LastActivity = args[5] as DateTime? ?? new DateTime();
             Active = args[6] is bool b && b;
 
         }
@@ -52,7 +52,7 @@ namespace CaisseServer
             Login,
             FirstName,
             Name,
-            LastConnection,
+            LastActivity,
             Active
         };
     }

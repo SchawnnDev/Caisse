@@ -14,9 +14,10 @@ namespace CaisseServer.Events
         {
         }
 
-        public SaveableOwner(string login, string name, string permissions)
+        public SaveableOwner(string login, string firstName, string name, string permissions)
         {
             Login = login;
+            FirstName = firstName;
             Name = name;
             Permissions = permissions;
         }
@@ -26,6 +27,8 @@ namespace CaisseServer.Events
         public int Id { get; set; }
 
         public string Login { get; set; }
+
+        public string FirstName { get; set; }
 
         public string Name { get; set; }
 
@@ -46,38 +49,33 @@ namespace CaisseServer.Events
                 : Permissions.Split(',');
         }
 
-        public bool HasPermission(string permission)
-        {
-            return SuperAdmin || Permissions.Equals("*") || GetPermissions().Contains(permission);
-        }
+        public bool HasPermission(string permission) => SuperAdmin || Permissions.Equals("*") || GetPermissions().Contains(permission);
 
-        public override string ToString()
-        {
-            return Name;
-        }
+        public override string ToString() => Name;
 
         public void Import(object[] args)
         {
-            if (args.Length != 9) throw new IllegalArgumentNumberException(9, "résponsable");
+            if (args.Length != 10) throw new IllegalArgumentNumberException(10, "résponsable");
             if (!args[0].ToString().ToLower().Equals("owner"))
                 throw new TypeNotRecognisedException("résponsable (Owner)");
 
             Id = args[1] as int? ?? 0;
             Login = args[2] as string;
             Name = args[3] as string;
-            Permissions = args[4] as string;
-            LastLogin = args[5] is DateTime time ? time : new DateTime();
-            LastLogout = args[6] is DateTime dateTime ? dateTime : new DateTime();
-            SuperAdmin = args[8] is bool b && b;
+            Name = args[4] as string;
+            Permissions = args[5] as string;
+            LastLogin = args[6] is DateTime time ? time : new DateTime();
+            LastLogout = args[7] is DateTime dateTime ? dateTime : new DateTime();
+            SuperAdmin = args[9] is bool b && b;
 
-            if (args[7] is SaveableEvent saveableEvent)
+            if (args[8] is SaveableEvent saveableEvent)
             {
                 Event = saveableEvent;
             }
             else
             {
                 Event = new SaveableEvent();
-                Event.Import(args[7] as object[]);
+                Event.Import(args[8] as object[]);
             }
         }
 

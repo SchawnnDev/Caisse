@@ -1,0 +1,65 @@
+﻿<Window x:Class="CaisseDesktop.Graphics.Admin.Cashiers.CashierManager"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Gestion d'un caissier" Height="400" Width="450" WindowStartupLocation="CenterScreen">
+
+    <Grid>
+
+        <GroupBox Header="Informations" Margin="5">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MaxWidth="90" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Prénom :" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow"  />
+                <TextBox x:Name="CashierFirstName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
+
+                <TextBlock Text="Nom :" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow" />
+                <TextBox x:Name="CashierName" Grid.Column="1" Grid.Row="1" TextWrapping="NoWrap"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
+
+                <TextBlock Text="Login :" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow" />
+                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
+                <TextBox  x:Name="CashierLogin" Margin="10" VerticalAlignment="Center"
+                         MinHeight="25" MinWidth="150" IsEnabled="False" />
+                <Button x:Name="GenLogin" Content="Générer login" FontWeight="Bold"
+                        Margin="5" Cursor="Hand" Click="GenLogin_OnClick" />
+                </StackPanel>
+
+                <TextBlock Text="Dernière activité :" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow" />
+                <TextBox x:Name="CashierLastActivity" IsEnabled="False" Grid.Column="1" Grid.Row="3"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
+
+
+                <DockPanel Grid.Row="4" Grid.Column="1">
+                    <Button x:Name="CashierDelete" Content="Supprimer" FontWeight="Bold"
+                            Margin="5" Cursor="Hand" Click="Save_OnClick" />
+                    <Button x:Name="CashierSave" Content="Enregistrer" FontWeight="Bold"
+                            Margin="5" Cursor="Hand" Click="Save_OnClick" />
+                </DockPanel>
+
+                <StackPanel Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="Blocage :" HorizontalAlignment="Center" />
+                    <ToggleButton x:Name="Blocage"
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  Click="Blocage_OnClick" />
+                </StackPanel>
+
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</Window>

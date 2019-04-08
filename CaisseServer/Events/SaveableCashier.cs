@@ -25,7 +25,7 @@ namespace CaisseServer
 
         public SaveableCheckout Checkout { get; set; }
 
-        public DateTime LastConnection { get; set; }
+        public DateTime LastActivity { get; set; }
 
         public string GetFullName()
         {
@@ -54,7 +54,7 @@ namespace CaisseServer
                 Checkout.Import(args[6] as object[]);
             }
 
-            LastConnection = args[7] as DateTime? ?? new DateTime();
+            LastActivity = args[7] as DateTime? ?? new DateTime();
         }
 
         public object[] Export() => new object[]
@@ -66,7 +66,7 @@ namespace CaisseServer
             Name,
             WasHere,
             Checkout,
-            LastConnection
+            LastActivity
         };
     }
 }
