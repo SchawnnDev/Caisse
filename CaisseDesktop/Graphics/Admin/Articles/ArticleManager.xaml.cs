@@ -451,6 +451,8 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                     Manager.Add(Article);
                 else
                     Manager.Update();
+
+                Close();
             });
         }
     }

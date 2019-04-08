@@ -21,21 +21,11 @@ namespace CaisseServer
 
         public string Name { get; set; }
 
-        public SaveableTimeSlot TimeSlot { get; set; }
-
         public bool WasHere { get; set; }
 
-		public DateTime LastConnection { get; set; }
+        public SaveableCheckout Checkout { get; set; }
 
-        /**
-         *  If the cashier is missing 
-         */
-
-        /* TODO
-
-        public SaveableCashier Substitute { get; set; }
-
-        public SaveableTimeSlot SubstituteTimeSlot { get; set; } */
+        public DateTime LastConnection { get; set; }
 
         public string GetFullName()
         {
@@ -44,7 +34,7 @@ namespace CaisseServer
 
         public void Import(object[] args)
         {
-            if (args.Length != 7) throw new IllegalArgumentNumberException(7, "caissier");
+            if (args.Length != 8) throw new IllegalArgumentNumberException(8, "caissier");
             if (!args[0].ToString().ToLower().Equals("cashier"))
                 throw new TypeNotRecognisedException("caissier (Cashier)");
 
@@ -52,17 +42,19 @@ namespace CaisseServer
             Login = args[2] as string;
             FirstName = args[3] as string;
             Name = args[4] as string;
-            WasHere = args[6] is bool b && b;
+            WasHere = args[5] is bool b && b;
 
-            if (args[5] is SaveableTimeSlot slot)
+            if (args[6] is SaveableCheckout checkout)
             {
-                TimeSlot = slot;
+                Checkout = checkout;
             }
             else
             {
-                TimeSlot = new SaveableTimeSlot();
-                TimeSlot.Import(args[5] as object[]);
+                Checkout = new SaveableCheckout();
+                Checkout.Import(args[6] as object[]);
             }
+
+            LastConnection = args[7] as DateTime? ?? new DateTime();
         }
 
         public object[] Export() => new object[]
@@ -72,8 +64,9 @@ namespace CaisseServer
             Login,
             FirstName,
             Name,
-            TimeSlot.Export(),
-            WasHere
+            WasHere,
+            Checkout,
+            LastConnection
         };
     }
 }

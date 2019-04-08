@@ -21,12 +21,9 @@ namespace CaisseServer
 
         public string Name { get; set; }
 
-        public SaveableTimeSlot TimeSlot { get; set; }
-
 	    public DateTime LastConnection { get; set; }
 
 		public bool Active { get; set; }
-
 
 		public string GetFullName()
         {
@@ -35,7 +32,7 @@ namespace CaisseServer
 
         public void Import(object[] args)
         {
-            if (args.Length != 6) throw new IllegalArgumentNumberException(6, "remplacant");
+            if (args.Length != 5) throw new IllegalArgumentNumberException(5, "remplacant");
             if (!args[0].ToString().ToLower().Equals("remplacant"))
                 throw new TypeNotRecognisedException("remplacant (Substitute)");
 
@@ -43,16 +40,9 @@ namespace CaisseServer
             Login = args[2] as string;
             FirstName = args[3] as string;
             Name = args[4] as string;
+            LastConnection = args[5] as DateTime? ?? new DateTime();
+            Active = args[6] is bool b && b;
 
-            if (args[5] is SaveableTimeSlot slot)
-            {
-                TimeSlot = slot;
-            }
-            else
-            {
-	            TimeSlot = new SaveableTimeSlot();
-	            TimeSlot.Import(args[5] as object[]);
-            }
         }
 
         public object[] Export() => new object[]
@@ -62,7 +52,8 @@ namespace CaisseServer
             Login,
             FirstName,
             Name,
-            TimeSlot.Export()
+            LastConnection,
+            Active
         };
     }
 }

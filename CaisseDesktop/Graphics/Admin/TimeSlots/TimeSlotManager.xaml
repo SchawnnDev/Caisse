@@ -81,7 +81,7 @@
                               Click="TimeSlotPause_OnClick" Grid.Row="0" Grid.Column="1" />
                 <!-- ### 2 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Assigner un remplaçant :" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" />
-                <Button x:Name="TimeSlotSubstituteCashier" Grid.Row="1" Grid.Column="1" IsEnabled="False" Content="Créer" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Button x:Name="TimeSlotSubstituteCashier" Grid.Row="1" Grid.Column="1" IsEnabled="False" Content="Créer" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120" />
 
                 <!-- ### 3 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Remplaçant :"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />

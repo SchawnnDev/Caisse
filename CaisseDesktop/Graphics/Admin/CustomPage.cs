@@ -1,7 +1,9 @@
-﻿using System.Media;
+﻿using System;
+using System.Media;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Xceed.Wpf.Toolkit;
+using TimePicker = MaterialDesignThemes.Wpf.TimePicker;
 
 namespace CaisseDesktop.Graphics.Admin
 {
@@ -26,6 +28,16 @@ namespace CaisseDesktop.Graphics.Admin
         public bool Equals(string name)
         {
             return name != null && CustomName.Equals(name);
+        }
+
+
+        public static bool Check(TimePicker picker, DateTime min, DateTime max)
+        {
+            var date = picker.SelectedTime;
+            if (date != null && date.Value.CompareTo(min) >= 0 && date.Value.CompareTo(max) <= 0) return false;
+            picker.BorderBrush = Brushes.Red;
+            SystemSounds.Beep.Play();
+            return true;
         }
 
         public static bool Check(DateTimePicker picker)
