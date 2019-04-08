@@ -23,9 +23,12 @@ namespace CaisseServer
 
         public bool WasHere { get; set; }
 
+        public bool Substitute { get; set; }
+
         public SaveableCheckout Checkout { get; set; }
 
         public DateTime LastActivity { get; set; }
+
 
         public string GetFullName()
         {
@@ -34,7 +37,7 @@ namespace CaisseServer
 
         public void Import(object[] args)
         {
-            if (args.Length != 8) throw new IllegalArgumentNumberException(8, "caissier");
+            if (args.Length != 9) throw new IllegalArgumentNumberException(9, "caissier");
             if (!args[0].ToString().ToLower().Equals("cashier"))
                 throw new TypeNotRecognisedException("caissier (Cashier)");
 
@@ -43,18 +46,19 @@ namespace CaisseServer
             FirstName = args[3] as string;
             Name = args[4] as string;
             WasHere = args[5] is bool b && b;
+            Substitute = args[6] is bool a && a;
 
-            if (args[6] is SaveableCheckout checkout)
+            if (args[7] is SaveableCheckout checkout)
             {
                 Checkout = checkout;
             }
             else
             {
                 Checkout = new SaveableCheckout();
-                Checkout.Import(args[6] as object[]);
+                Checkout.Import(args[7] as object[]);
             }
 
-            LastActivity = args[7] as DateTime? ?? new DateTime();
+            LastActivity = args[8] as DateTime? ?? new DateTime();
         }
 
         public object[] Export() => new object[]
@@ -65,6 +69,7 @@ namespace CaisseServer
             FirstName,
             Name,
             WasHere,
+            Substitute,
             Checkout,
             LastActivity
         };

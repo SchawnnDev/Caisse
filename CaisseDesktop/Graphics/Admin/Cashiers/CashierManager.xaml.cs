@@ -27,11 +27,11 @@ namespace CaisseDesktop.Graphics.Admin.Cashiers
     /// </summary>
     public partial class CashierManager
     {
-        public CashierManager(TimeSlotManager parentWindow, SaveableTimeSlot TimeSlot)
+        public CashierManager(TimeSlotManager parentWindow, SaveableTimeSlot timeSlot, bool substitute)
         {
             InitializeComponent();
             ParentWindow = parentWindow;
-            Cashier = TimeSlot.Cashier;
+            Cashier = substitute ? timeSlot.Substitute : timeSlot.Cashier;
             New = Cashier == null;
             Closing += OnWindowClosing;
 
@@ -39,6 +39,7 @@ namespace CaisseDesktop.Graphics.Admin.Cashiers
             {
                 Cashier = new SaveableCashier
                 {
+                    Substitute = substitute
                 };
                 Saved = false;
                 Blocage.IsChecked = false;
@@ -101,6 +102,7 @@ namespace CaisseDesktop.Graphics.Admin.Cashiers
                 SystemSounds.Beep.Play();
                 return;
             }
+
             Cashier.FirstName = CashierFirstName.Text;
             Cashier.Name = CashierName.Text;
 
@@ -166,5 +168,17 @@ namespace CaisseDesktop.Graphics.Admin.Cashiers
             Saved = false;
         }
 
+        private void Delete_OnClick(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Es tu sûr de vouloir supprimer ce caissier ?", "Supprimer un caissier",
+                MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+
+            if (result != MessageBoxResult.Yes) return;
+
+            // cashier to null
+            TimeSlot.Cashier = null;
+            // direct close of dialog
+            Close();
+        }
     }
 }

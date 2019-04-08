@@ -22,7 +22,9 @@ namespace CaisseServer.Events
 
         public SaveableCashier Cashier { get; set; }
 
-        public SaveableSubstitute Substitute { get; set; }
+        public SaveableCashier Substitute { get; set; }
+
+        public bool SubstituteActive { get; set; }
 
         public bool Pause { get; set; }
 
@@ -69,13 +71,13 @@ namespace CaisseServer.Events
                 Cashier.Import(args[6] as object[]);
             }
 
-            if (args[7] is SaveableSubstitute substitute)
+            if (args[7] is SaveableCashier substitute)
             {
                 Substitute = substitute;
             }
             else
             {
-                Substitute = new SaveableSubstitute();
+                Substitute = new SaveableCashier();
                 Substitute.Import(args[7] as object[]);
             }
 

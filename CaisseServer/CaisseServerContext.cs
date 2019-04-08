@@ -24,7 +24,6 @@ namespace CaisseServer
         public DbSet<SaveableEvent> Events { get; set; }
         public DbSet<SaveableTimeSlot> TimeSlots { get; set; }
         public DbSet<SaveableOwner> Owners { get; set; }
-	    public DbSet<SaveableSubstitute> Substitutes { get; set; }
 
 		// items
 
