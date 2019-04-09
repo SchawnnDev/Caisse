@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using CaisseDesktop.Enums;
 using CaisseDesktop.Graphics.Admin.TimeSlots;
+using CaisseDesktop.Models;
 using CaisseDesktop.Utils;
 using CaisseLibrary.Utils;
 using CaisseServer;
 using CaisseServer.Events;
+using CaisseServer.Items;
 
 namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 {
@@ -22,12 +28,14 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
         private int PageIndex { get; set; }
 
-		private CheckoutManager ParentWindow { get; set; }
+        private bool CanClick { get; set; } = true;
+
+        private CheckoutManager ParentWindow { get; set; }
 
         public CheckoutTimeTablePage(CheckoutManager parentWindow)
         {
             InitializeComponent();
-	        ParentWindow = parentWindow;
+            ParentWindow = parentWindow;
 
             using (var db = new CaisseServerContext())
             {
@@ -36,21 +44,14 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             }
 
             if (Days.Count > 3)
-            {
                 ForwardBtn.IsEnabled = true;
-            }
 
             var range = Days.Count > 3 ? 3 : Days.Count;
 
             if (range == 0)
-            {
                 return;
-            }
 
-            for (var i = 0; i < range; i++)
-            {
-                Fill((TimeTableDay) i, Days[i], new List<SaveableTimeSlot>(), false);
-            }
+            Task.Run(() => FillAll(false));
         }
 
         public override string CustomName => "CheckoutTimeTablePage";
@@ -62,23 +63,16 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
         public override void Update()
         {
-            throw new NotImplementedException();
+            FillAll(true);
         }
 
         public override void Add<T>(T item)
         {
-            throw new NotImplementedException();
         }
 
-        public override bool CanClose()
-        {
-            return true;
-        }
+        public override bool CanClose() => true;
 
-        public override bool CanBack()
-        {
-            return true;
-        }
+        public override bool CanBack() => true;
 
         public void Fill(TimeTableDay timeTableDay, SaveableDay day, List<SaveableTimeSlot> slots, bool set)
         {
@@ -128,7 +122,11 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
                 DockPanel.SetDock(dayBtn, Dock.Top);
 
-                dayBtn.Click += (sender, e) => { new TimeSlotManager(null, day, ParentWindow.Checkout, day.Start, day.End).ShowDialog(); };
+                dayBtn.Click += (sender, e) =>
+                {
+                    if (CanClick)
+                        new TimeSlotManager(ParentWindow, null, day).ShowDialog();
+                };
 
                 panel.DataContext = day;
                 panel.Children.Add(dayBtn);
@@ -152,7 +150,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                     DataContext = slot
                 };
 
-                //DockPanel.SetDock(dayBtn, Dock.Top);
+                DockPanel.SetDock(dayBtn, Dock.Top);
 
                 panel.DataContext = day;
                 panel.Children.Add(dayBtn);
@@ -232,6 +230,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
         private void ForwardBtn_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!CanClick) return;
             PageIndex++;
 
             if (PageIndex >= Days.Count - 3)
@@ -240,11 +239,12 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             if (!BackBtn.IsEnabled)
                 BackBtn.IsEnabled = true;
 
-            FillAll();
+            Task.Run(() => FillAll(true));
         }
 
         private void BackBtn_OnClick(object sender, RoutedEventArgs e)
         {
+            if (!CanClick) return;
             PageIndex--;
 
             if (PageIndex <= 0)
@@ -253,14 +253,39 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
             if (!ForwardBtn.IsEnabled)
                 ForwardBtn.IsEnabled = true;
 
-            FillAll();
+            Task.Run(() => FillAll(true));
         }
 
-        private void FillAll()
+        private void FillFromDb(TimeTableDay timeTableDay, SaveableDay day, bool set, CaisseServerContext db)
         {
-            Fill(TimeTableDay.DayOne, Days[PageIndex], new List<SaveableTimeSlot>(), true);
-            Fill(TimeTableDay.DayTwo, Days[PageIndex + 1], new List<SaveableTimeSlot>(), true);
-            Fill(TimeTableDay.DayThree, Days[PageIndex + 2], new List<SaveableTimeSlot>(), true);
+            var timeSlots = db.TimeSlots.Where(t => t.Day.Id == day.Id).Include(t => t.Cashier)
+                .Include(t => t.Substitute).Include(t => t.Checkout).Include(t => t.Day).ToList();
+            Dispatcher.Invoke(() => { Fill(timeTableDay, day, timeSlots, set); });
+        }
+
+        private void FillAll(bool set)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                CanClick = false;
+                Mouse.OverrideCursor = Cursors.Wait;
+            });
+
+            using (var db = new CaisseServerContext())
+            {
+                FillFromDb(TimeTableDay.DayOne, Days[PageIndex], set, db);
+
+                if (Days.Count > 1)
+                    FillFromDb(TimeTableDay.DayTwo, Days[PageIndex + 1], set, db);
+                if (Days.Count > 2)
+                    FillFromDb(TimeTableDay.DayThree, Days[PageIndex + 2], set, db);
+            }
+
+            Dispatcher.Invoke(() =>
+            {
+                Mouse.OverrideCursor = null;
+                CanClick = true;
+            });
         }
     }
 }

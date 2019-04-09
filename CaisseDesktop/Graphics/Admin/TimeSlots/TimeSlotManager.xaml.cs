@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CaisseDesktop.Graphics.Admin.Cashiers;
+using CaisseDesktop.Graphics.Admin.Checkouts;
+using CaisseDesktop.Utils;
 using CaisseServer;
 using CaisseServer.Events;
 
@@ -25,6 +27,8 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
     /// </summary>
     public partial class TimeSlotManager
     {
+
+        private CheckoutManager ParentWindow { get; set; }
         private SaveableTimeSlot TimeSlot { get; set; }
         private readonly DateTime Start;
         private readonly DateTime End;
@@ -32,20 +36,21 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
         private bool Starting { get; set; } = true;
 
 
-        public TimeSlotManager(SaveableTimeSlot timeSlot, SaveableDay day, SaveableCheckout checkout, DateTime start,
-            DateTime end)
+        public TimeSlotManager(CheckoutManager parentWindow,SaveableTimeSlot timeSlot, SaveableDay day)
         {
             InitializeComponent();
+            ParentWindow = parentWindow;
+            Owner = parentWindow;
             TimeSlot = timeSlot;
-            Start = start;
-            End = end;
             New = timeSlot == null;
+            Start = day.Start;
+            End = day.End;
 
             if (New)
             {
                 TimeSlot = new SaveableTimeSlot
                 {
-                    Checkout = checkout,
+                    Checkout = parentWindow.Checkout,
                     Day = day
                 };
             }
@@ -93,17 +98,13 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
             if (New)
             {
                 TimeSlotStart.SelectedTime = Start;
-                TimeSlotStart.Text = CorrectMissingZero(Start.ToString("t"));
                 TimeSlotEnd.SelectedTime = End;
-                TimeSlotEnd.Text = CorrectMissingZero(End.ToString("t"));
                 return;
             }
 
             // set time slot times
             TimeSlotStart.SelectedTime = TimeSlot.Start;
-            TimeSlotEnd.Text = CorrectMissingZero(TimeSlot.Start.ToString("t"));
             TimeSlotEnd.SelectedTime = TimeSlot.End;
-            TimeSlotEnd.Text = CorrectMissingZero(TimeSlot.End.ToString("t"));
 
             // set and find cashier
 
@@ -233,7 +234,9 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
             Dispatcher.Invoke(() =>
             {
                 Mouse.OverrideCursor = null;
-                MessageBox.Show(New ? "L'article a bien été crée !" : "L'article a bien été enregistré !");
+                MessageBox.Show(New ? "Le créneau horaire a bien été crée !" : "Le créneau horaire a bien été enregistré !");
+                ParentWindow.MasterFrame.ToCustomPage().Update();
+                Close();
             });
         }
 
