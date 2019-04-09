@@ -47,15 +47,12 @@
                 <Label Content="Fin :" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" />
                 <materialDesign:TimePicker x:Name="TimeSlotEnd" WithSeconds="False" Text="Choisir l'heure"
                                            Is24Hours="True"
-                                            Grid.Row="1" Grid.Column="1" 
+                                           Grid.Row="1" Grid.Column="1" 
                                            SelectedTimeChanged="TimeSlotEnd_OnSelectedTimeChanged" VerticalAlignment="Center" Margin="0,9,0,8" />
 
                 <!-- ### 3 ### -->
                 <Label Content="Caissier :" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />
-                <ComboBox x:Name="TimeSlotCashier" SelectedIndex="0" Grid.Row="2" Grid.Column="1"
-                          SelectionChanged="TimeSlotCashier_OnSelectionChanged">
-                    <ComboBoxItem>Aucun</ComboBoxItem>
-                </ComboBox>
+                <Button x:Name="TimeSlotCashier" Grid.Row="2" Grid.Column="1" Content="Créer" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120" Click="TimeSlotCashier_OnClick" />
 
             </Grid>
 
@@ -81,7 +78,7 @@
                               Click="TimeSlotPause_OnClick" Grid.Row="0" Grid.Column="1" />
                 <!-- ### 2 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Assigner un remplaçant :" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" />
-                <Button x:Name="TimeSlotSubstituteCashier" Grid.Row="1" Grid.Column="1" IsEnabled="False" Content="Créer" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120" />
+                <Button x:Name="TimeSlotSubstituteCashier" Grid.Row="1" Grid.Column="1" IsEnabled="False" Content="Créer" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120" Click="TimeSlotSubstituteCashier_OnClick" />
 
                 <!-- ### 3 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Remplaçant :"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />

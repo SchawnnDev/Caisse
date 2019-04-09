@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseDesktop.Graphics.Admin.Cashiers;
 using CaisseServer;
 using CaisseServer.Events;
 
@@ -24,13 +25,12 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
     /// </summary>
     public partial class TimeSlotManager
     {
-
         private SaveableTimeSlot TimeSlot { get; set; }
         private readonly DateTime Start;
         private readonly DateTime End;
         private bool New { get; }
         private bool Starting { get; set; } = true;
-       
+
 
         public TimeSlotManager(SaveableTimeSlot timeSlot, SaveableDay day, SaveableCheckout checkout, DateTime start,
             DateTime end)
@@ -49,31 +49,6 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
                     Day = day
                 };
             }
-            else
-            {
-                using (var db = new CaisseServerContext()) // Charger le substitute timeslot
-                {
-
-                    var cashiers = db.Cashiers.Where(t => t.Checkout.Id == timeSlot.Checkout.Id).ToList();
-
-                    var i = 1;
-
-                    foreach (var cashier in cashiers)
-                    {
-                        var item = new ComboBoxItem
-                        {
-                            Content = $"[{cashier.Id}] {cashier.GetFullName()}",
-                            DataContext = cashier
-                        };
-                        TimeSlotCashier.Items.Add(item);
-
-                        if (CashierExists() && cashier.Id == TimeSlot.Cashier.Id)
-                            TimeSlotCashier.SelectedIndex = i;
-
-                        i++;
-                    }
-                }
-            }
 
             Fill(); // Fill
 
@@ -91,7 +66,7 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
             TimeSlotCashier.IsEnabled = !pause;
             TimeSlotSubstitute.IsEnabled = !pause;
 
-            TimeSlotSubstituteCashier.IsEnabled = !pause && SubstituteExists() && TimeSlot.Substitute.Active;
+            TimeSlotSubstituteCashier.IsEnabled = !pause && SubstituteExists() && TimeSlot.SubstituteActive;
 
             TimeSlotSubstitute.IsEnabled = !pause;
         }
@@ -99,10 +74,15 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
         private void ToggleSubstitute(bool toggle)
         {
             if (SubstituteExists())
-                TimeSlot.Substitute.Active = toggle;
+                TimeSlot.SubstituteActive = toggle;
 
             TimeSlotCashier.IsEnabled = !toggle;
             TimeSlotSubstituteCashier.IsEnabled = toggle;
+        }
+
+        private string CorrectMissingZero(string time)
+        {
+            return time.Length == 3 ? $"0{time}" : time;
         }
 
         private void Fill()
@@ -113,24 +93,33 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
             if (New)
             {
                 TimeSlotStart.SelectedTime = Start;
+                TimeSlotStart.Text = CorrectMissingZero(Start.ToString("t"));
                 TimeSlotEnd.SelectedTime = End;
+                TimeSlotEnd.Text = CorrectMissingZero(End.ToString("t"));
                 return;
             }
 
+            // set time slot times
             TimeSlotStart.SelectedTime = TimeSlot.Start;
-            TimeSlotStart.Text = TimeSlot.Start.ToString("t");
+            TimeSlotEnd.Text = CorrectMissingZero(TimeSlot.Start.ToString("t"));
             TimeSlotEnd.SelectedTime = TimeSlot.End;
-            TimeSlotEnd.Text = TimeSlot.End.ToString("t");
+            TimeSlotEnd.Text = CorrectMissingZero(TimeSlot.End.ToString("t"));
 
             // set and find cashier
 
-            //      if (CashierExists())
+            if (CashierExists())
+                TimeSlotCashier.Content = TimeSlot.Cashier.GetFullName();
+
+
+            if (SubstituteExists())
+                TimeSlotSubstituteCashier.Content = TimeSlot.Substitute.GetFullName();
+            //     if (CashierExists())
             //        TimeSlotCashierLastConnection.Text = Cashier.LastConnection.ToString("f");
 
             // set and find substitute
             if (!SubstituteExists()) return;
 
-            TimeSlotSubstituteCashier.Content = $"[{TimeSlot.Substitute.Id}] {TimeSlot.Substitute.GetFullName()}";
+
             // button set name of substitute if exists
         }
 
@@ -182,18 +171,10 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 
             Debug.Assert(TimeSlotPause.IsChecked != null, "TimeSlotPause.IsChecked != null");
 
-            var pause = TimeSlotPause.IsChecked.Value;
-
-            if (!pause && CashierExists())
-            {
-
-            }
-
-
-
-            TimeSlot.Pause = pause;
+            TimeSlot.Pause = TimeSlotPause.IsChecked.Value;
+            TimeSlot.Start = TimeSlotStart.SelectedTime ?? Start;
+            TimeSlot.End = TimeSlotEnd.SelectedTime ?? End;
             Task.Run(() => Save());
-
         }
 
 
@@ -203,6 +184,33 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 
             using (var db = new CaisseServerContext())
             {
+                if (CashierExists())
+                {
+                    if (db.Cashiers.Any(t => t.Id == TimeSlot.Cashier.Id))
+                    {
+                        db.Cashiers.Attach(TimeSlot.Cashier);
+                        db.Entry(TimeSlot.Cashier).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        db.Checkouts.Attach(TimeSlot.Cashier.Checkout); // Attach checkouts (maybe remove???)
+                        db.Entry(TimeSlot.Cashier).State = EntityState.Added;
+                    }
+                }
+
+                if (SubstituteExists())
+                {
+                    if (db.Cashiers.Any(t => t.Id == TimeSlot.Substitute.Id))
+                    {
+                        db.Cashiers.Attach(TimeSlot.Substitute);
+                        db.Entry(TimeSlot.Substitute).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        db.Checkouts.Attach(TimeSlot.Substitute.Checkout); // Attach checkouts (maybe remove???)
+                        db.Entry(TimeSlot.Substitute).State = EntityState.Added;
+                    }
+                }
 
                 if (New)
                 {
@@ -210,12 +218,10 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
                     db.Days.Attach(TimeSlot.Day);
                     // Attach etc.
 
-
                     db.TimeSlots.Add(TimeSlot);
                 }
                 else
                 {
-
                     db.TimeSlots.Attach(TimeSlot);
                 }
 
@@ -228,6 +234,58 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
             {
                 Mouse.OverrideCursor = null;
                 MessageBox.Show(New ? "L'article a bien été crée !" : "L'article a bien été enregistré !");
+            });
+        }
+
+        private void TimeSlotCashier_OnClick(object sender, RoutedEventArgs e)
+        {
+            new CashierManager(this, TimeSlot, false).ShowDialog();
+        }
+
+        private void TimeSlotSubstituteCashier_OnClick(object sender, RoutedEventArgs e)
+        {
+            new CashierManager(this, TimeSlot, true).ShowDialog();
+        }
+
+        public void SetCashier(SaveableCashier cashier)
+        {
+            if (cashier.Substitute)
+            {
+                TimeSlot.Substitute = cashier;
+                TimeSlotSubstituteCashier.Content = cashier.GetFullName();
+                return;
+            }
+
+            TimeSlot.Cashier = cashier;
+            TimeSlotCashier.Content = cashier.GetFullName();
+        }
+
+        public void RemoveCashier(SaveableCashier cashier)
+        {
+            if (cashier == null) return;
+
+            if (cashier.Substitute) TimeSlot.Substitute = null;
+            else TimeSlot.Cashier = null;
+
+            if (cashier.Substitute)
+            {
+                TimeSlotSubstitute.Content = "Créer";
+            }
+            else
+            {
+                TimeSlotCashier.Content = "Créer";
+            }
+
+            if (New) return;
+
+            Task.Run(() =>
+            {
+                using (var db = new CaisseServerContext())
+                {
+                    if (db.Cashiers.Any(t => t.Id == cashier.Id))
+                        db.Cashiers.Remove(cashier);
+                    db.SaveChangesAsync();
+                }
             });
         }
     }

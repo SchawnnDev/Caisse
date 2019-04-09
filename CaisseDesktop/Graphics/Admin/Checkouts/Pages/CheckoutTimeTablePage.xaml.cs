@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using CaisseDesktop.Enums;
 using CaisseDesktop.Graphics.Admin.TimeSlots;
+using CaisseDesktop.Utils;
 using CaisseLibrary.Utils;
 using CaisseServer;
 using CaisseServer.Events;
@@ -82,25 +83,25 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
         public void Fill(TimeTableDay timeTableDay, SaveableDay day, List<SaveableTimeSlot> slots, bool set)
         {
             Panel panel;
-            Brush brush;
+
             switch (timeTableDay)
             {
                 case TimeTableDay.DayOne:
                     panel = Day1;
-                    brush = Brushes.DarkSeaGreen;
                     break;
                 case TimeTableDay.DayTwo:
                     panel = Day2;
-                    brush = Brushes.CornflowerBlue;
                     break;
                 case TimeTableDay.DayThree:
                     panel = Day3;
-                    brush = Brushes.DarkSalmon;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(timeTableDay), timeTableDay, null);
             }
 
+
+            var color = System.Drawing.ColorTranslator.FromHtml(day.Color).Convert();
+            var brush = new SolidColorBrush(color);
 
             var label = new Button
             {

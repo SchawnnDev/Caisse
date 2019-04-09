@@ -21,6 +21,7 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Prénom :" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow"  />
@@ -43,20 +44,17 @@
                 <TextBox x:Name="CashierLastActivity" IsEnabled="False" Grid.Column="1" Grid.Row="3"
                          VerticalAlignment="Center" Margin="10" MinHeight="25" />
 
+                <TextBlock Text="Est/était présent :" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow" />
+                <ToggleButton x:Name="CashierWasHere"
+                              Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                              Click="CashierWasHere_OnClick"  Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Margin="10 0 0 0" />
 
-                <DockPanel Grid.Row="4" Grid.Column="1">
+                <DockPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
                     <Button x:Name="CashierDelete" Content="Supprimer" FontWeight="Bold"
-                            Margin="5" Cursor="Hand" Click="Delete_OnClick" />
+                            Margin="5" Cursor="Hand" Click="Delete_OnClick" IsEnabled="False" />
                     <Button x:Name="CashierSave" Content="Enregistrer" FontWeight="Bold"
                             Margin="5" Cursor="Hand" Click="Save_OnClick" />
                 </DockPanel>
-
-                <StackPanel Grid.Row="4" Grid.Column="0" VerticalAlignment="Center">
-                    <TextBlock Text="Blocage :" HorizontalAlignment="Center" />
-                    <ToggleButton x:Name="Blocage"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  Click="Blocage_OnClick" />
-                </StackPanel>
 
             </Grid>
         </GroupBox>

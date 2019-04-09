@@ -30,6 +30,7 @@ namespace CaisseDesktop.Graphics.Admin.Cashiers
         public CashierManager(TimeSlotManager parentWindow, SaveableTimeSlot timeSlot, bool substitute)
         {
             InitializeComponent();
+            Owner = parentWindow;
             ParentWindow = parentWindow;
             Cashier = substitute ? timeSlot.Substitute : timeSlot.Cashier;
             New = Cashier == null;
@@ -39,41 +40,29 @@ namespace CaisseDesktop.Graphics.Admin.Cashiers
             {
                 Cashier = new SaveableCashier
                 {
-                    Substitute = substitute
+                    Substitute = substitute,
+                    Checkout = timeSlot.Checkout // Maybe remove this (???)
                 };
                 Saved = false;
-                Blocage.IsChecked = false;
             }
             else
             {
                 FillTextBoxes();
                 New = false;
                 Saved = true;
-                ToggleBlocked(true);
+                CashierDelete.IsEnabled = true;
             }
         }
 
-        private SaveableTimeSlot TimeSlot { get; set; }
         public TimeSlotManager ParentWindow { get; set; }
         public SaveableCashier Cashier { get; set; }
         private bool Saved { get; set; }
         private bool New { get; } = true;
-        private bool Blocked { get; set; }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
         {
             if (Saved || !Saved && Validations.WillClose(true)) return;
             e.Cancel = true;
-        }
-
-        private void ToggleBlocked(bool blocked)
-        {
-            CashierFirstName.IsEnabled = !blocked;
-            CashierName.IsEnabled = !blocked;
-            GenLogin.IsEnabled = !blocked;
-            CashierSave.IsEnabled = !blocked;
-            Blocage.IsChecked = blocked;
-            Blocked = blocked;
         }
 
         private void FillTextBoxes()
@@ -82,6 +71,7 @@ namespace CaisseDesktop.Graphics.Admin.Cashiers
             CashierName.Text = Cashier.Name;
             CashierLastActivity.Text =
                 $"{Cashier.LastActivity.ToLongDateString()} {Cashier.LastActivity.ToShortTimeString()}";
+            CashierWasHere.IsChecked = Cashier.WasHere;
             FillLogin();
         }
 
@@ -108,7 +98,12 @@ namespace CaisseDesktop.Graphics.Admin.Cashiers
 
             if (New) Cashier.LastActivity = DateTime.Now;
 
-            TimeSlot.Cashier = Cashier;
+            Saved = true;
+
+            // set cashier or substitute
+            ParentWindow.SetCashier(Cashier);
+
+            // direct close of dialog
             Close();
         }
 
@@ -129,45 +124,6 @@ namespace CaisseDesktop.Graphics.Admin.Cashiers
             }
         }
 
-        /*
-        // Le save se fera surement sur le timeslot 
-        private void Save()
-        {
-            Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
-
-            using (var db = new CaisseServerContext())
-            {
-                db.Entry(Cashier).State = New ? EntityState.Added : EntityState.Modified;
-                db.SaveChanges();
-            }
-
-            Dispatcher.Invoke(() =>
-            {
-                Mouse.OverrideCursor = null;
-                MessageBox.Show(New ? "Le caissier a bien été crée !" : "Le caissier a bien été enregistré !");
-
-                // set cashier on parent window (timeslotmanager)
-                //SessionAdmin.UpdateIfEdited(SaveableOwner);
-
-                ToggleBlocked(true);
-                Saved = true;
-            });
-        } */
-
-        private void Blocage_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (!Saved)
-            {
-                MessageBox.Show("Veuillez enregistrer avant.", "Veuillez enregistrer", MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
-                Blocage.IsChecked = false;
-                return;
-            }
-
-            ToggleBlocked(false);
-            Saved = false;
-        }
-
         private void Delete_OnClick(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show("Es tu sûr de vouloir supprimer ce caissier ?", "Supprimer un caissier",
@@ -175,10 +131,19 @@ namespace CaisseDesktop.Graphics.Admin.Cashiers
 
             if (result != MessageBoxResult.Yes) return;
 
-            // cashier to null
-            TimeSlot.Cashier = null;
+            // remove cashier
+
+            ParentWindow.RemoveCashier(Cashier);
+
+            Saved = true;
+
             // direct close of dialog
             Close();
+        }
+
+        private void CashierWasHere_OnClick(object sender, RoutedEventArgs e)
+        {
+            Cashier.WasHere = !Cashier.WasHere;
         }
     }
 }

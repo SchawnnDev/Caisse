@@ -47,6 +47,7 @@ namespace CaisseDesktop.Graphics.Admin.Days
 
             if (!New)
             {
+                Debug.Assert(day != null, nameof(day) + " != null");
                 DataContext = new DayPickerModel(day.Start, day.End);
                 DayColor.SelectedColor = System.Drawing.ColorTranslator.FromHtml(Day.Color).Convert();
                 return;
