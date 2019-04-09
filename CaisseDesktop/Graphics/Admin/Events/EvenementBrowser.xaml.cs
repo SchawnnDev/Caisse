@@ -82,6 +82,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
                 {
                     db.Events.Attach(evenement);
                     db.Events.Remove(evenement);
+                    db.SaveChanges();
                 }
             }
             else

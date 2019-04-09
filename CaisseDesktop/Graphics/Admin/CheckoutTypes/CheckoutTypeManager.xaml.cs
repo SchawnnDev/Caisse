@@ -132,8 +132,31 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
 
         private void Delete_OnClick(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            var btn = sender as Button;
+
+            if (btn?.DataContext is SaveableArticle article)
+            {
+                var result = MessageBox.Show("Es tu sûr de vouloir supprimer cet article ?", "Supprimer un article",
+                    MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+
+                if (result != MessageBoxResult.Yes) return;
+
+                using (var db = new CaisseServerContext())
+                {
+                    db.Articles.Attach(article);
+                    db.Articles.Remove(article);
+                    db.SaveChanges();
+                }
+
+                Model.Articles.Remove(article);
+            }
+            else
+            {
+                MessageBox.Show($"{btn} : l'article n'est pas valide.", "Erreur", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
+
 
         private void AddArticle_OnClick(object sender, RoutedEventArgs e)
         {
@@ -142,7 +165,6 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
                 SystemSounds.Beep.Play();
                 MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
                     MessageBoxButton.OK, MessageBoxImage.Error);
-
                 return;
             }
 
@@ -161,6 +183,8 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
                     Event = Manager.Evenement
                 };
             }
+            else if (CheckoutType.Name.ToLower().Equals(CheckoutTypeName.Text))
+                return;
 
             CheckoutType.Name = CheckoutTypeName.Text;
 
@@ -176,6 +200,15 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
             {
                 if (New)
                 {
+                    if (db.CheckoutTypes.Any(t =>
+                        t.Event.Id == Manager.Evenement.Id && t.Name.ToLower().Equals(CheckoutType.Name.ToLower())))
+                    {
+                        Dispatcher.Invoke(() => { return Mouse.OverrideCursor = null; });
+
+                        Validations.ShowWarning("Impossible de créer ce type de caisse. Ce nom est déjà utilisé!");
+                        return;
+                    }
+
                     db.Events.Attach(CheckoutType.Event);
                     db.CheckoutTypes.Add(CheckoutType);
                 }
@@ -198,10 +231,13 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
                 }
 
                 Mouse.OverrideCursor = null;
-                MessageBox.Show(New
-                    ? "Le type de caisse a bien été crée !"
-                    : "Le type de caisse a bien été enregistré !");
+                MessageBox.Show("Le type de caisse a bien été " + (New ? "crée" : "enregistré") + " !");
             });
+        }
+
+        private void Back_OnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

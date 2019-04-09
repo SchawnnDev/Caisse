@@ -20,7 +20,7 @@
         <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
 
-                <MenuItem x:Name="Back" Header="_Retour" />
+                <MenuItem x:Name="Back" Header="_Retour" Click="Back_OnClick" />
 
                 <MenuItem Header="_Articles">
 
