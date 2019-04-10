@@ -51,8 +51,6 @@
     <Compile Include="Concrete\Invoices\Invoice.cs" />
     <Compile Include="Concrete\Owners\CashierPassword.cs" />
     <Compile Include="Concrete\Owners\OwnerPassword.cs" />
-    <Compile Include="Concrete\Session\CashierSession.cs" />
-    <Compile Include="Concrete\Session\CheckoutSession.cs" />
     <Compile Include="Data\Cashier.cs" />
     <Compile Include="Data\Checkout.cs" />
     <Compile Include="Data\Permission.cs" />

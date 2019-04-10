@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CaisseDesktop.Client;
 using CaisseLibrary.Concrete.Invoices;
 using CaisseLibrary.Concrete.Session;
 using CaisseServer;
@@ -24,7 +25,7 @@ namespace CaisseDesktop.Graphics.Common
         {
             InitializeComponent();
 
-            TempInvoice = new Invoice(CashierSession.ActualCashier);
+            TempInvoice = new Invoice(ClientMain.ActualCashier);
             ActualCheckout = checkout;
 
             var tempList =

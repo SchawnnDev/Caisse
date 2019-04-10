@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseDesktop.Client;
 using CaisseDesktop.Graphics;
 using CaisseDesktop.Graphics.Admin.Events;
 using CaisseDesktop.Graphics.Common;
@@ -42,7 +43,7 @@ namespace CaisseDesktop
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var ticket = new SalesReceipt(new Invoice(CashierSession.ActualCashier)
+            var ticket = new SalesReceipt(new Invoice(ClientMain.ActualCashier)
             {
                 SaveableInvoice = new SaveableInvoice
                 {

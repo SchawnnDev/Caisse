@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseDesktop.Client;
 using CaisseLibrary;
 using CaisseLibrary.Concrete.Session;
 using CaisseLibrary.IO;
@@ -142,7 +143,7 @@ namespace CaisseDesktop.Graphics.Common
                 return;
 
 
-                var cashier = CashierSession.Login(Password.Password);
+                var cashier = ClientMain.Login(Password.Password);
 
                 if (cashier == null)
                 {
