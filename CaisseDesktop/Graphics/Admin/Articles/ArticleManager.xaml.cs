@@ -128,8 +128,17 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             ArticlePrice.Text = Article.Price.ToString(CultureInfo.CurrentCulture);
             ArticleMaxSellPerDay.Text = Article.MaxSellNumberPerDay.ToString();
             ArticleActivated.IsChecked = Article.Active;
-            ArticleImage.Source = new BitmapImage(new Uri(Article.ImageSrc));
-            ArticleImagePath.Text = Article.ImageSrc;
+            try
+            {
+                ArticleImage.Source = new BitmapImage(new Uri(Article.ImageSrc));
+                ArticleImagePath.Text = Article.ImageSrc;
+            }
+            catch (Exception e)
+            {
+                Validations.ShowError(e.Message + " => le fichier a été remplacé par un fichier de base.");
+                EditImage(ArticleType.SelectedIndex);
+            }
+
             ArticleColor.SelectedColor = System.Drawing.ColorTranslator.FromHtml(Article.Color).Convert();
             ArticleNeedsCup.IsChecked = Article.NeedsCup;
             ArticleTracking.IsChecked = Article.NumberingTracking;
@@ -204,7 +213,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
             var id = GetIndex((string) item.Content);
 
-            if (Article == null || string.IsNullOrWhiteSpace(Article.ImageSrc))
+            if (Article == null || string.IsNullOrWhiteSpace(Article.ImageSrc) || EndsWith(Article.ImageSrc))
             {
                 EditImage(id); // change image when select other type
                 SwitchButtons(id);
@@ -236,11 +245,18 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                 case "Alimentation":
                     return 1;
                 case "Consignes":
-                    return 2;
+                    return 2; 
                 default:
                     return 0;
             }
         }
+
+        private bool EndsWith(string name)
+        {
+            var baseString = "Resources\\Images\\";
+            return name.EndsWith(baseString + "ticket.jpg") || name.EndsWith(baseString + "food.jpg") || name.EndsWith(baseString + "cup.jpg");
+        }
+
 
         private void EditImage(int type)
         {
@@ -260,12 +276,19 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                     return;
             }
 
+            try
+            {
+                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Resources\\Images\\{name}.jpg");
 
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Resources/Images/{name}.png");
-
-            ArticleImage.Source = new BitmapImage(new Uri(path));
-            ArticleImagePath.Text = $"../Resources/Images/{name}.png";
-            Article.ImageSrc = path;
+                ArticleImage.Source = new BitmapImage(new Uri(path));
+                ArticleImagePath.Text = $"..\\Resources\\Images\\{name}.jpg";
+                Article.ImageSrc = path;
+            }
+            catch (Exception e)
+            {
+                Validations.ShowError(e.Message);
+            }
+        
         }
 
         private void EditImageFile_OnClick(object sender, RoutedEventArgs e)
@@ -276,7 +299,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                 InitialDirectory = New || string.IsNullOrWhiteSpace(Article.ImageSrc)
                     ? Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
                     : Article.ImageSrc,
-                Filter = "Fichier images|*.png;*.jpg;*.jpeg;*.gif"
+                Filter = "Fichier images|*.jpg;*.jpeg;*.bmp"
             };
 
             if (openFileDialog.ShowDialog() != true) return;

@@ -21,18 +21,16 @@ namespace CaisseDesktop.Graphics.Admin.Events
     /// </summary>
     public partial class EvenementManager
     {
-        public EvenementManager(EvenementBrowser parentWindow, SaveableEvent evenement)
+        public EvenementManager(SaveableEvent evenement)
         {
             InitializeComponent();
             Evenement = evenement;
-            ParentWindow = parentWindow;
             Closing += OnWindowClosing;
             EditInfos_OnClick(null, null);
         }
 
         public SaveableEvent Evenement { set; get; }
         private bool IsBack { get; set; }
-        public EvenementBrowser ParentWindow { get; }
         public CustomPage CurrentPage { get; set; }
 
         private void Back_OnClick(object sender, RoutedEventArgs e)
@@ -41,7 +39,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             IsBack = true;
             Close();
-            ParentWindow.Show();
+            new EvenementBrowser().Show();
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)

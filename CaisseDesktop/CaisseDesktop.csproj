@@ -380,7 +380,7 @@
     <Content Include="Resources\Images\cup.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\food.png">
+    <Content Include="Resources\Images\food.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\logo-receipt.png">

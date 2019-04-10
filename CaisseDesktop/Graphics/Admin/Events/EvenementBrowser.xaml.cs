@@ -23,6 +23,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
         }
 
         private EvenementModel Model => DataContext as EvenementModel;
+        private bool IsLoading { get; set; }
 
         public void Add(SaveableEvent e)
         {
@@ -38,6 +39,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
         {
             Dispatcher.Invoke(() =>
             {
+                IsLoading = true;
                 DataContext = new EvenementModel();
                 Mouse.OverrideCursor = Cursors.Wait;
             });
@@ -53,6 +55,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
             {
                 Model.Evenements = collection;
                 Mouse.OverrideCursor = null;
+                IsLoading = false;
             });
         }
 
@@ -61,10 +64,15 @@ namespace CaisseDesktop.Graphics.Admin.Events
             var btn = sender as Button;
 
             if (btn?.DataContext is SaveableEvent evenement)
-                new EvenementManager(this, evenement).ShowDialog();
+            {
+                new EvenementManager(evenement).Show();
+                Close();
+            }
             else
+            {
                 MessageBox.Show($"{btn} : l'événement n'est pas valide.", "Erreur", MessageBoxButton.OK,
                     MessageBoxImage.Error);
+            }
         }
 
         private void Delete_OnClick(object sender, RoutedEventArgs e)
@@ -94,7 +102,8 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void CreateEvent_OnClick(object sender, RoutedEventArgs e)
         {
-            new EvenementManager(this, null).ShowDialog();
+            new EvenementManager(null).Show();
+            Close();
         }
 
 		private void Back_Click(object sender, RoutedEventArgs e)

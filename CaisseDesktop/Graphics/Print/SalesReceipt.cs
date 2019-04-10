@@ -11,7 +11,7 @@ namespace CaisseDesktop.Graphics.Print
         private Invoice PrintableInvoice { get; }
 
         public SalesReceipt(Invoice invoice)
-            : base("\\\\PAUL\\epson tm-h6000iv")
+            : base("\\\\PAUL\\TicketsPrinter")
         {
             PrintableInvoice = invoice;
         }
@@ -61,7 +61,7 @@ namespace CaisseDesktop.Graphics.Print
 
         public override void Generate()
         {
-            var logo = GetLogo("Resources/Images/logo-receipt.png");
+            var logo = GetLogo("Resources/Images/logo-receipt.jpg");
 
             BytesValue = BytesValue.AddBytes(logo);
 
