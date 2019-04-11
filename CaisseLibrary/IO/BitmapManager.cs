@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CaisseLibrary.Exceptions;
 using CaisseServer.Events;
 using CaisseServer.Items;
 
@@ -23,6 +24,17 @@ namespace CaisseLibrary.IO
 
         public void Init(List<SaveableArticle> articles)
         {
+            try
+            {
+                if (!Directory.Exists(BaseDirectory))
+                    Directory.CreateDirectory(BaseDirectory);
+            }
+            catch (Exception e)
+            {
+                // ignored
+                throw new TicketPrinterException(e.Message);
+            }
+
             ConvertEventLogo();
 
             foreach (var article in articles)

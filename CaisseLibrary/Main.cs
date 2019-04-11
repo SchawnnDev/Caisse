@@ -27,12 +27,12 @@ namespace CaisseLibrary
 
         public static void ConfigureCheckout(string printerName)
         {
-            var config = new TicketConfig(ActualEvent.Name, ActualEvent.Address, "67560 ROSHEIM", "+33788490372",
-                "000111000555544");
+            ReceiptTicket = new ReceiptTicket(new TicketConfig(ActualEvent.Name, ActualEvent.Address, "67560 ROSHEIM",
+                "+33788490372",
+                "000111000555544"));
             BitmapManager = new BitmapManager(ActualEvent);
             TicketPrinter = new Printer(printerName);
             TicketPrinter.SetUp();
-            TicketPrinter.SetUpImages(new List<ITicket> {new ReceiptTicket(config)});
 
             using (var db = new CaisseServerContext())
             {
@@ -43,13 +43,16 @@ namespace CaisseLibrary
             BitmapManager.Init(Articles);
 
             BitmapManager.ConvertEventLogo();
+
+            TicketPrinter.SetUpImages(new List<ITicket> { });
         }
 
         public static void Reconfigure(string printerName)
         {
-            TicketPrinter.Close();
+            TicketPrinter?.Close();
             BitmapManager = null;
             TicketPrinter = null;
+            ReceiptTicket = null;
             ConfigureCheckout(printerName);
         }
 

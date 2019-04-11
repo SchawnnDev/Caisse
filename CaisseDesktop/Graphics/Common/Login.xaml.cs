@@ -2,10 +2,14 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Media;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using CaisseDesktop.Utils;
 using CaisseLibrary;
+using CaisseLibrary.Exceptions;
 using CaisseLibrary.IO;
 using CaisseServer;
 
@@ -17,6 +21,7 @@ namespace CaisseDesktop.Graphics.Common
     public partial class Login
     {
         private Timer UpdateTimer { get; set; }
+        private bool CanLogin { get; set; } = false;
 
         public Login()
         {
@@ -43,7 +48,9 @@ namespace CaisseDesktop.Graphics.Common
                             Main.ActualEvent = db.Events.Single(t => t.Id == eventId);
                             Main.ActualCheckout = db.Checkouts.Where(t => t.Id == checkoutId)
                                 .Include(t => t.CheckoutType).First();
-                            Main.ConfigureCheckout("TicketsPrinter"); //TODO
+
+                            Task.Run(() => ConfigureApp(false));
+
                             UpdateLabels();
                         }
                         else
@@ -63,12 +70,51 @@ namespace CaisseDesktop.Graphics.Common
                 {
                     DateLabel.Dispatcher.Invoke(() =>
                     {
-                        DateLabel.Content = DateTime.Now.ToString("hh:mm:ss dd/MM/yyyy");
+                        DateLabel.Content = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
                     });
                 };
             };
 
             Closed += OnClosed;
+        }
+
+        public void ConfigureApp(bool reconfigure)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                CanLogin = false;
+                PrinterStatusLabel.Content = "Imprimante : Configuration de la connexion...";
+            });
+
+            try
+            {
+                if (reconfigure)
+                {
+                    Main.Reconfigure("TicketsPrinter"); //TODO
+                }
+                else
+                {
+                    Main.ConfigureCheckout("TicketsPrinter"); //TODO
+                }
+            }
+            catch (TicketPrinterException e)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    Mouse.OverrideCursor = null;
+                    Validations.ShowError(e.Message);
+                    Close();
+                });
+                return;
+            }
+
+            Dispatcher.Invoke(() =>
+            {
+                Mouse.OverrideCursor = null;
+                CanLogin = true;
+                PrinterStatusLabel.Content = "Imprimante : OK";
+            });
         }
 
         public void UpdateLabels()
@@ -78,6 +124,7 @@ namespace CaisseDesktop.Graphics.Common
 
         private void OnClosed(object sender, EventArgs e)
         {
+            if (UpdateTimer == null) return;
             UpdateTimer.Stop();
             UpdateTimer.Dispose();
         }
@@ -119,6 +166,14 @@ namespace CaisseDesktop.Graphics.Common
 
         private void Valider_OnClick(object sender, RoutedEventArgs e)
         {
+
+            if (!CanLogin)
+            {
+                SystemSounds.Beep.Play();
+                Validations.ShowWarning("Veuillez attendre que l'application charge.");
+                return;
+            }
+
             if (Password.Password.Length != 7)
             {
                 SystemSounds.Beep.Play();
@@ -127,10 +182,11 @@ namespace CaisseDesktop.Graphics.Common
             }
             else
             {
+                /*
                 new Checkout(Main.ActualCheckout).Show();
                 Close();
 
-                return;
+                return; */
 
 
                 var cashier = Main.Login(Password.Password);
@@ -141,6 +197,9 @@ namespace CaisseDesktop.Graphics.Common
                         MessageBoxImage.Error);
                     return;
                 }
+
+                new Checkout(Main.ActualCheckout).Show();
+                Close();
 
 
                 //TODO: Si ce n'est pas encore l'heure du caissier, le prevenir et demander si il est sûr de vouloir continuer

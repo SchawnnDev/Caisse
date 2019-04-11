@@ -132,10 +132,12 @@
 
         </Grid>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0">
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
             <Label x:Name="DbStatusLabel" Content="Base de données : OK" FontSize="10" HorizontalAlignment="Right"
                    FontWeight="Bold" />
             <Label x:Name="ServerStatusLabel" Content="Connexion au serveur : OK" FontSize="10"
+                   HorizontalAlignment="Right" FontWeight="Bold" />
+            <Label x:Name="PrinterStatusLabel" Content="Imprimante : OK" FontSize="10"
                    HorizontalAlignment="Right" FontWeight="Bold" />
         </StackPanel>
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using CaisseDesktop.Graphics.Admin;
@@ -146,11 +147,15 @@ namespace CaisseDesktop.Graphics.Common
 
             Main.ActualEvent = saveableEvent;
             Main.ActualCheckout = saveableCheckout;
-            Main.Reconfigure("TicketsPrinter"); // TODO
+
+            //Main.Reconfigure("TicketsPrinter"); // TODO
             // validate
             New = false;
             ParentWindow.UpdateLabels();
             Close();
+
+            Task.Run(() => ParentWindow.ConfigureApp(true));
+
         }
 
         private void EventBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

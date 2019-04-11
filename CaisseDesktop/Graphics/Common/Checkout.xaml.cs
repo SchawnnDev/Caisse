@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -89,16 +90,10 @@ namespace CaisseDesktop.Graphics.Common
                     return;
                 }
 
-                using (var db = new CaisseServerContext())
-                {
-                    // db.CheckoutTypes.Attach(checkout.CheckoutType);
-                    var articles = db.Articles.Where(t => t != null && t.Type.Id == checkout.CheckoutType.Id)
-                        .OrderBy(t => t.Position).ToList();
 
-                    if (articles.Count != 0)
-                    {
-                        CreateItemGrid(articles);
-                    }
+                if (Main.Articles.Count > 0)
+                {
+                    CreateItemGrid(Main.Articles);
                 }
             };
         }
@@ -111,6 +106,31 @@ namespace CaisseDesktop.Graphics.Common
         {
             foreach (var item in items)
                 ItemPanel.Children.Add(CreateItem(item));
+        }
+
+        private string GetDefaultImageName(string typeName)
+        {
+            var type = 0;
+
+            switch (typeName)
+            {
+                case "Alimentation":
+                    type = 1;
+                    break;
+                case "Consignes":
+                    type = 2;
+                    break;
+            }
+
+            switch (type)
+            {
+                case 1:
+                    return "food";
+                case 2:
+                    return "cup";
+                default:
+                    return "ticket";
+            }
         }
 
         private Border CreateItem(SaveableArticle item)
@@ -152,10 +172,24 @@ namespace CaisseDesktop.Graphics.Common
                 MaxHeight = 65.0
             };
 
+
             var icon = new BitmapImage();
-            icon.BeginInit();
-            icon.UriSource = new Uri(item.ImageSrc);
-            icon.EndInit();
+
+            try
+            {
+                icon.BeginInit();
+                icon.UriSource = new Uri(item.ImageSrc);
+                icon.EndInit();
+            }
+            catch (Exception)
+            {
+                icon = new BitmapImage();
+                icon.BeginInit();
+                icon.UriSource = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                    $"Resources\\Images\\{GetDefaultImageName(item.ItemType)}.jpg"));
+                icon.EndInit();
+            }
+
 
             img.Source = icon;
 
@@ -228,7 +262,7 @@ namespace CaisseDesktop.Graphics.Common
         {
             var receipt = Main.ReceiptTicket.PrintWith(null);
 
-            Main.TicketPrinter.Print(new List<ITicket>{receipt});
+            Main.TicketPrinter.Print(new List<ITicket> {receipt});
         }
     }
 }
