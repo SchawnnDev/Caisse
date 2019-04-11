@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using CaisseLibrary.Concrete.Invoices;
 using CaisseLibrary.Exceptions;
 using Microsoft.PointOfService;
@@ -53,57 +54,68 @@ namespace CaisseLibrary.Print
             // Print here.
             if (printer.CapRecBitmap) printer.PrintNormal(PrinterStation.Receipt, "\u001b|1B");
 
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|N"
-                                                        + Config.HostName + "\n");
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|N"
-                                                        + Config.Address + "\n");
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|N"
-                                                        + Config.PostalCodeCity + "\n");
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|N"
-                                                        + "TEL: " + Config.Telephone + "\n");
+            /*
+             *  Imprimer l'adresse
+             */
 
-
-            //<<<step5>>--Start
-            //Make 2mm speces
-            //ESC|#uF = Line Feed
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
-            //<<<step5>>>-End
+            printer.PrintNormal(PrinterStation.Receipt, CENTER + Config.HostName + NEW_LINE);
+            printer.PrintNormal(PrinterStation.Receipt, CENTER + Config.Address + NEW_LINE);
+            printer.PrintNormal(PrinterStation.Receipt, CENTER + Config.PostalCodeCity + NEW_LINE);
+            printer.PrintNormal(PrinterStation.Receipt, CENTER + "TEL: " + Config.Telephone + NEW_LINE);
 
             /*
-            lRecLineCharsCount = GetRecLineChars(ref RecLineChars);
-            if (lRecLineCharsCount >= 2)
-            {
-                printer.RecLineChars = RecLineChars[1];
-                printer.PrintNormal(PrinterStation.Receipt, "\u001b|cA" + strDate + "\n");
-                printer.RecLineChars = RecLineChars[0];
-            }
-            else
-            {
-                printer.PrintNormal(PrinterStation.Receipt, "\u001b|cA" + strDate + "\n");
-            }
-            */
+             *  Caissier & date
+             */
 
-            string[] astritem = { "apples", "grapes", "bananas", "lemons", "oranges" };
-            string[] astrprice = { "10.00", "20.00", "30.00", "40.00", "50.00" };
-            //<<<step5>>>--Start
-            //Make 5mm speces
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|500uF");
+            printer.PrintNormal(PrinterStation.Receipt, "\u001b|100uF");
 
-            //Print buying goods
-            var total = 0.0;
-            var strPrintData = "";
-            for (var i = 0; i < astritem.Length; i++)
-            {
-                strPrintData = MakePrintString(printer.RecLineChars, astritem[i], "$" + astrprice[i]);
+            PrintMinimized(printer, CENTER + "CAISSIER : 161 - " + DateTime.Now.ToString("dd/MM/yy HH:mm:ss") + NEW_LINE);
 
-                printer.PrintNormal(PrinterStation.Receipt, strPrintData + "\n");
+            /*
+             *  Num facture
+             */
 
-                total += 5d;
-            }
+            printer.PrintNormal(PrinterStation.Receipt, "\u001b|100uF");
 
-            //Make 2mm speces
+            printer.PrintNormal(PrinterStation.Receipt, BOLD + CENTER + "FACTURE N° : 14808" + NEW_LINE);
+
+            /*
+             * 1. Separator
+             */
+
+            printer.PrintNormal(PrinterStation.Receipt, "\u001b|100uF");
+
+            PrintMinimized(printer,CENTER + SEPARATOR + NEW_LINE);
+
+            /*
+             *  Items
+             */
+
             printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
 
+            foreach (var operation in Invoice.Operations)
+            {
+                printer.PrintNormal(PrinterStation.Receipt, MakePrintString(printer.RecLineChars,$"{operation.Amount} {operation.Item.Name.ToUpper(Thread.CurrentThread.CurrentCulture)}", $"{(operation.Item.Price * operation.Amount)} €") + NEW_LINE);
+            }
+
+            printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
+
+            /*
+             *  Total
+             */
+            const string ESC = "\u001B";
+            const string GS = "\u001D";
+            const string InitializePrinter = ESC + "@";
+            const string BoldOn = ESC + "E" + "\u0001";
+            const string BoldOff = ESC + "E" + "\0";
+            const string DoubleOn = GS + "!" + "\u0011";  // 2x sized text (double-high + double-wide)
+            const string DoubleOff = GS + "!" + "\0";
+
+            printer.PrintNormal(PrinterStation.Receipt,   DoubleOn + "TOTAL : 2.00 €" + DoubleOff + NEW_LINE);
+
+            return;
+            string strPrintData;
+            double total = 0;
             //Print the total cost
             strPrintData = MakePrintString(printer.RecLineChars, "Tax excluded."
                 , "$" + total.ToString("F"));

@@ -260,7 +260,30 @@ namespace CaisseDesktop.Graphics.Common
 
         private void TestPrint_OnClick(object sender, RoutedEventArgs e)
         {
-            var receipt = Main.ReceiptTicket.PrintWith(null);
+            var receipt = Main.ReceiptTicket.PrintWith(new Invoice(Main.ActualCashier)
+            {
+                Operations = new List<SaveableOperation>
+                {
+                    new SaveableOperation
+                    {
+                        Amount = 2,
+                        Item = new SaveableArticle
+                        {
+                            Price = 2,
+                            Name = "Crèpe"
+                        }
+                    },
+                    new SaveableOperation
+                    {
+                        Amount = 1,
+                        Item = new SaveableArticle
+                        {
+                            Price = 10,
+                            Name = "Pizza"
+                        }
+                    }
+                }
+            });
 
             Main.TicketPrinter.Print(new List<ITicket> {receipt});
         }
