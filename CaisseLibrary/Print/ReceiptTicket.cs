@@ -26,7 +26,7 @@ namespace CaisseLibrary.Print
                 try
                 {
                     //Register a bitmap
-                    printer.SetBitmap(id, PrinterStation.Receipt, path, printer.RecLineWidth / 2,
+                    printer.SetBitmap(id, PrinterStation.Receipt, path, printer.RecLineWidth,
                         PosPrinter.PrinterBitmapCenter);
                     bSetBitmapSuccess = true;
                     break;
@@ -137,6 +137,7 @@ namespace CaisseLibrary.Print
 
             //Make 5mm speces
             printer.PrintNormal(PrinterStation.Receipt, "\u001b|500uF");
+
         }
 
     }

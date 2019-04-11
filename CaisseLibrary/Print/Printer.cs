@@ -125,7 +125,8 @@ namespace CaisseLibrary.Print
                 {
                     ticket.Print(PosPrinter);
                     if (!PosPrinter.CapRecPaperCut) continue;
-                    PosPrinter.CutPaper(99);
+                    PosPrinter.PrintNormal(PrinterStation.Receipt, "\u001b|" + PosPrinter.RecLinesToPaperCut + "lF");
+                    PosPrinter.CutPaper(50);
                 }
             }
             catch (PosControlException)

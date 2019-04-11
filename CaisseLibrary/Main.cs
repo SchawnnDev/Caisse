@@ -44,7 +44,7 @@ namespace CaisseLibrary
 
             BitmapManager.ConvertEventLogo();
 
-            TicketPrinter.SetUpImages(new List<ITicket> { });
+            TicketPrinter.SetUpImages(new List<ITicket> { ReceiptTicket });
         }
 
         public static void Reconfigure(string printerName)
