@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using CaisseDesktop.Graphics.Admin;
 using CaisseDesktop.Utils;
 using CaisseLibrary;
-using CaisseLibrary.Concrete.Session;
 using CaisseLibrary.IO;
 using CaisseServer;
 using CaisseServer.Events;
@@ -146,7 +145,8 @@ namespace CaisseDesktop.Graphics.Common
             });
 
             Main.ActualEvent = saveableEvent;
-            CheckoutSession.ActualCheckout = saveableCheckout;
+            Main.ActualCheckout = saveableCheckout;
+            Main.Reconfigure("TicketsPrinter"); // TODO
             // validate
             New = false;
             ParentWindow.UpdateLabels();

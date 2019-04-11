@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using CaisseDesktop.Client;
 using CaisseLibrary;
-using CaisseLibrary.Concrete.Session;
 using CaisseLibrary.IO;
 using CaisseServer;
 
@@ -52,8 +41,9 @@ namespace CaisseDesktop.Graphics.Common
                         if (db.Events.Any(t => t.Id == eventId) && db.Checkouts.Any(t => t.Id == checkoutId))
                         {
                             Main.ActualEvent = db.Events.Single(t => t.Id == eventId);
-                            CheckoutSession.ActualCheckout = db.Checkouts.Where(t => t.Id == checkoutId)
+                            Main.ActualCheckout = db.Checkouts.Where(t => t.Id == checkoutId)
                                 .Include(t => t.CheckoutType).First();
+                            Main.ConfigureCheckout("TicketsPrinter"); //TODO
                             UpdateLabels();
                         }
                         else
@@ -83,7 +73,7 @@ namespace CaisseDesktop.Graphics.Common
 
         public void UpdateLabels()
         {
-            CheckoutNameLabel.Content = $"Caisse: {CheckoutSession.ActualCheckout.Name}";
+            CheckoutNameLabel.Content = $"Caisse: {Main.ActualCheckout.Name}";
         }
 
         private void OnClosed(object sender, EventArgs e)
@@ -137,13 +127,13 @@ namespace CaisseDesktop.Graphics.Common
             }
             else
             {
-                new Checkout(CheckoutSession.ActualCheckout).Show();
+                new Checkout(Main.ActualCheckout).Show();
                 Close();
 
                 return;
 
 
-                var cashier = ClientMain.Login(Password.Password);
+                var cashier = Main.Login(Password.Password);
 
                 if (cashier == null)
                 {

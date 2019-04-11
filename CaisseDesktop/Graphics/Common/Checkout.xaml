@@ -39,12 +39,8 @@
                 <ListBoxItem Content="Article 1" />
                 <ListBoxItem Content="Article 1" />
                 <ListBoxItem Content="Article 1" />
-                <ListBoxItem Content="Article 1" />
-                <ListBoxItem Content="Article 1" />
-                <ListBoxItem Content="Article 1" />
-                <ListBoxItem Content="Article 1" />
-                <ListBoxItem Content="Article 1" />
             </ListBox>
+            <Button Grid.Row="1" Click="TestPrint_OnClick">test</Button>
 
         </Grid>
 

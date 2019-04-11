@@ -1,23 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using CaisseDesktop.Client;
 using CaisseDesktop.Graphics;
 using CaisseDesktop.Graphics.Admin.Events;
 using CaisseDesktop.Graphics.Common;
-using CaisseDesktop.Graphics.Print;
+using CaisseLibrary;
 using CaisseLibrary.Concrete.Invoices;
-using CaisseLibrary.Concrete.Session;
 using CaisseServer;
 using CaisseServer.Items;
 
@@ -43,7 +31,7 @@ namespace CaisseDesktop
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var ticket = new SalesReceipt(new Invoice(ClientMain.ActualCashier)
+          /*  var ticket = new SalesReceipt(new Invoice(Main.ActualCashier)
             {
                 SaveableInvoice = new SaveableInvoice
                 {
@@ -104,7 +92,7 @@ namespace CaisseDesktop
                 }
             });
             ticket.Generate();
-            ticket.Print();
+            ticket.Print(); */
         }
 
         private void ButtonConnection_OnClick(object sender, RoutedEventArgs e)

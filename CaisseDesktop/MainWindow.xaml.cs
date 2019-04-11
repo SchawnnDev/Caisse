@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using CaisseDesktop.Graphics;
-using CaisseDesktop.Graphics.Admin.Events;
-using CaisseDesktop.Graphics.Common;
-using CaisseDesktop.Graphics.Print;
 using CaisseLibrary;
-using CaisseLibrary.Concrete.Invoices;
-using CaisseLibrary.Concrete.Session;
 using CaisseServer;
-using CaisseServer.Items;
 
 namespace CaisseDesktop
 {

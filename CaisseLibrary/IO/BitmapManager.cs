@@ -1,0 +1,74 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CaisseServer.Events;
+using CaisseServer.Items;
+
+namespace CaisseLibrary.IO
+{
+    public class BitmapManager
+    {
+        private readonly SaveableEvent SaveableEvent;
+        private readonly string BaseDirectory;
+
+        public BitmapManager(SaveableEvent e)
+        {
+            SaveableEvent = e;
+            BaseDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Bitmaps", e.Name.Replace(" ", ""));
+        }
+
+        public void Init(List<SaveableArticle> articles)
+        {
+            ConvertEventLogo();
+
+            foreach (var article in articles)
+            {
+                if (!File.Exists(article.ImageSrc)) continue;
+
+                var path = Path.Combine(BaseDirectory, article.Name.Replace(' ', '-') + article.Color + ".bmp");
+
+                if (File.Exists(path)) continue;
+
+                var bitmap = new Bitmap(article.ImageSrc);
+
+                try
+                {
+                    bitmap.Save(path);
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            }
+        }
+
+        public void ConvertEventLogo()
+        {
+            var fileName = $"{SaveableEvent.Name.Replace(' ', '-')}-{SaveableEvent.Id}.bmp";
+            var path = Path.Combine(BaseDirectory, fileName);
+
+            if (!File.Exists(SaveableEvent.ImageSrc) || File.Exists(path)) return;
+
+            var bitmap = new Bitmap(SaveableEvent.ImageSrc);
+
+            try
+            {
+                bitmap.Save(path);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }
+
+        public string GetBitmapPath(SaveableArticle article) =>
+            Path.Combine(BaseDirectory, article.Name.Replace(' ', '-') + article.Color + ".bmp");
+
+        public string GetLogoPath =>
+            Path.Combine(BaseDirectory, $"{SaveableEvent.Name.Replace(' ', '-')}-{SaveableEvent.Id}.bmp");
+    }
+}

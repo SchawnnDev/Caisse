@@ -5,9 +5,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using CaisseDesktop.Client;
+using CaisseLibrary;
 using CaisseLibrary.Concrete.Invoices;
-using CaisseLibrary.Concrete.Session;
+using CaisseLibrary.Print;
 using CaisseServer;
 using CaisseServer.Items;
 
@@ -25,7 +25,7 @@ namespace CaisseDesktop.Graphics.Common
         {
             InitializeComponent();
 
-            TempInvoice = new Invoice(ClientMain.ActualCashier);
+            TempInvoice = new Invoice(Main.ActualCashier);
             ActualCheckout = checkout;
 
             var tempList =
@@ -222,6 +222,13 @@ namespace CaisseDesktop.Graphics.Common
             border.Child = panel;
 
             return border;
+        }
+
+        private void TestPrint_OnClick(object sender, RoutedEventArgs e)
+        {
+            var receipt = Main.ReceiptTicket.PrintWith(null);
+
+            Main.TicketPrinter.Print(new List<ITicket>{receipt});
         }
     }
 }
