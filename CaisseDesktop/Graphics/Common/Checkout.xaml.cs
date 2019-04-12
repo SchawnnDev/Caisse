@@ -262,6 +262,7 @@ namespace CaisseDesktop.Graphics.Common
         {
             var receipt = Main.ReceiptTicket.PrintWith(new Invoice(Main.ActualCashier)
             {
+                GivenMoney = 50,
                 Operations = new List<SaveableOperation>
                 {
                     new SaveableOperation

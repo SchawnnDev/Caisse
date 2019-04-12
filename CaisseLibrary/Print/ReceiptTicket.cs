@@ -69,7 +69,8 @@ namespace CaisseLibrary.Print
 
             printer.PrintNormal(PrinterStation.Receipt, "\u001b|100uF");
 
-            PrintMinimized(printer, CENTER + "CAISSIER : 161 - " + DateTime.Now.ToString("dd/MM/yy HH:mm:ss") + NEW_LINE);
+            PrintMinimized(printer,
+                CENTER + "CAISSIER : 161 - " + DateTime.Now.ToString("dd/MM/yy HH:mm:ss") + NEW_LINE);
 
             /*
              *  Num facture
@@ -85,7 +86,7 @@ namespace CaisseLibrary.Print
 
             printer.PrintNormal(PrinterStation.Receipt, "\u001b|100uF");
 
-            PrintMinimized(printer,CENTER + SEPARATOR + NEW_LINE);
+            PrintMinimized(printer, CENTER + SEPARATOR + NEW_LINE);
 
             /*
              *  Items
@@ -95,62 +96,56 @@ namespace CaisseLibrary.Print
 
             foreach (var operation in Invoice.Operations)
             {
-                printer.PrintNormal(PrinterStation.Receipt, MakePrintString(printer.RecLineChars,$"{operation.Amount} {operation.Item.Name.ToUpper(Thread.CurrentThread.CurrentCulture)}", $"{(operation.Item.Price * operation.Amount)} €") + NEW_LINE);
+                printer.PrintNormal(PrinterStation.Receipt,
+                    MakePrintString(printer.RecLineChars,
+                        $"{operation.Amount} {operation.Item.Name.ToUpper(Thread.CurrentThread.CurrentCulture)}",
+                        $"{(operation.Item.Price * operation.Amount):F} €") + NEW_LINE);
             }
-
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
 
             /*
              *  Total
              */
-            const string ESC = "\u001B";
-            const string GS = "\u001D";
-            const string InitializePrinter = ESC + "@";
-            const string BoldOn = ESC + "E" + "\u0001";
-            const string BoldOff = ESC + "E" + "\0";
-            const string DoubleOn = GS + "!" + "\u0011";  // 2x sized text (double-high + double-wide)
-            const string DoubleOff = GS + "!" + "\0";
 
-            printer.PrintNormal(PrinterStation.Receipt,   DoubleOn + "TOTAL : 2.00 €" + DoubleOff + NEW_LINE);
+            var totalPrice = Invoice.CalculateTotalPrice();
 
-            return;
-            string strPrintData;
-            double total = 0;
-            //Print the total cost
-            strPrintData = MakePrintString(printer.RecLineChars, "Tax excluded."
-                , "$" + total.ToString("F"));
+            printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
 
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|bC" + strPrintData + "\n");
+            printer.PrintNormal(PrinterStation.Receipt,
+                CENTER + "\u001b|bC" + "\u001b|2C" + $"TOTAL : {totalPrice:F} €" + NEW_LINE);
 
-            strPrintData = MakePrintString(printer.RecLineChars, "Tax 5.0%", "$"
-                                                                             + (total * 0.05)
-                                                                             .ToString("F"));
+            /*
+             *  Payment Method & cashback
+             */
 
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|uC" + strPrintData + "\n");
+            printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
 
-            strPrintData = MakePrintString(printer.RecLineChars / 2, "Total", "$"
-                                                                              + (total * 1.05)
-                                                                              .ToString("F"));
+            //PrintMinimized(printer, CENTER + $"{Invoice.PaymentMethod.Name.ToUpper()} : {Invoice.GivenMoney:F} EUR • RENDU : {Invoice.CalculateGivenBackChange():F}" + NEW_LINE);
+            printer.PrintNormal(PrinterStation.Receipt,CENTER + $"{Invoice.PaymentMethod.Name.ToUpper()} : {Invoice.GivenMoney:F} EUR • RENDU : {Invoice.CalculateGivenBackChange():F}" + NEW_LINE);
 
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|bC" + "\u001b|2C"
-                                                                    + strPrintData + "\n");
+            /*
+             * 2nd Separator
+             */
 
-            strPrintData = MakePrintString(printer.RecLineChars, "Customer's payment"
-                , "$200.00");
+            printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
 
-            printer.PrintNormal(PrinterStation.Receipt
-                , strPrintData + "\n");
+            PrintMinimized(printer, CENTER + SEPARATOR + NEW_LINE);
 
-            strPrintData = MakePrintString(printer.RecLineChars, "Change", "$"
-                                                                           + (200.00 - total * 1.05)
-                                                                           .ToString("F"));
+            /*
+             *  Tax
+             */
 
-            printer.PrintNormal(PrinterStation.Receipt, strPrintData + "\n");
+            printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
 
-            //Make 5mm speces
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|500uF");
+            PrintMinimized(printer, CENTER + $"HT : {totalPrice:F} • TVA 0% : 0.00 € • TTC : {totalPrice:F} €" + NEW_LINE); // TODO
+
+            /*
+             * Siret
+             */
+
+            printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
+
+            PrintMinimized(printer, CENTER + $"SIRET : {Config.Siret} • TVA: Non soumis" + NEW_LINE); // TODO
 
         }
-
     }
 }
