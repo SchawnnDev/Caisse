@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CaisseIO;
+using CaisseServer.Items;
 
 namespace CaisseServer
 {
@@ -14,6 +15,8 @@ namespace CaisseServer
 
         public DateTime Date { get; set; }
 
+        public decimal GivenMoney { get; set; }
+
         public SaveableCashier Cashier { get; set; }
 
         public SaveablePaymentMethod PaymentMethod { get; set; }
@@ -23,6 +26,7 @@ namespace CaisseServer
             "Invoice",
             Id,
             Date,
+            GivenMoney,
             Cashier.Export(),
             PaymentMethod.Export()
         };

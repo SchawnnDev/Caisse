@@ -10,6 +10,7 @@ namespace CaisseLibrary.Print
     {
         public PosPrinter PosPrinter { get; set; }
         private string PrinterName { get; set; }
+        public int ImageCount { get; set; }
 
         /**
          *  On part sur la logique, que le printer soit crée en fin de commande, quand on veut imprimer. Si aucune latence.
@@ -93,9 +94,8 @@ namespace CaisseLibrary.Print
 
         public void SetUpImages(List<ITicket> tickets)
         {
-            var i = 1;
             foreach (var ticket in tickets)
-                ticket.SetImage(PosPrinter, i++);
+                ticket.SetImage(PosPrinter, ++ImageCount);
         }
 
 
@@ -129,9 +129,10 @@ namespace CaisseLibrary.Print
                     PosPrinter.CutPaper(50);
                 }
             }
-            catch (PosControlException)
+            catch (PosControlException e)
             {
-                throw new TicketPrinterException("Impossible d'envoyer les données à l'imprimante.");
+                
+                throw new TicketPrinterException("Impossible d'envoyer les données à l'imprimante. " + e.StackTrace);
             }
 
             /*

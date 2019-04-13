@@ -19,11 +19,20 @@ namespace CaisseServer.Events
 
         public DateTime End { get; set; }
 
+        public string AddressName { get; set; }
+
         public string Address { get; set; }
+
+        public string PostalCodeCity { get; set; }
 
         public string Description { get; set; }
 
         public string ImageSrc { get; set; }
+
+        public string Telephone { get; set; }
+
+        public string Siret { get; set; }
+
 
         public void Import(object[] args)
         {

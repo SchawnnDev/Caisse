@@ -29,6 +29,7 @@ namespace CaisseServer
 
 		public DbSet<SaveableArticle> Articles { get; set; }
         public DbSet<SaveableArticleMaxSellNumber> ArticleMaxSellNumbers { get; set; }
+        public DbSet<SaveableConsign> Consigns { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -41,6 +41,8 @@ namespace CaisseLibrary.Print
 
             if (!bSetBitmapSuccess)
                 throw new TicketPrinterException($"Impossible de mettre en place l'image {path}, après 5 essais.");
+
+            ImageId = id;
         }
 
         public ITicket PrintWith(Invoice invoice)
@@ -51,8 +53,13 @@ namespace CaisseLibrary.Print
 
         public override void Print(PosPrinter printer)
         {
-            // Print here.
-            if (printer.CapRecBitmap) printer.PrintNormal(PrinterStation.Receipt, "\u001b|1B");
+            if (Invoice == null) return;
+
+            /*
+             * Logo
+             */
+
+            PrintBitmap(printer);
 
             /*
              *  Imprimer l'adresse
@@ -61,7 +68,7 @@ namespace CaisseLibrary.Print
             printer.PrintNormal(PrinterStation.Receipt, CENTER + Config.HostName + NEW_LINE);
             printer.PrintNormal(PrinterStation.Receipt, CENTER + Config.Address + NEW_LINE);
             printer.PrintNormal(PrinterStation.Receipt, CENTER + Config.PostalCodeCity + NEW_LINE);
-            printer.PrintNormal(PrinterStation.Receipt, CENTER + "TEL: " + Config.Telephone + NEW_LINE);
+            printer.PrintNormal(PrinterStation.Receipt, CENTER + "TEL: " + Config.GetTelephone + NEW_LINE);
 
             /*
              *  Caissier & date
@@ -70,7 +77,7 @@ namespace CaisseLibrary.Print
             printer.PrintNormal(PrinterStation.Receipt, "\u001b|100uF");
 
             PrintMinimized(printer,
-                CENTER + "CAISSIER : 161 - " + DateTime.Now.ToString("dd/MM/yy HH:mm:ss") + NEW_LINE);
+                CENTER + $"CAISSIER : {Invoice.SaveableInvoice.Cashier.Id} • " + Invoice.SaveableInvoice.Date.ToString("dd/MM/yy HH:mm:ss") + NEW_LINE);
 
             /*
              *  Num facture
@@ -78,7 +85,8 @@ namespace CaisseLibrary.Print
 
             printer.PrintNormal(PrinterStation.Receipt, "\u001b|100uF");
 
-            printer.PrintNormal(PrinterStation.Receipt, BOLD + CENTER + "FACTURE N° : 14808" + NEW_LINE);
+            printer.PrintNormal(PrinterStation.Receipt,
+                BOLD + CENTER + $"FACTURE N° : {Invoice.SaveableInvoice.Id}" + NEW_LINE);
 
             /*
              * 1. Separator
@@ -98,8 +106,16 @@ namespace CaisseLibrary.Print
             {
                 printer.PrintNormal(PrinterStation.Receipt,
                     MakePrintString(printer.RecLineChars,
-                        $"{operation.Amount} {operation.Item.Name.ToUpper(Thread.CurrentThread.CurrentCulture)}",
+                        $"{operation.Amount} x {operation.Item.Name.ToUpper(Thread.CurrentThread.CurrentCulture)}",
                         $"{(operation.Item.Price * operation.Amount):F} €") + NEW_LINE);
+            }
+
+            if (Invoice.FinalData.Consign != null && Invoice.FinalData.Consign.Amount != 0)
+            {
+                printer.PrintNormal(PrinterStation.Receipt,
+                    MakePrintString(printer.RecLineChars,
+                        $"{Invoice.FinalData.Consign.Amount} x CONSIGNE",
+                        $"{Invoice.FinalData.Consign.Amount:F} €") + NEW_LINE);
             }
 
             /*
@@ -108,7 +124,7 @@ namespace CaisseLibrary.Print
 
             var totalPrice = Invoice.CalculateTotalPrice();
 
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
+            printer.PrintNormal(PrinterStation.Receipt, "\u001b|250uF");
 
             printer.PrintNormal(PrinterStation.Receipt,
                 CENTER + "\u001b|bC" + "\u001b|2C" + $"TOTAL : {totalPrice:F} €" + NEW_LINE);
@@ -119,8 +135,11 @@ namespace CaisseLibrary.Print
 
             printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
 
-            //PrintMinimized(printer, CENTER + $"{Invoice.PaymentMethod.Name.ToUpper()} : {Invoice.GivenMoney:F} EUR • RENDU : {Invoice.CalculateGivenBackChange():F}" + NEW_LINE);
-            printer.PrintNormal(PrinterStation.Receipt,CENTER + $"{Invoice.PaymentMethod.Name.ToUpper()} : {Invoice.GivenMoney:F} EUR • RENDU : {Invoice.CalculateGivenBackChange():F}" + NEW_LINE);
+            PrintMinimized(printer,
+                CENTER +
+                $"{Invoice.SaveableInvoice.PaymentMethod.Name.ToUpper()} : {Invoice.GivenMoney:F} EUR • RENDU : {Invoice.CalculateGivenBackChange():F} €" +
+                NEW_LINE);
+            //printer.PrintNormal(PrinterStation.Receipt,CENTER + $"{Invoice.PaymentMethod.Name.ToUpper()} : {Invoice.GivenMoney:F} EUR • RENDU : {Invoice.CalculateGivenBackChange():F} €" + NEW_LINE);
 
             /*
              * 2nd Separator
@@ -136,16 +155,19 @@ namespace CaisseLibrary.Print
 
             printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
 
-            PrintMinimized(printer, CENTER + $"HT : {totalPrice:F} • TVA 0% : 0.00 € • TTC : {totalPrice:F} €" + NEW_LINE); // TODO
+            PrintMinimized(printer,
+                CENTER + $"HT : {totalPrice:F} EUR • TVA 0% : 0,00 € • TTC : {totalPrice:F} €" + NEW_LINE); // TODO
 
             /*
              * Siret
              */
 
-            printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
+            if (Config.SiretActive)
+            {
+                printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
 
-            PrintMinimized(printer, CENTER + $"SIRET : {Config.Siret} • TVA: Non soumis" + NEW_LINE); // TODO
-
+                PrintMinimized(printer, CENTER + $"SIRET : {Config.GetSiret} • TVA: Non soumis" + NEW_LINE); // TODO
+            }
         }
     }
 }

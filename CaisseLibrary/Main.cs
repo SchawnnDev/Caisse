@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using CaisseLibrary.Concrete.Invoices;
 using CaisseLibrary.IO;
 using CaisseLibrary.Print;
 using CaisseServer;
@@ -11,6 +13,7 @@ namespace CaisseLibrary
 {
     public class Main
     {
+        public static SaveablePaymentMethod LiquidPaymentMethod { get; set; }
         public static SaveableEvent ActualEvent { get; set; }
         public static Printer TicketPrinter { get; set; }
         public static BitmapManager BitmapManager { get; set; }
@@ -19,6 +22,8 @@ namespace CaisseLibrary
         public static SaveableCashier ActualCashier { get; set; }
         private static bool SessionOpen { get; set; }
         public static ReceiptTicket ReceiptTicket { get; set; }
+        public static List<ArticleTicket> ArticleTickets { get; set; }
+        public static Invoice ActualInvoice { get; set; }
 
         public static void Start()
         {
@@ -27,10 +32,9 @@ namespace CaisseLibrary
 
         public static void ConfigureCheckout(string printerName)
         {
-            ReceiptTicket = new ReceiptTicket(new TicketConfig(ActualEvent.Name, ActualEvent.Address, "67560 ROSHEIM",
-                "+33788490372",
-                "000111000555544"));
+            ReceiptTicket = new ReceiptTicket(new TicketConfig(ActualEvent.Name, ActualEvent.Address, ActualEvent.PostalCodeCity, ActualEvent.Telephone, ActualEvent.Siret));
             BitmapManager = new BitmapManager(ActualEvent);
+            ArticleTickets = new List<ArticleTicket>();
             TicketPrinter = new Printer(printerName);
             TicketPrinter.SetUp();
 
@@ -38,13 +42,56 @@ namespace CaisseLibrary
             {
                 Articles = db.Articles.Where(t => t.Type.Id == ActualCheckout.CheckoutType.Id).OrderBy(t => t.Position)
                     .ToList();
+
+                if (db.PaymentMethods.Any())
+                {
+                    LiquidPaymentMethod = db.PaymentMethods.Include(t=>t.Event).Single();
+                }
+                else
+                {
+                    var paymentMethod = new SaveablePaymentMethod
+                    {
+                        Event = ActualEvent,
+                        MinFee = 0,
+                        Name = "Espèces",
+                        Type = "Liquid"
+                    };
+                    db.Events.Attach(ActualEvent);
+                    db.PaymentMethods.Add(paymentMethod);
+                    db.SaveChanges();
+                    LiquidPaymentMethod = paymentMethod;
+                }
+
             }
 
             BitmapManager.Init(Articles);
 
             BitmapManager.ConvertEventLogo();
 
-            TicketPrinter.SetUpImages(new List<ITicket> { ReceiptTicket });
+            /*
+             *  Setup printer images
+             */
+
+            var imagesToSetUp = new List<ITicket>() {ReceiptTicket};
+
+            foreach (var article in Articles)
+            {
+                var articleTicket = new ArticleTicket(article);
+                ArticleTickets.Add(articleTicket);
+                imagesToSetUp.Add(articleTicket);
+            }
+
+            TicketPrinter.SetUpImages(imagesToSetUp);
+
+            // new invoice
+
+            NewInvoice();
+
+        }
+
+        public static void NewInvoice()
+        {
+            ActualInvoice = new Invoice();
         }
 
         public static void Reconfigure(string printerName)
@@ -52,6 +99,7 @@ namespace CaisseLibrary
             TicketPrinter?.Close();
             BitmapManager = null;
             TicketPrinter = null;
+            ArticleTickets = null;
             ReceiptTicket = null;
             ConfigureCheckout(printerName);
         }
@@ -73,6 +121,17 @@ namespace CaisseLibrary
             }
         }
 
+        public static ArticleTicket GetArticleTicket(SaveableArticle article)
+        {
+            foreach (var ticket in ArticleTickets)
+            {
+                if (ticket.Article == null || ticket.Article.Id != article.Id) continue;
+                return ticket;
+            }
+
+            return null;
+        }
+
         public static SaveableCashier Login(string login)
         {
             if (login.Length == 0 || SessionOpen) return null;
@@ -84,10 +143,22 @@ namespace CaisseLibrary
                 cashier = db.Cashiers.Any(t => t.Checkout.Id == ActualCheckout.Id && t.Login.Equals(login))
                     ? db.Cashiers.FirstOrDefault(t => t.Checkout.Id == ActualCheckout.Id && t.Login.Equals(login))
                     : null;
+
+                if (cashier != null)
+                {
+                    db.Cashiers.Attach(cashier);
+                    cashier.WasHere = true;
+                    cashier.LastActivity = DateTime.Now;
+                    db.Entry(cashier).State = EntityState.Modified;
+                    db.SaveChanges();
+                    
+                    SessionOpen = true;
+                }
+
+
             }
 
-            if (cashier != null)
-                SessionOpen = true;
+
 
             return cashier;
         }

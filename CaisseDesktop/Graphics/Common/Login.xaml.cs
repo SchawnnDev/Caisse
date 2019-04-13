@@ -198,6 +198,7 @@ namespace CaisseDesktop.Graphics.Common
                     return;
                 }
 
+                Main.ActualCashier = cashier;
                 new Checkout(Main.ActualCheckout).Show();
                 Close();
 

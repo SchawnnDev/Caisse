@@ -2,15 +2,24 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CaisseDesktop.Utils;
 using CaisseLibrary;
 using CaisseLibrary.Concrete.Invoices;
+using CaisseLibrary.Exceptions;
 using CaisseLibrary.Print;
 using CaisseServer;
 using CaisseServer.Items;
+using Button = System.Windows.Controls.Button;
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using Label = System.Windows.Controls.Label;
+using Orientation = System.Windows.Controls.Orientation;
+using TextBox = System.Windows.Controls.TextBox;
 
 namespace CaisseDesktop.Graphics.Common
 {
@@ -19,77 +28,18 @@ namespace CaisseDesktop.Graphics.Common
     /// </summary>
     public partial class Checkout
     {
-        public Invoice TempInvoice { get; set; }
         private SaveableCheckout ActualCheckout { get; set; }
+        private List<TextBox> TextBoxes { get; set; }
 
         public Checkout(SaveableCheckout checkout)
         {
             InitializeComponent();
-
-            TempInvoice = new Invoice(Main.ActualCashier);
+            TextBoxes = new List<TextBox>();
             ActualCheckout = checkout;
-
-            var tempList =
-                new List<SaveableArticle>
-                {
-                    new SaveableArticle
-                    {
-                        Name = "Bananes",
-                        Price = 1.50M,
-                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                    },
-                    new SaveableArticle
-                    {
-                        Name = "Cacao",
-                        Price = 1.50M,
-                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                    },
-                    new SaveableArticle
-                    {
-                        Name = "Café",
-                        Price = 1.50M,
-                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                    },
-                    new SaveableArticle
-                    {
-                        Name = "Chocolat chaud",
-                        Price = 1M,
-                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                    },
-                    new SaveableArticle
-                    {
-                        Name = "Pommes",
-                        Price = 1.8M,
-                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                    },
-                    new SaveableArticle
-                    {
-                        Name = "Vin",
-                        Price = 100.8M,
-                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                    },
-                    new SaveableArticle
-                    {
-                        Name = "Patate",
-                        Price = 1.8M,
-                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                    },
-                    new SaveableArticle
-                    {
-                        Name = "Poms",
-                        Price = 1.8M,
-                        ImageSrc = "pack://application:,,,/CaisseDesktop;component/Resources/Images/logo_brique.png"
-                    }
-                };
+            ConsignTextBox.DataContext = 0;
 
             Loaded += (sender, args) =>
             {
-                if (checkout == null)
-                {
-                    CreateItemGrid(tempList);
-                    return;
-                }
-
 
                 if (Main.Articles.Count > 0)
                 {
@@ -137,7 +87,7 @@ namespace CaisseDesktop.Graphics.Common
         {
             var border = new Border
             {
-                BorderThickness = new Thickness(1.0),
+                BorderThickness = new Thickness(2.0),
                 BorderBrush = Brushes.DimGray,
                 Margin = new Thickness(40.0)
 
@@ -155,7 +105,7 @@ namespace CaisseDesktop.Graphics.Common
                 FontSize = 20.0,
                 Content = item.Name,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                Foreground = Brushes.White
+                Foreground = Brushes.LightSlateGray
             };
 
             var priceLabel = new Label
@@ -163,7 +113,7 @@ namespace CaisseDesktop.Graphics.Common
                 FontSize = 10.0,
                 Content = $"{item.Price} €",
                 HorizontalAlignment = HorizontalAlignment.Center,
-                Foreground = Brushes.White
+                Foreground = Brushes.LightSlateGray
             };
 
             var img = new Image
@@ -203,18 +153,23 @@ namespace CaisseDesktop.Graphics.Common
             var minusBtn = new Button
             {
                 Content = "-",
+                IsEnabled = false
             };
 
             var textBox = new TextBox
             {
                 Text = "0",
+                DataContext = 0,
                 Padding = new Thickness(1.0),
                 MinWidth = 30.0,
-                Foreground = Brushes.White,
+                Foreground = Brushes.LightSlateGray,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
-                BorderBrush = Brushes.White,
+                BorderBrush = Brushes.LightSlateGray,
                 BorderThickness = new Thickness(2.0),
             };
+
+            // ajout pour reset
+            TextBoxes.Add(textBox);
 
             var plusBtn = new Button
             {
@@ -223,17 +178,43 @@ namespace CaisseDesktop.Graphics.Common
 
             minusBtn.Click += (sender, args) =>
             {
-                var nb = Math.Max(0, int.TryParse(textBox.Text, out var actualValue) ? actualValue - 1 : 0);
-                textBox.Text = nb
-                    .ToString();
-                TempInvoice.RemoveBuyableItem(item, 1);
+                var context = (int) textBox.DataContext;
+
+                if (context == 1)
+                {
+                    textBox.DataContext = 0;
+                    textBox.Text = "0";
+                    minusBtn.IsEnabled = false;
+                    Main.ActualInvoice.SetArticleCount(item, 0);
+                } else if (context > 1)
+                {
+                    textBox.DataContext = context - 1;
+                    textBox.Text = $"{context - 1}";
+                    Main.ActualInvoice.SetArticleCount(item, context - 1);
+                }
+
+                if (item.NeedsCup)
+                    UpdateConsign((int)ConsignTextBox.DataContext - 1);
+
+                UpdateLabels();
+
             };
 
             plusBtn.Click += (sender, args) =>
             {
-                var nb = int.TryParse(textBox.Text, out var actualValue) ? actualValue + 1 : 0;
-                textBox.Text = nb.ToString();
-                TempInvoice.AddBuyableItem(item, 1);
+                var context = (int)textBox.DataContext;
+                textBox.DataContext = context + 1;
+                textBox.Text = $"{context + 1}";
+                Main.ActualInvoice.SetArticleCount(item,context + 1);
+
+                if (context == 0)
+                    minusBtn.IsEnabled = true;
+
+                if (item.NeedsCup)
+                    UpdateConsign((int)ConsignTextBox.DataContext + 1);
+
+                UpdateLabels();
+
             };
 
             stackPanel.Children.Add(minusBtn);
@@ -242,8 +223,8 @@ namespace CaisseDesktop.Graphics.Common
 
             var remainingPanel = new Label
             {
-                Content = "100 restants",
-                Foreground = Brushes.White,
+                Content = $"{item.MaxSellNumberPerDay} restants",
+                Foreground = Brushes.LightSlateGray,
                 HorizontalAlignment = HorizontalAlignment.Center
             };
 
@@ -258,35 +239,65 @@ namespace CaisseDesktop.Graphics.Common
             return border;
         }
 
-        private void TestPrint_OnClick(object sender, RoutedEventArgs e)
+        public void UpdateConsign(int count)
         {
-            var receipt = Main.ReceiptTicket.PrintWith(new Invoice(Main.ActualCashier)
-            {
-                GivenMoney = 50,
-                Operations = new List<SaveableOperation>
-                {
-                    new SaveableOperation
-                    {
-                        Amount = 2,
-                        Item = new SaveableArticle
-                        {
-                            Price = 2,
-                            Name = "Crèpe"
-                        }
-                    },
-                    new SaveableOperation
-                    {
-                        Amount = 1,
-                        Item = new SaveableArticle
-                        {
-                            Price = 10,
-                            Name = "Pizza"
-                        }
-                    }
-                }
-            });
+            count = Math.Max(count, 0);
 
-            Main.TicketPrinter.Print(new List<ITicket> {receipt});
+            ConsignTextBox.Text = count.ToString();
+            ConsignTextBox.DataContext = count;
+            Main.ActualInvoice.Consign.Amount = count;
+            ConsignMinus.IsEnabled = count != 0;
+        }
+
+        private void SelectPaymentMethod_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (!Main.ActualInvoice.IsSomething())
+            {
+                SystemSounds.Beep.Play();
+                return;
+            }
+
+            new SelectPaymentMethod(this).ShowDialog();
+        }
+
+        public void OpenLoading(bool receiptTicket)
+        {
+            new Loading(this, receiptTicket).ShowDialog();
+        }
+
+        public void NewInvoice()
+        {
+            Main.NewInvoice();
+
+            foreach (var box in TextBoxes)
+            {
+                box.Text = "0";
+                box.DataContext = 0;
+            }
+
+            ConsignTextBox.DataContext = 0;
+            ConsignTextBox.Text = "0";
+
+            UpdateLabels();
+        }
+
+        public void UpdateLabels()
+        {
+            TotalArticlesLabel.Content = $"Total articles : {Main.ActualInvoice.CalculateTotalArticlesPrice():F} €";
+            TotalConsignsLabel.Content = $"Total consignes : {Main.ActualInvoice.Consign.Amount:F} €";
+            TotalLabel.Content = $"Total général : {Main.ActualInvoice.CalculateTotalPrice():F} €";
+        }
+
+        private void ConsignPlus_OnClick(object sender, RoutedEventArgs e)
+        {
+            UpdateConsign((int)ConsignTextBox.DataContext + 1);
+            UpdateLabels();
+        }
+
+        private void ConsignMinus_OnClick(object sender, RoutedEventArgs e)
+        {
+            UpdateConsign((int)ConsignTextBox.DataContext - 1);
+            UpdateLabels();
         }
     }
 }

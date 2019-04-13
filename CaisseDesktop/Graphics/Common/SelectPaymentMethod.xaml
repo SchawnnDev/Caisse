@@ -1,0 +1,109 @@
+﻿<Window x:Class="CaisseDesktop.Graphics.Common.SelectPaymentMethod"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CaisseDesktop.Graphics.Common"
+        mc:Ignorable="d"
+        Title="SelectPaymentMethod" Height="500" Width="800" ResizeMode="NoResize" WindowStyle="None"
+        WindowStartupLocation="CenterOwner">
+    <Border BorderThickness="2" BorderBrush="DarkSlateGray">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MaxWidth="140" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+
+            <Border Grid.Column="0" BorderBrush="DarkSlateGray" BorderThickness="2">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button x:Name="MoneyButton" Content="Espèces" Margin="5" MinHeight="50" />
+                    <Button x:Name="BankCardButton" Content="Carte bancaire" Margin="5" MinHeight="50"
+                            IsEnabled="False" />
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Column="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition MaxHeight="150" />
+                    <RowDefinition MinHeight="200" />
+                    <RowDefinition MaxHeight="100" />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Margin="10" BorderBrush="DarkSlateGray" BorderThickness="2"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label x:Name="MoneyToPayLabel" Content="A payer : 0.00 €" FontSize="20" Foreground="LightSlateGray"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                        <Label x:Name="GivenMoneyLabel" Grid.Row="1" Content="Reçu : 0.00 €" FontSize="20"
+                               Foreground="LightSlateGray"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                        <Label x:Name="MoneyGiveBackLabel" Grid.Row="2" Content="A rendre : 0.00 €" FontSize="20" Foreground="LightSlateGray"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+
+                    </Grid>
+
+                </Border>
+
+                <Border Grid.Row="1" BorderThickness="2" BorderBrush="DarkSlateGray" HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                    <WrapPanel Orientation="Horizontal">
+                        <Image Source="../../Resources/Images/Liquide/100.jpg" Height="70" Width="120" Cursor="Hand"
+                               Margin="10" DataContext="100" MouseLeftButtonDown="Money_OnMouseLeftButtonDown" />
+
+                        <Image Source="../../Resources/Images/Liquide/50.jpg" Height="70" Width="120" Cursor="Hand"
+                               Margin="10" DataContext="50" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
+
+                        <Image Source="../../Resources/Images/Liquide/20.jpg" Height="70" Width="120" Cursor="Hand"
+                               Margin="10" DataContext="20" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
+
+                        <Image Source="../../Resources/Images/Liquide/10.jpg" Height="70" Width="120" Cursor="Hand"
+                               Margin="10" DataContext="10" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
+
+                        <Image Source="../../Resources/Images/Liquide/5.jpg" Height="70" Width="120" Cursor="Hand"
+                               Margin="10"  DataContext="5" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
+
+                        <Image Source="../../Resources/Images/Liquide/2.jpg" Height="50" Width="50" Cursor="Hand"
+                               Margin="10"  DataContext="2" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
+
+                        <Image Source="../../Resources/Images/Liquide/1.jpg" Height="50" Width="50" Cursor="Hand"
+                               Margin="10"  DataContext="1" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
+
+                        <Image Source="../../Resources/Images/Liquide/050.jpg" Height="50" Width="50" Cursor="Hand"
+                               Margin="10"  DataContext="0.5" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
+
+                        <Border BorderThickness="2" BorderBrush="DarkSlateGray" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Margin="10">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="CustomNumber" Text="0" TextAlignment="Center" MinWidth="40" />
+                                <Button Content="Ok" Height="auto" Click="CustomAmount_OnClick" />
+                            </StackPanel>
+                        </Border>
+
+                        <Button Content="Clear" Height="auto" Margin="10" MaxHeight="50" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Click="Clear_OnClick" />
+
+                    </WrapPanel>
+                </Border>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Button Content="Valider (avec reçu)" MinHeight="50" Click="ValidWithReceipt_OnClick" />
+                    <Button Content="Valider (sans reçu)" MinHeight="50" Margin="50 0 0 0" Click="ValidWithoutReceipt_OnClick" />
+                    <Button Content="Annuler" MinHeight="50" Margin="50 0 0 0" Click="Cancel_OnClick"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

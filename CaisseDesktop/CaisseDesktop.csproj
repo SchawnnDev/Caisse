@@ -199,11 +199,17 @@
     <Compile Include="Graphics\Common\Checkout.xaml.cs">
       <DependentUpon>Checkout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Common\Loading.xaml.cs">
+      <DependentUpon>Loading.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Common\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Common\Parameters.xaml.cs">
       <DependentUpon>Parameters.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\Common\SelectPaymentMethod.xaml.cs">
+      <DependentUpon>SelectPaymentMethod.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Connection.xaml.cs">
       <DependentUpon>Connection.xaml</DependentUpon>
@@ -319,11 +325,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Graphics\Common\Loading.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Graphics\Common\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Common\Parameters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Common\SelectPaymentMethod.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -386,6 +400,14 @@
     <Content Include="Resources\Images\food.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Images\Liquide\10.jpg" />
+    <Resource Include="Resources\Images\Liquide\100.jpg" />
+    <Resource Include="Resources\Images\Liquide\20.jpg" />
+    <Resource Include="Resources\Images\Liquide\5.jpg" />
+    <Resource Include="Resources\Images\Liquide\50.jpg" />
+    <Resource Include="Resources\Images\Liquide\1.jpg" />
+    <Resource Include="Resources\Images\Liquide\2.jpg" />
+    <Resource Include="Resources\Images\Liquide\050.jpg" />
     <Content Include="Resources\Images\logo-receipt.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

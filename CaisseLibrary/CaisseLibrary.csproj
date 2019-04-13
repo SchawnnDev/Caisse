@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Concrete\Invoices\FinalData.cs" />
     <Compile Include="Concrete\Invoices\Invoice.cs" />
     <Compile Include="Concrete\Owners\CashierPassword.cs" />
     <Compile Include="Concrete\Owners\OwnerPassword.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="IO\BitmapManager.cs" />
     <Compile Include="IO\ConfigFile.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Print\ArticleTicket.cs" />
     <Compile Include="Print\ReceiptTicket.cs" />
     <Compile Include="Print\TicketConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

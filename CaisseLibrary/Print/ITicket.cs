@@ -13,7 +13,8 @@ namespace CaisseLibrary.Print
         public const string NEW_LINE = "\n";
         public const string BOLD = "\u001b|bC";
         public const string CENTER = "\u001b|cA";
-        public const string SEPARATOR = "---------------------------------------------";
+        public const string SEPARATOR = "-------------------------------------------------";
+        public int ImageId { get; set; }
         public abstract void SetImage(PosPrinter printer, int id);
         public abstract void Print(PosPrinter printer);
 
@@ -60,7 +61,7 @@ namespace CaisseLibrary.Print
 
         public void PrintMinimized(PosPrinter printer, string str)
         {
-            var recLineChars = new int[MAX_LINE_WIDTHS] { 0, 0 };
+            var recLineChars = new int[MAX_LINE_WIDTHS] {0, 0};
             var lRecLineCharsCount = GetRecLineChars(printer, ref recLineChars);
             if (lRecLineCharsCount >= 2)
             {
@@ -72,6 +73,12 @@ namespace CaisseLibrary.Print
             {
                 printer.PrintNormal(PrinterStation.Receipt, str);
             }
+        }
+
+        public void PrintBitmap(PosPrinter printer)
+        {
+            if (!printer.CapRecBitmap) return;
+            printer.PrintNormal(PrinterStation.Receipt, $"\u001b|{ImageId}B");
         }
     }
 }
