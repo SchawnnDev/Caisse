@@ -39,6 +39,10 @@
 
                 </MenuItem>
 
+                <MenuItem Header="_Génerer compte rendu" Click="CompteRendu_OnClick">
+
+                </MenuItem>
+
             </Menu>
 
         </DockPanel>

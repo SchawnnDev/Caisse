@@ -81,7 +81,7 @@
                                Margin="10"  DataContext="1" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
 
                         <Image Source="../../Resources/Images/Liquide/050.jpg" Height="50" Width="50" Cursor="Hand"
-                               Margin="10"  DataContext="0.5" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
+                               Margin="10"  DataContext="0.5" MouseLeftButtonDown="Money50_OnMouseLeftButtonDown"/>
 
                         <Border BorderThickness="2" BorderBrush="DarkSlateGray" HorizontalAlignment="Center"
                                 VerticalAlignment="Center" Margin="10">

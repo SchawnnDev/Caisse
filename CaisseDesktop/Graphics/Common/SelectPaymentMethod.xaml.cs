@@ -89,8 +89,18 @@ namespace CaisseDesktop.Graphics.Common
             UpdateLabels();
         }
 
-        // todo avoid insert from letters and write...
-        private void CustomAmount_OnClick(object sender, RoutedEventArgs e)
+	    private void Money50_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+	    {
+		    if (!(sender is Image img)) return;
+		    if (!(img.DataContext is string value)) return;
+
+		    Main.ActualInvoice.GivenMoney = Math.Min(Main.ActualInvoice.GivenMoney + 0.5m, 10000);
+		    // todo max configurable => 10.000 € max value
+		    UpdateLabels();
+	    }
+
+		// todo avoid insert from letters and write...
+		private void CustomAmount_OnClick(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(CustomNumber.Text) || CustomNumber.Text.Equals("0")) return;
 
