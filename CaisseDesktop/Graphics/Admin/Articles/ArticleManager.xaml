@@ -83,7 +83,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Border BorderBrush="DarkSlateBlue" BorderThickness="2" Grid.ColumnSpan="2" Margin="20">
-                    <Image x:Name="ArticleImage" Source="/CaisseDesktop;component/Resources/Images/ticket.png"
+                    <Image x:Name="ArticleImage" Source="/CaisseDesktop;component/Resources/Images/ticket.jpg"
                            Margin="2" />
                 </Border>
 

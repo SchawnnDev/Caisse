@@ -104,6 +104,7 @@ namespace CaisseLibrary.Print
 
             foreach (var operation in Invoice.Operations)
             {
+	            if (operation.Amount == 0) continue;
                 printer.PrintNormal(PrinterStation.Receipt,
                     MakePrintString(printer.RecLineChars,
                         $"{operation.Amount} x {operation.Item.Name.ToUpper(Thread.CurrentThread.CurrentCulture)}",

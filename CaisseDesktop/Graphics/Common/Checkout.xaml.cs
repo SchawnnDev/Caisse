@@ -58,20 +58,8 @@ namespace CaisseDesktop.Graphics.Common
                 ItemPanel.Children.Add(CreateItem(item));
         }
 
-        private string GetDefaultImageName(string typeName)
+        private string GetDefaultImageName(int type)
         {
-            var type = 0;
-
-            switch (typeName)
-            {
-                case "Alimentation":
-                    type = 1;
-                    break;
-                case "Consignes":
-                    type = 2;
-                    break;
-            }
-
             switch (type)
             {
                 case 1:

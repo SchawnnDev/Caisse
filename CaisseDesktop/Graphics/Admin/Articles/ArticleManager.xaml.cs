@@ -62,7 +62,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             Loaded += (sender, args) =>
             {
                 Start = false;
-                SwitchButtons(GetIndex(Article.ItemType));
+                SwitchButtons(Article.ItemType);
             };
         }
 
@@ -124,8 +124,9 @@ namespace CaisseDesktop.Graphics.Admin.Articles
         public void Fill()
         {
             ArticleName.Text = Article.Name;
-            ArticleType.SelectedIndex = GetIndex(Article.ItemType);
-            ArticlePrice.Text = Article.Price.ToString(CultureInfo.CurrentCulture);
+	        ArticleType.SelectedIndex = Article.ItemType;
+	        ArticleNeedsCup.IsChecked = Article.NeedsCup;
+			ArticlePrice.Text = Article.Price.ToString(CultureInfo.CurrentCulture);
             ArticleMaxSellPerDay.Text = Article.MaxSellNumberPerDay.ToString();
             ArticleActivated.IsChecked = Article.Active;
             try
@@ -211,44 +212,15 @@ namespace CaisseDesktop.Graphics.Admin.Articles
         {
             if (Start || e.AddedItems.Count != 1 || !(e.AddedItems[0] is ComboBoxItem item)) return;
 
-            var id = GetIndex((string) item.Content);
+	        var id = Article.ItemType = ArticleType.SelectedIndex;
 
-            if (Article == null || string.IsNullOrWhiteSpace(Article.ImageSrc) || EndsWith(Article.ImageSrc))
+	        SwitchButtons(id);
+
+			if (Article == null || string.IsNullOrWhiteSpace(Article.ImageSrc) || EndsWith(Article.ImageSrc))
             {
                 EditImage(id); // change image when select other type
-                SwitchButtons(id);
-            }
-        }
-
-        private string GetType(int index)
-        {
-            var name = "Tickets";
-            switch (index)
-            {
-                case 1:
-                    name = "Alimentation";
-                    break;
-                case 2:
-                    name = "Consignes";
-                    break;
             }
 
-            return name;
-        }
-
-        private int GetIndex(string name)
-        {
-            switch (name)
-            {
-                /*case "Tickets":
-                    return 0; */
-                case "Alimentation":
-                    return 1;
-                case "Consignes":
-                    return 2; 
-                default:
-                    return 0;
-            }
         }
 
         private bool EndsWith(string name)
@@ -439,7 +411,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             Article.Price = decimal.Parse(ArticlePrice.Text.Replace('.', ','));
             Article.MaxSellNumberPerDay = int.Parse(ArticleMaxSellPerDay.Text);
             Article.Color = System.Drawing.ColorTranslator.ToHtml(ArticleColor.SelectedColor.Value.Convert());
-            Article.ItemType = GetType(ArticleType.SelectedIndex);
+	        Article.ItemType = ArticleType.SelectedIndex;
 
             Task.Run(() => Save());
         }

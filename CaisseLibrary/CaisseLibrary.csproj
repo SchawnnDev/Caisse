@@ -57,6 +57,7 @@
     <Compile Include="Data\Cashier.cs" />
     <Compile Include="Data\Checkout.cs" />
     <Compile Include="Data\Permission.cs" />
+    <Compile Include="Enums\ArticleType.cs" />
     <Compile Include="Interfaces\IPassword.cs" />
     <Compile Include="IO\BitmapManager.cs" />
     <Compile Include="IO\ConfigFile.cs" />
@@ -70,9 +71,7 @@
     <Compile Include="Print\ITicket.cs" />
     <Compile Include="Print\Printer.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CaisseServer\CaisseServer.csproj">
       <Project>{6F76194B-A300-4A8C-B59A-83F65AD761BB}</Project>

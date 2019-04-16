@@ -26,7 +26,7 @@ namespace CaisseServer.Items
         //public bool Cup { get; set; }
 
         //public int ItemType { get; set; }
-        public string ItemType { get; set; }
+        public int ItemType { get; set; }
 
         public bool NeedsCup { get; set; }
 
@@ -50,7 +50,7 @@ namespace CaisseServer.Items
             Price = args[4] as decimal? ?? 0;
             Position = args[5] as int? ?? 0;
             Color = args[6] as string;
-            ItemType = args[7] as string;
+            ItemType = args[7] as int? ?? 0;
             NeedsCup = args[8] as bool? ?? false;
             Active = args[9] as bool? ?? false;
             NumberingTracking = args[10] as bool? ?? false;
