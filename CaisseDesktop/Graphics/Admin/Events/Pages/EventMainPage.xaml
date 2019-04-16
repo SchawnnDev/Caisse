@@ -5,23 +5,20 @@
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin"
                   xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                  xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                  xmlns:models="clr-namespace:CaisseDesktop.Models"
                   mc:Ignorable="d"
+                  d:DataContext="{d:DesignInstance Type=models:DayPickerModel, IsDesignTimeCreatable=False}"
                   d:DesignHeight="450" d:DesignWidth="800"
                   Title="Event Main CustomPage">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="120" />
             <ColumnDefinition />
-            <ColumnDefinition MaxWidth="120" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="30" />
-            <RowDefinition />
-            <RowDefinition MaxHeight="30" />
-        </Grid.RowDefinitions>
 
-        <GroupBox Header="Informations" Grid.Row="1" Grid.Column="1">
+        <GroupBox Header="Informations"  Grid.Column="0" Margin="5">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -37,16 +34,69 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <Label Content="Nom :" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"
+                <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center" Text="Nom de l'évenement:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
                 <TextBox x:Name="EventName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap"
                          VerticalAlignment="Center" Margin="10" MinHeight="25" />
 
                 <Label Content="Début :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <xctk:DateTimePicker x:Name="EventStart" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"
-                                     ShowButtonSpinner="False" Margin="10" MinHeight="25" TextAlignment="Left"
-                                     AutoCloseCalendar="True" />
+
+                <StackPanel Grid.Column="1" Grid.Row="1"
+                Orientation="Horizontal">
+                    <TextBlock
+                    Text="{Binding Start, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
+                    VerticalAlignment="Center"
+                    FontSize="24" />
+                    <Button
+                    Margin="8 0 0 0"
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                    materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
+                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler">
+                        <materialDesign:PackIcon Kind="ClockStart" />
+                        <Button.CommandParameter>
+                            <Grid Name="StartGrid"
+                              Margin="-1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                    Height="*" />
+                                    <RowDefinition
+                                    Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <StackPanel
+                                Grid.Row="0"
+                                Orientation="Horizontal">
+                                    <Calendar
+                                    x:Name="CombinedCalendar"
+                                    Language="fr-FR"
+                                    Margin="-1 -4 -1 0" />
+                                    <materialDesign:Clock
+                                    x:Name="CombinedClock"
+                                    DisplayAutomation="CycleWithSeconds"
+                                    Is24Hours="True" />
+                                </StackPanel>
+                                <StackPanel
+                                Grid.Row="1"
+                                Margin="8"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal">
+                                    <Button
+                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                    CommandParameter="0"
+                                    Style="{DynamicResource MaterialDesignFlatButton}">
+                                        ANNULER
+                                    </Button>
+                                    <Button
+                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                    CommandParameter="1"
+                                    Style="{DynamicResource MaterialDesignFlatButton}">
+                                        OK
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Button.CommandParameter>
+                    </Button>
+                </StackPanel>
 
                 <Label Content="Fin :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
@@ -71,6 +121,39 @@
                     <Label Content="Blocage :" FontWeight="Bold" HorizontalAlignment="Center" />
                     <CheckBox x:Name="Blocage" HorizontalAlignment="Center" Click="Blocage_OnClick" />
                 </StackPanel>
+
+            </Grid>
+        </GroupBox>
+
+
+        <!-- Organisation -->
+
+        <GroupBox Header="Organisateur"  Grid.Column="1" Margin="5">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MaxWidth="85" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center" Text="Nom:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"
+                       VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBox x:Name="OwnerName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
+
+                <Label Content="Adresse :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
+                       VerticalAlignment="Center" FontWeight="Bold" />
+                <TextBox x:Name="OwnerAddress" Grid.Column="1" Grid.Row="3" AcceptsReturn="True" TextWrapping="NoWrap"
+                         Margin="10" MinHeight="25" />
+
 
             </Grid>
         </GroupBox>
