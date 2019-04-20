@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using CaisseDesktop.Frontend.ViewModels;
+using CaisseDesktop.Frontend.Views;
 using ReactiveUI;
 using Splat;
 
@@ -15,9 +16,10 @@ namespace CaisseDesktop
 		public AppBootstrapper()
 		{
 			Locator.CurrentMutable.Register(() => new StartupViewModel());
-			Locator.CurrentMutable.Register(() => new SelectionViewModel());
+			Locator.CurrentMutable.Register(() => new SelectionViewModel()); // temp
 
-			Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
+			//Locator.CurrentMutable.Register(()=> new StartupView());
+			//Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
 		}
 	}
 }

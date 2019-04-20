@@ -26,7 +26,7 @@
             <RowDefinition/>
             <RowDefinition MaxHeight="10"/>
         </Grid.RowDefinitions>
-        <Image Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Source="Resources/Images/logo_brique.jpg" />
+        <Image Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Source="../../Resources/Images/logo_brique.jpg" />
         <TextBlock x:Name="StatusText" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"  Text="Chargement..." HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <ProgressBar Grid.Row="5" Grid.ColumnSpan="3" Grid.Column="0" Margin="10" IsIndeterminate="True" MinHeight="30"/>
     </Grid>
