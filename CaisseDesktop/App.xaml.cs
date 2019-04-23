@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CaisseDesktop.Frontend.Views;
+using CaisseLibrary;
 using Splat;
 
 namespace CaisseDesktop
@@ -13,12 +14,13 @@ namespace CaisseDesktop
 	    {
 		    base.OnStartup(e);
 		    
-		    Locator.Current.GetService<StartupView>().ShowDialog();
-		    Locator.Current.GetService<SelectionView>().Show();
+		//    Locator.Current.GetService<StartupView>().ShowDialog();
+		//    Locator.Current.GetService<SelectionView>().Show();
 	    }
 
 	    public App()
 	    {
+			CaisseLibrary.Main.Start();
 			Bootstrapper = new AppBootstrapper();
 	    }
 

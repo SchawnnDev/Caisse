@@ -196,22 +196,22 @@
                 <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center"  Text="N° et nom de la rue :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center"
                        VerticalAlignment="Center" FontWeight="Bold" />
                 <TextBox x:Name="OwnerAddress" Grid.Column="1" Grid.Row="1" AcceptsReturn="True" TextWrapping="NoWrap"
-                         Margin="10" MinHeight="25" />
+                         Margin="10" MinHeight="25" VerticalAlignment="Center" />
 
                 <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center"  Text="Code postal et ville :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center"
                            VerticalAlignment="Center" FontWeight="Bold" />
                 <TextBox x:Name="OwnerCity" Grid.Column="1" Grid.Row="2" AcceptsReturn="True" TextWrapping="NoWrap"
-                         Margin="10" MinHeight="25" />
+                         Margin="10" MinHeight="25" VerticalAlignment="Center" />
 
                 <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center"  Text="Téléphone :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center"
                            VerticalAlignment="Center" FontWeight="Bold" />
                 <TextBox x:Name="OwnerTelephone" Grid.Column="1" Grid.Row="3" AcceptsReturn="True" TextWrapping="NoWrap"
-                         Margin="10" MinHeight="25" Text="NC" />
+                         Margin="10" MinHeight="25" Text="NC" VerticalAlignment="Center" />
 
                 <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center"  Text="Siret :" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center"
                            VerticalAlignment="Center" FontWeight="Bold" />
                 <TextBox x:Name="OwnerSiret" Grid.Column="1" Grid.Row="4" AcceptsReturn="True" TextWrapping="NoWrap"
-                         Margin="10" MinHeight="25" Text="NC" />
+                         Margin="10" MinHeight="25" Text="NC" VerticalAlignment="Center" />
 
 
 
@@ -226,7 +226,7 @@
                 <CheckBox x:Name="Blocage" HorizontalAlignment="Center" Click="Blocage_OnClick" />
             </StackPanel>
             <Button x:Name="EventSave" Content="Enregistrer" FontWeight="Bold"
-                    Margin="20 20 20 20" Cursor="Hand" Click="Save_OnClick" MinWidth="200" />
+                    Margin="20 20 20 20" Cursor="Hand" Click="Save_OnClick" MinWidth="250" />
         </StackPanel>
 
     </Grid>

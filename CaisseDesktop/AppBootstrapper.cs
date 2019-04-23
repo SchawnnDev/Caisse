@@ -15,8 +15,8 @@ namespace CaisseDesktop
 	{
 		public AppBootstrapper()
 		{
-			Locator.CurrentMutable.Register(() => new StartupViewModel());
-			Locator.CurrentMutable.Register(() => new SelectionViewModel()); // temp
+			//Locator.CurrentMutable.Register(() => new StartupViewModel());
+			//Locator.CurrentMutable.Register(() => new SelectionViewModel()); // temp
 
 			//Locator.CurrentMutable.Register(()=> new StartupView());
 			//Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetExecutingAssembly());
