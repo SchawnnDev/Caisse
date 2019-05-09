@@ -247,6 +247,7 @@
     <Compile Include="Models\CheckoutTypeModel.cs" />
     <Compile Include="Models\DayPickerModel.cs" />
     <Compile Include="Models\ArticleModel.cs" />
+    <Compile Include="Models\EventMainPageModel.cs" />
     <Compile Include="Models\JourModel.cs" />
     <Compile Include="Models\MaxSellNumberModel.cs" />
     <Compile Include="Models\PaymentMethodModel.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Utils\OverrideCursor.cs" />
     <Compile Include="Utils\Parsers.cs" />
     <Compile Include="Utils\Validations.cs" />
+    <Compile Include="Utils\XamlExtensions\Converters\InverseBooleanConverter.cs" />
     <Page Include="Frontend\Views\SelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

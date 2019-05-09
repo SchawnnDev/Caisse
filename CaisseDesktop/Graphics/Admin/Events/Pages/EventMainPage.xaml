@@ -8,7 +8,7 @@
                   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                   xmlns:models="clr-namespace:CaisseDesktop.Models"
                   mc:Ignorable="d"
-                  d:DataContext="{d:DesignInstance Type=models:DayPickerModel, IsDesignTimeCreatable=False}"
+                  d:DataContext="{d:DesignInstance Type=models:EventMainPageModel, IsDesignTimeCreatable=False}"
                   d:DesignHeight="450" d:DesignWidth="800"
                   Title="Event Main CustomPage">
 
@@ -23,7 +23,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <GroupBox Header="Informations"  Grid.Column="0" Grid.Row="0" Margin="5">
+        <GroupBox Header="Informations"  Grid.Column="0" Grid.Row="0" Margin="15">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -39,8 +39,8 @@
 
                 <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center" Text="Nom de l'évenement:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="EventName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap"
-                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
+                <TextBox x:Name="EventName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap" Text="{Binding Name}"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" IsEnabled="{Binding Enabled}" />
 
                 <Label Content="Début :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
@@ -56,7 +56,8 @@
                     Margin="8 0 0 0"
                     Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                     materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
-                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler">
+                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler"
+                    IsEnabled="{Binding Enabled}">
                         <materialDesign:PackIcon Kind="ClockStart" />
                         <Button.CommandParameter>
                             <Grid Name="StartGrid"
@@ -108,7 +109,7 @@
                 <StackPanel Grid.Column="1" Grid.Row="2"
                 Orientation="Horizontal">
                     <TextBlock
-                    Text="{Binding Start, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
+                    Text="{Binding End, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
                     VerticalAlignment="Center"
                     FontSize="24" />
                     <Button
@@ -116,7 +117,8 @@
                     Margin="8 0 0 0"
                     Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                     materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
-                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler">
+                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler"
+                        IsEnabled="{Binding Enabled}">
                         <materialDesign:PackIcon Kind="ClockStart" />
                         <Button.CommandParameter>
                             <Grid Name="EndGrid"
@@ -165,7 +167,7 @@
                 <Label Content="Description :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
                 <TextBox x:Name="EventDescription" TextWrapping="NoWrap" AcceptsReturn="True" Grid.Column="1"
-                         Grid.Row="3" Margin="10" MinHeight="25" />
+                         Grid.Row="3" Margin="10" MinHeight="25" IsEnabled="{Binding Enabled}"/>
 
             </Grid>
         </GroupBox>
@@ -173,7 +175,7 @@
 
         <!-- Organisation -->
 
-        <GroupBox Header="Organisateur"  Grid.Column="1" Grid.Row="0" Margin="5">
+        <GroupBox Header="Organisateur"  Grid.Column="1" Grid.Row="0" Margin="15">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -190,28 +192,28 @@
 
                 <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center" Text="Nom:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="OwnerName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap"
-                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
+                <TextBox x:Name="OwnerName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap" Text="{Binding OwnerName}"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" IsEnabled="{Binding Enabled}" />
 
                 <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center"  Text="N° et nom de la rue :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="OwnerAddress" Grid.Column="1" Grid.Row="1" AcceptsReturn="True" TextWrapping="NoWrap"
-                         Margin="10" MinHeight="25" VerticalAlignment="Center" />
+                <TextBox x:Name="OwnerAddress" Grid.Column="1" Grid.Row="1" AcceptsReturn="True" TextWrapping="NoWrap" Text="{Binding OwnerAddress}"
+                         Margin="10" MinHeight="25" VerticalAlignment="Center" IsEnabled="{Binding Enabled}" />
 
                 <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center"  Text="Code postal et ville :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center"
                            VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="OwnerCity" Grid.Column="1" Grid.Row="2" AcceptsReturn="True" TextWrapping="NoWrap"
-                         Margin="10" MinHeight="25" VerticalAlignment="Center" />
+                <TextBox x:Name="OwnerCity" Grid.Column="1" Grid.Row="2" AcceptsReturn="True" TextWrapping="NoWrap" Text="{Binding OwnerPostalCodeCity}"
+                         Margin="10" MinHeight="25" VerticalAlignment="Center" IsEnabled="{Binding Enabled}" />
 
                 <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center"  Text="Téléphone :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center"
                            VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="OwnerTelephone" Grid.Column="1" Grid.Row="3" AcceptsReturn="True" TextWrapping="NoWrap"
-                         Margin="10" MinHeight="25" Text="NC" VerticalAlignment="Center" />
+                <TextBox x:Name="OwnerTelephone" Grid.Column="1" Grid.Row="3" AcceptsReturn="True" TextWrapping="NoWrap" Text="{Binding OwnerTelephone}"
+                         Margin="10" MinHeight="25" VerticalAlignment="Center" IsEnabled="{Binding Enabled}"/>
 
                 <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center"  Text="Siret :" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center"
                            VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="OwnerSiret" Grid.Column="1" Grid.Row="4" AcceptsReturn="True" TextWrapping="NoWrap"
-                         Margin="10" MinHeight="25" Text="NC" VerticalAlignment="Center" />
+                <TextBox x:Name="OwnerSiret" Grid.Column="1" Grid.Row="4" AcceptsReturn="True" TextWrapping="NoWrap" Text="{Binding OwnerSiret}"
+                         Margin="10" MinHeight="25" VerticalAlignment="Center" IsEnabled="{Binding Enabled}" />
 
 
 
@@ -223,7 +225,7 @@
 
             <StackPanel VerticalAlignment="Center">
                 <Label Content="Blocage :" FontWeight="Bold" HorizontalAlignment="Center" />
-                <CheckBox x:Name="Blocage" HorizontalAlignment="Center" Click="Blocage_OnClick" />
+                <CheckBox x:Name="Blocage" HorizontalAlignment="Center" IsChecked="{Binding Path=Enabled, Mode=TwoWay, Converter={StaticResource InverseBooleanConverter}}"/>
             </StackPanel>
             <Button x:Name="EventSave" Content="Enregistrer" FontWeight="Bold"
                     Margin="20 20 20 20" Cursor="Hand" Click="Save_OnClick" MinWidth="250" />
