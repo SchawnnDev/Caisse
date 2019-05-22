@@ -38,15 +38,6 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 				|| Check(EventDescription))
 				return;
 
-			if (ParentWindow.Evenement == null)
-				ParentWindow.Evenement = new SaveableEvent();
-
-			ParentWindow.Evenement.Name = EventName.Text;
-			ParentWindow.Evenement.Description = EventDescription.Text;
-			//ParentWindow.Evenement.Address = EventAddresse.Text;
-			// ParentWindow.Evenement.Start = EventStart.Value.GetValueOrDefault();
-			// ParentWindow.Evenement.End = EventEnd.Value.GetValueOrDefault();
-
 			Task.Run(() => Save());
 		}
 
