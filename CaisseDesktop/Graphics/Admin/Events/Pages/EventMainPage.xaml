@@ -106,8 +106,7 @@
                     <Button x:Name="EventEndButton" Margin="8 0 0 0"
                     Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                     materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
-                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler"
-                    IsEnabled="{Binding Enabled}">
+                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler">
                         <materialDesign:PackIcon Kind="ClockStart" />
                         
                         <Button.CommandParameter>

@@ -66,6 +66,8 @@
     <Compile Include="Print\ReceiptTicket.cs" />
     <Compile Include="Print\TicketConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="test\Question.cs" />
+    <Compile Include="Print\QuestionTicket.cs" />
     <Compile Include="Utils\DateTimeExtensions.cs" />
     <Compile Include="Exceptions\TicketPrinterException.cs" />
     <Compile Include="Print\ITicket.cs" />

@@ -19,7 +19,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
         {
             InitializeComponent();
 
-            Task.Run(() => Load());
+                Task.Run(() => Load());
         }
 
         private EvenementModel Model => DataContext as EvenementModel;
@@ -35,7 +35,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
             EventsGrid.Items.Refresh();
         }
 
-        private void Load()
+        public void Load()
         {
             Dispatcher.Invoke(() =>
             {

@@ -39,7 +39,8 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             IsBack = true;
             Close();
-            new EvenementBrowser().Show();
+            var browser = new EvenementBrowser();
+            browser.Show();
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
