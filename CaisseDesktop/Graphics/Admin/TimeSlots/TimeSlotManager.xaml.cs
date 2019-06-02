@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CaisseDesktop.Graphics.Admin.Cashiers;
 using CaisseDesktop.Graphics.Admin.Checkouts;
+using CaisseDesktop.Models;
+using CaisseDesktop.Models.Windows;
 using CaisseDesktop.Utils;
 using CaisseServer;
 using CaisseServer.Events;
@@ -29,33 +31,17 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
     {
 
         private CheckoutManager ParentWindow { get; set; }
-        private SaveableTimeSlot TimeSlot { get; set; }
-        private readonly DateTime Start;
-        private readonly DateTime End;
-        private bool New { get; }
         private bool Starting { get; set; } = true;
 
+	    private TimeSlotManagerModel Model => DataContext as TimeSlotManagerModel;
 
-        public TimeSlotManager(CheckoutManager parentWindow,SaveableTimeSlot timeSlot, SaveableDay day)
+		public TimeSlotManager(CheckoutManager parentWindow,SaveableTimeSlot timeSlot)
         {
             InitializeComponent();
             ParentWindow = parentWindow;
             Owner = parentWindow;
-            TimeSlot = timeSlot;
-            New = timeSlot == null;
-            Start = day.Start;
-            End = day.End;
 
-            if (New)
-            {
-                TimeSlot = new SaveableTimeSlot
-                {
-                    Checkout = parentWindow.Checkout,
-                    Day = day
-                };
-            }
-
-            Fill(); // Fill
+	        DataContext = new TimeSlotManagerModel(timeSlot);
 
             Loaded += (sender, args) => { Starting = false; };
         }

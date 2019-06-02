@@ -20,18 +20,11 @@ namespace CaisseDesktop.Graphics.Admin
 
         public abstract bool CanBack();
 
-        public bool Equals(CustomPage page)
-        {
-            return Equals(page?.CustomName);
-        }
+        public bool Equals(CustomPage page) => Equals(page?.CustomName);
 
-        public bool Equals(string name)
-        {
-            return name != null && CustomName.Equals(name);
-        }
+	    public bool Equals(string name) => name != null && CustomName.Equals(name);
 
-
-        public static bool Check(TimePicker picker, DateTime min, DateTime max)
+	    public static bool Check(TimePicker picker, DateTime min, DateTime max)
         {
             var date = picker.SelectedTime;
             if (date != null && date.Value.CompareTo(min) >= 0 && date.Value.CompareTo(max) <= 0) return false;

@@ -254,6 +254,7 @@
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\ResponsableModel.cs" />
     <Compile Include="Models\Windows\PaymentMethodManagerModel.cs" />
+    <Compile Include="Models\Windows\TimeSlotManagerModel.cs" />
     <Compile Include="SelectionWindow.xaml.cs">
       <DependentUpon>SelectionWindow.xaml</DependentUpon>
     </Compile>

@@ -32,7 +32,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
         private CheckoutManager ParentWindow { get; set; }
 
-        public CheckoutTimeTablePage(CheckoutManager parentWindow)
+		public CheckoutTimeTablePage(CheckoutManager parentWindow)
         {
             InitializeComponent();
             ParentWindow = parentWindow;
@@ -264,7 +264,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
         private void FillFromDb(TimeTableDay timeTableDay, SaveableDay day, bool set, CaisseServerContext db)
         {
-            var timeSlots = db.TimeSlots.Where(t => t.Day.Id == day.Id).Include(t => t.Cashier)
+            var timeSlots = db.TimeSlots.Where(t => t.Day.Id == day.Id).Where(t=>t.Checkout.Id == ParentWindow.Checkout.Id).Include(t => t.Cashier)
                 .Include(t => t.Substitute).Include(t => t.Checkout).Include(t => t.Day).ToList();
             Dispatcher.Invoke(() => { Fill(timeTableDay, day, timeSlots, set); });
         }

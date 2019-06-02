@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.TimeSlots"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:models="clr-namespace:CaisseDesktop.Models.Windows"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=models:TimeSlotManagerModel, IsDesignTimeCreatable=False}"
         Title="Gestion d'un créneau horaire" Height="300" Width="520">
     <Grid>
         <Grid.RowDefinitions>
@@ -40,15 +42,13 @@
 
                 <materialDesign:TimePicker x:Name="TimeSlotStart" WithSeconds="False" Text="Choisir l'heure"
                     Is24Hours="True"
-                    Height="30" Width="Auto" Grid.Row="0" Grid.Column="1" 
-                    SelectedTimeChanged="TimeSlotStart_OnSelectedTimeChanged" VerticalAlignment="Center" Margin="0,4,0,9" />
-                
+                    Height="30" Width="Auto" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,4,0,9" SelectedTime="{Binding StartTime}" />
+
                 <!-- ### 2 ### -->
                 <Label Content="Fin :" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" />
                 <materialDesign:TimePicker x:Name="TimeSlotEnd" WithSeconds="False" Text="Choisir l'heure"
-                                           Is24Hours="True"
-                                           Grid.Row="1" Grid.Column="1" 
-                                           SelectedTimeChanged="TimeSlotEnd_OnSelectedTimeChanged" VerticalAlignment="Center" Margin="0,9,0,8" />
+                                           Is24Hours="True"  Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
+                                           Margin="0,9,0,8" SelectedTime="{Binding EndTime}"/>
 
                 <!-- ### 3 ### -->
                 <Label Content="Caissier :" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />
@@ -75,7 +75,8 @@
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Ce créneau est une pause :"  VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" />
                 <ToggleButton x:Name="TimeSlotPause"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                              Click="TimeSlotPause_OnClick" Grid.Row="0" Grid.Column="1" />
+                              Click="TimeSlotPause_OnClick" Grid.Row="0" Grid.Column="1"
+                              IsChecked="{Binding Path=IsPause, Mode=TwoWay"/>
                 <!-- ### 2 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Assigner un remplaçant :" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" />
                 <Button x:Name="TimeSlotSubstituteCashier" Grid.Row="1" Grid.Column="1" IsEnabled="False" Content="Créer" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120" Click="TimeSlotSubstituteCashier_OnClick" />
@@ -84,7 +85,8 @@
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Remplaçant :"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />
                 <ToggleButton x:Name="TimeSlotSubstitute"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                              Click="TimeSlotSubstitute_OnClick" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" />
+                              Click="TimeSlotSubstitute_OnClick" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" 
+                              IsChecked="{Binding Path=Enabled, Mode=TwoWay, Converter={StaticResource InverseBooleanConverter}}"/>
 
             </Grid>
 
