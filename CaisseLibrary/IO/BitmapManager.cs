@@ -15,11 +15,12 @@ namespace CaisseLibrary.IO
     {
         private readonly SaveableEvent SaveableEvent;
         private readonly string BaseDirectory;
+        //private readonly string[] ForbiddenStrings = new string[] {"<", ">", ":", "\"", "/", "\"", "|", "?", "*"};
 
         public BitmapManager(SaveableEvent e)
         {
             SaveableEvent = e;
-            BaseDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Bitmaps", e.Name.Replace(" ", ""));
+            BaseDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Bitmaps", e.Id.ToString());
         }
 
         public void Init(List<SaveableArticle> articles)
@@ -41,7 +42,7 @@ namespace CaisseLibrary.IO
             {
                 if (!File.Exists(article.ImageSrc)) continue;
 
-                var path = Path.Combine(BaseDirectory, article.Name.Replace(' ', '-') + article.Color + ".bmp");
+                var path = Path.Combine(BaseDirectory, article.Id + ".bmp");
 
                 if (File.Exists(path)) continue;
 
@@ -60,7 +61,7 @@ namespace CaisseLibrary.IO
 
         public void ConvertEventLogo()
         {
-            var fileName = $"{SaveableEvent.Name.Replace(' ', '-')}-{SaveableEvent.Id}.bmp";
+            var fileName = $"{SaveableEvent.Id}.bmp";
             var path = Path.Combine(BaseDirectory, fileName);
 
             if (!File.Exists(SaveableEvent.ImageSrc) || File.Exists(path)) return;
@@ -78,9 +79,9 @@ namespace CaisseLibrary.IO
         }
 
         public string GetBitmapPath(SaveableArticle article) =>
-            Path.Combine(BaseDirectory, article.Name.Replace(' ', '-') + article.Color + ".bmp");
+            Path.Combine(BaseDirectory, article.Id + ".bmp");
 
         public string GetLogoPath =>
-            Path.Combine(BaseDirectory, $"{SaveableEvent.Name.Replace(' ', '-')}-{SaveableEvent.Id}.bmp");
+            Path.Combine(BaseDirectory, $"{SaveableEvent.Id}.bmp");
     }
 }
