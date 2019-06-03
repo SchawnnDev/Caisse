@@ -6,9 +6,14 @@
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.TimeSlots"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:models="clr-namespace:CaisseDesktop.Models.Windows"
+        xmlns:converters="clr-namespace:CaisseDesktop.Utils.XamlExtensions.Converters"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:TimeSlotManagerModel, IsDesignTimeCreatable=False}"
         Title="Gestion d'un créneau horaire" Height="300" Width="520">
+    <Window.Resources>
+        <converters:BooleanAndConverter x:Key="booleanAndConverter" />
+        <converters:BooleanOrConverter x:Key="booleanOrConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="0"/>
@@ -75,18 +80,28 @@
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Ce créneau est une pause :"  VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" />
                 <ToggleButton x:Name="TimeSlotPause"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                              Click="TimeSlotPause_OnClick" Grid.Row="0" Grid.Column="1"
-                              IsChecked="{Binding Path=IsPause, Mode=TwoWay"/>
+                              Grid.Row="0" Grid.Column="1"
+                              IsChecked="{Binding Path=IsPause, Mode=TwoWay}"/>
                 <!-- ### 2 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Assigner un remplaçant :" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" />
-                <Button x:Name="TimeSlotSubstituteCashier" Grid.Row="1" Grid.Column="1" IsEnabled="False" Content="Créer" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="120" Click="TimeSlotSubstituteCashier_OnClick" />
+                <Button x:Name="TimeSlotSubstituteCashier" Grid.Row="1" Grid.Column="1" Content="Créer" HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" MinWidth="120" Click="TimeSlotSubstituteCashier_OnClick">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource booleanOrConverter}">
+                            <Binding Path="IsPause" />
+                            <!-- Converter="{StaticResource InverseBooleanConverter}"-->
+                            <Binding Path="IsSubstitute" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+
 
                 <!-- ### 3 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Remplaçant :"  VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />
                 <ToggleButton x:Name="TimeSlotSubstitute"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                              Click="TimeSlotSubstitute_OnClick" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" 
-                              IsChecked="{Binding Path=Enabled, Mode=TwoWay, Converter={StaticResource InverseBooleanConverter}}"/>
+                              Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" 
+                              IsChecked="{Binding Path=IsSubstitute, Mode=TwoWay, Converter={StaticResource InverseBooleanConverter}}"/>
 
             </Grid>
 

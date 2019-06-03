@@ -264,6 +264,8 @@
     <Compile Include="Utils\OverrideCursor.cs" />
     <Compile Include="Utils\Parsers.cs" />
     <Compile Include="Utils\Validations.cs" />
+    <Compile Include="Utils\XamlExtensions\Converters\BoolAndConverter.cs" />
+    <Compile Include="Utils\XamlExtensions\Converters\BoolOrConverter.cs" />
     <Compile Include="Utils\XamlExtensions\Converters\InverseBooleanConverter.cs" />
     <Page Include="Frontend\Views\SelectionView.xaml">
       <SubType>Designer</SubType>

@@ -15,12 +15,11 @@ namespace CaisseDesktop.Utils.XamlExtensions.Converters
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (targetType != typeof(bool?))
-			{
-				throw new InvalidOperationException("The target must be a nullable boolean");
-			}
-			var b = (bool?)value;
+			if (targetType != typeof(bool?) && targetType != typeof(bool))
+				throw new InvalidOperationException("The target must be a (nullable) boolean");
+			var b = (bool?) value;
 			return b.HasValue && !b.Value;
+
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

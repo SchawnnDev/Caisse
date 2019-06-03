@@ -12,7 +12,7 @@ namespace CaisseDesktop.Models.Windows
 	public class TimeSlotManagerModel
 	{
 
-		private SaveableTimeSlot TimeSlot { get; }
+		public SaveableTimeSlot TimeSlot { get; }
 
 		public TimeSlotManagerModel(SaveableTimeSlot timeSlot)
 		{
@@ -25,6 +25,16 @@ namespace CaisseDesktop.Models.Windows
 			set
 			{
 				TimeSlot.Pause = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public bool IsSubstitute
+		{
+			get => TimeSlot.SubstituteActive;
+			set
+			{
+				TimeSlot.SubstituteActive = value;
 				OnPropertyChanged();
 			}
 		}
