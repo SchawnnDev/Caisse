@@ -143,11 +143,17 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
                 var dayBtn = new Button
                 {
                     Content =
-                        $"{DateToHour(slot.Start)}\n{(slot.Blank ? "Clique ici pour assigner la case." : "Paul Meyer")}\n{DateToHour(slot.End)}",
+                        $"{DateToHour(slot.Start)}\n{(slot.Blank ? "Clique ici pour assigner la case." : slot.Cashier.GetFullName())}\n{DateToHour(slot.End)}",
                     Background = slot.Blank ? Brushes.Gray : brush,
                     HorizontalContentAlignment = HorizontalAlignment.Center,
                     Height = double.NaN,
                     DataContext = slot
+                };
+
+                dayBtn.Click += (sender, e) =>
+                {
+                    if (CanClick)
+                        new TimeSlotManager(ParentWindow, slot, day).ShowDialog();
                 };
 
                 DockPanel.SetDock(dayBtn, Dock.Top);

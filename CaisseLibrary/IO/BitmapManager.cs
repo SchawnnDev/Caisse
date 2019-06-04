@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CaisseLibrary.Exceptions;
+using CaisseLibrary.Utils;
 using CaisseServer.Events;
 using CaisseServer.Items;
 
@@ -44,12 +45,26 @@ namespace CaisseLibrary.IO
 
                 var path = Path.Combine(BaseDirectory, article.Id + ".bmp");
 
-                if (File.Exists(path)) continue;
-
                 var bitmap = new Bitmap(article.ImageSrc);
 
+                if (File.Exists(path))
+                {
+
+                    var existing = new Bitmap(path);
+
+                    if (bitmap.CompareBitmapsFast(existing))
+                        continue;
+                    
+                    // dispose before delete
+                    existing.Dispose();
+
+                    File.Delete(path);
+
+                }
+                
                 try
                 {
+                    bitmap.Scale(900, 520); // test
                     bitmap.Save(path);
                 }
                 catch (Exception)
@@ -61,7 +76,7 @@ namespace CaisseLibrary.IO
 
         public void ConvertEventLogo()
         {
-            var fileName = $"{SaveableEvent.Id}.bmp";
+            var fileName = $"E{SaveableEvent.Id}.bmp";
             var path = Path.Combine(BaseDirectory, fileName);
 
             if (!File.Exists(SaveableEvent.ImageSrc) || File.Exists(path)) return;
@@ -82,6 +97,6 @@ namespace CaisseLibrary.IO
             Path.Combine(BaseDirectory, article.Id + ".bmp");
 
         public string GetLogoPath =>
-            Path.Combine(BaseDirectory, $"{SaveableEvent.Id}.bmp");
+            Path.Combine(BaseDirectory, $"E{SaveableEvent.Id}.bmp");
     }
 }

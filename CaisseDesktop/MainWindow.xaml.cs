@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Data.Entity;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using CaisseLibrary;
@@ -26,6 +27,8 @@ namespace CaisseDesktop
                 //db.Database.Delete();
                 StatusText.Dispatcher.Invoke(() => SetStatusText(0));
                 db.Database.CreateIfNotExists();
+              //  Database.SetInitializer(new MigrateDatabaseToLatestVersion<CaisseServerContext, EF6Console.Migrations.Configuration>());
+
             }
 
             StatusText.Dispatcher.Invoke(() => SetStatusText(1));
