@@ -287,5 +287,17 @@ namespace CaisseDesktop.Graphics.Common
             UpdateConsign((int)ConsignTextBox.DataContext - 1);
             UpdateLabels();
         }
+
+        private void SwitchUser_OnClick(object sender, RoutedEventArgs e)
+        {
+            Main.Logout();
+            new Login().Show();
+            Close();
+        }
+
+        private void Quit_OnClick(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
     }
 }

@@ -3,9 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Checkout" Height="600" Width="1000" WindowStyle="None" WindowState="Maximized">
-    <Grid x:Name="MainGrid">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+        <Grid x:Name="MainGrid">
         <!--
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -14,13 +22,33 @@
             </LinearGradientBrush>
         </Grid.Background> -->
 
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="40" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition MaxWidth="280" />
         </Grid.ColumnDefinitions>
 
-        <WrapPanel Orientation="Horizontal" Grid.Column="0" x:Name="ItemPanel" />
-        <Border Grid.Column="1" BorderBrush="LightSlateGray" BorderThickness="5">
+        <materialDesign:PopupBox Grid.Row="0" Grid.Column="0"
+            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+            PlacementMode="BottomAndAlignCentres"
+            ToolTipService.Placement="Right"
+            HorizontalAlignment="Left" Height="Auto" Margin="3,2,0,3" Width="35">
+            <StackPanel>
+                <Button ToolTip="Changer d'utilisateur" Click="SwitchUser_OnClick">
+                    <materialDesign:PackIcon Kind="UsersSwitch" />
+                </Button>
+                <Button ToolTip="Quitter l'application" Click="Quit_OnClick">
+                    <materialDesign:PackIcon Kind="Logout" />
+                </Button>
+            </StackPanel>
+        </materialDesign:PopupBox>
+
+        <WrapPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="0" x:Name="ItemPanel" />
+        <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" BorderBrush="LightSlateGray" BorderThickness="5">
             <Grid Background="White">
 
                 <!--   <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -35,6 +63,8 @@
                     <RowDefinition MaxHeight="140" />
                     <RowDefinition MaxHeight="80" />
                 </Grid.RowDefinitions>
+
+
                 <ListBox Grid.Row="0" BorderBrush="LightSlateGray" BorderThickness="1">
                     <ListBoxItem Content="Veuillez ajouter des articles" />
                 </ListBox>
@@ -60,7 +90,7 @@
                             <TextBox x:Name="ConsignTextBox" BorderBrush="LightSlateGray" BorderThickness="2" Text="0"
                                      HorizontalAlignment="Center"
                                      VerticalAlignment="Center" MinWidth="30" TextAlignment="Center" />
-                            <Button Content="+" Click="ConsignPlus_OnClick"/>
+                            <Button Content="+" Click="ConsignPlus_OnClick" />
                         </StackPanel>
 
                     </Grid>
@@ -75,14 +105,17 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
-                        <Label x:Name="TotalArticlesLabel" Content="Total articles : 0.00 €" FontSize="20" Foreground="LightSlateGray"
-                               HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15 0 0 0" />
-
-                        <Label x:Name="TotalConsignsLabel" Grid.Row="1" Content="Total consignes : 0.00 €" FontSize="20"
+                        <Label x:Name="TotalArticlesLabel" Content="Total articles : 0.00 €" FontSize="20"
                                Foreground="LightSlateGray"
                                HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15 0 0 0" />
 
-                        <Label x:Name="TotalLabel" Grid.Row="2" Content="Total général : 0.00 €" FontSize="20" Foreground="LightSlateGray"
+                        <Label x:Name="TotalConsignsLabel" Grid.Row="1" Content="Total consignes : 0.00 €"
+                               FontSize="20"
+                               Foreground="LightSlateGray"
+                               HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15 0 0 0" />
+
+                        <Label x:Name="TotalLabel" Grid.Row="2" Content="Total général : 0.00 €" FontSize="20"
+                               Foreground="LightSlateGray"
                                HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15 0 0 0" />
 
 
@@ -92,7 +125,7 @@
 
 
                 <Button Grid.Row="3" Click="SelectPaymentMethod_OnClick" Margin="5" Height="Auto">
-                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">Finaliser et choisir un <LineBreak/> moyen de paiement</TextBlock>
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">Finaliser et choisir un <LineBreak /> moyen de paiement</TextBlock>
                 </Button>
 
             </Grid>
