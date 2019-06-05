@@ -58,6 +58,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.PointOfService\Microsoft.PointOfService.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Npgsql, Version=4.0.7.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\Npgsql.4.0.7\lib\net451\Npgsql.dll</HintPath>
     </Reference>
@@ -130,6 +133,7 @@
     <Compile Include="Admin\SessionAdmin.cs" />
     <Compile Include="Client\ClientMain.cs" />
     <Compile Include="Enums\TimeTableDay.cs" />
+    <Compile Include="IO\ExportManager.cs" />
     <Compile Include="Graphics\Admin\AdminConnection.xaml.cs">
       <DependentUpon>AdminConnection.xaml</DependentUpon>
     </Compile>
@@ -217,6 +221,8 @@
     </Compile>
     <Compile Include="Graphics\Print\Test.cs" />
     <Compile Include="Graphics\Utils\ArticleDragAndDropListBox.cs" />
+    <Compile Include="Graphics\Utils\Converters\BoolToValueConverter.cs" />
+    <Compile Include="Graphics\Utils\Converters\Converters.cs" />
     <Compile Include="Graphics\Utils\DragAndDropListBox.cs" />
     <Compile Include="Models\CaisseModel.cs" />
     <Compile Include="Models\CashierModel.cs" />

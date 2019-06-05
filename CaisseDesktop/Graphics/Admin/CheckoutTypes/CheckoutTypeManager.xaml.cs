@@ -17,8 +17,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CaisseDesktop.Graphics.Admin.Articles;
 using CaisseDesktop.Graphics.Admin.Events;
+using CaisseDesktop.IO;
 using CaisseDesktop.Models;
 using CaisseDesktop.Utils;
+using CaisseLibrary.IO;
 using CaisseServer;
 using CaisseServer.Events;
 using CaisseServer.Items;
@@ -126,7 +128,18 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
             if (btn?.DataContext is SaveableArticle article)
                 new ArticleManager(this, article).ShowDialog();
             else
-                MessageBox.Show($"{btn} : le type de caisse n'est pas valide.", "Erreur", MessageBoxButton.OK,
+                MessageBox.Show($"{btn} : l'article n'est pas valide.", "Erreur", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+        }
+
+        private void Export_OnClick(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+
+            if (btn?.DataContext is SaveableArticle article)
+                ExportManager.ExportObjectToJSON($"{BitmapManager.NormalizeFileName(article.Name)}.json" ,article);
+            else
+                MessageBox.Show($"{btn} : l'article n'est pas valide.", "Erreur", MessageBoxButton.OK,
                     MessageBoxImage.Error);
         }
 

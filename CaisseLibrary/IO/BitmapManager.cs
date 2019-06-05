@@ -16,7 +16,7 @@ namespace CaisseLibrary.IO
     {
         private readonly SaveableEvent SaveableEvent;
         private readonly string BaseDirectory;
-        //private readonly string[] ForbiddenStrings = new string[] {"<", ">", ":", "\"", "/", "\"", "|", "?", "*"};
+        public static readonly string[] ForbiddenStrings = {"<", ">", ":", "\"", "/", "\"", "|", "?", "*"};
 
         public BitmapManager(SaveableEvent e)
         {
@@ -98,5 +98,7 @@ namespace CaisseLibrary.IO
 
         public string GetLogoPath =>
             Path.Combine(BaseDirectory, $"E{SaveableEvent.Id}.bmp");
+
+        public static string NormalizeFileName(string fileName) => ForbiddenStrings.Aggregate(fileName, (current, forbiddenString) => current.Replace(forbiddenString, ""));
     }
 }
