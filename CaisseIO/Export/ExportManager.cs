@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -7,7 +6,9 @@ namespace CaisseIO.Export
 {
     public class ExportManager
     {
+#pragma warning disable 649
         private Dictionary<string, List<object[]>> SortedObjects;
+#pragma warning restore 649
         private readonly List<object[]> Objects;
         private List<string> Output;
         private string Path { get; }

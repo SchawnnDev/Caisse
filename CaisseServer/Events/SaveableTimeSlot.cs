@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CaisseIO.Exceptions;
+using CaisseServer.Export.Exceptions;
 
 namespace CaisseServer.Events
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CaisseIO;
+using CaisseServer.Export;
 using CaisseServer.Items;
 
 namespace CaisseServer

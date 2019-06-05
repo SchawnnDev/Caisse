@@ -2,8 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using CaisseIO;
-using CaisseIO.Exceptions;
+using CaisseServer.Export;
+using CaisseServer.Export.Exceptions;
 
 namespace CaisseServer.Events
 {

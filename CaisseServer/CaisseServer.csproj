@@ -81,6 +81,10 @@
     <Compile Include="CaisseServerContext.cs" />
     <Compile Include="Events\SaveableEvent.cs" />
     <Compile Include="Events\SaveableOwner.cs" />
+    <Compile Include="Export\Exceptions\IllegalArgumentNumberException.cs" />
+    <Compile Include="Export\Exceptions\TypeNotRecognisedException.cs" />
+    <Compile Include="Export\IExportable.cs" />
+    <Compile Include="Export\IImportable.cs" />
     <Compile Include="Items\SaveableArticleMaxSellNumber.cs" />
     <Compile Include="Items\SaveableConsign.cs" />
     <Compile Include="Migrations\201906041933333_Initialize.cs" />
@@ -102,12 +106,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CaisseIO\CaisseIO.csproj">
-      <Project>{71CB6B4B-92B8-426F-8EA9-1F40F29B6DC3}</Project>
-      <Name>CaisseIO</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201906041933333_Initialize.resx">

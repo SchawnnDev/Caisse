@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CaisseIO;
-using CaisseIO.Exceptions;
 using CaisseServer.Events;
+using CaisseServer.Export;
+using CaisseServer.Export.Exceptions;
 
 namespace CaisseServer.Items
 {

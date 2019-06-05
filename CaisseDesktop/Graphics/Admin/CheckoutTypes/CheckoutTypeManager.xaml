@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.CheckoutTypes"
         xmlns:models="clr-namespace:CaisseDesktop.Models"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:utils="clr-namespace:CaisseDesktop.Graphics.Utils"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:ArticleModel, IsDesignTimeCreatable=False}"
         Title="Gestion d'un type de caisse" Height="700" Width="1200">
@@ -79,7 +80,8 @@
             </GroupBox>
 
             <GroupBox Header="Liste des articles" Margin="5" Grid.Column="1" Grid.Row="0">
-                <ListBox ItemsSource="{Binding Articles, IsAsync=true}" x:Name="ArticlesGrid">
+
+                <utils:ArticleDragAndDropListBox AllowDrop="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ItemsSource="{Binding Articles, IsAsync=true}" x:Name="ArticlesGrid">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel/>
@@ -177,7 +179,7 @@
                             </materialDesign:Card>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
-                </ListBox>
+                </utils:ArticleDragAndDropListBox>
 
                 <!--
 
