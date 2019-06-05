@@ -22,274 +22,297 @@ using CaisseServer.Events;
 
 namespace CaisseDesktop.Graphics.Admin.TimeSlots
 {
-    /// <summary>
-    /// Interaction logic for TimeSlotManager.xaml
-    /// </summary>
-    public partial class TimeSlotManager
-    {
+	/// <summary>
+	/// Interaction logic for TimeSlotManager.xaml
+	/// </summary>
+	public partial class TimeSlotManager
+	{
 
-        private CheckoutManager ParentWindow { get; set; }
-        private SaveableTimeSlot TimeSlot { get; set; }
-        private readonly DateTime Start;
-        private readonly DateTime End;
-        private bool New { get; }
-        private bool Starting { get; set; } = true;
+		private CheckoutManager ParentWindow { get; set; }
+		private SaveableTimeSlot TimeSlot { get; set; }
+		private readonly DateTime Start;
+		private readonly DateTime End;
+		private bool Starting { get; set; } = true;
 
 
-        public TimeSlotManager(CheckoutManager parentWindow,SaveableTimeSlot timeSlot, SaveableDay day)
-        {
-            InitializeComponent();
-            ParentWindow = parentWindow;
-            Owner = parentWindow;
-            TimeSlot = timeSlot;
-            New = timeSlot == null;
-            Start = day.Start;
-            End = day.End;
+		public TimeSlotManager(CheckoutManager parentWindow, SaveableTimeSlot timeSlot, SaveableDay day)
+		{
+			InitializeComponent();
+			ParentWindow = parentWindow;
+			Owner = parentWindow;
+			TimeSlot = timeSlot;
+			Start = day.Start;
+			End = day.End;
 
-            if (New)
-            {
-                TimeSlot = new SaveableTimeSlot
-                {
-                    Checkout = parentWindow.Checkout,
-                    Day = day
-                };
-            }
+			Fill(); // Fill
 
-            Fill(); // Fill
+			Loaded += (sender, args) => { Starting = false; };
+		}
 
-            Loaded += (sender, args) => { Starting = false; };
-        }
+		private bool SubstituteExists() => TimeSlot.Substitute != null;
 
-        private bool SubstituteExists() => TimeSlot.Substitute != null;
+		private bool CashierExists() => TimeSlot.Cashier != null;
 
-        private bool CashierExists() => TimeSlot.Cashier != null;
+		private void TogglePause()
+		{
+			var pause = TimeSlot.Pause = !TimeSlot.Pause;
 
-        private void TogglePause()
-        {
-            var pause = TimeSlot.Pause = !TimeSlot.Pause;
+			TimeSlotCashier.IsEnabled = !pause;
+			TimeSlotSubstitute.IsEnabled = !pause;
 
-            TimeSlotCashier.IsEnabled = !pause;
-            TimeSlotSubstitute.IsEnabled = !pause;
+			TimeSlotSubstituteCashier.IsEnabled = !pause && SubstituteExists() && TimeSlot.SubstituteActive;
 
-            TimeSlotSubstituteCashier.IsEnabled = !pause && SubstituteExists() && TimeSlot.SubstituteActive;
+			TimeSlotSubstitute.IsEnabled = !pause;
+		}
 
-            TimeSlotSubstitute.IsEnabled = !pause;
-        }
+		private void ToggleSubstitute(bool toggle)
+		{
+			if (SubstituteExists())
+				TimeSlot.SubstituteActive = toggle;
 
-        private void ToggleSubstitute(bool toggle)
-        {
-            if (SubstituteExists())
-                TimeSlot.SubstituteActive = toggle;
+			TimeSlotCashier.IsEnabled = !toggle;
+			TimeSlotSubstituteCashier.IsEnabled = toggle;
+		}
 
-            TimeSlotCashier.IsEnabled = !toggle;
-            TimeSlotSubstituteCashier.IsEnabled = toggle;
-        }
+		private string CorrectMissingZero(string time)
+		{
+			return time.Length == 3 ? $"0{time}" : time;
+		}
 
-        private string CorrectMissingZero(string time)
-        {
-            return time.Length == 3 ? $"0{time}" : time;
-        }
-
-        private void Fill()
-        {
-            /**
+		private void Fill()
+		{
+			/**
              * Fill cashier slots, substitute slots & check if cashier exists
              */
-            if (New)
-            {
-                TimeSlotStart.SelectedTime = Start;
-                TimeSlotEnd.SelectedTime = End;
-                return;
-            }
 
-            // set time slot times
-            TimeSlotStart.SelectedTime = TimeSlot.Start;
-            TimeSlotEnd.SelectedTime = TimeSlot.End;
+			// set time slot times
+			TimeSlotStart.SelectedTime = TimeSlot.Start;
+			TimeSlotEnd.SelectedTime = TimeSlot.End;
 
-            // set and find cashier
+			if (TimeSlot.Blank)
+				return;
 
-            if (CashierExists())
-                TimeSlotCashier.Content = TimeSlot.Cashier.GetFullName();
+			// set and find cashier
+
+			if (CashierExists())
+				TimeSlotCashier.Content = TimeSlot.Cashier.GetFullName();
 
 
-            if (SubstituteExists())
-                TimeSlotSubstituteCashier.Content = TimeSlot.Substitute.GetFullName();
-            //     if (CashierExists())
-            //        TimeSlotCashierLastConnection.Text = Cashier.LastConnection.ToString("f");
+			if (SubstituteExists())
+				TimeSlotSubstituteCashier.Content = TimeSlot.Substitute.GetFullName();
+			//     if (CashierExists())
+			//        TimeSlotCashierLastConnection.Text = Cashier.LastConnection.ToString("f");
 
-            // set and find substitute
-            if (!SubstituteExists()) return;
-
-
-            // button set name of substitute if exists
-        }
-
-        private void TimeSlotCashier_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (Starting || e.AddedItems.Count != 1 || !(e.AddedItems[0] is ComboBoxItem item)) return;
-
-            if (item.Content.Equals("Aucun"))
-            {
-                TimeSlot.Cashier = null;
-            }
-            else if (item.DataContext != null && (item.DataContext is SaveableCashier cashier))
-            {
-                TimeSlot.Cashier = cashier;
-            }
-        }
-
-        private void TimeSlotStart_OnSelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
-        {
-            if (Starting) return;
-            TimeSlot.Start = e.NewValue ?? Start;
-        }
-
-        private void TimeSlotEnd_OnSelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
-        {
-            if (Starting) return;
-            TimeSlot.End = e.NewValue ?? End;
-        }
-
-        private void TimeSlotPause_OnClick(object sender, RoutedEventArgs e)
-        {
-            TogglePause();
-        }
-
-        private void TimeSlotSubstitute_OnClick(object sender, RoutedEventArgs e)
-        {
-            //CheckSubstituteTimeSlot(); // important
-            //var substitute = SubstituteTimeSlot.Substitute = !SubstituteTimeSlot.Substitute;
-            //ToggleSubstitute(substitute);
-            ToggleSubstitute(TimeSlotSubstitute.IsChecked ?? false);
-        }
-
-        private void Save_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (CustomPage.Check(TimeSlotStart, Start, End) || CustomPage.Check(TimeSlotEnd, Start, End))
-                return;
-
-            // Pause is first priority
-
-            Debug.Assert(TimeSlotPause.IsChecked != null, "TimeSlotPause.IsChecked != null");
-
-            TimeSlot.Pause = TimeSlotPause.IsChecked.Value;
-            TimeSlot.Start = TimeSlotStart.SelectedTime ?? Start;
-            TimeSlot.End = TimeSlotEnd.SelectedTime ?? End;
-            Task.Run(() => Save());
-        }
+			// set and find substitute
+			if (!SubstituteExists()) return;
 
 
-        private void Save()
-        {
-            Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
+			// button set name of substitute if exists
+		}
 
-            using (var db = new CaisseServerContext())
-            {
-                if (CashierExists())
-                {
-                    if (db.Cashiers.Any(t => t.Id == TimeSlot.Cashier.Id))
-                    {
-                        db.Cashiers.Attach(TimeSlot.Cashier);
-                        db.Entry(TimeSlot.Cashier).State = EntityState.Modified;
-                    }
-                    else
-                    {
-                        db.Checkouts.Attach(TimeSlot.Cashier.Checkout); // Attach checkouts (maybe remove???)
-                        db.Entry(TimeSlot.Cashier).State = EntityState.Added;
-                    }
-                }
+		private void TimeSlotCashier_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (Starting || e.AddedItems.Count != 1 || !(e.AddedItems[0] is ComboBoxItem item)) return;
 
-                if (SubstituteExists())
-                {
-                    if (db.Cashiers.Any(t => t.Id == TimeSlot.Substitute.Id))
-                    {
-                        db.Cashiers.Attach(TimeSlot.Substitute);
-                        db.Entry(TimeSlot.Substitute).State = EntityState.Modified;
-                    }
-                    else
-                    {
-                        db.Checkouts.Attach(TimeSlot.Substitute.Checkout); // Attach checkouts (maybe remove???)
-                        db.Entry(TimeSlot.Substitute).State = EntityState.Added;
-                    }
-                }
+			if (item.Content.Equals("Aucun"))
+			{
+				TimeSlot.Cashier = null;
+			}
+			else if (item.DataContext != null && (item.DataContext is SaveableCashier cashier))
+			{
+				TimeSlot.Cashier = cashier;
+			}
+		}
 
-                if (New)
-                {
-                    db.Checkouts.Attach(TimeSlot.Checkout);
-                    db.Days.Attach(TimeSlot.Day);
-                    // Attach etc.
+	/*	private void TimeSlotStart_OnSelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
+		{
+			if (Starting) return;
+			var time = e.NewValue ?? Start;
+			TimeSlot.Start = ModifyTime(Start, time);
+		}
 
-                    db.TimeSlots.Add(TimeSlot);
-                }
-                else
-                {
-                    db.TimeSlots.Attach(TimeSlot);
-                }
+		private void TimeSlotEnd_OnSelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
+		{
+			if (Starting) return;
+			var time = e.NewValue ?? End;
+			TimeSlot.End = ModifyTime(End, time);
+		} */
 
-                db.Entry(TimeSlot).State = New ? EntityState.Added : EntityState.Modified;
+		private void TimeSlotPause_OnClick(object sender, RoutedEventArgs e)
+		{
+			TogglePause();
+		}
 
-                db.SaveChanges();
-            }
+		private void TimeSlotSubstitute_OnClick(object sender, RoutedEventArgs e)
+		{
+			//CheckSubstituteTimeSlot(); // important
+			//var substitute = SubstituteTimeSlot.Substitute = !SubstituteTimeSlot.Substitute;
+			//ToggleSubstitute(substitute);
+			ToggleSubstitute(TimeSlotSubstitute.IsChecked ?? false);
+		}
 
-            Dispatcher.Invoke(() =>
-            {
-                Mouse.OverrideCursor = null;
-                MessageBox.Show(New ? "Le créneau horaire a bien été crée !" : "Le créneau horaire a bien été enregistré !");
-                ParentWindow.MasterFrame.ToCustomPage().Update();
-                Close();
-            });
-        }
+		private void Save_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (TimeSlot.Start.CompareTo(Start) < 0 || TimeSlot.Start.CompareTo(End) > 0)
+			{
+				TimeSlotStart.BorderBrush = Brushes.Red;
+				SystemSounds.Beep.Play();
+			}
 
-        private void TimeSlotCashier_OnClick(object sender, RoutedEventArgs e)
-        {
-            new CashierManager(this, TimeSlot, false).ShowDialog();
-        }
+			if (TimeSlot.End.CompareTo(Start) < 0 || TimeSlot.End.CompareTo(End) > 0)
+			{
+				TimeSlotEnd.BorderBrush = Brushes.Red;
+				SystemSounds.Beep.Play();
+			}
 
-        private void TimeSlotSubstituteCashier_OnClick(object sender, RoutedEventArgs e)
-        {
-            new CashierManager(this, TimeSlot, true).ShowDialog();
-        }
+			// Pause is first priority
 
-        public void SetCashier(SaveableCashier cashier)
-        {
-            if (cashier.Substitute)
-            {
-                TimeSlot.Substitute = cashier;
-                TimeSlotSubstituteCashier.Content = cashier.GetFullName();
-                return;
-            }
+			Debug.Assert(TimeSlotPause.IsChecked != null, "TimeSlotPause.IsChecked != null");
 
-            TimeSlot.Cashier = cashier;
-            TimeSlotCashier.Content = cashier.GetFullName();
-        }
+			TimeSlot.Pause = TimeSlotPause.IsChecked.Value;
+			TimeSlot.Start = TimeSlotStart.SelectedTime ?? Start;
+			TimeSlot.End = TimeSlotEnd.SelectedTime ?? End;
+			TimeSlot.Start = ModifyTime(Start, TimeSlot.Start);
+			TimeSlot.End = ModifyTime(End, TimeSlot.End);
+			Task.Run(() => Save());
+		}
 
-        public void RemoveCashier(SaveableCashier cashier)
-        {
-            if (cashier == null) return;
 
-            if (cashier.Substitute) TimeSlot.Substitute = null;
-            else TimeSlot.Cashier = null;
+		private void Save()
+		{
+			Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
 
-            if (cashier.Substitute)
-            {
-                TimeSlotSubstitute.Content = "Créer";
-            }
-            else
-            {
-                TimeSlotCashier.Content = "Créer";
-            }
+			using (var db = new CaisseServerContext())
+			{
+				if (CashierExists())
+				{
+					if (db.Cashiers.Any(t => t.Id == TimeSlot.Cashier.Id))
+					{
+						db.Cashiers.Attach(TimeSlot.Cashier);
+						db.Entry(TimeSlot.Cashier).State = EntityState.Modified;
+					}
+					else
+					{
+						db.Checkouts.Attach(TimeSlot.Cashier.Checkout); // Attach checkouts (maybe remove???)
+						db.Entry(TimeSlot.Cashier).State = EntityState.Added;
+					}
+				}
 
-            if (New) return;
+				if (SubstituteExists())
+				{
+					if (db.Cashiers.Any(t => t.Id == TimeSlot.Substitute.Id))
+					{
+						db.Cashiers.Attach(TimeSlot.Substitute);
+						db.Entry(TimeSlot.Substitute).State = EntityState.Modified;
+					}
+					else
+					{
+						db.Checkouts.Attach(TimeSlot.Substitute.Checkout); // Attach checkouts (maybe remove???)
+						db.Entry(TimeSlot.Substitute).State = EntityState.Added;
+					}
+				}
 
-            Task.Run(() =>
-            {
-                using (var db = new CaisseServerContext())
-                {
-                    if (db.Cashiers.Any(t => t.Id == cashier.Id))
-                        db.Cashiers.Remove(cashier);
-                    db.SaveChangesAsync();
-                }
-            });
-        }
-    }
+				if (TimeSlot.Blank)
+				{
+					db.Checkouts.Attach(TimeSlot.Checkout);
+					db.Days.Attach(TimeSlot.Day);
+					// Attach etc.
+
+					db.TimeSlots.Add(TimeSlot);
+				}
+				else
+				{
+					db.TimeSlots.Attach(TimeSlot);
+				}
+
+				db.Entry(TimeSlot).State = TimeSlot.Blank ? EntityState.Added : EntityState.Modified;
+
+				db.SaveChanges();
+			}
+
+			Dispatcher.Invoke(() =>
+			{
+				Mouse.OverrideCursor = null;
+				MessageBox.Show(TimeSlot.Blank ? "Le créneau horaire a bien été crée !" : "Le créneau horaire a bien été enregistré !");
+				ParentWindow.MasterFrame.ToCustomPage().Update();
+				Close();
+			});
+		}
+
+		private void TimeSlotCashier_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (TimeSlot.Cashier == null)
+			{
+				TimeSlot.Cashier = new SaveableCashier
+				{
+					Substitute = false,
+					Checkout = TimeSlot.Checkout, // Maybe remove this (???)
+					LastActivity = DateTime.Now,
+					WasHere = false
+				};
+			}
+
+			new CashierManager(this, TimeSlot.Cashier).ShowDialog();
+		}
+
+		private void TimeSlotSubstituteCashier_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (TimeSlot.Substitute == null)
+			{
+				TimeSlot.Substitute = new SaveableCashier
+				{
+					Substitute = true,
+					Checkout = TimeSlot.Checkout, // Maybe remove this (???)
+					LastActivity = DateTime.Now,
+					WasHere = false
+				};
+			}
+
+			new CashierManager(this, TimeSlot.Cashier).ShowDialog();
+		}
+
+		public void SetCashier(SaveableCashier cashier)
+		{
+			if (cashier.Substitute)
+			{
+				TimeSlot.Substitute = cashier;
+				TimeSlotSubstituteCashier.Content = cashier.GetFullName();
+				return;
+			}
+
+			TimeSlot.Cashier = cashier;
+			TimeSlotCashier.Content = cashier.GetFullName();
+		}
+
+		private DateTime ModifyTime(DateTime date, DateTime value) => new DateTime(date.Year, date.Month, date.Day, value.Hour, value.Minute, value.Second);
+
+		public void RemoveCashier(SaveableCashier cashier)
+		{
+			if (cashier == null) return;
+
+			if (cashier.Substitute) TimeSlot.Substitute = null;
+			else TimeSlot.Cashier = null;
+
+			if (cashier.Substitute)
+			{
+				TimeSlotSubstitute.Content = "Créer";
+			}
+			else
+			{
+				TimeSlotCashier.Content = "Créer";
+			}
+
+			if (TimeSlot.Blank) return;
+
+			Task.Run(() =>
+			{
+				using (var db = new CaisseServerContext())
+				{
+					if (db.Cashiers.Any(t => t.Id == cashier.Id))
+						db.Cashiers.Remove(cashier);
+					db.SaveChangesAsync();
+				}
+			});
+		}
+	}
 }

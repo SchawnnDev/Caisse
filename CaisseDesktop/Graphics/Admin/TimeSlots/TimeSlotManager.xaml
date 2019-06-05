@@ -41,14 +41,14 @@
                 <materialDesign:TimePicker x:Name="TimeSlotStart" WithSeconds="False" Text="Choisir l'heure"
                     Is24Hours="True"
                     Height="30" Width="Auto" Grid.Row="0" Grid.Column="1" 
-                    SelectedTimeChanged="TimeSlotStart_OnSelectedTimeChanged" VerticalAlignment="Center" Margin="0,4,0,9" />
+                    VerticalAlignment="Center" Margin="0,4,0,9" />
                 
                 <!-- ### 2 ### -->
                 <Label Content="Fin :" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" />
                 <materialDesign:TimePicker x:Name="TimeSlotEnd" WithSeconds="False" Text="Choisir l'heure"
                                            Is24Hours="True"
                                            Grid.Row="1" Grid.Column="1" 
-                                           SelectedTimeChanged="TimeSlotEnd_OnSelectedTimeChanged" VerticalAlignment="Center" Margin="0,9,0,8" />
+                                           VerticalAlignment="Center" Margin="0,9,0,8" />
 
                 <!-- ### 3 ### -->
                 <Label Content="Caissier :" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" />

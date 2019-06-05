@@ -22,128 +22,110 @@ using CaisseServer.Events;
 
 namespace CaisseDesktop.Graphics.Admin.Cashiers
 {
-    /// <summary>
-    ///     Interaction logic for OwnerManager.xaml
-    /// </summary>
-    public partial class CashierManager
-    {
-        public CashierManager(TimeSlotManager parentWindow, SaveableTimeSlot timeSlot, bool substitute)
-        {
-            InitializeComponent();
-            Owner = parentWindow;
-            ParentWindow = parentWindow;
-            Cashier = substitute ? timeSlot.Substitute : timeSlot.Cashier;
-            New = Cashier == null;
-            Closing += OnWindowClosing;
+	/// <summary>
+	///     Interaction logic for OwnerManager.xaml
+	/// </summary>
+	public partial class CashierManager
+	{
+		public CashierManager(TimeSlotManager parentWindow, SaveableCashier cashier)
+		{
+			InitializeComponent();
+			Owner = parentWindow;
+			ParentWindow = parentWindow;
+			Cashier = cashier;
+			Closing += OnWindowClosing;
+			Saved = cashier.Id != 0; // not saved if new
+			FillTextBoxes();
+			CashierDelete.IsEnabled = true;
+		}
 
-            if (New)
-            {
-                Cashier = new SaveableCashier
-                {
-                    Substitute = substitute,
-                    Checkout = timeSlot.Checkout // Maybe remove this (???)
-                };
-                Saved = false;
-            }
-            else
-            {
-                FillTextBoxes();
-                New = false;
-                Saved = true;
-                CashierDelete.IsEnabled = true;
-            }
-        }
+		public TimeSlotManager ParentWindow { get; set; }
+		public SaveableCashier Cashier { get; set; }
+		private bool Saved { get; set; }
 
-        public TimeSlotManager ParentWindow { get; set; }
-        public SaveableCashier Cashier { get; set; }
-        private bool Saved { get; set; }
-        private bool New { get; } = true;
+		public void OnWindowClosing(object sender, CancelEventArgs e)
+		{
+			if (Saved || !Saved && Validations.WillClose(true)) return;
+			e.Cancel = true;
+		}
 
-        public void OnWindowClosing(object sender, CancelEventArgs e)
-        {
-            if (Saved || !Saved && Validations.WillClose(true)) return;
-            e.Cancel = true;
-        }
+		private void FillTextBoxes()
+		{
+			CashierFirstName.Text = Cashier.FirstName;
+			CashierName.Text = Cashier.Name;
+			CashierLastActivity.Text =
+				$"{Cashier.LastActivity.ToLongDateString()} {Cashier.LastActivity.ToShortTimeString()}";
+			CashierWasHere.IsChecked = Cashier.WasHere;
+			FillLogin();
+		}
 
-        private void FillTextBoxes()
-        {
-            CashierFirstName.Text = Cashier.FirstName;
-            CashierName.Text = Cashier.Name;
-            CashierLastActivity.Text =
-                $"{Cashier.LastActivity.ToLongDateString()} {Cashier.LastActivity.ToShortTimeString()}";
-            CashierWasHere.IsChecked = Cashier.WasHere;
-            FillLogin();
-        }
+		private void FillLogin()
+		{
+			CashierLogin.Text = SessionAdmin.HasPermission("cashiers.login.show")
+				? Cashier.Login
+				: new string('•', Cashier.Login.Length);
+		}
 
-        private void FillLogin()
-        {
-            CashierLogin.Text = SessionAdmin.HasPermission("cashiers.login.show")
-                ? Cashier.Login
-                : new string('•', Cashier.Login.Length);
-        }
+		private void Save_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (CustomPage.Check(CashierFirstName) || CustomPage.Check(CashierName)) return;
 
-        private void Save_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (CustomPage.Check(CashierFirstName) || CustomPage.Check(CashierName)) return;
+			if (string.IsNullOrWhiteSpace(Cashier.Login))
+			{
+				GenLogin.BorderBrush = Brushes.Red;
+				SystemSounds.Beep.Play();
+				return;
+			}
 
-            if (string.IsNullOrWhiteSpace(Cashier.Login))
-            {
-                GenLogin.BorderBrush = Brushes.Red;
-                SystemSounds.Beep.Play();
-                return;
-            }
+			Cashier.FirstName = CashierFirstName.Text;
+			Cashier.Name = CashierName.Text;
 
-            Cashier.FirstName = CashierFirstName.Text;
-            Cashier.Name = CashierName.Text;
+			Saved = true;
 
-            if (New) Cashier.LastActivity = DateTime.Now;
+			// set cashier or substitute
+			ParentWindow.SetCashier(Cashier);
 
-            Saved = true;
+			// direct close of dialog
+			Close();
+		}
 
-            // set cashier or substitute
-            ParentWindow.SetCashier(Cashier);
+		private void GenLogin_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (SessionAdmin.HasNotPermission("owners.login.gen"))
+				return;
 
-            // direct close of dialog
-            Close();
-        }
+			// possible characters : 123456789ABCXYZ/*- and length=7
 
-        private void GenLogin_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (SessionAdmin.HasNotPermission("owners.login.gen"))
-                return;
+			using (var db = new CaisseServerContext())
+			{
+				var logins = db.Cashiers.Select(t => t.Login).ToList();
 
-            // possible characters : 123456789ABCXYZ/*- and length=7
+				Cashier.Login = new CashierPassword().GenerateNoDuplicate(7, logins);
 
-            using (var db = new CaisseServerContext())
-            {
-                var logins = db.Cashiers.Select(t => t.Login).ToList();
+				FillLogin();
+			}
+		}
 
-                Cashier.Login = new CashierPassword().GenerateNoDuplicate(7, logins);
+		private void Delete_OnClick(object sender, RoutedEventArgs e)
+		{
+			var result = MessageBox.Show("Es tu sûr de vouloir supprimer ce caissier ?", "Supprimer un caissier",
+				MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
 
-                FillLogin();
-            }
-        }
+			if (result != MessageBoxResult.Yes) return;
 
-        private void Delete_OnClick(object sender, RoutedEventArgs e)
-        {
-            var result = MessageBox.Show("Es tu sûr de vouloir supprimer ce caissier ?", "Supprimer un caissier",
-                MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+			// remove cashier
 
-            if (result != MessageBoxResult.Yes) return;
+			ParentWindow.RemoveCashier(Cashier);
 
-            // remove cashier
+			Saved = true;
 
-            ParentWindow.RemoveCashier(Cashier);
+			// direct close of dialog
+			Close();
+		}
 
-            Saved = true;
-
-            // direct close of dialog
-            Close();
-        }
-
-        private void CashierWasHere_OnClick(object sender, RoutedEventArgs e)
-        {
-            Cashier.WasHere = !Cashier.WasHere;
-        }
-    }
+		private void CashierWasHere_OnClick(object sender, RoutedEventArgs e)
+		{
+			Cashier.WasHere = !Cashier.WasHere;
+		}
+	}
 }
