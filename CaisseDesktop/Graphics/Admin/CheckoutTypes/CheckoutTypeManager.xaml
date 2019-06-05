@@ -5,11 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.CheckoutTypes"
         xmlns:models="clr-namespace:CaisseDesktop.Models"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:ArticleModel, IsDesignTimeCreatable=False}"
         Title="Gestion d'un type de caisse" Height="700" Width="1200">
     <Window.Resources>
-
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -73,6 +79,108 @@
             </GroupBox>
 
             <GroupBox Header="Liste des articles" Margin="5" Grid.Column="1" Grid.Row="0">
+                <ListBox ItemsSource="{Binding Articles, IsAsync=true}" x:Name="ArticlesGrid">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Margin" Value="6"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Card
+                                Width="200">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition
+                                            Height="140" />
+                                        <RowDefinition
+                                            Height="*" />
+                                        <RowDefinition
+                                            Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Image
+                                        Source="{Binding ImageSrc}"
+                                        Stretch="Uniform" />
+                                    <Button
+                                        Grid.Row="0"
+                                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0 0 16 -20"  BorderBrush="{Binding Color}" Background="{Binding Color}"
+                                        >
+                                        <materialDesign:PackIcon Kind="Edit" />
+                                    </Button>
+                                    <StackPanel
+                                        Grid.Row="1"
+                                        Margin="8 24 8 0">
+                                        <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+
+                                        <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
+                                            Prix : <TextBlock Text="{Binding Price}"></TextBlock> €
+                                        </TextBlock>
+                                        <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
+                                            Quantité : <TextBlock Text="{Binding MaxSellNumberPerDay}"></TextBlock>
+                                        </TextBlock>
+                                        <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
+                                            Needs Cup : <TextBlock Text="{Binding NeedsCup}"></TextBlock>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <StackPanel
+                                        HorizontalAlignment="Right"
+                                        Grid.Row="2"
+                                        Orientation="Horizontal"
+                                        Margin="8">
+                                        <Button
+                                            Style="{StaticResource MaterialDesignToolButton}"
+                                            Width="30"
+                                            Padding="2 0 2 0"
+                                            materialDesign:RippleAssist.IsCentered="True" IsManipulationEnabled="False">
+                                            <Button.ContentTemplate>
+                                                <DataTemplate>
+                                                    <materialDesign:PackIcon Kind="Cup" x:Name="NeedsCupIcon" />
+                                                    <DataTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=NeedsCup}" Value="False">
+                                                            <Setter Property="Kind" Value="CupOff" TargetName="NeedsCupIcon"/>
+                                                        </DataTrigger>
+                                                    </DataTemplate.Triggers>
+                                                </DataTemplate>
+
+                                            </Button.ContentTemplate>
+
+                                        </Button>
+                                        <Button
+                                            Style="{StaticResource MaterialDesignToolButton}"
+                                            Width="30"
+                                            Padding="2 0 2 0"
+                                            materialDesign:RippleAssist.IsCentered="True">
+                                            <materialDesign:PackIcon
+                                                Kind="Heart" />
+                                        </Button>
+                                        <materialDesign:PopupBox
+                                            Style="{StaticResource MaterialDesignToolPopupBox}"
+                                            Padding="2 0 2 0">
+                                            <StackPanel>
+                                                <Button
+                                                    Content="More" />
+                                                <Button
+                                                    Content="Options" />
+                                            </StackPanel>
+                                        </materialDesign:PopupBox>
+                                    </StackPanel>
+                                </Grid>
+                            </materialDesign:Card>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <!--
+
                 <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
                           ItemsSource="{Binding Articles, IsAsync=true}" IsReadOnly="True" x:Name="ArticlesGrid"
                           AutoGenerateColumns="False">
@@ -103,7 +211,7 @@
                         </ContextMenu>
                     </DataGrid.ContextMenu>
 
-                </DataGrid>
+                </DataGrid> -->
             </GroupBox>
 
             <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Sauvegarder"

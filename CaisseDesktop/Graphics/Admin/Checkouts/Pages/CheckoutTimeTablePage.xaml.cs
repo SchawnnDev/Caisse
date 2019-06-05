@@ -210,8 +210,8 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 				var t2 = taken[i].Start;
 
 				if ((t1.Hour != t2.Hour || t1.Minute == t2.Hour) && t1.Hour == t2.Hour) continue;
-				//if (t2.ToUnixTimeStamp() - t1.ToUnixTimeStamp() <= 5)
-				//	continue;
+				if (t2.ToUnixTimeStamp() - t1.ToUnixTimeStamp() <= 5)
+					continue;
 
 				blankSlots.Add(new SaveableTimeSlot
 				{
