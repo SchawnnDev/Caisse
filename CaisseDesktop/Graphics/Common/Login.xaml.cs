@@ -103,8 +103,15 @@ namespace CaisseDesktop.Graphics.Common
                 Dispatcher.Invoke(() =>
                 {
                     Mouse.OverrideCursor = null;
-                    Validations.ShowError(e.Message);
-                    Close();
+                    if(!Validations.ShowErrorRequest($"{e.Message}. Voulez vous continuer sans l'imprimante?")) { 
+						Close();
+                    }
+                    else
+                    {
+	                    PrinterStatusLabel.Content = "Imprimante : Pas de connexion";
+					}
+
+
                 });
                 return;
             }

@@ -234,6 +234,7 @@
     <Compile Include="Models\PaymentMethodModel.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\ResponsableModel.cs" />
+    <Compile Include="Models\Windows\CheckoutModel.cs" />
     <Compile Include="SelectionWindow.xaml.cs">
       <DependentUpon>SelectionWindow.xaml</DependentUpon>
     </Compile>

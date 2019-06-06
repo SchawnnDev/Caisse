@@ -22,7 +22,7 @@ namespace CaisseDesktop.IO
             {
                 Title = "Select a folder",
                 CheckPathExists = true,
-                Filter = "CSV Files|*.csv",
+                Filter = "JSON Files|*.json",
                 FileName = fileName
             };
 

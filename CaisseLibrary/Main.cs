@@ -35,8 +35,6 @@ namespace CaisseLibrary
             ReceiptTicket = new ReceiptTicket(new TicketConfig(ActualEvent.Name, ActualEvent.Address, ActualEvent.PostalCodeCity, ActualEvent.Telephone, ActualEvent.Siret));
             BitmapManager = new BitmapManager(ActualEvent);
             ArticleTickets = new List<ArticleTicket>();
-            TicketPrinter = new Printer(printerName);
-            TicketPrinter.SetUp();
 
             using (var db = new CaisseServerContext())
             {
@@ -81,15 +79,22 @@ namespace CaisseLibrary
                 imagesToSetUp.Add(articleTicket);
             }
 
-            TicketPrinter.SetUpImages(imagesToSetUp);
+	        // new invoice
 
-            // new invoice
+	        NewInvoice();
 
-            NewInvoice();
+			// setup printer
 
-        }
+	        TicketPrinter = new Printer(printerName);
+	        TicketPrinter.SetUp();
 
-        public static void NewInvoice()
+			// setup images
+
+	        TicketPrinter.SetUpImages(imagesToSetUp);
+
+		}
+
+		public static void NewInvoice()
         {
             ActualInvoice = new Invoice();
         }

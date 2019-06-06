@@ -4,7 +4,13 @@ namespace CaisseDesktop.Utils
 {
     public class Validations
     {
-        public static void ShowError(string error)
+
+	    public static bool ShowErrorRequest(string error)
+	    {
+		    return MessageBox.Show(error, "Une erreur est survenue", MessageBoxButton.YesNo, MessageBoxImage.Error) == MessageBoxResult.Yes;
+	    }
+
+		public static void ShowError(string error)
         {
             MessageBox.Show(error, "Une erreur est survenue", MessageBoxButton.OK, MessageBoxImage.Error);
         }

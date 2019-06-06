@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:models="clr-namespace:CaisseDesktop.Models"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=models:ArticleModel, IsDesignTimeCreatable=False}"
         Title="Checkout" Height="600" Width="1000" WindowStyle="None" WindowState="Maximized">
     <Window.Resources>
         <ResourceDictionary>
@@ -13,7 +15,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-        <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid">
         <!--
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -47,7 +49,56 @@
             </StackPanel>
         </materialDesign:PopupBox>
 
-        <WrapPanel Grid.Row="1" Orientation="Horizontal" Grid.Column="0" x:Name="ItemPanel" />
+        <ListBox Grid.Row="1" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ItemsSource="{Binding Articles, IsAsync=true}" x:Name="ArticlesGrid">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="6"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <materialDesign:Card
+                                Width="200">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                            Height="140" />
+                                <RowDefinition
+                                            Height="*" />
+                                <RowDefinition
+                                            Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Image Source="{Binding ImageSrc}" Stretch="Uniform" />
+                            <StackPanel Grid.Row="1" Margin="8 24 8 0">
+                                <TextBlock FontWeight="Bold" TextAlignment="Center" Text="{Binding Name}" FontSize="20" />
+
+                                <TextBlock TextWrapping="Wrap" FontWeight="Bold" TextAlignment="Center" VerticalAlignment="Center">
+                                             <TextBlock Text="{Binding Price}"></TextBlock> €
+                                </TextBlock>
+                                <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding MaxSellNumberPerDay}"></TextBlock> restant(s)
+                                </TextBlock>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 10">
+                                    <Button Content="-"/>
+                                    <TextBox Padding="1" MinWidth="30" BorderBrush="BlueViolet" BorderThickness="2" HorizontalContentAlignment="Center" Text="0"/>
+                                    <Button Content="+"/>
+                                </StackPanel>
+
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+
         <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" BorderBrush="LightSlateGray" BorderThickness="5">
             <Grid Background="White">
 

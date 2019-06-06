@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CaisseDesktop.Models.Windows;
 using CaisseDesktop.Utils;
 using CaisseLibrary;
 using CaisseLibrary.Concrete.Invoices;
@@ -30,22 +32,26 @@ namespace CaisseDesktop.Graphics.Common
     {
         private SaveableCheckout ActualCheckout { get; set; }
         private List<TextBox> TextBoxes { get; set; }
+	    private CheckoutModel Model => DataContext as CheckoutModel;
 
-        public Checkout(SaveableCheckout checkout)
+
+		public Checkout(SaveableCheckout checkout)
         {
             InitializeComponent();
             TextBoxes = new List<TextBox>();
             ActualCheckout = checkout;
             ConsignTextBox.DataContext = 0;
-
+	        DataContext = new CheckoutModel();
+	        Model.Articles = new ObservableCollection<SaveableArticle>(Main.Articles);
+	        /*
             Loaded += (sender, args) =>
             {
 
                 if (Main.Articles.Count > 0)
                 {
-                    CreateItemGrid(Main.Articles);
+                   // CreateItemGrid(Main.Articles);
                 }
-            };
+            }; */
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -54,8 +60,8 @@ namespace CaisseDesktop.Graphics.Common
 
         private void CreateItemGrid(List<SaveableArticle> items)
         {
-            foreach (var item in items)
-                ItemPanel.Children.Add(CreateItem(item));
+         //   foreach (var item in items)
+         //       ItemPanel.Children.Add(CreateItem(item));
         }
 
         private string GetDefaultImageName(int type)
