@@ -14,71 +14,70 @@ using CaisseServer.Items;
 
 namespace CaisseDesktop.Models.Windows
 {
-	public class CheckoutModel : INotifyPropertyChanged
-	{
+    public class CheckoutModel : INotifyPropertyChanged
+    {
+        private ICommand _articleIncrementCommand;
 
-		private ICommand _articleIncrementCommand;
-		public ICommand ArticleIncrementCommand => _articleIncrementCommand ?? (_articleIncrementCommand = new CommandHandler(IncrementArticle, true));
+        public ICommand ArticleIncrementCommand => _articleIncrementCommand ??
+                                                   (_articleIncrementCommand =
+                                                       new CommandHandler(IncrementArticle, true));
 
-		private ICommand _articleDecrementCommand;
-		public ICommand ArticleDecrementCommand => _articleDecrementCommand ?? (_articleDecrementCommand = new CommandHandler(DecrementArticle, true));
+        private ICommand _articleDecrementCommand;
 
-		public bool CanExecute
-		{
-			get
-			{
-				// check if executing is allowed, i.e., validate, check if a process is running, etc. 
-				return true;
-			}
-		}
+        public ICommand ArticleDecrementCommand => _articleDecrementCommand ??
+                                                   (_articleDecrementCommand =
+                                                       new CommandHandler(DecrementArticle, true));
 
-		public void IncrementArticle(object article)
-		{
-			if (!(article is SaveableArticle saveableArticle)) return;
+        public bool CanExecute
+        {
+            get
+            {
+                // check if executing is allowed, i.e., validate, check if a process is running, etc. 
+                return true;
+            }
+        }
 
-			if (Operations.Any(t => t.Item.Id == saveableArticle.Id))
-			{
-				Operations.Single(t => t.Item.Id == saveableArticle.Id).Amount++;
-			}
-			else
-			{
-				Operations.Add(new SaveableOperation { Amount = 1, Invoice = Main.ActualInvoice.SaveableInvoice, Item = saveableArticle });
-			}
+        public void IncrementArticle(object param)
+        {
+            if (!(param is CheckoutOperationModel model)) return;
 
-			OnPropertyChanged($"Operations");
+            model.Amount++;
 
-		}
+            OnPropertyChanged($"OperationList");
+        }
 
-		public void DecrementArticle(object article)
-		{
-			if (!(article is SaveableArticle saveableArticle)) return;
+        public void DecrementArticle(object param)
+        {
+            if (!(param is CheckoutOperationModel model)) return;
 
-			if (Operations.Any(t => t.Item.Id == saveableArticle.Id))
-				Operations.Single(t => t.Item.Id == saveableArticle.Id).Amount--;
+            model.Amount = Math.Max(model.Amount - 1, 0);
 
-			OnPropertyChanged($"Operations");
+            OnPropertyChanged($"OperationList");
 
-		}
+        }
 
-		private ObservableCollection<CheckoutOperationModel> _operations;
 
-		public ObservableCollection<CheckoutOperationModel> Operations
-		{
-			get => _operations;
-			set
-			{
-				if (Equals(value, _operations)) return;
+        public ObservableCollection<CheckoutOperationModel> OperationList => new ObservableCollection<CheckoutOperationModel>(Operations.Where(t => t.Amount != 0).ToList());
 
-				_operations = value;
-				OnPropertyChanged();
-			}
-		}
+        private ObservableCollection<CheckoutOperationModel> _operations;
 
-		public event PropertyChangedEventHandler PropertyChanged;
+        public ObservableCollection<CheckoutOperationModel> Operations
+        {
+            get => _operations;
+            set
+            {
+                if (Equals(value, _operations)) return;
 
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
+                _operations = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
 }

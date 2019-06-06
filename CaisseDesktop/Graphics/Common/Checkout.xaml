@@ -11,7 +11,8 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -35,10 +36,10 @@
         </Grid.ColumnDefinitions>
 
         <materialDesign:PopupBox Grid.Row="0" Grid.Column="0"
-            Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
-            PlacementMode="BottomAndAlignCentres"
-            ToolTipService.Placement="Right"
-            HorizontalAlignment="Left" Height="Auto" Margin="3,2,0,3" Width="35">
+                                 Style="{StaticResource MaterialDesignMultiFloatingActionPopupBox}"
+                                 PlacementMode="BottomAndAlignCentres"
+                                 ToolTipService.Placement="Right"
+                                 HorizontalAlignment="Left" Height="Auto" Margin="3,2,0,3" Width="35">
             <StackPanel>
                 <Button ToolTip="Changer d'utilisateur" Click="SwitchUser_OnClick">
                     <materialDesign:PackIcon Kind="UsersSwitch" />
@@ -49,46 +50,100 @@
             </StackPanel>
         </materialDesign:PopupBox>
 
-        <ListBox Grid.Row="1" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ItemsSource="{Binding Operations, IsAsync=true}" x:Name="ArticlesGrid">
+        <ListBox Grid.Row="1" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Operations, IsAsync=true}"
+                 x:Name="ArticlesGrid" Grid.IsSharedSizeScope="True">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel/>
+                    <WrapPanel />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
-                    <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Margin" Value="6"/>
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Margin" Value="6" />
+                    <Setter Property="Focusable" Value="False" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="HorizontalContentAlignment"
+                            Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+                    <Setter Property="VerticalContentAlignment"
+                            Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"
+                                        SnapsToDevicePixels="true">
+                                    <ContentPresenter
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="Background" TargetName="Bd"
+                                                Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                        <Setter Property="Foreground"
+                                                Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                                    </Trigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsSelected" Value="true" />
+                                            <Condition Property="Selector.IsSelectionActive" Value="false" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Background" TargetName="Bd"
+                                                Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+                                        <Setter Property="Foreground"
+                                                Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
+                                    </MultiTrigger>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Foreground"
+                                                Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
                 </Style>
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <materialDesign:Card
-                                Width="200">
+                    <materialDesign:Card Width="200">
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="140" />
                                 <RowDefinition
-                                            Height="140" />
+                                    Height="*" />
                                 <RowDefinition
-                                            Height="*" />
-                                <RowDefinition
-                                            Height="Auto" />
+                                    Height="Auto" />
                             </Grid.RowDefinitions>
                             <Image Source="{Binding ImageSrc}" Stretch="Uniform" />
                             <StackPanel Grid.Row="1" Margin="8 24 8 0">
-                                <TextBlock FontWeight="Bold" TextAlignment="Center" Text="{Binding Name}" FontSize="20" />
+                                <TextBlock FontWeight="Bold" TextAlignment="Center" TextWrapping="Wrap"
+                                           Text="{Binding Name}" FontSize="18" />
 
-                                <TextBlock TextWrapping="Wrap" FontWeight="Bold" TextAlignment="Center" VerticalAlignment="Center">
-                                             <TextBlock Text="{Binding Price}"></TextBlock> €
+                                <TextBlock TextWrapping="Wrap" FontWeight="Bold" TextAlignment="Center"
+                                           VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Price}" />
+                                    €
                                 </TextBlock>
-                                <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 5, 0, 5">
-                                            <TextBlock Text="{Binding MaxSellNumberPerDay}"></TextBlock> restant(s)
+                                <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                           Margin="0, 5, 0, 5">
+                                    <TextBlock Text="{Binding MaxSellNumberPerDay}" />
+                                    restant(s)
                                 </TextBlock>
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 10">
-                                    <Button Content="-" Command="{Binding DataContext.ArticleDecrementCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBox}}" CommandParameter="{Binding}"/>
-                                    <TextBox Padding="1" MinWidth="30" BorderBrush="BlueViolet" BorderThickness="2" HorizontalContentAlignment="Center" Text="{Binding Amount}"/>
-                                    <Button Content="+" Command="{Binding DataContext.ArticleIncrementCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBox}}" CommandParameter="{Binding}"/>
+                                    <Button Content="-"
+                                            Command="{Binding DataContext.ArticleDecrementCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBox}}"
+                                            CommandParameter="{Binding}" IsEnabled="{Binding CanDecrement}" />
+                                    <TextBox Padding="1" MinWidth="30" BorderBrush="BlueViolet" BorderThickness="2"
+                                             HorizontalContentAlignment="Center" Text="{Binding Amount}" />
+                                    <Button Content="+"
+                                            Command="{Binding DataContext.ArticleIncrementCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBox}}"
+                                            CommandParameter="{Binding}" />
                                 </StackPanel>
 
                             </StackPanel>
@@ -116,8 +171,36 @@
                 </Grid.RowDefinitions>
 
 
-                <ListBox Grid.Row="0" BorderBrush="LightSlateGray" BorderThickness="1">
-                    <ListBoxItem Content="Veuillez ajouter des articles" />
+                <ListBox Grid.Row="0" BorderBrush="LightSlateGray" BorderThickness="1"
+                         ItemsSource="{Binding OperationList, IsAsync=true}">
+                    <!--  <ListBox.Style>
+                        <Style TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
+                            <Style.Triggers>
+                                 //Use ListBox.HasItems instead of Binding 
+                                <Trigger Property="HasItems" Value="False">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <TextBlock>Veuillez ajouter des articles</TextBlock>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.Style>
+-->
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock TextWrapping="Wrap" FontWeight="Bold" TextAlignment="Center"
+                                           VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Amount}" /> x <TextBlock Text="{Binding Name}" /> :
+                                    <TextBlock Text="{Binding FinalPrice}" />€
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
 
                 <Border Grid.Row="1" BorderBrush="LightSlateGray" BorderThickness="2" Margin="50 5 50 5">

@@ -27,10 +27,11 @@ namespace CaisseDesktop.Models
 			{
 				Operation.Amount = value;
 				OnPropertyChanged();
+                OnPropertyChanged($"CanDecrement");
 			}
 		}
 
-		public int MaxSellNumberPerDay
+        public int MaxSellNumberPerDay
 		{
 			get => Operation.Item.MaxSellNumberPerDay;
 			set
@@ -40,7 +41,9 @@ namespace CaisseDesktop.Models
 			}
 		}
 
-		public string Name => Operation.Item.Name;
+        public bool CanDecrement => Amount > 0;
+
+        public string Name => Operation.Item.Name;
 
 		public string ImageSrc => Operation.Item.ImageSrc;
 
@@ -49,6 +52,8 @@ namespace CaisseDesktop.Models
 		public bool NeedsCup => Operation.Item.NeedsCup;
 
 		public bool Active => Operation.Item.Active;
+
+        public decimal FinalPrice => Operation.Item.Price * Amount;
 
 
 		public event PropertyChangedEventHandler PropertyChanged;
