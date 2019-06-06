@@ -133,6 +133,7 @@
     <Compile Include="Admin\SessionAdmin.cs" />
     <Compile Include="Client\ClientMain.cs" />
     <Compile Include="Enums\TimeTableDay.cs" />
+    <Compile Include="Graphics\Utils\CommandHandler.cs" />
     <Compile Include="IO\ExportManager.cs" />
     <Compile Include="Graphics\Admin\AdminConnection.xaml.cs">
       <DependentUpon>AdminConnection.xaml</DependentUpon>

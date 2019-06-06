@@ -87,6 +87,8 @@ namespace CaisseDesktop.Graphics.Common
                 PrinterStatusLabel.Content = "Imprimante : Configuration de la connexion...";
             });
 
+	        var changeStatus = true;
+
             try
             {
                 if (reconfigure)
@@ -105,22 +107,22 @@ namespace CaisseDesktop.Graphics.Common
                     Mouse.OverrideCursor = null;
                     if(!Validations.ShowErrorRequest($"{e.Message}. Voulez vous continuer sans l'imprimante?")) { 
 						Close();
+						return;
                     }
-                    else
-                    {
-	                    PrinterStatusLabel.Content = "Imprimante : Pas de connexion";
-					}
 
+	                PrinterStatusLabel.Content = "Imprimante : Pas de connexion";
+	                changeStatus = false;
 
                 });
-                return;
+
             }
 
             Dispatcher.Invoke(() =>
             {
                 Mouse.OverrideCursor = null;
                 CanLogin = true;
-                PrinterStatusLabel.Content = "Imprimante : OK";
+				if(changeStatus)
+					PrinterStatusLabel.Content = "Imprimante : OK";
             });
         }
 

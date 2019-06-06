@@ -81,7 +81,7 @@
                                 <TextBlock TextWrapping="Wrap" FontWeight="Bold" TextAlignment="Center" VerticalAlignment="Center">
                                              <TextBlock Text="{Binding Price}"></TextBlock> €
                                 </TextBlock>
-                                <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0, 5, 0, 5">
                                             <TextBlock Text="{Binding MaxSellNumberPerDay}"></TextBlock> restant(s)
                                 </TextBlock>
 
