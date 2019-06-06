@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using CaisseLibrary.Concrete.Invoices;
 using CaisseLibrary.IO;
@@ -23,6 +24,7 @@ namespace CaisseLibrary
         private static bool SessionOpen { get; set; }
         public static ReceiptTicket ReceiptTicket { get; set; }
         public static List<ArticleTicket> ArticleTickets { get; set; }
+        public static ConsignTicket ConsignTicket { get; set; }
         public static Invoice ActualInvoice { get; set; }
 
         public static void Start()
@@ -78,6 +80,10 @@ namespace CaisseLibrary
                 ArticleTickets.Add(articleTicket);
                 imagesToSetUp.Add(articleTicket);
             }
+
+            // consign ticket
+
+            ConsignTicket = new ConsignTicket(Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Ressources" + Path.PathSeparator + "Images" + Path.PathSeparator + "cup.jpg"));
 
 	        // new invoice
 

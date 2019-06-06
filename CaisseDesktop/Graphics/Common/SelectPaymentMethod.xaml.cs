@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseDesktop.Models.Windows;
 using CaisseLibrary;
 
 namespace CaisseDesktop.Graphics.Common
@@ -24,19 +25,19 @@ namespace CaisseDesktop.Graphics.Common
     {
         private Checkout Checkout { get; }
         private readonly Regex OnlyNumbersRegex = new Regex("([0-9])"); //regex that matches allowed text
+        private CheckoutModel Model => DataContext as CheckoutModel;
 
-        public SelectPaymentMethod(Checkout checkout)
+        public SelectPaymentMethod(Checkout checkout, CheckoutModel model)
         {
             InitializeComponent();
             Owner = checkout;
             Checkout = checkout;
-            MoneyToPayLabel.Content = $"A payer : {Main.ActualInvoice.CalculateTotalPrice():F} €";
+            DataContext = model;
         }
 
         private void ValidWithReceipt_OnClick(object sender, RoutedEventArgs e)
         {
-
-            if (Main.ActualInvoice.CalculateTotalPrice() - Main.ActualInvoice.GivenMoney > 0)
+            if (Model.FinalPrice - Model.GivenMoney > 0)
             {
                 SystemSounds.Beep.Play();
                 return;
@@ -48,13 +49,13 @@ namespace CaisseDesktop.Graphics.Common
 
         private void Cancel_OnClick(object sender, RoutedEventArgs e)
         {
-            Main.ActualInvoice.GivenMoney = 0;
+            Model.GivenMoney = 0;
             Close();
         }
 
         private void ValidWithoutReceipt_OnClick(object sender, RoutedEventArgs e)
         {
-            if (Main.ActualInvoice.CalculateTotalPrice() - Main.ActualInvoice.GivenMoney > 0)
+            if (Model.FinalPrice - Model.GivenMoney > 0)
             {
                 SystemSounds.Beep.Play();
                 return;
@@ -64,43 +65,32 @@ namespace CaisseDesktop.Graphics.Common
             Checkout.OpenLoading(false);
         }
 
-        public void UpdateLabels()
-        {
-            GivenMoneyLabel.Content = $"Reçu : {Main.ActualInvoice.GivenMoney:F} €";
-            MoneyGiveBackLabel.Content = $"A rendre : {Main.ActualInvoice.CalculateGivenBackChange():F} €";
-        }
 
         private void Clear_OnClick(object sender, RoutedEventArgs e)
         {
-            if (Main.ActualInvoice.GivenMoney == 0) return;
-
-            Main.ActualInvoice.GivenMoney = 0;
-            UpdateLabels();
+            Model.GivenMoney = 0;
         }
 
         private void Money_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!(sender is Image img)) return;
-            if(!(img.DataContext is string value)) return;
+            if (!(img.DataContext is string value)) return;
             if (!decimal.TryParse(value, out var result)) return;
 
-            Main.ActualInvoice.GivenMoney = Math.Min(Main.ActualInvoice.GivenMoney + result, 10000);
+            Model.GivenMoney = Math.Min(Model.GivenMoney + result, 10000);
             // todo max configurable => 10.000 € max value
-            UpdateLabels();
         }
 
-	    private void Money50_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-	    {
-		    if (!(sender is Image img)) return;
-		    if (!(img.DataContext is string value)) return;
+        private void Money50_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!(sender is Image img)) return;
 
-		    Main.ActualInvoice.GivenMoney = Math.Min(Main.ActualInvoice.GivenMoney + 0.5m, 10000);
-		    // todo max configurable => 10.000 € max value
-		    UpdateLabels();
-	    }
+            Model.GivenMoney = Math.Min(Model.GivenMoney + 0.5m, 10000);
+            // todo max configurable => 10.000 € max value
+        }
 
-		// todo avoid insert from letters and write...
-		private void CustomAmount_OnClick(object sender, RoutedEventArgs e)
+        // todo avoid insert from letters and write...
+        private void CustomAmount_OnClick(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(CustomNumber.Text) || CustomNumber.Text.Equals("0")) return;
 
@@ -110,13 +100,10 @@ namespace CaisseDesktop.Graphics.Common
                 return;
             }
 
-            Main.ActualInvoice.GivenMoney = Math.Min(Main.ActualInvoice.GivenMoney + result, 10000);
+            Model.GivenMoney = Math.Min(Model.GivenMoney + result, 10000);
             // todo max configurable => 10.000 € max value
 
             CustomNumber.Text = "0";
-
-            UpdateLabels();
-
         }
     }
 }

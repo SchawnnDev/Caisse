@@ -28,13 +28,31 @@ namespace CaisseDesktop.Models.Windows
                                                    (_articleDecrementCommand =
                                                        new CommandHandler(DecrementArticle, true));
 
-        public bool CanExecute
+        public bool CanExecute => true;
+
+        public decimal Price => Operations.Sum(t => t.FinalPrice);
+
+        public decimal ConsignPrice => Main.ActualInvoice.Consign.Amount * 1m;
+
+        public decimal FinalPrice => Price + ConsignPrice;
+
+        private decimal _givenMoney;
+
+        public decimal GivenMoney
         {
-            get
+            get => _givenMoney;
+            set
             {
-                // check if executing is allowed, i.e., validate, check if a process is running, etc. 
-                return true;
+                _givenMoney = value;
+                OnPropertyChanged();
             }
+        }
+
+        public void NewInvoice()
+        {
+            OperationList.Clear();
+            foreach (var op in Operations)
+                op.Amount = 0;
         }
 
         public void IncrementArticle(object param)
@@ -43,7 +61,7 @@ namespace CaisseDesktop.Models.Windows
 
             model.Amount++;
 
-            OnPropertyChanged($"OperationList");
+            Update();
         }
 
         public void DecrementArticle(object param)
@@ -52,12 +70,19 @@ namespace CaisseDesktop.Models.Windows
 
             model.Amount = Math.Max(model.Amount - 1, 0);
 
-            OnPropertyChanged($"OperationList");
-
+            Update();
         }
 
+        private void Update()
+        {
+            OnPropertyChanged($"OperationList");
+            OnPropertyChanged($"Price");
+            OnPropertyChanged($"ConsignPrice");
+            OnPropertyChanged($"FinalPrice");
+        }
 
-        public ObservableCollection<CheckoutOperationModel> OperationList => new ObservableCollection<CheckoutOperationModel>(Operations.Where(t => t.Amount != 0).ToList());
+        public ObservableCollection<CheckoutOperationModel> OperationList =>
+            new ObservableCollection<CheckoutOperationModel>(Operations.Where(t => t.Amount != 0).ToList());
 
         private ObservableCollection<CheckoutOperationModel> _operations;
 

@@ -90,6 +90,7 @@
     <Compile Include="IO\ConfigFile.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Print\ArticleTicket.cs" />
+    <Compile Include="Print\ConsignTicket.cs" />
     <Compile Include="Print\ReceiptTicket.cs" />
     <Compile Include="Print\TicketConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

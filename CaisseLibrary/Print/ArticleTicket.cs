@@ -94,7 +94,7 @@ namespace CaisseLibrary.Print
             printer.PrintNormal(PrinterStation.Receipt, "\u001b|200uF");
 
             PrintMinimized(printer,
-                CENTER + $"Facture n°{Invoice.SaveableInvoice.Id} • {Invoice.SaveableInvoice.Date:dd/MM/yy HH:mm:ss}" + NEW_LINE);
+                CENTER + $"Facture n°{Invoice.SaveableInvoice.Id} • {Invoice.SaveableInvoice.Date:dd/MM/yy HH:mm}" + NEW_LINE);
         }
     }
 }

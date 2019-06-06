@@ -20,7 +20,6 @@ namespace CaisseDesktop.Graphics.Common
     /// </summary>
     public partial class Loading : Window
     {
-
         public bool PrintReceipt { get; set; }
         private Checkout Checkout { get; set; }
         public Loading(Checkout checkout, bool printReceipt)
@@ -34,10 +33,8 @@ namespace CaisseDesktop.Graphics.Common
             {
                 Main.ActualInvoice.FinalizeInvoice();
                 Main.ActualInvoice.Save();
-                Print();
-                SaveLoadingText.Content = "Terminé";
-                ToggleProgressBar(false);
-                ToggleButtons(true);
+
+                Task.Run(Print);
             };
         }
 
@@ -53,15 +50,9 @@ namespace CaisseDesktop.Graphics.Common
             ToggleButtons(false);
             ToggleProgressBar(true);
 
-            Print();
-
-            SaveLoadingText.Content = "Terminé";
-            
-            ToggleProgressBar(false);
-            ToggleButtons(true);
+            Task.Run(Print);
 
         }
-
 
         public void ToggleProgressBar(bool toggle)
         {
@@ -73,6 +64,12 @@ namespace CaisseDesktop.Graphics.Common
             SaveLoadingText.Content = "Impression...";
             //print
             Main.ActualInvoice.Print(PrintReceipt);
+
+            Dispatcher.Invoke(() => {
+                SaveLoadingText.Content = "Terminé";
+                ToggleProgressBar(false);
+                ToggleButtons(true);
+            });
         }
 
         public void ToggleButtons(bool toggle)

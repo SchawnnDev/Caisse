@@ -76,12 +76,12 @@ namespace CaisseLibrary.Concrete.Invoices
             if (receiptTicket) ticketList.Add(Main.ReceiptTicket.PrintWith(this));
 
             foreach (var operation in FinalData.Operations)
-            {
                 for (var i = 0; i < operation.Amount; i++)
-                {
                     ticketList.Add(Main.GetArticleTicket(operation.Item).PrintWith(this));
-                }
-            }
+
+            // Print consign tickets
+            for (var i = 0; i < Consign.Amount; i++)
+                ticketList.Add(Main.ConsignTicket);
 
             Main.TicketPrinter.Print(ticketList);
         }

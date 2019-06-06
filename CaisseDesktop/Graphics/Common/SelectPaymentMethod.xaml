@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Common"
+        xmlns:windows="clr-namespace:CaisseDesktop.Models.Windows"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=windows:CheckoutModel, IsDesignTimeCreatable=False}"
         Title="SelectPaymentMethod" Height="500" Width="800" ResizeMode="NoResize" WindowStyle="None"
         WindowStartupLocation="CenterOwner">
     <Border BorderThickness="2" BorderBrush="DarkSlateGray">
@@ -41,16 +43,11 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
-                        <Label x:Name="MoneyToPayLabel" Content="A payer : 0.00 €" FontSize="20" Foreground="LightSlateGray"
-                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">A payer : <TextBlock Text="{Binding FinalPrice}"/> €</TextBlock>
 
-                        <Label x:Name="GivenMoneyLabel" Grid.Row="1" Content="Reçu : 0.00 €" FontSize="20"
-                               Foreground="LightSlateGray"
-                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock Grid.Row="1" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">Reçu : <TextBlock Text="{Binding FinalPrice}"/> €</TextBlock>
 
-                        <Label x:Name="MoneyGiveBackLabel" Grid.Row="2" Content="A rendre : 0.00 €" FontSize="20" Foreground="LightSlateGray"
-                               HorizontalAlignment="Center" VerticalAlignment="Center" />
-
+                        <TextBlock  Grid.Row="2" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">A rendre : <TextBlock Text="{Binding FinalPrice}"/> €</TextBlock>
 
                     </Grid>
 
