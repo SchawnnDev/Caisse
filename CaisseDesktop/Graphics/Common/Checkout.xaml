@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:models="clr-namespace:CaisseDesktop.Models"
+        xmlns:models="clr-namespace:CaisseDesktop.Models.Windows"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=models:ArticleModel, IsDesignTimeCreatable=False}"
+        d:DataContext="{d:DesignInstance Type=models:CheckoutModel, IsDesignTimeCreatable=False}"
         Title="Checkout" Height="600" Width="1000" WindowStyle="None" WindowState="Maximized">
     <Window.Resources>
         <ResourceDictionary>
@@ -49,7 +49,7 @@
             </StackPanel>
         </materialDesign:PopupBox>
 
-        <ListBox Grid.Row="1" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ItemsSource="{Binding Articles, IsAsync=true}" x:Name="ArticlesGrid">
+        <ListBox Grid.Row="1" Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ItemsSource="{Binding Operations, IsAsync=true}" x:Name="ArticlesGrid">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel/>
@@ -86,9 +86,9 @@
                                 </TextBlock>
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 10">
-                                    <Button Content="-"/>
-                                    <TextBox Padding="1" MinWidth="30" BorderBrush="BlueViolet" BorderThickness="2" HorizontalContentAlignment="Center" Text="0"/>
-                                    <Button Content="+"/>
+                                    <Button Content="-" Command="{Binding DataContext.ArticleDecrementCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBox}}" CommandParameter="{Binding}"/>
+                                    <TextBox Padding="1" MinWidth="30" BorderBrush="BlueViolet" BorderThickness="2" HorizontalContentAlignment="Center" Text="{Binding Amount}"/>
+                                    <Button Content="+" Command="{Binding DataContext.ArticleIncrementCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBox}}" CommandParameter="{Binding}"/>
                                 </StackPanel>
 
                             </StackPanel>

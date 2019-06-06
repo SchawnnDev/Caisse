@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CaisseDesktop.Graphics.Utils;
+using CaisseLibrary;
+using CaisseServer;
 using CaisseServer.Items;
 
 namespace CaisseDesktop.Models.Windows
 {
 	public class CheckoutModel : INotifyPropertyChanged
 	{
-/*
-		private ICommand _clickCommand;
-		public ICommand ClickCommand
-		{
-			get
-			{
-				return _clickCommand ?? (_clickCommand = new CommandHandler(() => IncrementArticle(), () => CanExecute));
-			}
-		} */
+
+		private ICommand _articleIncrementCommand;
+		public ICommand ArticleIncrementCommand => _articleIncrementCommand ?? (_articleIncrementCommand = new CommandHandler(IncrementArticle, true));
+
+		private ICommand _articleDecrementCommand;
+		public ICommand ArticleDecrementCommand => _articleDecrementCommand ?? (_articleDecrementCommand = new CommandHandler(DecrementArticle, true));
 
 		public bool CanExecute
 		{
@@ -32,34 +32,53 @@ namespace CaisseDesktop.Models.Windows
 			}
 		}
 
-		public void IncrementArticle(SaveableArticle article)
+		public void IncrementArticle(object article)
 		{
+			if (!(article is SaveableArticle saveableArticle)) return;
+
+			if (Operations.Any(t => t.Item.Id == saveableArticle.Id))
+			{
+				Operations.Single(t => t.Item.Id == saveableArticle.Id).Amount++;
+			}
+			else
+			{
+				Operations.Add(new SaveableOperation { Amount = 1, Invoice = Main.ActualInvoice.SaveableInvoice, Item = saveableArticle });
+			}
+
+			OnPropertyChanged($"Operations");
 
 		}
 
-		private ObservableCollection<SaveableArticle> _articles;
-
-		public ObservableCollection<SaveableArticle> Articles
+		public void DecrementArticle(object article)
 		{
-			get => _articles;
+			if (!(article is SaveableArticle saveableArticle)) return;
+
+			if (Operations.Any(t => t.Item.Id == saveableArticle.Id))
+				Operations.Single(t => t.Item.Id == saveableArticle.Id).Amount--;
+
+			OnPropertyChanged($"Operations");
+
+		}
+
+		private ObservableCollection<CheckoutOperationModel> _operations;
+
+		public ObservableCollection<CheckoutOperationModel> Operations
+		{
+			get => _operations;
 			set
 			{
-				if (Equals(value, _articles)) return;
+				if (Equals(value, _operations)) return;
 
-				_articles = value;
-				OnPropertyChanged("Articles");
+				_operations = value;
+				OnPropertyChanged();
 			}
 		}
 
-		#region INotifyPropertyChanged implementation
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public void OnPropertyChanged(string name)
+		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
-
-		#endregion INotifyPropertyChanged implementation
 	}
 }

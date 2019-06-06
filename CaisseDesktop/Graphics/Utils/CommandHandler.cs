@@ -9,27 +9,28 @@ namespace CaisseDesktop.Graphics.Utils
 {
 	public class CommandHandler : ICommand
 	{
-		private Action _action;
-		private Func<bool> _canExecute;
+		private Action<object> _action;
+		private bool _canExecute;
 
 		/// <summary>
 		/// Creates instance of the command handler
 		/// </summary>
 		/// <param name="action">Action to be executed by the command</param>
 		/// <param name="canExecute">A bolean property to containing current permissions to execute the command</param>
-		public CommandHandler(Action action, Func<bool> canExecute)
+		public CommandHandler(Action<object> action, bool canExecute)
 		{
 			_action = action;
 			_canExecute = canExecute;
 		}
 
+		/// <inheritdoc />
 		/// <summary>
 		/// Wires CanExecuteChanged event 
 		/// </summary>
 		public event EventHandler CanExecuteChanged
 		{
-			add { CommandManager.RequerySuggested += value; }
-			remove { CommandManager.RequerySuggested -= value; }
+			add => CommandManager.RequerySuggested += value;
+			remove => CommandManager.RequerySuggested -= value;
 		}
 
 		/// <summary>
@@ -37,14 +38,11 @@ namespace CaisseDesktop.Graphics.Utils
 		/// </summary>
 		/// <param name="parameter"></param>
 		/// <returns></returns>
-		public bool CanExecute(object parameter)
-		{
-			return _canExecute.Invoke();
-		}
+		public bool CanExecute(object parameter) => _canExecute;
 
 		public void Execute(object parameter)
 		{
-			_action();
+			_action( parameter);
 		}
 	}
 }

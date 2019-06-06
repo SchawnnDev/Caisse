@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CaisseDesktop.Models;
 using CaisseDesktop.Models.Windows;
 using CaisseDesktop.Utils;
 using CaisseLibrary;
@@ -42,7 +43,14 @@ namespace CaisseDesktop.Graphics.Common
             ActualCheckout = checkout;
             ConsignTextBox.DataContext = 0;
 	        DataContext = new CheckoutModel();
-	        Model.Articles = new ObservableCollection<SaveableArticle>(Main.Articles);
+	        Model.Operations = new ObservableCollection<CheckoutOperationModel>();
+
+	        foreach (var article in Main.Articles.OrderBy(t=>t.Position).ToList())
+	        {
+		        if (!article.Active) continue;
+		        Model.Operations.Add(new CheckoutOperationModel(article));
+	        }
+
 	        /*
             Loaded += (sender, args) =>
             {
