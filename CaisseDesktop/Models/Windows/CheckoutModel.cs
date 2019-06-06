@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CaisseDesktop.Graphics.Utils;
 using CaisseLibrary;
+using CaisseLibrary.Concrete.Invoices;
 using CaisseServer;
 using CaisseServer.Items;
 
@@ -16,6 +17,17 @@ namespace CaisseDesktop.Models.Windows
 {
     public class CheckoutModel : INotifyPropertyChanged
     {
+
+        public CheckoutModel()
+        {
+            Invoice = new Invoice
+            {
+
+            };
+        }
+
+        public Invoice Invoice;
+
         private ICommand _articleIncrementCommand;
 
         public ICommand ArticleIncrementCommand => _articleIncrementCommand ??
@@ -32,7 +44,7 @@ namespace CaisseDesktop.Models.Windows
 
         public decimal Price => Operations.Sum(t => t.FinalPrice);
 
-        public decimal ConsignPrice => Main.ActualInvoice.Consign.Amount * 1m;
+        public decimal ConsignPrice => Invoice.Consign.Amount * 1m;
 
         public decimal FinalPrice => Price + ConsignPrice;
 

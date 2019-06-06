@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseDesktop.Models.Windows;
 using CaisseLibrary;
 
 namespace CaisseDesktop.Graphics.Common
@@ -22,17 +23,20 @@ namespace CaisseDesktop.Graphics.Common
     {
         public bool PrintReceipt { get; set; }
         private Checkout Checkout { get; set; }
-        public Loading(Checkout checkout, bool printReceipt)
+        private CheckoutModel Model => DataContext as CheckoutModel;
+
+        public Loading(Checkout checkout, CheckoutModel model, bool printReceipt)
         {
             InitializeComponent();
             Owner = checkout;
             Checkout = checkout;
             PrintReceipt = printReceipt;
+            DataContext = model;
 
             Loaded += (sender, args) =>
             {
-                Main.ActualInvoice.FinalizeInvoice();
-                Main.ActualInvoice.Save();
+                Model.Invoice.FinalizeInvoice();
+                Model.Invoice.Save();
 
                 Task.Run(Print);
             };
@@ -63,7 +67,7 @@ namespace CaisseDesktop.Graphics.Common
         {
             SaveLoadingText.Content = "Impression...";
             //print
-            Main.ActualInvoice.Print(PrintReceipt);
+            Model.Invoice.Print(PrintReceipt);
 
             Dispatcher.Invoke(() => {
                 SaveLoadingText.Content = "Terminé";

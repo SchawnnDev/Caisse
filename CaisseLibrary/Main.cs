@@ -25,7 +25,7 @@ namespace CaisseLibrary
         public static ReceiptTicket ReceiptTicket { get; set; }
         public static List<ArticleTicket> ArticleTickets { get; set; }
         public static ConsignTicket ConsignTicket { get; set; }
-        public static Invoice ActualInvoice { get; set; }
+       // public static Invoice ActualInvoice { get; set; }
 
         public static void Start()
         {
@@ -83,11 +83,7 @@ namespace CaisseLibrary
 
             // consign ticket
 
-            ConsignTicket = new ConsignTicket(Path.Combine(System.IO.Directory.GetCurrentDirectory(), "Ressources" + Path.PathSeparator + "Images" + Path.PathSeparator + "cup.jpg"));
-
-	        // new invoice
-
-	        NewInvoice();
+            ConsignTicket = new ConsignTicket(Path.Combine(Directory.GetCurrentDirectory(), "Ressources" + Path.PathSeparator + "Images" + Path.PathSeparator + "cup.jpg"));
 
 			// setup printer
 
@@ -99,11 +95,6 @@ namespace CaisseLibrary
 	        TicketPrinter.SetUpImages(imagesToSetUp);
 
 		}
-
-		public static void NewInvoice()
-        {
-            ActualInvoice = new Invoice();
-        }
 
         public static void Reconfigure(string printerName)
         {
