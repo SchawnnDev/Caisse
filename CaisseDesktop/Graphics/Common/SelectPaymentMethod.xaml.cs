@@ -94,8 +94,6 @@ namespace CaisseDesktop.Graphics.Common
 
         private void Money50_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!(sender is Image img)) return;
-
             Model.GivenMoney = Math.Min(Model.GivenMoney + 0.5m, 10000);
             // todo max configurable => 10.000 € max value
         }

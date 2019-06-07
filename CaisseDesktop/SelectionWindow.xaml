@@ -13,15 +13,11 @@
 
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button Content="Ouvrir administration" HorizontalAlignment="Center"
-                    VerticalAlignment="Center" Click="Button_Click" Margin="5" />
-            <Button Content="Test impression" HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Click="ButtonBase_OnClick" Margin="5" />
-            <Button Content="Ancienne connection" HorizontalAlignment="Center"
-                    VerticalAlignment="Center" Click="ButtonConnection_OnClick" Margin="5" />
-            <Button Content="Afficher caisse" HorizontalAlignment="Center"
-                    VerticalAlignment="Center" Click="Button_Click_1" Margin="5" />
+                    VerticalAlignment="Center" Click="Button_Click" Margin="5" MinHeight="75" />
+            <Button Content="Afficher statistiques" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" Click="Button_Click_1" Margin="5" MinHeight="75" />
             <Button Content="Se connecter caissier" HorizontalAlignment="Center"
-                    VerticalAlignment="Center" Click="ButtonLogin_OnClick" Margin="5" />
+                    VerticalAlignment="Center" Click="ButtonLogin_OnClick" Margin="5" MinHeight="75" />
         </StackPanel>
 
 

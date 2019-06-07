@@ -3,11 +3,11 @@
 namespace CaisseDesktop.Graphics.Admin.Statistics
 {
     /// <summary>
-    ///     Interaction logic for AdminStatisticsMain.xaml
+    ///     Interaction logic for StatisticsMain.xaml
     /// </summary>
-    public partial class AdminStatisticsMain : Window
+    public partial class StatisticsMain
     {
-        public AdminStatisticsMain()
+        public StatisticsMain()
         {
             InitializeComponent();
         }

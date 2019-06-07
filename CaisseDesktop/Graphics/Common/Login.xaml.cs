@@ -23,7 +23,7 @@ namespace CaisseDesktop.Graphics.Common
         private Timer UpdateTimer { get; set; }
         private bool CanLogin { get; set; } = false;
 
-        public Login()
+        public Login(bool startup)
         {
             InitializeComponent();
 
@@ -49,7 +49,7 @@ namespace CaisseDesktop.Graphics.Common
                             Main.ActualCheckout = db.Checkouts.Where(t => t.Id == checkoutId)
                                 .Include(t => t.CheckoutType).First();
 
-                            Task.Run(() => ConfigureApp(false));
+                            Task.Run(() => ConfigureApp(startup == false));
 
                             UpdateLabels();
                         }
@@ -105,7 +105,7 @@ namespace CaisseDesktop.Graphics.Common
                 Dispatcher.Invoke(() =>
                 {
                     Mouse.OverrideCursor = null;
-                    if(!Validations.ShowErrorRequest($"{e.Message}. Voulez vous continuer sans l'imprimante?")) { 
+                    if(!Validations.ShowErrorRequest($"{e.Message} Voulez vous continuer sans l'imprimante?")) { 
 						Close();
 						return;
                     }

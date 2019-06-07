@@ -53,17 +53,6 @@ namespace CaisseDesktop.Graphics.Common
 
         }
 
-
-        public void UpdateConsign(int count)
-        {
-            count = Math.Max(count, 0);
-			/*
-            ConsignTextBox.Text = count.ToString();
-            ConsignTextBox.DataContext = count;
-            Main.ActualInvoice.Consign.Amount = count;
-            ConsignMinus.IsEnabled = count != 0; */
-        }
-
         private void SelectPaymentMethod_OnClick(object sender, RoutedEventArgs e)
         {
             if (!Model.IsSomething())
@@ -85,21 +74,11 @@ namespace CaisseDesktop.Graphics.Common
             Model.NewInvoice();
         }
 
-        private void ConsignPlus_OnClick(object sender, RoutedEventArgs e)
-        {
-            //Model
-        }
-
-        private void ConsignMinus_OnClick(object sender, RoutedEventArgs e)
-        {
-           // UpdateConsign((int)ConsignTextBox.DataContext - 1);
-        }
-
         private void SwitchUser_OnClick(object sender, RoutedEventArgs e)
         {
             Main.Logout();
-        //    new Login().Show();
-        //    Close();
+            new Login().Show();
+            Close();
         }
 
         private void Quit_OnClick(object sender, RoutedEventArgs e)

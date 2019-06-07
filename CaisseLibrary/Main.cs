@@ -72,7 +72,7 @@ namespace CaisseLibrary
              *  Setup printer images
              */
 
-            var imagesToSetUp = new List<ITicket>() {ReceiptTicket};
+            var imagesToSetUp = new List<ITicket> {ReceiptTicket};
 
             foreach (var article in Articles)
             {
