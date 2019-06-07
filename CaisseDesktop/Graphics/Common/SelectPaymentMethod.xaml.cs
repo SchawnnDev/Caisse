@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CaisseDesktop.Models.Windows;
@@ -33,9 +35,18 @@ namespace CaisseDesktop.Graphics.Common
             Owner = checkout;
             Checkout = checkout;
             DataContext = model;
+
+			// Blur effect
+	        Owner.Effect = new BlurEffect();
+			Closed += OnClosed;
         }
 
-        private void ValidWithReceipt_OnClick(object sender, RoutedEventArgs e)
+	    private void OnClosed(object sender, EventArgs e)
+	    {
+		    Owner.Effect = null;
+	    }
+
+	    private void ValidWithReceipt_OnClick(object sender, RoutedEventArgs e)
         {
             if (Model.FinalPrice - Model.GivenMoney > 0)
             {
@@ -105,5 +116,8 @@ namespace CaisseDesktop.Graphics.Common
 
             CustomNumber.Text = "0";
         }
-    }
+
+		
+
+	}
 }

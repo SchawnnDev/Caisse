@@ -34,21 +34,20 @@
                     <RowDefinition MaxHeight="100" />
                 </Grid.RowDefinitions>
 
-                <materialDesign:Card Width="200" Grid.Row="0" Margin="0,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <materialDesign:Card Width="280" Grid.Row="0" Margin="0,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
 
                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="5">
-                                <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">A payer : <TextBlock Text="{Binding FinalPrice}"/> €</TextBlock>
+                                <TextBlock FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center">A payer : <TextBlock Text="{Binding FinalPrice}"/> €</TextBlock>
 
-                                <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">Reçu : <TextBlock Text="{Binding GivenMoney}"/> €</TextBlock>
+                                <TextBlock FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center">Reçu : <TextBlock Text="{Binding GivenMoney}"/> €</TextBlock>
 
-                                <TextBlock  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">A rendre : <TextBlock Text="{Binding MoneyToGiveBack}"/> €</TextBlock>
+                                <TextBlock  FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center">A rendre : <TextBlock Text="{Binding MoneyToGiveBack}"/> €</TextBlock>
 
 
                         </StackPanel>
                 </materialDesign:Card>
 
-                <Border Grid.Row="1" BorderThickness="2" BorderBrush="DarkSlateGray" HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
+                <materialDesign:Card Grid.Row="1" Margin="0,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <WrapPanel Orientation="Horizontal">
                         <Image Source="../../Resources/Images/Liquide/100.jpg" Height="70" Width="120" Cursor="Hand"
                                Margin="10" DataContext="100" MouseLeftButtonDown="Money_OnMouseLeftButtonDown" />
@@ -77,7 +76,7 @@
                         <Border BorderThickness="2" BorderBrush="DarkSlateGray" HorizontalAlignment="Center"
                                 VerticalAlignment="Center" Margin="10">
                             <StackPanel Orientation="Horizontal">
-                                <TextBox x:Name="CustomNumber" Text="0" TextAlignment="Center" MinWidth="40" />
+                                <TextBox x:Name="CustomNumber" Text="0" TextAlignment="Center" Width="40" MaxLength="4" />
                                 <Button Content="Ok" Height="auto" Click="CustomAmount_OnClick" />
                             </StackPanel>
                         </Border>
@@ -86,7 +85,7 @@
                                 VerticalAlignment="Center" Click="Clear_OnClick" />
 
                     </WrapPanel>
-                </Border>
+                    </materialDesign:Card>
 
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center"
                             VerticalAlignment="Center">

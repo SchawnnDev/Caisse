@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CaisseDesktop.Models.Windows;
@@ -42,6 +43,11 @@ namespace CaisseDesktop.Graphics.Common
 				Invoice.Save();
 				Task.Run(() => Print());
 			};
+
+			// Blur effect
+			Owner.Effect = new BlurEffect();
+			Closed += OnClosed;
+
 		}
 
 		private void NewInvoice_OnClick(object sender, RoutedEventArgs e)
@@ -87,6 +93,11 @@ namespace CaisseDesktop.Graphics.Common
 		{
 			NewInvoice.IsEnabled = toggle;
 			RePrint.IsEnabled = toggle;
+		}
+
+		private void OnClosed(object sender, EventArgs e)
+		{
+			Owner.Effect = null;
 		}
 
 	}
