@@ -77,7 +77,7 @@ namespace CaisseDesktop.Graphics.Common
         private void SwitchUser_OnClick(object sender, RoutedEventArgs e)
         {
             Main.Logout();
-            new Login().Show();
+            new Login(false).Show();
             Close();
         }
 

@@ -197,8 +197,8 @@
     <Compile Include="Graphics\Admin\PaymentMethods\PaymentMethodManager.xaml.cs">
       <DependentUpon>PaymentMethodManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Graphics\Admin\Statistics\AdminStatisticsMain.xaml.cs">
-      <DependentUpon>AdminStatisticsMain.xaml</DependentUpon>
+    <Compile Include="Graphics\Admin\Statistics\StatisticsMain.xaml.cs">
+      <DependentUpon>StatisticsMain.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Admin\TimeSlots\TimeSlotManager.xaml.cs">
       <DependentUpon>TimeSlotManager.xaml</DependentUpon>
@@ -328,7 +328,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Graphics\Admin\Statistics\AdminStatisticsMain.xaml">
+    <Page Include="Graphics\Admin\Statistics\StatisticsMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

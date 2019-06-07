@@ -38,7 +38,7 @@ namespace CaisseDesktop
 
         private void ButtonLogin_OnClick(object sender, RoutedEventArgs e)
         {
-            new Login().Show();
+            new Login(true).Show();
             Close();
         }
     }
