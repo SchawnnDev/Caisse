@@ -70,6 +70,7 @@ namespace CaisseDesktop.Models.Windows
 				_givenMoney = value;
 				OnPropertyChanged();
 				OnPropertyChanged($"MoneyToGiveBack");
+				OnPropertyChanged($"CanPrint");
 			}
 		}
 
@@ -133,6 +134,7 @@ namespace CaisseDesktop.Models.Windows
 		public bool CanDecrementConsign => ConsignAmount > 0;
 
 		public bool IsSomething() => OperationList.Any() && OperationList.Count(t => t.Amount > 0) > 0;
+		public bool CanPrint => GivenMoney >= FinalPrice;
 
 		public Invoice ToInvoice()
 		{

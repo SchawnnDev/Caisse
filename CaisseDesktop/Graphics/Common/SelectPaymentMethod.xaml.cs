@@ -117,7 +117,11 @@ namespace CaisseDesktop.Graphics.Common
             CustomNumber.Text = "0";
         }
 
-		
 
-	}
+	    private void ExactPrice_OnClick(object sender, RoutedEventArgs e)
+	    {
+		    Model.GivenMoney = Model.FinalPrice;
+	    }
+
+    }
 }

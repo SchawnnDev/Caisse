@@ -12,88 +12,122 @@
         WindowStartupLocation="CenterOwner">
     <Border BorderThickness="2" BorderBrush="DarkSlateGray">
         <Grid>
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MaxWidth="140" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
 
-            <Border Grid.Column="0" BorderBrush="DarkSlateGray" BorderThickness="2">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button x:Name="MoneyButton" Content="Espèces" Margin="5" MinHeight="50" />
-                    <Button x:Name="BankCardButton" Content="Carte bancaire" Margin="5" MinHeight="50"
-                            IsEnabled="False" />
-                </StackPanel>
-            </Border>
+            <Grid.RowDefinitions>
+                <RowDefinition MaxHeight="150" />
+                <RowDefinition MinHeight="200" />
+                <RowDefinition MaxHeight="100" />
+            </Grid.RowDefinitions>
 
-            <Grid Grid.Column="1">
+                <materialDesign:Card Width="280" VerticalAlignment="Top" HorizontalAlignment="Left"  Grid.Row="0" Grid.Column="0" Margin="10">
 
-                <Grid.RowDefinitions>
-                    <RowDefinition MaxHeight="150" />
-                    <RowDefinition MinHeight="200" />
-                    <RowDefinition MaxHeight="100" />
-                </Grid.RowDefinitions>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="5">
+                        <TextBlock FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center">A payer : <TextBlock Text="{Binding FinalPrice}"/> €</TextBlock>
 
-                <materialDesign:Card Width="280" Grid.Row="0" Margin="0,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center">Reçu : <TextBlock Text="{Binding GivenMoney}"/> €</TextBlock>
 
-                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="5">
-                                <TextBlock FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center">A payer : <TextBlock Text="{Binding FinalPrice}"/> €</TextBlock>
-
-                                <TextBlock FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center">Reçu : <TextBlock Text="{Binding GivenMoney}"/> €</TextBlock>
-
-                                <TextBlock  FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center">A rendre : <TextBlock Text="{Binding MoneyToGiveBack}"/> €</TextBlock>
+                        <TextBlock  FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center">A rendre : <TextBlock Text="{Binding MoneyToGiveBack}"/> €</TextBlock>
 
 
-                        </StackPanel>
+                    </StackPanel>
                 </materialDesign:Card>
 
-                <materialDesign:Card Grid.Row="1" Margin="0,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <WrapPanel Orientation="Horizontal">
-                        <Image Source="../../Resources/Images/Liquide/100.jpg" Height="70" Width="120" Cursor="Hand"
+            <WrapPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock FontSize="28">Sélectionnez un moyen de paiement</TextBlock>
+                <materialDesign:ColorZone  Mode="PrimaryMid" Margin="0,10,0,0">
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Margin="2">
+                        <RadioButton
+                            Style="{StaticResource MaterialDesignTabRadioButton}"
+                            Margin="4"
+                            IsChecked="True"
+                            Content="ESPÈCES" />
+                        <RadioButton
+                            Style="{StaticResource MaterialDesignTabRadioButton}"
+                            Margin="4"
+                            IsChecked="False"
+                            Content="CARTE BANCAIRE"
+                            IsEnabled="False"/>
+                        <RadioButton
+                            Style="{StaticResource MaterialDesignTabRadioButton}"
+                            Margin="4"
+                            IsChecked="False"
+                            Content="CHÈQUE"
+                            IsEnabled="False"/>
+                        <RadioButton
+                            Style="{StaticResource MaterialDesignTabRadioButton}"
+                            Margin="4"
+                            IsChecked="False"
+                            Content="AUTRE" 
+                            IsEnabled="False"/>
+                    </StackPanel>
+                </materialDesign:ColorZone>
+            </WrapPanel>
+
+            <materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="750">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <WrapPanel Orientation="Horizontal" Grid.Row="0">
+                    <Image Source="../../Resources/Images/Liquide/100.jpg" Height="70" Width="120" Cursor="Hand"
                                Margin="10" DataContext="100" MouseLeftButtonDown="Money_OnMouseLeftButtonDown" />
 
-                        <Image Source="../../Resources/Images/Liquide/50.jpg" Height="70" Width="120" Cursor="Hand"
+                    <Image Source="../../Resources/Images/Liquide/50.jpg" Height="70" Width="120" Cursor="Hand"
                                Margin="10" DataContext="50" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
 
-                        <Image Source="../../Resources/Images/Liquide/20.jpg" Height="70" Width="120" Cursor="Hand"
+                    <Image Source="../../Resources/Images/Liquide/20.jpg" Height="70" Width="120" Cursor="Hand"
                                Margin="10" DataContext="20" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
 
-                        <Image Source="../../Resources/Images/Liquide/10.jpg" Height="70" Width="120" Cursor="Hand"
+                    <Image Source="../../Resources/Images/Liquide/10.jpg" Height="70" Width="120" Cursor="Hand"
                                Margin="10" DataContext="10" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
 
-                        <Image Source="../../Resources/Images/Liquide/5.jpg" Height="70" Width="120" Cursor="Hand"
+                    <Image Source="../../Resources/Images/Liquide/5.jpg" Height="70" Width="120" Cursor="Hand"
                                Margin="10"  DataContext="5" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
+                    </WrapPanel>
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1" >
 
                         <Image Source="../../Resources/Images/Liquide/2.jpg" Height="50" Width="50" Cursor="Hand"
                                Margin="10"  DataContext="2" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
 
-                        <Image Source="../../Resources/Images/Liquide/1.jpg" Height="50" Width="50" Cursor="Hand"
+                    <Image Source="../../Resources/Images/Liquide/1.jpg" Height="50" Width="50" Cursor="Hand"
                                Margin="10"  DataContext="1" MouseLeftButtonDown="Money_OnMouseLeftButtonDown"/>
 
-                        <Image Source="../../Resources/Images/Liquide/050.jpg" Height="50" Width="50" Cursor="Hand"
+                    <Image Source="../../Resources/Images/Liquide/050.jpg" Height="50" Width="50" Cursor="Hand"
                                Margin="10"  DataContext="0.5" MouseLeftButtonDown="Money50_OnMouseLeftButtonDown"/>
 
-                        <Border BorderThickness="2" BorderBrush="DarkSlateGray" HorizontalAlignment="Center"
+                    <Border BorderThickness="2" BorderBrush="DarkSlateGray" HorizontalAlignment="Center"
                                 VerticalAlignment="Center" Margin="10">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBox x:Name="CustomNumber" Text="0" TextAlignment="Center" Width="40" MaxLength="4" />
-                                <Button Content="Ok" Height="auto" Click="CustomAmount_OnClick" />
-                            </StackPanel>
-                        </Border>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox x:Name="CustomNumber" Text="0" TextAlignment="Center" Width="40" MaxLength="4" />
+                            <Button Content="Ok" Height="auto" Click="CustomAmount_OnClick" />
+                        </StackPanel>
+                    </Border>
 
-                        <Button Content="Clear" Height="auto" Margin="10" MaxHeight="50" HorizontalAlignment="Center"
-                                VerticalAlignment="Center" Click="Clear_OnClick" />
+                    <Button Content="Prix exact" Height="auto" Margin="10" MaxHeight="50" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Click="ExactPrice_OnClick" />
 
-                    </WrapPanel>
-                    </materialDesign:Card>
+                    <Button Content="RAZ" Height="auto" Margin="10" MaxHeight="50" HorizontalAlignment="Center"
+                            VerticalAlignment="Center" Click="Clear_OnClick" />
+                </WrapPanel>
+                </Grid>
+            </materialDesign:Card>
 
-                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center"
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                    <Button Content="Valider (avec reçu)" MinHeight="50" Click="ValidWithReceipt_OnClick" />
-                    <Button Content="Valider (sans reçu)" MinHeight="50" Margin="50 0 0 0" Click="ValidWithoutReceipt_OnClick" />
-                    <Button Content="Annuler" MinHeight="50" Margin="50 0 0 0" Click="Cancel_OnClick"/>
-                </StackPanel>
-            </Grid>
+                <Button Content="Valider (avec reçu)" MinHeight="50" Click="ValidWithReceipt_OnClick" IsEnabled="{Binding CanPrint}" />
+                <Button Content="Valider (sans reçu)" MinHeight="50" Margin="50 0 0 0" Click="ValidWithoutReceipt_OnClick" IsEnabled="{Binding CanPrint}" />
+                <Button Content="Annuler" MinHeight="50" Margin="50 0 0 0" Click="Cancel_OnClick"/>
+            </StackPanel>
         </Grid>
     </Border>
 </Window>
