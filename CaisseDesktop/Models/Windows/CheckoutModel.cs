@@ -58,8 +58,8 @@ namespace CaisseDesktop.Models.Windows
 
 		private int _consignAmount;
 
-		public decimal MoneyToGiveBack => Math.Max(GivenMoney-FinalPrice , 0m);
-		
+		public decimal MoneyToGiveBack => Math.Max(GivenMoney - FinalPrice, 0m);
+
 		private decimal _givenMoney;
 
 		public decimal GivenMoney
@@ -89,6 +89,9 @@ namespace CaisseDesktop.Models.Windows
 			foreach (var op in Operations)
 				op.Amount = 0;
 			ConsignAmount = 0;
+			GivenMoney = 0;
+
+			Update();
 		}
 
 		public void IncrementConsign(object param)
@@ -148,7 +151,7 @@ namespace CaisseDesktop.Models.Windows
 			};
 
 
-			return new Invoice(saveableInvoice, consign, OperationList.Select(t=>t.Operation).ToList());
+			return new Invoice(saveableInvoice, consign, Operations.Where(t => t.Amount > 0).Select(t => t.Operation).ToList());
 
 		}
 
@@ -161,8 +164,25 @@ namespace CaisseDesktop.Models.Windows
 			OnPropertyChanged($"CanDecrementConsign");
 		}
 
-		public ObservableCollection<CheckoutOperationModel> OperationList =>
-			new ObservableCollection<CheckoutOperationModel>(Operations.Where(t => t.Amount != 0).ToList());
+		public List<CheckoutOperationRowModel> GenerateOperationRowList()
+		{
+			var list = new List<CheckoutOperationRowModel>();
+
+			foreach (var operation in Operations)
+			{
+				if (operation.Amount == 0) continue;
+				list.Add(new CheckoutOperationRowModel(operation.Name, operation.Amount, operation.FinalPrice));
+			}
+
+			if(ConsignAmount > 0)
+				list.Add(new CheckoutOperationRowModel("Consigne", ConsignAmount, ConsignAmount * 1 /* price */)); // set the price of consign in config
+
+			return list;
+
+		}
+
+		public ObservableCollection<CheckoutOperationRowModel> OperationList =>
+			new ObservableCollection<CheckoutOperationRowModel>(GenerateOperationRowList());
 
 		private ObservableCollection<CheckoutOperationModel> _operations;
 

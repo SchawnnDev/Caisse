@@ -138,7 +138,7 @@ namespace CaisseLibrary.Print
 
             PrintMinimized(printer,
                 CENTER +
-                $"{Invoice.SaveableInvoice.PaymentMethod.Name.ToUpper()} : {Invoice.GivenMoney:F} EUR • RENDU : {Invoice.CalculateGivenBackChange():F} €" +
+                $"{Invoice.SaveableInvoice.PaymentMethod.Name.ToUpper()} : {Invoice.SaveableInvoice.GivenMoney:F} EUR • RENDU : {Invoice.CalculateGivenBackChange():F} €" +
                 NEW_LINE);
             //printer.PrintNormal(PrinterStation.Receipt,CENTER + $"{Invoice.PaymentMethod.Name.ToUpper()} : {Invoice.GivenMoney:F} EUR • RENDU : {Invoice.CalculateGivenBackChange():F} €" + NEW_LINE);
 

@@ -13,7 +13,6 @@ namespace CaisseLibrary.Concrete.Invoices
 {
 	public class Invoice
 	{
-		public decimal GivenMoney { get; set; }
 
 		public SaveableInvoice SaveableInvoice { get; set; }
 
@@ -71,14 +70,13 @@ namespace CaisseLibrary.Concrete.Invoices
 
 		public decimal CalculateTotalArticlesPrice() => Operations.Sum(t => t.FinalPrice());
 		public decimal CalculateTotalPrice() => CalculateTotalArticlesPrice() + Consign.Amount;
-		public decimal CalculateGivenBackChange() => Math.Max(0, GivenMoney - CalculateTotalPrice());
+		public decimal CalculateGivenBackChange() => Math.Max(0, SaveableInvoice.GivenMoney - CalculateTotalPrice());
 
 		public void Save()
 		{
 			using (var db = new CaisseServerContext())
 			{
 				SaveableInvoice.Cashier = Main.ActualCashier;
-				SaveableInvoice.GivenMoney = GivenMoney;
 				SaveableInvoice.PaymentMethod = Main.LiquidPaymentMethod;
 
 				db.Cashiers.Attach(SaveableInvoice.Cashier);

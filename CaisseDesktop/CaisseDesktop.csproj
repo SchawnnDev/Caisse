@@ -229,6 +229,7 @@
     <Compile Include="Models\CaisseModel.cs" />
     <Compile Include="Models\CashierModel.cs" />
     <Compile Include="Models\CheckoutOperationModel.cs" />
+    <Compile Include="Models\CheckoutOperationRowModel.cs" />
     <Compile Include="Models\CheckoutTypeModel.cs" />
     <Compile Include="Models\DayPickerModel.cs" />
     <Compile Include="Models\ArticleModel.cs" />

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Common"
         xmlns:windows="clr-namespace:CaisseDesktop.Models.Windows"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=windows:CheckoutModel, IsDesignTimeCreatable=False}"
         Title="SelectPaymentMethod" Height="500" Width="800" ResizeMode="NoResize" WindowStyle="None"
@@ -33,25 +34,18 @@
                     <RowDefinition MaxHeight="100" />
                 </Grid.RowDefinitions>
 
-                <Border Grid.Row="0" Margin="10" BorderBrush="DarkSlateGray" BorderThickness="2"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
+                <materialDesign:Card Width="200" Grid.Row="0" Margin="0,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
 
-                        <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">A payer : <TextBlock Text="{Binding FinalPrice}"/> €</TextBlock>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="5">
+                                <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">A payer : <TextBlock Text="{Binding FinalPrice}"/> €</TextBlock>
 
-                        <TextBlock Grid.Row="1" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">Reçu : <TextBlock Text="{Binding GivenMoney}"/> €</TextBlock>
+                                <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">Reçu : <TextBlock Text="{Binding GivenMoney}"/> €</TextBlock>
 
-                        <TextBlock  Grid.Row="2" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">A rendre : <TextBlock Text="{Binding MoneyToGiveBack}"/> €</TextBlock>
+                                <TextBlock  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">A rendre : <TextBlock Text="{Binding MoneyToGiveBack}"/> €</TextBlock>
 
-                    </Grid>
 
-                </Border>
+                        </StackPanel>
+                </materialDesign:Card>
 
                 <Border Grid.Row="1" BorderThickness="2" BorderBrush="DarkSlateGray" HorizontalAlignment="Center"
                         VerticalAlignment="Center">
