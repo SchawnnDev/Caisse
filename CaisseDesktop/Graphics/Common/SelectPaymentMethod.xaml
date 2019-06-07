@@ -45,9 +45,9 @@
 
                         <TextBlock FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">A payer : <TextBlock Text="{Binding FinalPrice}"/> €</TextBlock>
 
-                        <TextBlock Grid.Row="1" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">Reçu : <TextBlock Text="{Binding FinalPrice}"/> €</TextBlock>
+                        <TextBlock Grid.Row="1" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">Reçu : <TextBlock Text="{Binding GivenMoney}"/> €</TextBlock>
 
-                        <TextBlock  Grid.Row="2" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">A rendre : <TextBlock Text="{Binding FinalPrice}"/> €</TextBlock>
+                        <TextBlock  Grid.Row="2" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">A rendre : <TextBlock Text="{Binding MoneyToGiveBack}"/> €</TextBlock>
 
                     </Grid>
 

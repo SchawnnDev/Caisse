@@ -13,74 +13,81 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CaisseDesktop.Models.Windows;
 using CaisseLibrary;
+using CaisseLibrary.Concrete.Invoices;
 
 namespace CaisseDesktop.Graphics.Common
 {
-    /// <summary>
-    /// Interaction logic for Loading.xaml
-    /// </summary>
-    public partial class Loading : Window
-    {
-        public bool PrintReceipt { get; set; }
-        private Checkout Checkout { get; set; }
-        private CheckoutModel Model => DataContext as CheckoutModel;
+	/// <summary>
+	/// Interaction logic for Loading.xaml
+	/// </summary>
+	public partial class Loading : Window
+	{
+		public bool PrintReceipt { get; set; }
+		private Checkout Checkout { get; set; }
+		private CheckoutModel Model => DataContext as CheckoutModel;
+		private Invoice Invoice { get; set; }
 
-        public Loading(Checkout checkout, CheckoutModel model, bool printReceipt)
-        {
-            InitializeComponent();
-            Owner = checkout;
-            Checkout = checkout;
-            PrintReceipt = printReceipt;
-            DataContext = model;
+		public Loading(Checkout checkout, CheckoutModel model, bool printReceipt)
+		{
+			InitializeComponent();
+			Owner = checkout;
+			Checkout = checkout;
+			PrintReceipt = printReceipt;
+			DataContext = model;
+			Invoice = model.ToInvoice();
 
-            Loaded += (sender, args) =>
-            {
-                Model.Invoice.FinalizeInvoice();
-                Model.Invoice.Save();
+			Loaded += (sender, args) =>
+			{
+				Invoice.FinalizeInvoice();
+				Invoice.Save();
+				Task.Run(() => Print());
+			};
+		}
 
-                Task.Run(Print);
-            };
-        }
+		private void NewInvoice_OnClick(object sender, RoutedEventArgs e)
+		{
+			Close();
+			Checkout.NewInvoice();
+		}
 
-        private void NewInvoice_OnClick(object sender, RoutedEventArgs e)
-        {
-            Close();
-            Checkout.NewInvoice();
-        }
+		private void RePrint_OnClick(object sender, RoutedEventArgs e)
+		{
 
-        private void RePrint_OnClick(object sender, RoutedEventArgs e)
-        {
-            
-            ToggleButtons(false);
-            ToggleProgressBar(true);
+			ToggleButtons(false);
+			ToggleProgressBar(true);
 
-            Task.Run(Print);
+			Task.Run(() => Print());
 
-        }
+		}
 
-        public void ToggleProgressBar(bool toggle)
-        {
-            SaveLoading.IsIndeterminate = toggle;
-        }
+		public void ToggleProgressBar(bool toggle)
+		{
+			SaveLoading.IsIndeterminate = toggle;
+		}
 
-        public void Print()
-        {
-            SaveLoadingText.Content = "Impression...";
-            //print
-            Model.Invoice.Print(PrintReceipt);
+		public void Print()
+		{
+			Dispatcher.Invoke(() =>
+			{
+				SaveLoadingText.Content = "Impression...";
+			});
 
-            Dispatcher.Invoke(() => {
-                SaveLoadingText.Content = "Terminé";
-                ToggleProgressBar(false);
-                ToggleButtons(true);
-            });
-        }
+			//print
+			Invoice.Print(PrintReceipt);
 
-        public void ToggleButtons(bool toggle)
-        {
-            NewInvoice.IsEnabled = toggle;
-            RePrint.IsEnabled = toggle;
-        }
+			Dispatcher.Invoke(() =>
+			{
+				SaveLoadingText.Content = "Terminé";
+				ToggleProgressBar(false);
+				ToggleButtons(true);
+			});
+		}
 
-    }
+		public void ToggleButtons(bool toggle)
+		{
+			NewInvoice.IsEnabled = toggle;
+			RePrint.IsEnabled = toggle;
+		}
+
+	}
 }

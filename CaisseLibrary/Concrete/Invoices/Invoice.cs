@@ -11,117 +11,96 @@ using CaisseServer.Items;
 
 namespace CaisseLibrary.Concrete.Invoices
 {
-    public class Invoice
-    {
-        public decimal GivenMoney { get; set; }
+	public class Invoice
+	{
+		public decimal GivenMoney { get; set; }
 
-        public SaveableInvoice SaveableInvoice { get; set; }
+		public SaveableInvoice SaveableInvoice { get; set; }
 
-        public List<SaveableOperation> Operations { get; set; }
+		public List<SaveableOperation> Operations { get; set; }
 
-        public SaveableConsign Consign { get; set; }
+		public SaveableConsign Consign { get; set; }
 
-        public FinalData FinalData { get; set; }
+		public FinalData FinalData { get; set; }
 
-        public Invoice()
-        {
-            SaveableInvoice = new SaveableInvoice();
+		public Invoice(SaveableInvoice invoice, SaveableConsign consign, List<SaveableOperation> operations)
+		{
+			SaveableInvoice = invoice;
+			Consign = consign;
+			Operations = operations;
+		}
 
-            Consign = new SaveableConsign
-            {
-                Amount = 0,
-                Invoice = SaveableInvoice
-            };
+		public void FinalizeInvoice()
+		{
+			SaveableInvoice.Date = DateTime.Now;
+			var operationsToSave = new List<SaveableOperation>();
 
-            Operations = new List<SaveableOperation>();
+			foreach (var operation in Operations)
+			{
+				operationsToSave.Add(new SaveableOperation
+				{
+					Amount = operation.Amount,
+					Item = operation.Item,
+					Invoice = SaveableInvoice
+				});
+			}
 
-            foreach (var article in Main.Articles)
-            {
-                Operations.Add(new SaveableOperation
-                {
-                    Amount = 0,
-                    Invoice = SaveableInvoice,
-                    Item = article
-                });
-            }
-        }
+			FinalData = new FinalData
+			{
+				Operations = operationsToSave,
+				Consign = Consign.Amount > 0 ? Consign : null
+			};
+		}
 
-        public void SetArticleCount(SaveableArticle article, int count)
-        {
-            Operations.Single(t => t.Item.Id == article.Id).Amount = count;
-        }
+		public void Print(bool receiptTicket)
+		{
+			var ticketList = new List<ITicket>();
 
-        public void FinalizeInvoice()
-        {
-            SaveableInvoice.Date = DateTime.Now;
-            var operationsToSave = new List<SaveableOperation>();
+			if (receiptTicket) ticketList.Add(Main.ReceiptTicket.PrintWith(this));
 
-            foreach (var operation in Operations)
-            {
-                if (operation.Amount == 0) continue;
-                operationsToSave.Add(operation);
-            }
+			foreach (var operation in FinalData.Operations)
+				for (var i = 0; i < operation.Amount; i++)
+					ticketList.Add(Main.GetArticleTicket(operation.Item).PrintWith(this));
 
-            FinalData = new FinalData
-            {
-                Operations = operationsToSave,
-                Consign = Consign.Amount > 0 ? Consign : null
-            };
-        }
+			// Print consign tickets
+			for (var i = 0; i < Consign.Amount; i++)
+				ticketList.Add(Main.ConsignTicket);
 
-        public void Print(bool receiptTicket)
-        {
-            var ticketList = new List<ITicket>();
+			//Main.TicketPrinter.Print(ticketList);
+		}
 
-            if (receiptTicket) ticketList.Add(Main.ReceiptTicket.PrintWith(this));
+		public decimal CalculateTotalArticlesPrice() => Operations.Sum(t => t.FinalPrice());
+		public decimal CalculateTotalPrice() => CalculateTotalArticlesPrice() + Consign.Amount;
+		public decimal CalculateGivenBackChange() => Math.Max(0, GivenMoney - CalculateTotalPrice());
 
-            foreach (var operation in FinalData.Operations)
-                for (var i = 0; i < operation.Amount; i++)
-                    ticketList.Add(Main.GetArticleTicket(operation.Item).PrintWith(this));
+		public void Save()
+		{
+			using (var db = new CaisseServerContext())
+			{
+				SaveableInvoice.Cashier = Main.ActualCashier;
+				SaveableInvoice.GivenMoney = GivenMoney;
+				SaveableInvoice.PaymentMethod = Main.LiquidPaymentMethod;
 
-            // Print consign tickets
-            for (var i = 0; i < Consign.Amount; i++)
-                ticketList.Add(Main.ConsignTicket);
+				db.Cashiers.Attach(SaveableInvoice.Cashier);
+				db.PaymentMethods.Attach(SaveableInvoice.PaymentMethod);
 
-            Main.TicketPrinter.Print(ticketList);
-        }
+				foreach (var operation in FinalData.Operations)
+				{
+					db.Articles.Attach(operation.Item);
+				}
 
-        public decimal CalculateTotalArticlesPrice() => Operations.Sum(t => t.FinalPrice());
+				db.Invoices.Add(SaveableInvoice);
 
-        public decimal CalculateTotalPrice() => CalculateTotalArticlesPrice() + Consign.Amount;
+				if (FinalData.Consign != null)
+					db.Consigns.Add(FinalData.Consign);
 
-        public decimal CalculateGivenBackChange() => Math.Max(0, GivenMoney - CalculateTotalPrice());
+				foreach (var operation in FinalData.Operations)
+				{
+					db.Operations.Add(operation);
+				}
 
-        public bool IsSomething() => Operations.Any() && Operations.Count(t => t.Amount > 0) > 0;
-
-        public void Save()
-        {
-            using (var db = new CaisseServerContext())
-            {
-                SaveableInvoice.Cashier = Main.ActualCashier;
-                SaveableInvoice.GivenMoney = GivenMoney;
-                SaveableInvoice.PaymentMethod = Main.LiquidPaymentMethod;
-
-                db.Cashiers.Attach(SaveableInvoice.Cashier);
-                db.PaymentMethods.Attach(SaveableInvoice.PaymentMethod);
-
-                foreach (var operation in FinalData.Operations)
-                {
-                    db.Articles.Attach(operation.Item);
-                }
-
-                db.Invoices.Add(SaveableInvoice);
-
-                if (FinalData.Consign != null)
-                    db.Consigns.Add(FinalData.Consign);
-
-                foreach (var operation in FinalData.Operations)
-                {
-                    db.Operations.Add(operation);
-                }
-
-                db.SaveChanges();
-            }
-        }
-    }
+				db.SaveChanges();
+			}
+		}
+	}
 }

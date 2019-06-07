@@ -41,7 +41,7 @@ namespace CaisseDesktop.Graphics.Common
             InitializeComponent();
             TextBoxes = new List<TextBox>();
             ActualCheckout = checkout;
-            ConsignTextBox.DataContext = 0;
+           // ConsignTextBox.DataContext = 0;
 	        DataContext = new CheckoutModel();
 	        Model.Operations = new ObservableCollection<CheckoutOperationModel>();
 
@@ -57,51 +57,49 @@ namespace CaisseDesktop.Graphics.Common
         public void UpdateConsign(int count)
         {
             count = Math.Max(count, 0);
-
+			/*
             ConsignTextBox.Text = count.ToString();
             ConsignTextBox.DataContext = count;
             Main.ActualInvoice.Consign.Amount = count;
-            ConsignMinus.IsEnabled = count != 0;
+            ConsignMinus.IsEnabled = count != 0; */
         }
 
         private void SelectPaymentMethod_OnClick(object sender, RoutedEventArgs e)
         {
-            if (!Main.ActualInvoice.IsSomething())
+            if (!Model.IsSomething())
             {
                 SystemSounds.Beep.Play();
                 return;
             }
 
-            new SelectPaymentMethod(this).ShowDialog();
+            new SelectPaymentMethod(this, Model).ShowDialog();
         }
 
         public void OpenLoading(bool receiptTicket)
         {
-            new Loading(this, receiptTicket).ShowDialog();
+            new Loading(this, Model, receiptTicket).ShowDialog();
         }
 
         public void NewInvoice()
         {
-            Main.NewInvoice();
             Model.NewInvoice();
-
         }
 
         private void ConsignPlus_OnClick(object sender, RoutedEventArgs e)
         {
-            UpdateConsign((int)ConsignTextBox.DataContext + 1);
+            //Model
         }
 
         private void ConsignMinus_OnClick(object sender, RoutedEventArgs e)
         {
-            UpdateConsign((int)ConsignTextBox.DataContext - 1);
+           // UpdateConsign((int)ConsignTextBox.DataContext - 1);
         }
 
         private void SwitchUser_OnClick(object sender, RoutedEventArgs e)
         {
             Main.Logout();
-            new Login().Show();
-            Close();
+        //    new Login().Show();
+        //    Close();
         }
 
         private void Quit_OnClick(object sender, RoutedEventArgs e)

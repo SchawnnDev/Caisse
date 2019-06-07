@@ -276,11 +276,11 @@
 
                         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center"
                                     VerticalAlignment="Center" Margin="0 5 0 0">
-                            <Button x:Name="ConsignMinus" Content="-" Click="ConsignMinus_OnClick" IsEnabled="False" />
-                            <TextBox x:Name="ConsignTextBox" BorderBrush="LightSlateGray" BorderThickness="2" Text="0"
+                            <Button x:Name="ConsignMinus" Content="-" Command="{Binding ConsignDecrementCommand}" IsEnabled="{Binding CanDecrementConsign}" />
+                            <TextBox x:Name="ConsignTextBox" BorderBrush="LightSlateGray" BorderThickness="2" Text="{Binding ConsignAmount}"
                                      HorizontalAlignment="Center"
                                      VerticalAlignment="Center" MinWidth="30" TextAlignment="Center" />
-                            <Button Content="+" Click="ConsignPlus_OnClick" />
+                            <Button Content="+" Command="{Binding ConsignIncrementCommand}" />
                         </StackPanel>
 
                     </Grid>
