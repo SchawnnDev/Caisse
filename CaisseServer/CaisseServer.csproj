@@ -85,11 +85,20 @@
     <Compile Include="Export\Exceptions\TypeNotRecognisedException.cs" />
     <Compile Include="Export\IExportable.cs" />
     <Compile Include="Export\IImportable.cs" />
+    <Compile Include="Items\SaveableArticleEvent.cs" />
     <Compile Include="Items\SaveableArticleMaxSellNumber.cs" />
     <Compile Include="Items\SaveableConsign.cs" />
     <Compile Include="Migrations\201906041933333_Initialize.cs" />
     <Compile Include="Migrations\201906041933333_Initialize.Designer.cs">
       <DependentUpon>201906041933333_Initialize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906080110447_V1.0.0.cs" />
+    <Compile Include="Migrations\201906080110447_V1.0.0.Designer.cs">
+      <DependentUpon>201906080110447_V1.0.0.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906080156122_V1.0.1.cs" />
+    <Compile Include="Migrations\201906080156122_V1.0.1.Designer.cs">
+      <DependentUpon>201906080156122_V1.0.1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,6 +119,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201906041933333_Initialize.resx">
       <DependentUpon>201906041933333_Initialize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906080110447_V1.0.0.resx">
+      <DependentUpon>201906080110447_V1.0.0.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906080156122_V1.0.1.resx">
+      <DependentUpon>201906080156122_V1.0.1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

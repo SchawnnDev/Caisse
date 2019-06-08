@@ -25,7 +25,7 @@ namespace CaisseLibrary
         public static ReceiptTicket ReceiptTicket { get; set; }
         public static List<ArticleTicket> ArticleTickets { get; set; }
         public static ConsignTicket ConsignTicket { get; set; }
-       // public static Invoice ActualInvoice { get; set; }
+        public static List<SaveableArticleEvent> ArticleEvents { get; set; }
 
         public static void Start()
         {
@@ -42,6 +42,8 @@ namespace CaisseLibrary
             {
                 Articles = db.Articles.Where(t => t.Type.Id == ActualCheckout.CheckoutType.Id).OrderBy(t => t.Position)
                     .ToList();
+
+                ArticleEvents = db.ArticleEvents.Where(t => t.Type.Id == ActualCheckout.CheckoutType.Id).ToList();
 
                 if (db.PaymentMethods.Any())
                 {
@@ -82,8 +84,8 @@ namespace CaisseLibrary
             }
 
             // consign ticket
-
-            ConsignTicket = new ConsignTicket(Path.Combine(Directory.GetCurrentDirectory(), "Ressources" + Path.PathSeparator + "Images" + Path.PathSeparator + "cup.jpg"));
+            
+            ConsignTicket = new ConsignTicket(Path.Combine(Directory.GetCurrentDirectory(), @"Resources\Images\cup.jpg"));
 
 			// setup printer
 

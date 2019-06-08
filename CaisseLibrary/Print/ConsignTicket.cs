@@ -12,7 +12,7 @@ namespace CaisseLibrary.Print
     public class ConsignTicket : ITicket
     {
         private Invoice Invoice { get; set; }
-        private string ImagePath { get; }
+        public string ImagePath { get; }
 
         public ConsignTicket(string imagePath)
         {

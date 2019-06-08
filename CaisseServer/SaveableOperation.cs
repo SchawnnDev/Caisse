@@ -20,6 +20,9 @@ namespace CaisseServer
 
         public decimal FinalPrice() => Amount * Item.Price;
 
+        [NotMapped]
+        public bool IsEventItem { get; set; } = false;
+
         public object[] Export() => new object[]
         {
             "Operation",
