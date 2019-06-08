@@ -4,12 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Statistics"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="StatisticsMain" Height="450" Width="800"
+        xmlns:models="clr-namespace:CaisseDesktop.Models.Windows"
+        d:DataContext="{d:DesignInstance Type=models:StatisticsMainModel, IsDesignTimeCreatable=False}"
         WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
+            <RowDefinition Height="auto" />
+            <RowDefinition MaxHeight="100" />
             <RowDefinition MaxHeight="450" />
         </Grid.RowDefinitions>
 
@@ -46,12 +61,106 @@
 
 
                     <Separator />
-                    <MenuItem x:Name="reset" Header="_Reset database" />
+                    <MenuItem x:Name="reset" Header="_RAZ base de données" Command="{Binding ClearInvoicesCommand}" />
 
                 </MenuItem>
                 <MenuItem Header="_About" HorizontalAlignment="Center" />
             </Menu>
-
         </DockPanel>
+
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
+
+            <materialDesign:Card
+                Background="#03a9f4"
+                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                Padding="0"
+                Width="200" Margin="0,0,20,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Margin="16 16 16 4"
+                        Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding EventCount}">
+                    </TextBlock>
+                    <TextBlock
+                        Grid.Row="2"
+                        Margin="16 0 16 8"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource MaterialDesignBody2TextBlock}">
+                        événements.
+                    </TextBlock>
+                </Grid>
+            </materialDesign:Card>
+
+            <materialDesign:Card
+                Background="#03a9f4"
+                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                Padding="0"
+                Width="200" Margin="0,0,20,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Margin="16 16 16 4"
+                        Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding InvoicesCount}">
+                    </TextBlock>
+                    <TextBlock
+                        Grid.Row="2"
+                        Margin="16 0 16 8"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource MaterialDesignBody2TextBlock}">
+                        commandes passées.
+                    </TextBlock>
+                </Grid>
+            </materialDesign:Card>
+
+            <materialDesign:Card
+                Background="#03a9f4"
+                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                Padding="0"
+                Width="200">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                        <RowDefinition
+                            Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Margin="16 16 16 4"
+                        Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding TotalMoney}">
+                    </TextBlock>
+                    <TextBlock
+                        Grid.Row="2"
+                        Margin="16 0 16 8"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource MaterialDesignBody2TextBlock}">
+                        euros encaissés.
+                    </TextBlock>
+                </Grid>
+            </materialDesign:Card>
+
+        </WrapPanel>
+
     </Grid>
 </Window>

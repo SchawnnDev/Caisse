@@ -140,6 +140,14 @@ namespace CaisseDesktop.Graphics.Common
 
         private void OpenParameters_OnClick(object sender, RoutedEventArgs e)
         {
+
+            if (!CanLogin)
+            {
+                SystemSounds.Beep.Play();
+                Validations.ShowWarning("Veuillez attendre que l'application charge.");
+                return;
+            }
+
             new Parameters(this).ShowDialog();
         }
 

@@ -45,13 +45,13 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
             Manager = manager;
             New = type == null;
 
-            Task.Run(() => Load());
+            Task.Run(Load);
 
             if (New) return;
 
             CheckoutTypeName.Text = type.Name;
 
-            Task.Run(() => LoadCheckoutNames());
+            Task.Run(LoadCheckoutNames);
         }
 
         public void Add(SaveableArticle article)
