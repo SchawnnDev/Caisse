@@ -102,7 +102,7 @@ namespace CaisseLibrary.Concrete.Invoices
             Main.TicketPrinter.Print(ticketList);
         }
 
-        public decimal CalculateTotalArticlesPrice() => Operations.Sum(t => t.FinalPrice());
+        public decimal CalculateTotalArticlesPrice() => Operations.Sum(t => t.FinalPrice);
         public decimal CalculateTotalPrice() => CalculateTotalArticlesPrice() + Consign.Amount;
         public decimal CalculateGivenBackChange() => Math.Max(0, SaveableInvoice.GivenMoney - CalculateTotalPrice());
 

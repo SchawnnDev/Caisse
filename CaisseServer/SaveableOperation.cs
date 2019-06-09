@@ -18,7 +18,8 @@ namespace CaisseServer
 
         public int Amount { get; set; }
 
-        public decimal FinalPrice() => Amount * Item.Price;
+        [NotMapped]
+        public decimal FinalPrice => Amount * Item.Price;
 
         [NotMapped]
         public bool IsEventItem { get; set; } = false;

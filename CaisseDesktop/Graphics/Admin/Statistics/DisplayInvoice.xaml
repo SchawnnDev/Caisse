@@ -1,15 +1,14 @@
-﻿<Window x:Class="CaisseDesktop.Graphics.Admin.Statistics.StatisticsMain"
+﻿<Window x:Class="CaisseDesktop.Graphics.Admin.Statistics.DisplayInvoice"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Statistics"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        mc:Ignorable="d"
-        Title="StatisticsMain" Height="450" Width="800"
         xmlns:models="clr-namespace:CaisseDesktop.Models.Windows"
-        d:DataContext="{d:DesignInstance Type=models:StatisticsMainModel, IsDesignTimeCreatable=False}"
-        WindowStartupLocation="CenterScreen" WindowState="Maximized">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        d:DataContext="{d:DesignInstance Type=models:DisplayInvoiceModel, IsDesignTimeCreatable=False}"
+        mc:Ignorable="d"
+        Title="Aperçu commande" Height="450" Width="800">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -23,52 +22,11 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
             <RowDefinition MaxHeight="100" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.Row="0">
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="_Fichier">
-                    <MenuItem x:Name="settings" Header="_Retourner au menu caissier" />
-                    <MenuItem x:Name="quitApp" Header="_Quitter l'application" />
-                </MenuItem>
-
-                <MenuItem Header="_Statistiques">
-                    <MenuItem x:Name="StatsCreate" Header="_New Customer" />
-                    <MenuItem x:Name="StatsSearch" Header="_Search" />
-                </MenuItem>
-
-                <MenuItem Header="_Evenements">
-                    <MenuItem x:Name="EventCreate" Header="_Nouvel événement" />
-                    <MenuItem x:Name="EventSearch" Header="_Search" />
-
-
-                    <MenuItem x:Name="import" Header="_Import">
-                        <MenuItem x:Name="ImportCustomer" Header="_Customers" />
-                        <MenuItem x:Name="ImportShippingAddress" Header="_Shipping Addresss" />
-                    </MenuItem>
-
-                    <MenuItem x:Name="export" Header="_Export">
-                        <MenuItem x:Name="ExportCustomer" Header="_Customers" />
-                        <MenuItem x:Name="ExportShippingAddress" Header="_Shipping Addresss" />
-                    </MenuItem>
-
-                </MenuItem>
-
-                <MenuItem Header="_Data">
-
-
-                    <Separator />
-                    <MenuItem x:Name="reset" Header="_RAZ base de données" Command="{Binding ClearInvoicesCommand}" />
-
-                </MenuItem>
-                <MenuItem Header="_About" HorizontalAlignment="Center" />
-            </Menu>
-        </DockPanel>
-
-        <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
+        <WrapPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" >
 
             <materialDesign:Card
                 Background="#03a9f4"
@@ -87,7 +45,7 @@
                     <TextBlock
                         Grid.Row="0"
                         Margin="16 16 16 4"
-                        Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding EventCount}">
+                        Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding Invoice.Date, StringFormat={}{0:dd/MM/yyyy HH:mm}}">
                     </TextBlock>
                     <TextBlock
                         Grid.Row="2"
@@ -95,7 +53,7 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left"
                         Style="{StaticResource MaterialDesignBody2TextBlock}">
-                        événements.
+                        commande passée.
                     </TextBlock>
                 </Grid>
             </materialDesign:Card>
@@ -117,7 +75,7 @@
                     <TextBlock
                         Grid.Row="0"
                         Margin="16 16 16 4"
-                        Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding InvoicesCount}">
+                        Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding FinalPrice}">
                     </TextBlock>
                     <TextBlock
                         Grid.Row="2"
@@ -125,7 +83,7 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left"
                         Style="{StaticResource MaterialDesignBody2TextBlock}">
-                        commandes passées.
+                        montant (€).
                     </TextBlock>
                 </Grid>
             </materialDesign:Card>
@@ -147,7 +105,7 @@
                     <TextBlock
                         Grid.Row="0"
                         Margin="16 16 16 4"
-                        Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding TotalMoney}">
+                        Style="{StaticResource MaterialDesignHeadlineTextBlock}" Text="{Binding Invoice.GivenMoney}">
                     </TextBlock>
                     <TextBlock
                         Grid.Row="2"
@@ -155,7 +113,7 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left"
                         Style="{StaticResource MaterialDesignBody2TextBlock}">
-                        euros encaissés.
+                        argent reçu (€).
                     </TextBlock>
                 </Grid>
             </materialDesign:Card>
@@ -163,33 +121,15 @@
         </WrapPanel>
 
 
-        <GroupBox Grid.Row="2" Header="Listes des commandes" Margin="5">
+        <GroupBox Grid.Row="1" Header="Listes des commandes" Margin="5">
 
             <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      ItemsSource="{Binding Invoices, IsAsync=true}" IsReadOnly="True" x:Name="CheckoutsGrid"
+                      ItemsSource="{Binding Operations, IsAsync=true}" IsReadOnly="True" x:Name="CheckoutsGrid"
                       AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
-                    <DataGridTextColumn Header="Caissier">
-                        <DataGridTextColumn.Binding>
-                            <MultiBinding StringFormat="{}{0} {1}">
-                                <Binding Path="Cashier.FirstName" />
-                                <Binding Path="Cashier.Name" />
-                            </MultiBinding>
-                        </DataGridTextColumn.Binding>
-                    </DataGridTextColumn>
-                    <DataGridTextColumn Header="Moyen de paiement" Binding="{Binding PaymentMethod.Name}" />
-                    <DataGridTemplateColumn Header="Actions">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Click="DisplayInvoice_OnClick">Afficher</Button>
-                                    <Button Margin="5 0 0 0" Click="DeleteInvoice_OnClick">Supprimer</Button>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Article" Binding="{Binding Item.Name}" />
+                    <DataGridTextColumn Header="Quantité" Binding="{Binding Amount}" />
+                    <DataGridTextColumn Header="Prix" Binding="{Binding FinalPrice}" />
                 </DataGrid.Columns>
 
                 <DataGrid.ContextMenu>

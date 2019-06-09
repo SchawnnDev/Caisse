@@ -134,6 +134,9 @@
     <Compile Include="Admin\SessionAdmin.cs" />
     <Compile Include="Client\ClientMain.cs" />
     <Compile Include="Enums\TimeTableDay.cs" />
+    <Compile Include="Graphics\Admin\Statistics\DisplayInvoice.xaml.cs">
+      <DependentUpon>DisplayInvoice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Utils\CommandHandler.cs" />
     <Compile Include="IO\ExportManager.cs" />
     <Compile Include="Graphics\Admin\AdminConnection.xaml.cs">
@@ -239,6 +242,7 @@
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\ResponsableModel.cs" />
     <Compile Include="Models\Windows\CheckoutModel.cs" />
+    <Compile Include="Models\Windows\DisplayInvoiceModel.cs" />
     <Compile Include="Models\Windows\StatisticsMainModel.cs" />
     <Compile Include="SelectionWindow.xaml.cs">
       <DependentUpon>SelectionWindow.xaml</DependentUpon>
@@ -326,6 +330,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Admin\PaymentMethods\PaymentMethodManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Admin\Statistics\DisplayInvoice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

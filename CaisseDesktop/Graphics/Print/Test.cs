@@ -65,7 +65,7 @@ namespace CaisseDesktop.Graphics.Print
 							Amounts.Add(operation.Item, operation.Amount);
 						}
 
-						finalPrice += operation.FinalPrice();
+						finalPrice += operation.FinalPrice;
 
 					}
 
