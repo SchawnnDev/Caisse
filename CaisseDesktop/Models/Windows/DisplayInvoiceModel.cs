@@ -8,61 +8,94 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using CaisseServer;
+using CaisseServer.Items;
 
 namespace CaisseDesktop.Models.Windows
 {
-    public class DisplayInvoiceModel
-    {
-        public SaveableInvoice Invoice { get; }
+	public class DisplayInvoiceModel
+	{
+		public SaveableInvoice Invoice { get; }
 
-        private decimal _finalPrice;
+		private SaveableConsign Consign { get; set; }
 
-        public decimal FinalPrice
-        {
-            get => _finalPrice;
-            set
-            {
-                _finalPrice = value;
-                OnPropertyChanged();
-            }
-        }
+		private decimal _finalPrice;
 
-        public DisplayInvoiceModel(SaveableInvoice invoice)
-        {
-            Invoice = invoice;
-            LoadOperations();
-        }
+		public decimal FinalPrice
+		{
+			get => _finalPrice;
+			set
+			{
+				_finalPrice = value;
+				OnPropertyChanged();
+			}
+		}
 
-        private void LoadOperations()
-        {
-            using (var db = new CaisseServerContext())
-            {
-                Operations = new ObservableCollection<SaveableOperation>(db.Operations
-                    .Where(t => t.Invoice.Id == Invoice.Id).Include(t => t.Item).ToList());
-            }
+		public DisplayInvoiceModel(SaveableInvoice invoice)
+		{
+			Invoice = invoice;
+			LoadOperations();
+		}
 
-            FinalPrice = Operations.Sum(t => t.FinalPrice);
-        }
+		private void LoadOperations()
+		{
+			using (var db = new CaisseServerContext())
+			{
 
-        private ObservableCollection<SaveableOperation> _operations;
+				Operations = new ObservableCollection<Operation>();
 
-        public ObservableCollection<SaveableOperation> Operations
-        {
-            get => _operations;
-            set
-            {
-                if (Equals(value, _operations)) return;
+				foreach (var operation in db.Operations.Where(t => t.Invoice.Id == Invoice.Id).Include(t => t.Item).ToList())
+				{
+					Operations.Add(new Operation
+					{
+						Name = operation.Item.Name,
+						Price = operation.FinalPrice,
+						Quantity = operation.Amount
+					});
+				}
 
-                _operations = value;
-                OnPropertyChanged();
-            }
-        }
+				
+				if (db.Consigns.Any(t => t.Invoice.Id == Invoice.Id)) { 
+					Consign = db.Consigns.Single(t => t.Invoice.Id == Invoice.Id);
+					FinalPrice += Consign.Amount; /* todo: different consigns */
+					Operations.Add(new Operation
+					{
+						Name = "Consigne",
+						Price = Consign.Amount,
+						Quantity = Consign.Amount
+					});
+				}
+			}
 
-        public event PropertyChangedEventHandler PropertyChanged;
+			FinalPrice += Operations.Sum(t => t.Price);
+		}
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
+		private ObservableCollection<Operation> _operations;
+
+		public ObservableCollection<Operation> Operations
+		{
+			get => _operations;
+			set
+			{
+				if (Equals(value, _operations)) return;
+
+				_operations = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
+
+	public struct Operation
+	{
+		public string Name { get; set; }
+		public int Quantity { get; set; }
+		public decimal Price { get; set; }
+		
+	}
 }

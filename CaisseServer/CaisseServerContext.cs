@@ -35,7 +35,12 @@ namespace CaisseServer
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("public");
-            base.OnModelCreating(modelBuilder);
-        }
+	        /* modelBuilder.Entity<SaveableOperation>()
+		        .HasOptional(a => a.Invoice)
+		        .WithOptionalDependent()
+		        .WillCascadeOnDelete(true); */
+			base.OnModelCreating(modelBuilder);
+
+		}
     }
 }

@@ -59,7 +59,7 @@ namespace CaisseDesktop.Models.Windows
             if (!Validations.Ask("Etes-vous sûr de vouloir remettre à zero la base de données des commandes ?"))
                 return;
 
-            Task.Run(ClearInvoicesDB);
+            Task.Run(()=>ClearInvoicesDB());
         }
 
         private void ClearInvoicesDB()

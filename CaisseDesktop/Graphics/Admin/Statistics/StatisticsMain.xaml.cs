@@ -38,7 +38,7 @@ namespace CaisseDesktop.Graphics.Admin.Statistics
             {
                 eventCount = db.Events.Count();
                 invoicesCount = db.Invoices.Count();
-                totalMoney = db.Operations.Sum(t => t.Amount * t.Item.Price);
+                totalMoney = db.Operations.Sum(t => t.Amount * t.Item.Price) + db.Consigns.Sum(t=>t.Amount); //todo: price
                 var lastEventId = db.Events.OrderByDescending(t => t.Id).Select(t => t.Id).First();
                 invoices = new ObservableCollection<SaveableInvoice>(db.Invoices
                     .Where(t => t.Cashier.Checkout.CheckoutType.Event.Id == lastEventId).Include(t => t.Cashier)
@@ -57,7 +57,7 @@ namespace CaisseDesktop.Graphics.Admin.Statistics
 
             if (!(btn?.DataContext is SaveableInvoice invoice)) return;
 
-
+	        new DisplayInvoice(invoice).ShowDialog();
 
         }
 
@@ -77,7 +77,8 @@ namespace CaisseDesktop.Graphics.Admin.Statistics
         {
             using (var db = new CaisseServerContext())
             {
-                db.Operations.RemoveRange(db.Operations.Where(t => t.Invoice.Id == invoice.Id).ToList());
+             //   db.Operations.RemoveRange(db.Operations.Where(t => t.Invoice.Id == invoice.Id).ToList());
+	           db.Invoices.Attach(invoice);
                 db.Invoices.Remove(invoice);
                 db.SaveChanges();
             }
