@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CaisseServer.Export
 {
-    interface IImportable
+    public interface IImportable
     {
         void Import(object[] data);
 

@@ -105,6 +105,7 @@ namespace CaisseLibrary.Concrete.Invoices
         public decimal CalculateTotalArticlesPrice() => Operations.Sum(t => t.FinalPrice);
         public decimal CalculateTotalPrice() => CalculateTotalArticlesPrice() + Consign.Amount;
         public decimal CalculateGivenBackChange() => Math.Max(0, SaveableInvoice.GivenMoney - CalculateTotalPrice());
+	    public bool HasConsigns() => Consign != null && Consign.Amount > 0;
 
         public void Save()
         {

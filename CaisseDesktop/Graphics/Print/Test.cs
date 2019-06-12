@@ -4,6 +4,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CaisseLibrary.Concrete.Invoices;
+using CaisseLibrary.IO.Export.Excel.Files;
 using CaisseServer;
 using CaisseServer.Items;
 
@@ -24,10 +26,37 @@ namespace CaisseDesktop.Graphics.Print
 
 		public void Generate()
 		{
+			var invoices = new List<Invoice>();
+			//new ExcelInvoice()
+			using (var db = new CaisseServerContext())
+			{
+				var saveableInvoices = db.Invoices.Where(t => t.Cashier.Checkout.Id == Checkout.Id).Include(t => t.Cashier)
+					.Include(t => t.PaymentMethod).ToList();
+
+				foreach (var saveableInvoice in saveableInvoices)
+				{
+
+					SaveableConsign consign = null;
+
+					if (db.Consigns.Any(t => t.Invoice.Id == saveableInvoice.Id))
+						consign = db.Consigns.Single(t => t.Invoice.Id == saveableInvoice.Id);
+
+					var operations = db.Operations.Where(t => t.Invoice.Id == saveableInvoice.Id).Include(t => t.Item)
+						.ToList();
+
+					invoices.Add(new Invoice(saveableInvoice, consign, operations));
+
+				}
+
+			}
+
+			new ExcelInvoice(invoices, @"C:\Users\Meyer\Desktop\caisse.xlsx");
+/*
 			using (var db = new CaisseServerContext())
 			{
 				var invoices = db.Invoices.Where(t => t.Cashier.Checkout.Id == Checkout.Id).Include(t=>t.Cashier).Include(t => t.PaymentMethod).ToList();
 				var cashiers = db.Cashiers.Where(t => t.Checkout.Id == Checkout.Id).ToList();
+				var consigns = db.Consigns.Where(t => t.Invoice.Cashier.Checkout.Id == Checkout.Id).ToList();
 
 				Invoices.Add($"Compte rendu au {DateTime.Now.ToString("dd/MM/yy HH:mm")}");
 
@@ -86,15 +115,19 @@ namespace CaisseDesktop.Graphics.Print
 				foreach (var amount in Amounts)
 					Invoices.Add($"- {amount.Key.Name} : {amount.Value} x {amount.Key.Price:F}€ = {amount.Value * amount.Key.Price:F} €");
 
+				Invoices.Add($"- Consignes : {consigns.Count} x 1€ = {consigns.Sum(t=>t.Amount)} €"); // todo:
+
 				Invoices.Add("");
 
-				Invoices.Add($"Nombre total d'articles vendus: {Amounts.Sum(t => t.Value)}");
-				Invoices.Add($"Montant total des ventes: {Amounts.Sum(t => t.Value * t.Key.Price):F} €");
+				Invoices.Add($"Nombre total d'articles vendus: {Amounts.Sum(t => t.Value) + consigns.Sum(t=>t.Amount)}");
+				Invoices.Add($"Montant total des ventes: {(Amounts.Sum(t => t.Value * t.Key.Price) + consigns.Sum(t => t.Amount)):F} €");
 
 				System.IO.File.WriteAllLines(Path, Invoices, Encoding.Unicode);
 
 
 			}
+
+	*/
 		}
 
 		public string Path { get; set; }
