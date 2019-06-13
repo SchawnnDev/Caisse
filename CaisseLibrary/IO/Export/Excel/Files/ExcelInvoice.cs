@@ -15,12 +15,9 @@ namespace CaisseLibrary.IO.Export.Excel.Files
 	public class ExcelInvoice : ExcelFile
 	{
 
-		//private ExcelWorksheet Sheet;
-
 		public ExcelInvoice(List<Invoice> invoices, string path) : this(invoices, new List<ExportColumnType> { ExportColumnType.Cashier_FullName, ExportColumnType.Cashier_Password, ExportColumnType.Invoice_Id, ExportColumnType.Article_Name, ExportColumnType.Article_Amount, ExportColumnType.Article_Price, ExportColumnType.Consign, ExportColumnType.PaymentMethod_Type, ExportColumnType.Date, ExportColumnType.Time }, path)
 		{
 		}
-
 
 		public ExcelInvoice(List<Invoice> invoices, List<ExportColumnType> columns, string path) : base(path)
 		{

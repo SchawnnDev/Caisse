@@ -27,7 +27,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             }
             else
             {
-                Blocage.IsChecked = false;
+           //     Blocage.IsChecked = false;
             }
         }
 
@@ -41,12 +41,12 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
         private void ToggleBlocked(bool blocked)
         {
             EventName.IsEnabled = !blocked;
-            EventAddresse.IsEnabled = !blocked;
+            //EventAddresse.IsEnabled = !blocked;
             EventDescription.IsEnabled = !blocked;
             EventStart.IsEnabled = !blocked;
             EventEnd.IsEnabled = !blocked;
-            EventSave.IsEnabled = !blocked;
-            Blocage.IsChecked = blocked;
+           // EventSave.IsEnabled = !blocked;
+           // Blocage.IsChecked = blocked;
             Blocked = blocked;
         }
 
@@ -56,13 +56,13 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             EventStart.Value = ParentWindow.Evenement.Start;
             EventEnd.Value = ParentWindow.Evenement.End;
             EventDescription.Text = ParentWindow.Evenement.Description;
-            EventAddresse.Text = ParentWindow.Evenement.Address;
+       //     EventAddresse.Text = ParentWindow.Evenement.Address;
         }
 
         private void Save_OnClick(object sender, RoutedEventArgs e)
         {
-            if (Check(EventName) || Check(EventStart) ||
-                Check(EventEnd) || Check(EventAddresse) || Check(EventDescription))
+            if (Check(EventName) || Check(EventStart)
+         )//    ||   Check(EventEnd) || Check(EventAddresse) || Check(EventDescription))
                 return;
 
             if (ParentWindow.Evenement == null)
@@ -70,7 +70,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
             ParentWindow.Evenement.Name = EventName.Text;
             ParentWindow.Evenement.Description = EventDescription.Text;
-            ParentWindow.Evenement.Address = EventAddresse.Text;
+            //ParentWindow.Evenement.Address = EventAddresse.Text;
             ParentWindow.Evenement.Start = EventStart.Value.GetValueOrDefault();
             ParentWindow.Evenement.End = EventEnd.Value.GetValueOrDefault();
 
@@ -101,7 +101,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             if (!Saved)
             {
                 MessageBox.Show("Veuillez enregistrer avant.");
-                Blocage.IsChecked = false;
+               // Blocage.IsChecked = false;
                 return;
             }
 

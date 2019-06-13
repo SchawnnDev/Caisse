@@ -54,11 +54,12 @@ namespace CaisseLibrary.Concrete.Invoices
 				foreach (var operation in operationsToSave)
 				{
 					if (@event.Item.Id != operation.Item.Id || operation.Amount == 0) continue;
-					if (Math.Floor((decimal)operation.Amount / @event.NeededAmount) == 0) continue;
+					var amount = (int) Math.Floor((decimal) operation.Amount / @event.NeededAmount);
+					if (amount == 0) continue;
 
 					gratisOperations.Add(new SaveableOperation
 					{
-						Amount = (int)Math.Floor((decimal)operation.Amount / @event.NeededAmount),
+						Amount = amount,
 						IsEventItem = true,
 						Item = new SaveableArticle
 						{
