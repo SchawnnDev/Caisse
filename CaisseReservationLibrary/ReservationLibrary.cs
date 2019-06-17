@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CaisseReservationLibrary
 {
-    public class Class1
+    public class ReservationLibrary
     {
     }
 }

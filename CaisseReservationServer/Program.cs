@@ -1,4 +1,5 @@
 ﻿using System;
+using CaisseReservationLibrary;
 
 namespace CaisseReservationServer
 {
@@ -7,6 +8,7 @@ namespace CaisseReservationServer
 		static void Main(string[] args)
 		{
 			Console.WriteLine("Hello World!");
+
 		}
 	}
 }
