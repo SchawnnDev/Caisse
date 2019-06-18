@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseDesktop", "CaisseDesktop\CaisseDesktop.csproj", "{D66A3F79-D706-49D5-81F3-BA4FFC294DA9}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -10,6 +10,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseDesktop", "CaisseDesk
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseLibrary", "CaisseLibrary\CaisseLibrary.csproj", "{3115494D-C5A1-4242-BE2E-CE8B14123569}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F4818A26-CB15-404C-B501-B354D8F32083} = {F4818A26-CB15-404C-B501-B354D8F32083}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseServer", "CaisseServer\CaisseServer.csproj", "{6F76194B-A300-4A8C-B59A-83F65AD761BB}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -25,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseIO", "CaisseIO\Caisse
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseReservationLibrary", "CaisseReservationLibrary\CaisseReservationLibrary.csproj", "{F4818A26-CB15-404C-B501-B354D8F32083}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseReservationServer", "CaisseReservationServer\CaisseReservationServer.csproj", "{7970C4A7-D6E8-4C21-8DBA-609CC988E63E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaisseReservationServer", "CaisseReservationServer\CaisseReservationServer.csproj", "{7970C4A7-D6E8-4C21-8DBA-609CC988E63E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
