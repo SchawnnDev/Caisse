@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseReservationLibrary", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseReservationServer", "CaisseReservationServer\CaisseReservationServer.csproj", "{7970C4A7-D6E8-4C21-8DBA-609CC988E63E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseTest", "CaisseText\CaisseTest.csproj", "{A2EFAC8C-8E15-4F05-BC2E-85A877C63F98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaisseTest", "CaisseTest\CaisseTest.csproj", "{A2EFAC8C-8E15-4F05-BC2E-85A877C63F98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
