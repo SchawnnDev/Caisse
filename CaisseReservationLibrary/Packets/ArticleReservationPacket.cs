@@ -11,9 +11,9 @@ namespace CaisseReservationLibrary.Packets
 	public class ArticleReservationPacket
 	{
 
-		[ProtoMember(0)] public int ArticleId;
-		[ProtoMember(1)] public int CheckoutId;
-		[ProtoMember(2)] public int Number;
+		[ProtoMember(1)] public int ArticleId;
+		[ProtoMember(2)] public int CheckoutId;
+		[ProtoMember(3)] public int Number;
 
 	}
 }

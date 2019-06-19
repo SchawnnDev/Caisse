@@ -7,13 +7,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Networker.Client;
 using Networker.Client.Abstractions;
+using Networker.Extensions.ProtobufNet;
 
 namespace CaisseLibrary.Reservation
 {
     public class ReservationClient
     {
 
-        public IClient Client;
+        private IClient Client;
 
         public ReservationClient()
         {
@@ -25,19 +26,35 @@ namespace CaisseLibrary.Reservation
           // var networkerSettings = config.GetSection("Networker");
 
             Client = new ClientBuilder()
-                .UseIp("hg.schawnndev.fr")
-                .UseTcp(5456)
+                .UseIp("localhost") // 176.31.206.53
+				.UseTcp(5456)
                 .UseUdp(5457)
                 .ConfigureLogging(loggingBuilder =>
-                {
-                  //.  loggingBuilder.AddConfiguration(config.GetSection("Logging"));
-               //     loggingBuilder.AddConsole();
+	            {
+		          //     loggingBuilder.AddConfiguration(config.GetSection("Logging"));
+                    loggingBuilder.AddConsole();
                 })
-              //  .UseProtobufNet()
+                .UseProtobufNet()
                 .Build();
 
         }
 
+	    public void Connect()
+	    {
+		    Client.Connect();
+		}
+
+	    public void Disconnect()
+	    {
+			Client.Stop();
+	    }
+
+		public void SendPacket<T>(T packet)
+	    {
+			Client.SendUdp(packet);
+	    }
+
+	    public long Ping() => Client.Ping();
 
     }
 }

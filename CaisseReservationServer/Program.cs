@@ -17,12 +17,15 @@ namespace CaisseReservationServer
 
 		static void Main(string[] args)
 		{
+
+			AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
+
 			Server = new ServerBuilder()
 				.UseTcp(5456)
 				.UseUdp(5457) // todo : config
 				.ConfigureLogging(loggingBuilder =>
 				{
-				//	loggingBuilder.AddConfiguration(config.GetSection("Logging")); make config
+					//	loggingBuilder.AddConfiguration(config.GetSection("Logging")); make config
 					loggingBuilder.AddConsole();
 				})
 				.UseProtobufNet()
@@ -31,12 +34,8 @@ namespace CaisseReservationServer
 
 			Server.Start();
 
-			while (Server.Information.IsRunning)
-			{
-				Thread.Sleep(10000);
-			}
+			while (Server.Information.IsRunning && Console.ReadLine() != "exit") ;
 
-			AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
 
 		}
 
