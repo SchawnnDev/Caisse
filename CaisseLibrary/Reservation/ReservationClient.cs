@@ -26,7 +26,7 @@ namespace CaisseLibrary.Reservation
           // var networkerSettings = config.GetSection("Networker");
 
             Client = new ClientBuilder()
-                .UseIp("localhost") // 176.31.206.53
+                .UseIp("hg.schawnndev.fr") // 176.31.206.53
 				.UseTcp(5456)
                 .UseUdp(5457)
                 .ConfigureLogging(loggingBuilder =>

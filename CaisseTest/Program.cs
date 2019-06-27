@@ -16,7 +16,6 @@ namespace CaisseTest
 			client.Connect();
 //			Console.WriteLine(client.Ping());
 
-
 			while (Console.ReadLine() != "exit")
 			{
 				client.SendPacket(new ArticleReservationPacket

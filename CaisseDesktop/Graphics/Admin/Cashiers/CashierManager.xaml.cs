@@ -1,24 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data.Entity;
+﻿using System.ComponentModel;
 using System.Linq;
 using System.Media;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using CaisseDesktop.Admin;
-using CaisseDesktop.Graphics.Admin.Events;
 using CaisseDesktop.Graphics.Admin.TimeSlots;
-using CaisseDesktop.Models;
 using CaisseDesktop.Utils;
 using CaisseLibrary.Concrete.Owners;
-using CaisseLibrary.Data;
 using CaisseServer;
-using CaisseServer.Events;
 
 namespace CaisseDesktop.Graphics.Admin.Cashiers
 {

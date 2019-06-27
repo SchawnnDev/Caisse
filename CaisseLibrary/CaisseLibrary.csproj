@@ -159,7 +159,9 @@
     <Compile Include="Print\ITicket.cs" />
     <Compile Include="Print\Printer.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Print\Exceptions\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CaisseServer\CaisseServer.csproj">
       <Project>{6F76194B-A300-4A8C-B59A-83F65AD761BB}</Project>

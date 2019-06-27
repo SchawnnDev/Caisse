@@ -85,7 +85,12 @@ namespace CaisseLibrary.Print
                 PosPrinter.RecLetterQuality = true;
 
                 // Even if using any printers, 0.01mm unit makes it possible to print neatly.
-                PosPrinter.MapMode = MapMode.Metric;
+	            PosPrinter.MapMode = MapMode.Metric;
+
+				// Lets try to power notify (get low paper error, or when printer powers off..)
+
+	            PosPrinter.PowerNotify = PowerNotification.Enabled;
+
             }
             catch (PosControlException)
             {
