@@ -9,24 +9,16 @@ using CaisseServer.Export;
 
 namespace CaisseServer.Items
 {
-    [Table("consigns")]
-    public class SaveableConsign : IExportable
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+	[Table("consigns")]
+	public class SaveableConsign
+	{
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
 
-        public SaveableInvoice Invoice { get; set; }
+		public SaveableInvoice Invoice { get; set; }
 
-        public int Amount { get; set; }
+		public int Amount { get; set; }
 
-        public object[] Export() =>
-            new object[]
-            {
-                "Consign",
-                Id,
-                Invoice.Export(),
-                Amount
-            };
-    }
+	}
 }

@@ -7,7 +7,7 @@ using CaisseServer.Items;
 namespace CaisseServer
 {
     [Table("invoices")]
-    public class SaveableInvoice : IExportable
+    public class SaveableInvoice
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -20,15 +20,5 @@ namespace CaisseServer
         public SaveableCashier Cashier { get; set; }
 
         public SaveablePaymentMethod PaymentMethod { get; set; }
-
-        public object[] Export() => new object[]
-        {
-            "Invoice",
-            Id,
-            Date,
-            GivenMoney,
-            Cashier.Export(),
-            PaymentMethod.Export()
-        };
     }
 }

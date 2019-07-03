@@ -8,7 +8,7 @@ using CaisseServer.Export.Exceptions;
 namespace CaisseServer.Events
 {
     [Table("owners")]
-    public class SaveableOwner : IImportable, IExportable
+    public class SaveableOwner
     {
         public SaveableOwner()
         {
@@ -53,43 +53,5 @@ namespace CaisseServer.Events
 
         public override string ToString() => Name;
 
-        public void Import(object[] args)
-        {
-            if (args.Length != 10) throw new IllegalArgumentNumberException(10, "résponsable");
-            if (!args[0].ToString().ToLower().Equals("owner"))
-                throw new TypeNotRecognisedException("résponsable (Owner)");
-
-            Id = args[1] as int? ?? 0;
-            Login = args[2] as string;
-            Name = args[3] as string;
-            Name = args[4] as string;
-            Permissions = args[5] as string;
-            LastLogin = args[6] is DateTime time ? time : new DateTime();
-            LastLogout = args[7] is DateTime dateTime ? dateTime : new DateTime();
-            SuperAdmin = args[9] is bool b && b;
-
-            if (args[8] is SaveableEvent saveableEvent)
-            {
-                Event = saveableEvent;
-            }
-            else
-            {
-                Event = new SaveableEvent();
-                Event.Import(args[8] as object[]);
-            }
-        }
-
-        public object[] Export() => new object[]
-        {
-            "Owner",
-            Id,
-            Login,
-            Name,
-            Permissions,
-            LastLogin,
-            LastLogout,
-            Event.Export(),
-            SuperAdmin
-        };
     }
 }

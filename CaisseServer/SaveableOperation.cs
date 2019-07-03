@@ -6,7 +6,7 @@ using CaisseServer.Items;
 namespace CaisseServer
 {
     [Table("operations")]
-    public class SaveableOperation : IExportable
+    public class SaveableOperation
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -24,13 +24,5 @@ namespace CaisseServer
         [NotMapped]
         public bool IsEventItem { get; set; } = false;
 
-        public object[] Export() => new object[]
-        {
-            "Operation",
-            Id,
-            Invoice.Export(),
-            Item.Export(),
-            Amount
-        };
     }
 }

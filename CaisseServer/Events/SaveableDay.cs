@@ -7,7 +7,7 @@ using CaisseServer.Export.Exceptions;
 namespace CaisseServer.Events
 {
     [Table("days")]
-    public class SaveableDay : IImportable, IExportable
+    public class SaveableDay
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -21,35 +21,5 @@ namespace CaisseServer.Events
 
         public string Color { get; set; }
 
-        public void Import(object[] args)
-        {
-            if (args.Length != 6) throw new IllegalArgumentNumberException(6, "jour");
-            if (!args[0].ToString().ToLower().Equals("day")) throw new TypeNotRecognisedException("jour (Day)");
-
-            Id = args[1] as int? ?? 0;
-            Start = args[3] is DateTime dateTime ? dateTime : new DateTime();
-            End = args[4] is DateTime time ? time : new DateTime();
-            Color = args[5] as string;
-
-            if (args[2] is SaveableEvent saveableEvent)
-            {
-                Event = saveableEvent;
-            }
-            else
-            {
-                Event = new SaveableEvent();
-                Event.Import(args[2] as object[]);
-            }
-        }
-
-        public object[] Export() => new object[]
-        {
-            "Day",
-            Id,
-            Event.Export(),
-            Start,
-            End,
-            Color
-        };
     }
 }

@@ -48,10 +48,15 @@
                 <Label Content="Logo :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
 
-                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" MaxHeight="25">
-                    <TextBox MinWidth="50"/>
-                    <Button/>
-                </StackPanel>
+                <Grid Grid.Column="1" Grid.Row="1" MaxHeight="25" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                       <ColumnDefinition MaxWidth="50"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox Grid.Column="0"/>
+                    <Button Grid.Column="1" Content="..." Height="25"/>
+                </Grid>
 
                 <Label Content="Nom :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
