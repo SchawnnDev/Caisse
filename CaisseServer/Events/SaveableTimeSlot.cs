@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CaisseServer.Export.Exceptions;
 using ProtoBuf;
 
 namespace CaisseServer.Events
@@ -28,7 +27,7 @@ namespace CaisseServer.Events
 
 		[ProtoMember(7)] public bool SubstituteActive { get; set; }
 
-        public bool Pause { get; set; }
+        [ProtoMember(8)] public bool Pause { get; set; }
 
         [NotMapped] public bool Blank { get; set; }
 
