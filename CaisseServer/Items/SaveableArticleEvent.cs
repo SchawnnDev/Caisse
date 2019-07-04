@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ProtoBuf;
 
 namespace CaisseServer.Items
 {
-
 	[ProtoContract]
-    [Table("article_events")]
-    public class SaveableArticleEvent
-    {
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+	[Table("article_events")]
+	public class SaveableArticleEvent
+	{
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
 
 		[ProtoMember(1)] public SaveableCheckoutType Type { get; set; }
 
@@ -28,7 +21,5 @@ namespace CaisseServer.Items
 		[ProtoMember(4)] public SaveableArticle GivenItem { get; set; }
 
 		[ProtoMember(5)] public int GivenAmount { get; set; }
-
-
-    }
+	}
 }

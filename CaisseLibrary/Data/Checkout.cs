@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CaisseServer;
 using ProtoBuf;
@@ -16,6 +17,7 @@ namespace CaisseLibrary.Data
 			var saveableCheckout = parent as SaveableCheckout;
 
 			SaveableCheckout = saveableCheckout;
+
 			Days = new List<CheckoutDay>();
 
 			foreach (var saveableDay in context.Days.Where(t => t.Event.Id == saveableCheckout.Owner.Event.Id).ToList())

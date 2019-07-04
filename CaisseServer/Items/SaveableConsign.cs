@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ProtoBuf;
 
@@ -17,6 +15,5 @@ namespace CaisseServer.Items
 		[ProtoMember(1)] public SaveableInvoice Invoice { get; set; }
 
 		[ProtoMember(2)] public int Amount { get; set; }
-
 	}
 }

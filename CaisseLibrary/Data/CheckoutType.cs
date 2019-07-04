@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,7 @@ namespace CaisseLibrary.Data
 			Articles = new List<Article>();
 			ArticleEvents = context.ArticleEvents.Where(t => t.Type.Id == saveableCheckoutType.Id).ToList();
 
-			foreach (var saveableCheckout in context.Checkouts.Where(t => t.CheckoutType.Id == saveableCheckoutType.Id).ToList())
+			foreach (var saveableCheckout in context.Checkouts.Where(t => t.CheckoutType.Id == saveableCheckoutType.Id).Include(t=>t.Owner).Include(t=>t.Owner.Event).ToList())
 			{
 				var checkout = new Checkout();
 				checkout.From(saveableCheckout, context);

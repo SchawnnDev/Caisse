@@ -6,12 +6,12 @@ using ProtoBuf;
 namespace CaisseServer
 {
 	[ProtoContract]
-    [Table("invoices")]
-    public class SaveableInvoice
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+	[Table("invoices")]
+	public class SaveableInvoice
+	{
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
 
 		[ProtoMember(1)] public DateTime Date { get; set; }
 
@@ -20,5 +20,5 @@ namespace CaisseServer
 		[ProtoMember(3)] public SaveableCashier Cashier { get; set; }
 
 		[ProtoMember(4)] public SaveablePaymentMethod PaymentMethod { get; set; }
-    }
+	}
 }

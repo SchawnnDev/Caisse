@@ -1,17 +1,16 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ProtoBuf;
 
 namespace CaisseServer.Items
 {
 	[ProtoContract]
-    [Table("articles")]
-    public class SaveableArticle
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+	[Table("articles")]
+	public class SaveableArticle
+	{
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
 
 		[ProtoMember(1)] public string Name { get; set; }
 
@@ -32,6 +31,5 @@ namespace CaisseServer.Items
 		[ProtoMember(9)] public int MaxSellNumberPerDay { get; set; }
 
 		[ProtoMember(10)] public SaveableCheckoutType Type { get; set; }
-
-    }
+	}
 }

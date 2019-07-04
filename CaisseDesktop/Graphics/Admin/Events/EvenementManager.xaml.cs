@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Windows;
@@ -11,8 +12,13 @@ using CaisseDesktop.Graphics.Admin.Days;
 using CaisseDesktop.Graphics.Admin.Events.Pages;
 using CaisseDesktop.Graphics.Admin.Owners;
 using CaisseDesktop.Graphics.Admin.PaymentMethods;
+using CaisseDesktop.Graphics.Print;
 using CaisseDesktop.Utils;
+using CaisseLibrary.Data;
+using CaisseServer;
 using CaisseServer.Events;
+using Microsoft.Win32;
+using ProtoBuf;
 
 namespace CaisseDesktop.Graphics.Admin.Events
 {
@@ -150,8 +156,29 @@ namespace CaisseDesktop.Graphics.Admin.Events
         {
             if (Evenement == null) return;
 
-            MessageBox.Show(string.Join(",",
-                Evenement.Export().Where(t => t != null).Select(t => t.ToString()).ToArray()));
+	        var saveFileDialog = new SaveFileDialog
+	        {
+		        Title = "Select a folder",
+		        CheckPathExists = true,
+		        Filter = "Caisse Files|*.caisse"
+	        };
+
+	        if (saveFileDialog.ShowDialog() != true) return;
+
+	        var path = saveFileDialog.FileName;
+
+	        if (!path.EndsWith(".caisse"))
+		        path += ".caisse";
+
+	        var saveableEvent = new Event();
+
+			using (var db = new CaisseServerContext())
+				saveableEvent.From(Evenement, db);
+
+	        using (var file = File.Create(path))
+				Serializer.Serialize(file, saveableEvent);
+
+	        MessageBox.Show("Le fichier a bien été enregistré !");
         }
 
         private void Display(CustomPage page, int navigation)

@@ -6,12 +6,12 @@ using ProtoBuf;
 namespace CaisseServer
 {
 	[ProtoContract]
-    [Table("operations")]
-    public class SaveableOperation
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+	[Table("operations")]
+	public class SaveableOperation
+	{
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
 
 		[ProtoMember(1)] public SaveableInvoice Invoice { get; set; }
 
@@ -19,11 +19,8 @@ namespace CaisseServer
 
 		[ProtoMember(3)] public int Amount { get; set; }
 
-        [NotMapped]
-        public decimal FinalPrice => Amount * Item.Price;
+		[NotMapped] public decimal FinalPrice => Amount * Item.Price;
 
-        [NotMapped]
-        public bool IsEventItem { get; set; } = false;
-
-    }
+		[NotMapped] public bool IsEventItem { get; set; } = false;
+	}
 }

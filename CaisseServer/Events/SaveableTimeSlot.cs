@@ -6,12 +6,12 @@ using ProtoBuf;
 namespace CaisseServer.Events
 {
 	[ProtoContract]
-    [Table("time_slots")]
-    public class SaveableTimeSlot
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+	[Table("time_slots")]
+	public class SaveableTimeSlot
+	{
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
 
 		[ProtoMember(1)] public SaveableDay Day { get; set; }
 
@@ -27,9 +27,8 @@ namespace CaisseServer.Events
 
 		[ProtoMember(7)] public bool SubstituteActive { get; set; }
 
-        [ProtoMember(8)] public bool Pause { get; set; }
+		[ProtoMember(8)] public bool Pause { get; set; }
 
-        [NotMapped] public bool Blank { get; set; }
-
-    }
+		[NotMapped] public bool Blank { get; set; }
+	}
 }

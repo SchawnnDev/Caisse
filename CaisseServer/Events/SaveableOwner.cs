@@ -6,27 +6,27 @@ using ProtoBuf;
 namespace CaisseServer.Events
 {
 	[ProtoContract]
-    [Table("owners")]
-    public class SaveableOwner
-    {
-        public SaveableOwner()
-        {
-        }
+	[Table("owners")]
+	public class SaveableOwner
+	{
+		public SaveableOwner()
+		{
+		}
 
-        public SaveableOwner(string login, string firstName, string name)
-        {
-            Login = login;
-            FirstName = firstName;
-            Name = name;
-        }
+		public SaveableOwner(string login, string firstName, string name)
+		{
+			Login = login;
+			FirstName = firstName;
+			Name = name;
+		}
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
 
 		[ProtoMember(1)] public string Login { get; set; }
 
-	    [ProtoMember(2)] public string FirstName { get; set; }
+		[ProtoMember(2)] public string FirstName { get; set; }
 
 		[ProtoMember(3)] public string Name { get; set; }
 
@@ -37,8 +37,10 @@ namespace CaisseServer.Events
 		[ProtoMember(6)] public SaveableEvent Event { get; set; }
 
 		[ProtoMember(7)] public bool SuperAdmin { get; set; }
-		
-        public override string ToString() => Name;
 
-    }
+		public override string ToString()
+		{
+			return Name;
+		}
+	}
 }

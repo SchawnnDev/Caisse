@@ -1,19 +1,17 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CaisseServer.Export;
-using CaisseServer.Export.Exceptions;
 using ProtoBuf;
 
 namespace CaisseServer.Events
 {
 	[ProtoContract]
-    [Table("events")]
-    public class SaveableEvent
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+	[Table("events")]
+	public class SaveableEvent
+	{
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
 
 		[ProtoMember(1)] public string Name { get; set; }
 
@@ -34,6 +32,5 @@ namespace CaisseServer.Events
 		[ProtoMember(9)] public string Telephone { get; set; }
 
 		[ProtoMember(10)] public string Siret { get; set; }
-
-    }
+	}
 }

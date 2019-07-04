@@ -40,7 +40,7 @@ namespace CaisseDesktop.Graphics.Admin.Owners
                 SaveableOwner = new SaveableOwner
                 {
                     SuperAdmin = false,
-                    Permissions = ""
+           //         Permissions = ""
                 };
                 Model.Permissions = new ObservableCollection<Permission>();
                 Saved = false;
@@ -105,9 +105,9 @@ namespace CaisseDesktop.Graphics.Admin.Owners
 
             OwnerSuperAdmin.IsChecked = SaveableOwner.SuperAdmin;
 
-            Model.Permissions = new ObservableCollection<Permission>(SaveableOwner.Permissions.Length > 0
-                ? SaveableOwner.Permissions.Split(',').Select(t => new Permission(t)).ToList()
-                : new List<Permission>());
+        //    Model.Permissions = new ObservableCollection<Permission>(SaveableOwner.Permissions.Length > 0
+        //        ? SaveableOwner.Permissions.Split(',').Select(t => new Permission(t)).ToList()
+        //        : new List<Permission>());
 
             FillLogin();
         }
@@ -135,7 +135,7 @@ namespace CaisseDesktop.Graphics.Admin.Owners
             }
 
             SaveableOwner.Name = OwnerName.Text;
-            SaveableOwner.Permissions = string.Join(",", Model.Permissions.Select(t => t.Value).ToList());
+         //   SaveableOwner.Permissions = string.Join(",", Model.Permissions.Select(t => t.Value).ToList());
 
             if (New)
             {

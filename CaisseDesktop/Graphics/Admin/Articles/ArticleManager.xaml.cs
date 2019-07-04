@@ -62,7 +62,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             Loaded += (sender, args) =>
             {
                 Start = false;
-                SwitchButtons(Article.ItemType);
+             //   SwitchButtons(Article.ItemType);
             };
         }
 
@@ -124,7 +124,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
         public void Fill()
         {
             ArticleName.Text = Article.Name;
-	        ArticleType.SelectedIndex = Article.ItemType;
+	    //    ArticleType.SelectedIndex = Article.ItemType;
 	        ArticleNeedsCup.IsChecked = Article.NeedsCup;
 			ArticlePrice.Text = Article.Price.ToString(CultureInfo.CurrentCulture);
             ArticleMaxSellPerDay.Text = Article.MaxSellNumberPerDay.ToString();
@@ -212,7 +212,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
         {
             if (Start || e.AddedItems.Count != 1 || !(e.AddedItems[0] is ComboBoxItem item)) return;
 
-	        var id = Article.ItemType = ArticleType.SelectedIndex;
+	        var id = /*Article.ItemType = */ ArticleType.SelectedIndex;
 
 	        SwitchButtons(id);
 
@@ -411,7 +411,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             Article.Price = decimal.Parse(ArticlePrice.Text.Replace('.', ','));
             Article.MaxSellNumberPerDay = int.Parse(ArticleMaxSellPerDay.Text);
             Article.Color = System.Drawing.ColorTranslator.ToHtml(ArticleColor.SelectedColor.Value.Convert());
-	        Article.ItemType = ArticleType.SelectedIndex;
+	        //Article.ItemType = ArticleType.SelectedIndex;
 
             Task.Run(() => Save());
         }

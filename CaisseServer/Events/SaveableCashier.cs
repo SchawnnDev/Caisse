@@ -1,21 +1,18 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CaisseServer.Events;
-using CaisseServer.Export;
-using CaisseServer.Export.Exceptions;
 using ProtoBuf;
 
 namespace CaisseServer
 {
 	[ProtoContract]
-    [Table("cashiers")]
-    public class SaveableCashier
+	[Table("cashiers")]
+	public class SaveableCashier
 
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+	{
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public int Id { get; set; }
 
 		[ProtoMember(1)] public string Login { get; set; }
 
@@ -31,6 +28,9 @@ namespace CaisseServer
 
 		[ProtoMember(7)] public DateTime LastActivity { get; set; }
 
-        public string GetFullName() => $"{FirstName} {Name}";
-    }
+		public string GetFullName()
+		{
+			return $"{FirstName} {Name}";
+		}
+	}
 }

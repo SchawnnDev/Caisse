@@ -140,8 +140,9 @@
     <Compile Include="Data\Cashier.cs" />
     <Compile Include="Data\Checkout.cs" />
     <Compile Include="Data\CheckoutType.cs" />
-    <Compile Include="Data\Day.cs" />
+    <Compile Include="Data\CheckoutDay.cs" />
     <Compile Include="Data\Event.cs" />
+    <Compile Include="Data\IData.cs" />
     <Compile Include="Data\Invoice.cs" />
     <Compile Include="Data\Permission.cs" />
     <Compile Include="Data\TimeSlot.cs" />
