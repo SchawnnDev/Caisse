@@ -5,10 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProtoBuf;
 
 namespace CaisseServer.Items
 {
 
+	[ProtoContract]
     [Table("article_events")]
     public class SaveableArticleEvent
     {
@@ -17,15 +19,15 @@ namespace CaisseServer.Items
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public SaveableCheckoutType Type { get; set; }
+		[ProtoMember(1)] public SaveableCheckoutType Type { get; set; }
 
-        public SaveableArticle Item { get; set; }
+		[ProtoMember(2)] public SaveableArticle Item { get; set; }
 
-        public int NeededAmount { get; set; }
+		[ProtoMember(3)] public int NeededAmount { get; set; }
 
-        public SaveableArticle GivenItem { get; set; }
+		[ProtoMember(4)] public SaveableArticle GivenItem { get; set; }
 
-        public int GivenAmount { get; set; }
+		[ProtoMember(5)] public int GivenAmount { get; set; }
 
 
     }

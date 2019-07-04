@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CaisseServer.Events;
-using CaisseServer.Export;
-using CaisseServer.Export.Exceptions;
+using ProtoBuf;
 
 namespace CaisseServer
 {
+	[ProtoContract]
     [Table("payment_methods")]
     public class SaveablePaymentMethod
     {
@@ -13,13 +13,13 @@ namespace CaisseServer
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string Name { get; set; }
+		[ProtoMember(1)] public string Name { get; set; }
 
-        public string Type { get; set; }
+		[ProtoMember(2)] public string Type { get; set; }
 
-        public decimal MinFee { get; set; }
+		[ProtoMember(3)] public decimal MinFee { get; set; }
 
-        public SaveableEvent Event { get; set; } // needs a review.
+		[ProtoMember(4)] public SaveableEvent Event { get; set; } // needs a review.
 
     }
 }

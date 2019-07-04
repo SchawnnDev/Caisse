@@ -54,7 +54,7 @@
                        <ColumnDefinition MaxWidth="50"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox Grid.Column="0"/>
+                    <TextBox Grid.Column="0" IsEnabled="False"/>
                     <Button Grid.Column="1" Content="..." Height="25"/>
                 </Grid>
 

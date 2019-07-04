@@ -1,65 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using CaisseServer.Events;
-using CaisseServer.Export;
-using CaisseServer.Export.Exceptions;
+using ProtoBuf;
 
 namespace CaisseServer
 {
+	[ProtoContract]
     [Table("checkouts")]
-    public class SaveableCheckout : IImportable, IExportable
+    public class SaveableCheckout
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string Name { get; set; }
+		[ProtoMember(1)] public string Name { get; set; }
 
-        public SaveableOwner Owner { get; set; }
+		[ProtoMember(2)] public SaveableOwner Owner { get; set; }
 
-        public string Details { get; set; }
+		[ProtoMember(3)] public string Details { get; set; }
 
-        public SaveableCheckoutType CheckoutType { get; set; }
+		[ProtoMember(4)] public SaveableCheckoutType CheckoutType { get; set; }
 
-        public object[] Export() => new object[]
-        {
-            "Checkout",
-            Id,
-            Name,
-            Owner.Export(),
-            Details,
-            CheckoutType.Export(),
-        };
-
-        public void Import(object[] args)
-        {
-            if (args.Length != 6) throw new IllegalArgumentNumberException(6, "caisse");
-            if (!args[0].ToString().ToLower().Equals("checkout"))
-                throw new TypeNotRecognisedException("caisse (Checkout)");
-
-            Id = args[1] as int? ?? 0;
-            Name = args[2] as string;
-            Details = args[4] as string;
-
-            if (args[3] is SaveableOwner owner)
-            {
-                Owner = owner;
-            }
-            else
-            {
-                Owner = new SaveableOwner();
-                Owner.Import(args[3] as object[]);
-            }
-
-            if (args[5] is SaveableCheckoutType type)
-            {
-                CheckoutType = type;
-            }
-            else
-            {
-                CheckoutType = new SaveableCheckoutType();
-                CheckoutType.Import(args[5] as object[]);
-            }
-        }
     }
 }

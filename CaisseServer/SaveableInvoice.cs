@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CaisseServer.Export;
-using CaisseServer.Items;
+using ProtoBuf;
 
 namespace CaisseServer
 {
+	[ProtoContract]
     [Table("invoices")]
     public class SaveableInvoice
     {
@@ -13,12 +13,12 @@ namespace CaisseServer
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public DateTime Date { get; set; }
+		[ProtoMember(1)] public DateTime Date { get; set; }
 
-        public decimal GivenMoney { get; set; }
+		[ProtoMember(2)] public decimal GivenMoney { get; set; }
 
-        public SaveableCashier Cashier { get; set; }
+		[ProtoMember(3)] public SaveableCashier Cashier { get; set; }
 
-        public SaveablePaymentMethod PaymentMethod { get; set; }
+		[ProtoMember(4)] public SaveablePaymentMethod PaymentMethod { get; set; }
     }
 }

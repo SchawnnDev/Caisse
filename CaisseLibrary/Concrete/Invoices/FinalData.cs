@@ -12,12 +12,5 @@ namespace CaisseLibrary.Concrete.Invoices
     {
         public List<SaveableOperation> Operations { get; set; }
         public SaveableConsign Consign { get; set; }
-
-        public FinalData(List<SaveableOperation> operations, SaveableConsign consign)
-        {
-            Operations = operations;
-            Consign = consign;
-        }
-
     }
 }

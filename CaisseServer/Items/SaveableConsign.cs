@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CaisseServer.Export;
+using ProtoBuf;
 
 namespace CaisseServer.Items
 {
+	[ProtoContract]
 	[Table("consigns")]
 	public class SaveableConsign
 	{
@@ -16,9 +14,9 @@ namespace CaisseServer.Items
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
 
-		public SaveableInvoice Invoice { get; set; }
+		[ProtoMember(1)] public SaveableInvoice Invoice { get; set; }
 
-		public int Amount { get; set; }
+		[ProtoMember(2)] public int Amount { get; set; }
 
 	}
 }

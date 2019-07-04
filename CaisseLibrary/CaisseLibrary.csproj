@@ -90,8 +90,8 @@
       <HintPath>..\packages\Npgsql.4.0.7\lib\net451\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
-    <Reference Include="protobuf-net, Version=2.3.14.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
-      <HintPath>..\packages\protobuf-net.2.3.14\lib\net40\protobuf-net.dll</HintPath>
+    <Reference Include="protobuf-net, Version=2.4.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\protobuf-net.2.4.0\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -136,9 +136,15 @@
     <Compile Include="Concrete\Invoices\Invoice.cs" />
     <Compile Include="Concrete\Owners\CashierPassword.cs" />
     <Compile Include="Concrete\Owners\OwnerPassword.cs" />
+    <Compile Include="Data\Article.cs" />
     <Compile Include="Data\Cashier.cs" />
     <Compile Include="Data\Checkout.cs" />
+    <Compile Include="Data\CheckoutType.cs" />
+    <Compile Include="Data\Day.cs" />
+    <Compile Include="Data\Event.cs" />
+    <Compile Include="Data\Invoice.cs" />
     <Compile Include="Data\Permission.cs" />
+    <Compile Include="Data\TimeSlot.cs" />
     <Compile Include="Enums\ArticleType.cs" />
     <Compile Include="Enums\ExportColumnType.cs" />
     <Compile Include="Interfaces\IPassword.cs" />
