@@ -27,7 +27,7 @@ using TextBox = System.Windows.Controls.TextBox;
 namespace CaisseDesktop.Graphics.Common
 {
     /// <summary>
-    ///     Interaction logic for Checkout.xaml
+    ///     Interaction logic for ArticleCheckout.xaml
     /// </summary>
     public partial class Checkout
     {
