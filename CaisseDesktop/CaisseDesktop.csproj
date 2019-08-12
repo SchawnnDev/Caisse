@@ -193,6 +193,12 @@
     <Compile Include="Graphics\Admin\Statistics\DisplayInvoice.xaml.cs">
       <DependentUpon>DisplayInvoice.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Graphics\Common\Checkouts\ConsignCheckout.xaml.cs">
+      <DependentUpon>ConsignCheckout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\Common\Checkouts\TicketCheckout.xaml.cs">
+      <DependentUpon>TicketCheckout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Graphics\Utils\CommandHandler.cs" />
     <Compile Include="IO\ExportManager.cs" />
     <Compile Include="Graphics\Admin\AdminConnection.xaml.cs">
@@ -262,8 +268,8 @@
     <Compile Include="Graphics\Admin\TimeSlots\TimeSlotManager.xaml.cs">
       <DependentUpon>TimeSlotManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Graphics\Common\Checkout.xaml.cs">
-      <DependentUpon>Checkout.xaml</DependentUpon>
+    <Compile Include="Graphics\Common\Checkouts\ArticleCheckout.xaml.cs">
+      <DependentUpon>ArticleCheckout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Common\Loading.xaml.cs">
       <DependentUpon>Loading.xaml</DependentUpon>
@@ -289,6 +295,10 @@
     <Compile Include="Models\CashierModel.cs" />
     <Compile Include="Models\CheckoutOperationModel.cs" />
     <Compile Include="Models\CheckoutOperationRowModel.cs" />
+    <Compile Include="Models\Checkouts\ArticleCheckoutModel.cs" />
+    <Compile Include="Models\Checkouts\Common\LoginModel.cs" />
+    <Compile Include="Models\Checkouts\ConsignCheckoutModel.cs" />
+    <Compile Include="Models\Checkouts\TicketCheckoutModel.cs" />
     <Compile Include="Models\CheckoutTypeModel.cs" />
     <Compile Include="Models\DayPickerModel.cs" />
     <Compile Include="Models\ArticleModel.cs" />
@@ -401,7 +411,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Graphics\Common\Checkout.xaml">
+    <Page Include="Graphics\Common\Checkouts\ArticleCheckout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Common\Checkouts\ConsignCheckout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -418,6 +432,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Graphics\Common\SelectPaymentMethod.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Graphics\Common\Checkouts\TicketCheckout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

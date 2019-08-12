@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Common"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:common="clr-namespace:CaisseDesktop.Models.Checkouts.Common"
+        d:DataContext="{d:DesignInstance Type=common:LoginModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
         Title="Se connecter" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
@@ -35,6 +37,7 @@
         <PasswordBox x:Name="Password" Grid.Row="1" Grid.Column="1"
                      Style="{StaticResource MaterialDesignFilledPasswordFieldPasswordBox}"
                      IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledPasswordFieldPasswordBoxEnabledComboBox}"
+                     Password="{Binding LoginPassword}"
                      materialDesign:HintAssist.Hint="Identifiant" HorizontalContentAlignment="Center" FontSize="22"
                      MaxLength="7" />
 
@@ -120,13 +123,13 @@
 
             <Button Grid.Row="3" Grid.Column="2"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="PinPadButton_Click">
+                    Height="Auto" Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Password}">
                 Suppr.
             </Button>
 
             <Button Grid.Row="4" Grid.ColumnSpan="3" Grid.Column="0" Margin="0 2 0 0"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="Valider_OnClick">
+                    Height="Auto" Command="{Binding ConnectCommand}" CommandParameter="{Binding ElementName=Password}">
                 Se connecter
             </Button>
 
