@@ -151,36 +151,6 @@ namespace CaisseDesktop.Graphics.Common
             new Parameters(this).ShowDialog();
         }
 
-        private void PinPadButton_Click(object sender, RoutedEventArgs e)
-        {
-            var buttonContent = (sender as Button)?.Content;
-
-            if (buttonContent == null) return;
-
-            var str = buttonContent.ToString();
-
-            if (int.TryParse(str, out var number))
-            {
-                if (Password.Password.Length < 7)
-                    Password.Password = Password.Password += number;
-                else
-                    SystemSounds.Beep.Play();
-            }
-            else if (str.EndsWith("Suppr."))
-            {
-                var len = Password.Password.Length;
-
-                if (len != 0)
-                    Password.Password = Password.Password.Remove(len - 1);
-                else
-                    SystemSounds.Beep.Play();
-            }
-            else if (str.EndsWith("Annuler"))
-            {
-                Password.Password = "";
-            }
-        }
-
         private void Valider_OnClick(object sender, RoutedEventArgs e)
         {
 

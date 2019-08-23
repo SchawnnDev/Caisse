@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Common"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:common="clr-namespace:CaisseDesktop.Models.Checkouts.Common"
+        xmlns:assets="clr-namespace:CaisseDesktop.Graphics.Assets"
+        xmlns:rules="clr-namespace:CaisseDesktop.Graphics.Assets.Rules"
         d:DataContext="{d:DesignInstance Type=common:LoginModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
         Title="Se connecter" Height="450" Width="800" WindowStartupLocation="CenterScreen">
@@ -34,12 +36,19 @@
                 Width="24" />
         </Button>
 
-        <PasswordBox x:Name="Password" Grid.Row="1" Grid.Column="1"
-                     Style="{StaticResource MaterialDesignFilledPasswordFieldPasswordBox}"
-                     IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledPasswordFieldPasswordBoxEnabledComboBox}"
-                     Password="{Binding LoginPassword}"
-                     materialDesign:HintAssist.Hint="Identifiant" HorizontalContentAlignment="Center" FontSize="22"
-                     MaxLength="7" />
+        <assets:BindablePasswordBox x:Name="Password" Grid.Column="1"
+                      IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledPasswordFieldEnabledComboBox}"
+                     materialDesign:HintAssist.Hint="Identifiant" HorizontalContentAlignment="Center" FontSize="22" Margin="0,93,0,5"
+                      Grid.Row="0" Grid.RowSpan="2">
+            <assets:BindablePasswordBox.Password>
+                <Binding Path="LoginPassword">
+                    <Binding.ValidationRules>
+                        <rules:NumberValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </assets:BindablePasswordBox.Password>
+
+        </assets:BindablePasswordBox>
 
         <Grid Grid.Column="1" Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -57,73 +66,73 @@
 
             <Button Grid.Row="0" Grid.Column="0"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="PinPadButton_Click">
+                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="1">
                 1
             </Button>
 
             <Button Grid.Row="0" Grid.Column="1"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="PinPadButton_Click">
+                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="2">
                 2
             </Button>
 
             <Button Grid.Row="0" Grid.Column="2"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="PinPadButton_Click">
+                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="3">
                 3
             </Button>
 
             <Button Grid.Row="1" Grid.Column="0"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="PinPadButton_Click">
+                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="4">
                 4
             </Button>
 
             <Button Grid.Row="1" Grid.Column="1"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="PinPadButton_Click">
+                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="5">
                 5
             </Button>
 
             <Button Grid.Row="1" Grid.Column="2"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="PinPadButton_Click">
+                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="6">
                 6
             </Button>
 
             <Button Grid.Row="2" Grid.Column="0"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="PinPadButton_Click">
+                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="7">
                 7
             </Button>
 
             <Button Grid.Row="2" Grid.Column="1"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="PinPadButton_Click">
+                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="8">
                 8
             </Button>
 
             <Button Grid.Row="2" Grid.Column="2"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="PinPadButton_Click">
+                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="9">
                 9
             </Button>
 
             <Button Grid.Row="3" Grid.Column="0"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="PinPadButton_Click">
+                    Height="Auto" Command="{Binding CancelCommand}">
                 Annuler
             </Button>
 
             <Button Grid.Row="3" Grid.Column="1"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Click="PinPadButton_Click">
+                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="0">
                 0
             </Button>
 
             <Button Grid.Row="3" Grid.Column="2"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Password}">
+                    Height="Auto" Command="{Binding DeleteCommand}">
                 Suppr.
             </Button>
 
@@ -145,9 +154,9 @@
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right">
-            <Label x:Name="CheckoutNameLabel" Content="Caisse: [Nom]" FontSize="10" HorizontalAlignment="Right"
+            <Label x:Name="CheckoutNameLabel" Content="{Binding CheckoutName}" FontSize="10" HorizontalAlignment="Right"
                    FontWeight="Bold" />
-            <Label x:Name="DateLabel" Content="01:16:00 09/02/2019" FontSize="10" HorizontalAlignment="Right"
+            <Label x:Name="DateLabel" Content="{Binding CurrentTime, StringFormat={}{0:dd/MM/yyyy HH:mm}}" FontSize="10" HorizontalAlignment="Right"
                    FontWeight="Bold" />
         </StackPanel>
 
