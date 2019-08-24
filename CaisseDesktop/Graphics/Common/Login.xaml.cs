@@ -20,7 +20,6 @@ namespace CaisseDesktop.Graphics.Common
     /// </summary>
     public partial class Login
     {
-        private Timer UpdateTimer { get; set; }
         private bool CanLogin { get; set; } = false;
 
         public Login(bool startup)
@@ -64,18 +63,8 @@ namespace CaisseDesktop.Graphics.Common
                     new Parameters(this).ShowDialog();
                 }
 
-
-                UpdateTimer = new Timer(1000) {AutoReset = true, Enabled = true}; // 1000 ms => 1 sec
-                UpdateTimer.Elapsed += (o, eventArgs) =>
-                {
-                    DateLabel.Dispatcher.Invoke(() =>
-                    {
-                        DateLabel.Content = DateTime.Now.ToString("HH:mm:ss dd/MM/yyyy");
-                    });
-                };
             };
 
-            Closed += OnClosed;
         }
 
         public void ConfigureApp(bool reconfigure)
@@ -129,13 +118,6 @@ namespace CaisseDesktop.Graphics.Common
         public void UpdateLabels()
         {
             CheckoutNameLabel.Content = $"Caisse: {Main.ActualCheckout.Name}";
-        }
-
-        private void OnClosed(object sender, EventArgs e)
-        {
-            if (UpdateTimer == null) return;
-            UpdateTimer.Stop();
-            UpdateTimer.Dispose();
         }
 
         private void OpenParameters_OnClick(object sender, RoutedEventArgs e)

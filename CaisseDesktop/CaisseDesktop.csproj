@@ -202,6 +202,7 @@
       <DependentUpon>TicketCheckout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Utils\CommandHandler.cs" />
+    <Compile Include="Graphics\Utils\Converters\MultiValueConverter.cs" />
     <Compile Include="IO\ExportManager.cs" />
     <Compile Include="Graphics\Admin\AdminConnection.xaml.cs">
       <DependentUpon>AdminConnection.xaml</DependentUpon>

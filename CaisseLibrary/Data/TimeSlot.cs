@@ -16,6 +16,10 @@ namespace CaisseLibrary.Data
 		[ProtoMember(2)] public Cashier Cashier;
 		public void From<T>(T parent, CaisseServerContext context)
 		{
+			var saveableTimeSlot = parent as SaveableTimeSlot;
+			SaveableTimeSlot = saveableTimeSlot;
+			Cashier = new Cashier();
+			Cashier.From(saveableTimeSlot.Cashier, context);
 		}
 	}
 }

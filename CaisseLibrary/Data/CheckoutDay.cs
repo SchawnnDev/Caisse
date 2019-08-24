@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace CaisseLibrary.Data
 
 			TimeSlots = new List<TimeSlot>();
 
-			foreach (var timeSlot in context.TimeSlots.Where(t => t.Day.Id == saveableDay.Id).ToList())
+			foreach (var timeSlot in context.TimeSlots.Where(t => t.Day.Id == saveableDay.Id).Include(t=>t.Cashier).ToList())
 			{
 				var type = new TimeSlot();
 				type.From(timeSlot, context);

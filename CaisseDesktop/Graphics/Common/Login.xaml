@@ -36,19 +36,11 @@
                 Width="24" />
         </Button>
 
-        <assets:BindablePasswordBox x:Name="Password" Grid.Column="1"
-                      IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledPasswordFieldEnabledComboBox}"
-                     materialDesign:HintAssist.Hint="Identifiant" HorizontalContentAlignment="Center" FontSize="22" Margin="0,93,0,5"
-                      Grid.Row="0" Grid.RowSpan="2">
-            <assets:BindablePasswordBox.Password>
-                <Binding Path="LoginPassword">
-                    <Binding.ValidationRules>
-                        <rules:NumberValidationRule/>
-                    </Binding.ValidationRules>
-                </Binding>
-            </assets:BindablePasswordBox.Password>
-
-        </assets:BindablePasswordBox>
+        <PasswordBox x:Name="Password" Grid.Row="1" Grid.Column="1"
+                     Style="{StaticResource MaterialDesignFilledPasswordFieldPasswordBox}"
+                     IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledPasswordFieldPasswordBoxEnabledComboBox}"
+                     materialDesign:HintAssist.Hint="Identifiant" HorizontalContentAlignment="Center" FontSize="22"
+                     MaxLength="7" />
 
         <Grid Grid.Column="1" Grid.Row="2">
             <Grid.ColumnDefinitions>

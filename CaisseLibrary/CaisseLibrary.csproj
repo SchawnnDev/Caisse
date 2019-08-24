@@ -137,6 +137,7 @@
     <Compile Include="Concrete\Owners\CashierPassword.cs" />
     <Compile Include="Concrete\Owners\OwnerPassword.cs" />
     <Compile Include="Data\Article.cs" />
+    <Compile Include="Data\ArticleMaxSellNumber.cs" />
     <Compile Include="Data\Cashier.cs" />
     <Compile Include="Data\Checkout.cs" />
     <Compile Include="Data\CheckoutType.cs" />
