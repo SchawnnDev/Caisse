@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using CaisseDesktop.Graphics.Common;
@@ -16,6 +18,7 @@ namespace CaisseDesktop.Models.Checkouts.Common
     {
         private readonly int PASSWORD_LENGTH = 7;
         private readonly DispatcherTimer _timer;
+
         private ICommand _connectCommand;
         public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new CommandHandler(Connect, true));
 
@@ -31,30 +34,12 @@ namespace CaisseDesktop.Models.Checkouts.Common
 
         public LoginModel()
         {
-            _timer.Interval = TimeSpan.FromSeconds(1);
-            _timer.Tick += (s, e) => OnPropertyChanged("CurrentTime");
+	        _timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
+	        _timer.Tick += (s, e) => OnPropertyChanged($"CurrentTime");
             _timer.Start();
-
-            LoginPassword = "";
-        }
-
-
-        private string _loginPassword;
-
-        public string LoginPassword
-        {
-            get => _loginPassword;
-            set
-            {
-                var val = value;
-                if (val.Length > PASSWORD_LENGTH) return;
-                _loginPassword = value;
-                OnPropertyChanged();
-            }
         }
 
         public DateTime CurrentTime => DateTime.Now;
-
 
         private string _checkoutName;
 
@@ -70,21 +55,33 @@ namespace CaisseDesktop.Models.Checkouts.Common
 
         private void Delete(object param)
         {
+	        if (!(param is PasswordBox box)) return;
+
+	        var length = box.Password.Length;
+
+	        box.Password = length > 1 ? box.Password.Remove(length - 1) : "";
+
         }
 
         private void Cancel(object param)
         {
+	        if (!(param is PasswordBox box)) return;
+
+	        box.Password = "";
         }
 
         public void PinPad(object param)
         {
-            if (LoginPassword.Length == PASSWORD_LENGTH) return;
-            LoginPassword += ((int) param).ToString();
-
+	        if (!(param is object[] array)) return;
+	        var input = array[0] is int i ? i : 0;
+	        if (!(array[1] is PasswordBox box)) return;
+			if (box.Password.Length >= PASSWORD_LENGTH) return;
+	        box.Password += input.ToString();
         }
 
         private void Connect(object param)
         {
+	        if (!(param is PasswordBox box)) return;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -93,5 +90,6 @@ namespace CaisseDesktop.Models.Checkouts.Common
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
+
+	}
 }

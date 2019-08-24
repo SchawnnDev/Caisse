@@ -7,6 +7,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CaisseDesktop.Models.Checkouts.Common;
 using CaisseDesktop.Utils;
 using CaisseLibrary;
 using CaisseLibrary.Exceptions;
@@ -21,11 +22,12 @@ namespace CaisseDesktop.Graphics.Common
     public partial class Login
     {
         private bool CanLogin { get; set; } = false;
-
+	
         public Login(bool startup)
         {
             InitializeComponent();
 
+	        DataContext = new LoginModel();
 
             Loaded += (sender, args) =>
             {

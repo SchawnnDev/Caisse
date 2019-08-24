@@ -6,11 +6,16 @@
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Common"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:common="clr-namespace:CaisseDesktop.Models.Checkouts.Common"
+        xmlns:converters="clr-namespace:CaisseDesktop.Graphics.Utils.Converters"
         xmlns:assets="clr-namespace:CaisseDesktop.Graphics.Assets"
         xmlns:rules="clr-namespace:CaisseDesktop.Graphics.Assets.Rules"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         d:DataContext="{d:DesignInstance Type=common:LoginModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
         Title="Se connecter" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converters:MultiValueConverter x:Key="MultiValueConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -36,7 +41,7 @@
                 Width="24" />
         </Button>
 
-        <PasswordBox x:Name="Password" Grid.Row="1" Grid.Column="1"
+        <PasswordBox Name="Password" Grid.Row="1" Grid.Column="1"
                      Style="{StaticResource MaterialDesignFilledPasswordFieldPasswordBox}"
                      IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledPasswordFieldPasswordBoxEnabledComboBox}"
                      materialDesign:HintAssist.Hint="Identifiant" HorizontalContentAlignment="Center" FontSize="22"
@@ -58,73 +63,163 @@
 
             <Button Grid.Row="0" Grid.Column="0"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="1">
+                    Height="Auto" Command="{Binding PinPadCommand}">
+                <Button.Resources>
+                    <system:Int32 x:Key="Value">1</system:Int32>
+                </Button.Resources>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                        <Binding Source="{StaticResource Value}"></Binding>
+                        <Binding ElementName="Password"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 1
             </Button>
 
             <Button Grid.Row="0" Grid.Column="1"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="2">
+                    Height="Auto" Command="{Binding PinPadCommand}">
+                <Button.Resources>
+                    <system:Int32 x:Key="Value">2</system:Int32>
+                </Button.Resources>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                        <Binding Source="{StaticResource Value}"></Binding>
+                        <Binding ElementName="Password"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 2
             </Button>
 
             <Button Grid.Row="0" Grid.Column="2"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="3">
+                    Height="Auto" Command="{Binding PinPadCommand}">
+                <Button.Resources>
+                    <system:Int32 x:Key="Value">3</system:Int32>
+                </Button.Resources>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                        <Binding Source="{StaticResource Value}"></Binding>
+                        <Binding ElementName="Password"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 3
             </Button>
 
             <Button Grid.Row="1" Grid.Column="0"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="4">
+                    Height="Auto" Command="{Binding PinPadCommand}">
+                <Button.Resources>
+                    <system:Int32 x:Key="Value">4</system:Int32>
+                </Button.Resources>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                        <Binding Source="{StaticResource Value}"></Binding>
+                        <Binding ElementName="Password"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 4
             </Button>
 
             <Button Grid.Row="1" Grid.Column="1"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="5">
+                    Height="Auto" Command="{Binding PinPadCommand}">
+                <Button.Resources>
+                    <system:Int32 x:Key="Value">5</system:Int32>
+                </Button.Resources>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                        <Binding Source="{StaticResource Value}"></Binding>
+                        <Binding ElementName="Password"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 5
             </Button>
 
             <Button Grid.Row="1" Grid.Column="2"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="6">
+                    Height="Auto" Command="{Binding PinPadCommand}">
+                <Button.Resources>
+                    <system:Int32 x:Key="Value">6</system:Int32>
+                </Button.Resources>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                        <Binding Source="{StaticResource Value}"></Binding>
+                        <Binding ElementName="Password"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 6
             </Button>
 
             <Button Grid.Row="2" Grid.Column="0"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="7">
+                    Height="Auto" Command="{Binding PinPadCommand}">
+                <Button.Resources>
+                    <system:Int32 x:Key="Value">7</system:Int32>
+                </Button.Resources>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                        <Binding Source="{StaticResource Value}"></Binding>
+                        <Binding ElementName="Password"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 7
             </Button>
 
             <Button Grid.Row="2" Grid.Column="1"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="8">
+                    Height="Auto" Command="{Binding PinPadCommand}">
+                <Button.Resources>
+                    <system:Int32 x:Key="Value">8</system:Int32>
+                </Button.Resources>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                        <Binding Source="{StaticResource Value}"></Binding>
+                        <Binding ElementName="Password"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 8
             </Button>
 
             <Button Grid.Row="2" Grid.Column="2"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="9">
+                    Height="Auto" Command="{Binding PinPadCommand}">
+                <Button.Resources>
+                    <system:Int32 x:Key="Value">9</system:Int32>
+                </Button.Resources>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                        <Binding Source="{StaticResource Value}"></Binding>
+                        <Binding ElementName="Password"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 9
             </Button>
 
             <Button Grid.Row="3" Grid.Column="0"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding CancelCommand}">
+                    Height="Auto" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=Password}">
                 Annuler
             </Button>
 
             <Button Grid.Row="3" Grid.Column="1"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding PinPadCommand}" CommandParameter="0">
+                    Height="Auto" Command="{Binding PinPadCommand}">
+                <Button.Resources>
+                    <system:Int32 x:Key="Value">1</system:Int32>
+                </Button.Resources>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                        <Binding Source="{StaticResource Value}"></Binding>
+                        <Binding ElementName="Password"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
                 0
             </Button>
 
             <Button Grid.Row="3" Grid.Column="2"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Height="Auto" Command="{Binding DeleteCommand}">
+                    Height="Auto" Command="{Binding DeleteCommand}" CommandParameter="{Binding ElementName=Password}">
                 Suppr.
             </Button>
 
