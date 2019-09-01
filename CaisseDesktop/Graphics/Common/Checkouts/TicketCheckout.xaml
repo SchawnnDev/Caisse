@@ -1,10 +1,11 @@
-﻿<Window x:Class="CaisseDesktop.Graphics.Common.TicketCheckout"
+﻿<local:CheckoutWindow x:Class="CaisseDesktop.Graphics.Common.TicketCheckout"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:checkouts="clr-namespace:CaisseDesktop.Models.Checkouts"
+        xmlns:local="clr-namespace:CaisseDesktop.Graphics.Common.Checkouts"
         d:DataContext="{d:DesignInstance Type=checkouts:TicketCheckoutModel, IsDesignTimeCreatable=False}"
         mc:Ignorable="d"
         Title="Article Checkout" Height="600" Width="1000" WindowStyle="None" WindowState="Maximized">
@@ -280,4 +281,4 @@
         </Border>
 
     </Grid>
-</Window>
+</local:CheckoutWindow>

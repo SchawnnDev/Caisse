@@ -195,6 +195,7 @@
     </Compile>
     <Compile Include="Graphics\Assets\BindablePasswordBox.cs" />
     <Compile Include="Graphics\Assets\Rules\NumberValidationRule.cs" />
+    <Compile Include="Graphics\Common\Checkouts\CheckoutWindow.cs" />
     <Compile Include="Graphics\Common\Checkouts\ConsignCheckout.xaml.cs">
       <DependentUpon>ConsignCheckout.xaml</DependentUpon>
     </Compile>

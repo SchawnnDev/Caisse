@@ -151,7 +151,6 @@ namespace CaisseDesktop.Graphics.Common
             //Main.Reconfigure("TicketsPrinter"); // TODO
             // validate
             New = false;
-            ParentWindow.UpdateLabels();
             Close();
 
             Task.Run(() => ParentWindow.ConfigureApp(true));

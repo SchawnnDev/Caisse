@@ -52,7 +52,6 @@ namespace CaisseDesktop.Graphics.Common
 
                             Task.Run(() => ConfigureApp(startup == false));
 
-                            UpdateLabels();
                         }
                         else
                         {
@@ -117,11 +116,6 @@ namespace CaisseDesktop.Graphics.Common
             });
         }
 
-        public void UpdateLabels()
-        {
-            CheckoutNameLabel.Content = $"Caisse: {Main.ActualCheckout.Name}";
-        }
-
         private void OpenParameters_OnClick(object sender, RoutedEventArgs e)
         {
 
@@ -135,48 +129,5 @@ namespace CaisseDesktop.Graphics.Common
             new Parameters(this).ShowDialog();
         }
 
-        private void Valider_OnClick(object sender, RoutedEventArgs e)
-        {
-
-            if (!CanLogin)
-            {
-                SystemSounds.Beep.Play();
-                Validations.ShowWarning("Veuillez attendre que l'application charge.");
-                return;
-            }
-
-            if (Password.Password.Length != 7)
-            {
-                SystemSounds.Beep.Play();
-                MessageBox.Show("L'identifiant n'est pas valide.", "Erreur", MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-            }
-            else
-            {
-                /*
-                new Checkout(Main.ActualCheckout).Show();
-                Close();
-
-                return; */
-
-
-                var cashier = Main.Login(Password.Password);
-
-                if (cashier == null)
-                {
-                    MessageBox.Show("L'identifiant n'est pas valide.", "Erreur", MessageBoxButton.OK,
-                        MessageBoxImage.Error);
-                    return;
-                }
-
-                Main.ActualCashier = cashier;
-                new Checkout(Main.ActualCheckout).Show();
-                Close();
-
-
-                //TODO: Si ce n'est pas encore l'heure du caissier, le prevenir et demander si il est sûr de vouloir continuer
-                //MessageBox.Show("Bien connecté.", "Yeah", MessageBoxButton.OK, MessageBoxImage.Hand);
-            }
-        }
     }
 }

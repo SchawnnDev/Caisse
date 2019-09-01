@@ -11,15 +11,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseServer;
 
 namespace CaisseDesktop.Graphics.Common
 {
     /// <summary>
     /// Interaction logic for TicketCheckout.xaml
     /// </summary>
-    public partial class TicketCheckout : Window
+    public partial class TicketCheckout
     {
-        public TicketCheckout()
+        public TicketCheckout(SaveableCheckout checkout) : base(checkout)
         {
             InitializeComponent();
         }

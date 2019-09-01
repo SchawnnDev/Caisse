@@ -2,24 +2,28 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Media;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using CaisseDesktop.Graphics.Common;
+using CaisseDesktop.Graphics.Common.Checkouts;
 using CaisseDesktop.Graphics.Utils;
+using CaisseDesktop.Utils;
+using CaisseLibrary;
+using CaisseLibrary.Data;
 
 namespace CaisseDesktop.Models.Checkouts.Common
 {
     public class LoginModel : INotifyPropertyChanged
     {
         private readonly int PASSWORD_LENGTH = 7;
-        private readonly DispatcherTimer _timer;
-
-        private ICommand _connectCommand;
+		private ICommand _connectCommand;
         public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new CommandHandler(Connect, true));
 
         private ICommand _pinPadCommand;
@@ -34,12 +38,14 @@ namespace CaisseDesktop.Models.Checkouts.Common
 
         public LoginModel()
         {
-	        _timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
-	        _timer.Tick += (s, e) => OnPropertyChanged($"CurrentTime");
-            _timer.Start();
-        }
+	        var timer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
+	        timer.Tick += (s, e) => OnPropertyChanged($"CurrentTime");
+            timer.Start();
 
-        public DateTime CurrentTime => DateTime.Now;
+	        CheckoutName = Main.ActualCheckout?.Name;
+		}
+
+		public DateTime CurrentTime => DateTime.Now;
 
         private string _checkoutName;
 
@@ -82,6 +88,45 @@ namespace CaisseDesktop.Models.Checkouts.Common
         private void Connect(object param)
         {
 	        if (!(param is PasswordBox box)) return;
+
+	        if (box.Password.Length != 7)
+	        {
+		        SystemSounds.Beep.Play();
+		        MessageBox.Show("L'identifiant n'est pas valide.", "Erreur", MessageBoxButton.OK,
+			        MessageBoxImage.Error);
+		        return;
+	        }
+
+	        var cashier = Main.Login(box.Password);
+
+	        if (cashier == null)
+	        {
+		        MessageBox.Show("L'identifiant n'est pas valide.", "Erreur", MessageBoxButton.OK,
+			        MessageBoxImage.Error);
+		        return;
+	        }
+
+	        Main.ActualCashier = cashier;
+	       // new Checkout(Main.ActualCheckout).Show();
+
+	        switch (Main.ActualCheckout.CheckoutType.Type)
+	        {
+				case 0: // tickets
+					new TicketCheckout(Main.ActualCheckout).Show();
+					break;
+				case 1: // articles
+					new ArticleCheckout(Main.ActualCheckout).Show();
+					break;
+				case 2: // consigns
+					new ConsignCheckout(Main.ActualCheckout).Show();
+					break;
+				default:
+					break;
+	        }
+
+	        //TODO: Si ce n'est pas encore l'heure du caissier, le prevenir et demander si il est sûr de vouloir continuer
+	        //MessageBox.Show("Bien connecté.", "Yeah", MessageBoxButton.OK, MessageBoxImage.Hand);
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

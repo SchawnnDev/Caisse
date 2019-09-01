@@ -24,19 +24,18 @@ using Label = System.Windows.Controls.Label;
 using Orientation = System.Windows.Controls.Orientation;
 using TextBox = System.Windows.Controls.TextBox;
 
-namespace CaisseDesktop.Graphics.Common
+namespace CaisseDesktop.Graphics.Common.Checkouts
 {
-    /// <summary>
-    ///     Interaction logic for Checkout.xaml
-    /// </summary>
-    public partial class Checkout
+	/// <summary>
+	///     Interaction logic for ArticleCheckout.xaml
+	/// </summary>
+	public partial class ArticleCheckout
     {
         private SaveableCheckout ActualCheckout { get; set; }
         private List<TextBox> TextBoxes { get; set; }
 	    private CheckoutModel Model => DataContext as CheckoutModel;
 
-
-		public Checkout(SaveableCheckout checkout)
+	    public ArticleCheckout(SaveableCheckout checkout) : base(checkout)
         {
             InitializeComponent();
             TextBoxes = new List<TextBox>();

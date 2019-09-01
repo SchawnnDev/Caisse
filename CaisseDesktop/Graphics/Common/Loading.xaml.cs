@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseDesktop.Graphics.Common.Checkouts;
 using CaisseDesktop.Models.Windows;
 using CaisseLibrary;
 using CaisseLibrary.Concrete.Invoices;
@@ -24,11 +25,11 @@ namespace CaisseDesktop.Graphics.Common
 	public partial class Loading : Window
 	{
 		public bool PrintReceipt { get; set; }
-		private Checkout Checkout { get; set; }
+		private CheckoutWindow Checkout { get; set; }
 		private CheckoutModel Model => DataContext as CheckoutModel;
 		private Invoice Invoice { get; set; }
 
-		public Loading(Checkout checkout, CheckoutModel model, bool printReceipt)
+		public Loading(CheckoutWindow checkout, CheckoutModel model, bool printReceipt)
 		{
 			InitializeComponent();
 			Owner = checkout;
@@ -53,7 +54,7 @@ namespace CaisseDesktop.Graphics.Common
 		private void NewInvoice_OnClick(object sender, RoutedEventArgs e)
 		{
 			Close();
-			Checkout.NewInvoice();
+			//Checkout.NewInvoice();
 		}
 
 		private void RePrint_OnClick(object sender, RoutedEventArgs e)

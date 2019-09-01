@@ -243,7 +243,7 @@
         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right">
             <Label x:Name="CheckoutNameLabel" Content="{Binding CheckoutName}" FontSize="10" HorizontalAlignment="Right"
                    FontWeight="Bold" />
-            <Label x:Name="DateLabel" Content="{Binding CurrentTime, StringFormat={}{0:dd/MM/yyyy HH:mm}}" FontSize="10" HorizontalAlignment="Right"
+            <Label x:Name="DateLabel" Content="{Binding CurrentTime, StringFormat={}{0:dd/MM/yyyy HH:mm:ss}}" FontSize="10" HorizontalAlignment="Right"
                    FontWeight="Bold" />
         </StackPanel>
 

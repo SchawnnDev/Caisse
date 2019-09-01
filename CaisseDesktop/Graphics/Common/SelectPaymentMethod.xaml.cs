@@ -15,8 +15,10 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using CaisseDesktop.Graphics.Common.Checkouts;
 using CaisseDesktop.Models.Windows;
 using CaisseLibrary;
+using CaisseLibrary.Data;
 
 namespace CaisseDesktop.Graphics.Common
 {
@@ -25,11 +27,11 @@ namespace CaisseDesktop.Graphics.Common
     /// </summary>
     public partial class SelectPaymentMethod
     {
-        private Checkout Checkout { get; }
+        private ArticleCheckout Checkout { get; }
         private readonly Regex OnlyNumbersRegex = new Regex("([0-9])"); //regex that matches allowed text
         private CheckoutModel Model => DataContext as CheckoutModel;
 
-        public SelectPaymentMethod(Checkout checkout, CheckoutModel model)
+        public SelectPaymentMethod(ArticleCheckout checkout, CheckoutModel model)
         {
             InitializeComponent();
             Owner = checkout;
