@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CaisseServer;
 
-namespace CaisseDesktop.Graphics.Common
+namespace CaisseDesktop.Graphics.Common.Checkouts
 {
     /// <summary>
     /// Interaction logic for ConsignCheckout.xaml
     /// </summary>
     public partial class ConsignCheckout
     {
-        public ConsignCheckout(SaveableCheckout checkout) : base(checkout)
+        public ConsignCheckout()
         {
             InitializeComponent();
         }

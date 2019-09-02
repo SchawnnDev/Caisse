@@ -10,14 +10,6 @@ namespace CaisseDesktop.Graphics.Common.Checkouts
 {
 	public abstract class CheckoutWindow : Window
 	{
-		public SaveableCheckout SaveableCheckout { get; set; }
-
-		public CheckoutWindow() { }
-
-		public CheckoutWindow(SaveableCheckout checkout)
-		{
-			SaveableCheckout = checkout;
-		}
 
 	}
 }

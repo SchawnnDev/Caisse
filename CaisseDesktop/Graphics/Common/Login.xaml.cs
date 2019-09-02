@@ -28,6 +28,7 @@ namespace CaisseDesktop.Graphics.Common
             InitializeComponent();
 
 	        DataContext = new LoginModel();
+	        ((LoginModel) DataContext).CloseAction = Close;
 
             Loaded += (sender, args) =>
             {

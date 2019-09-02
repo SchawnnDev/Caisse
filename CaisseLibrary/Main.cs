@@ -178,7 +178,7 @@ namespace CaisseLibrary
 			if (!SessionOpen) return;
 			ActualCashier = null;
 			SessionOpen = false;
-			ReservationClient.Disconnect();
+			//ReservationClient.Disconnect();
 		}
 	}
 }

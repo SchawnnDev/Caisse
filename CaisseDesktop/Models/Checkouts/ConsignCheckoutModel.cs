@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CaisseDesktop.Models.Checkouts
 {
-   public class ConsignCheckoutModel
-    {
-    }
+	public class ConsignCheckoutModel
+	{
+	}
 }

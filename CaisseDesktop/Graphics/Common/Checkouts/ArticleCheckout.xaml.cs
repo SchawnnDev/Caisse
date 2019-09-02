@@ -30,59 +30,54 @@ namespace CaisseDesktop.Graphics.Common.Checkouts
 	///     Interaction logic for ArticleCheckout.xaml
 	/// </summary>
 	public partial class ArticleCheckout
-    {
-        private SaveableCheckout ActualCheckout { get; set; }
-        private List<TextBox> TextBoxes { get; set; }
-	    private CheckoutModel Model => DataContext as CheckoutModel;
+	{
+		private CheckoutModel Model => DataContext as CheckoutModel;
 
-	    public ArticleCheckout(SaveableCheckout checkout) : base(checkout)
-        {
-            InitializeComponent();
-            TextBoxes = new List<TextBox>();
-            ActualCheckout = checkout;
-           // ConsignTextBox.DataContext = 0;
-	        DataContext = new CheckoutModel();
-	        Model.Operations = new ObservableCollection<CheckoutOperationModel>();
+		public ArticleCheckout()
+		{
+			InitializeComponent();
+			DataContext = new CheckoutModel();
+			Model.Operations = new ObservableCollection<CheckoutOperationModel>();
 
-	        foreach (var article in Main.Articles.OrderBy(t=>t.Position).ToList())
-	        {
-		        if (!article.Active) continue;
-		        Model.Operations.Add(new CheckoutOperationModel(article));
-	        }
+			foreach (var article in Main.Articles.OrderBy(t => t.Position).ToList())
+			{
+				if (!article.Active) continue;
+				Model.Operations.Add(new CheckoutOperationModel(article));
+			}
 
-        }
+		}
 
-        private void SelectPaymentMethod_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (!Model.IsSomething())
-            {
-                SystemSounds.Beep.Play();
-                return;
-            }
+		private void SelectPaymentMethod_OnClick(object sender, RoutedEventArgs e)
+		{
+			if (!Model.IsSomething())
+			{
+				SystemSounds.Beep.Play();
+				return;
+			}
 
-            new SelectPaymentMethod(this, Model).ShowDialog();
-        }
+			new SelectPaymentMethod(this, Model).ShowDialog();
+		}
 
-        public void OpenLoading(bool receiptTicket)
-        {
-            new Loading(this, Model, receiptTicket).ShowDialog();
-        }
+		public void OpenLoading(bool receiptTicket)
+		{
+			new Loading(this, Model, receiptTicket).ShowDialog();
+		}
 
-        public void NewInvoice()
-        {
-            Model.NewInvoice();
-        }
+		public void NewInvoice()
+		{
+			Model.NewInvoice();
+		}
 
-        private void SwitchUser_OnClick(object sender, RoutedEventArgs e)
-        {
-            Main.Logout();
-            new Login(false).Show();
-            Close();
-        }
+		private void SwitchUser_OnClick(object sender, RoutedEventArgs e)
+		{
+			Main.Logout();
+			new Login(false).Show();
+			Close();
+		}
 
-        private void Quit_OnClick(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Application.Current.Shutdown();
-        }
-    }
+		private void Quit_OnClick(object sender, RoutedEventArgs e)
+		{
+			System.Windows.Application.Current.Shutdown();
+		}
+	}
 }

@@ -23,6 +23,7 @@ namespace CaisseDesktop.Models.Checkouts.Common
     public class LoginModel : INotifyPropertyChanged
     {
         private readonly int PASSWORD_LENGTH = 7;
+	    public Action CloseAction { get; set; }
 		private ICommand _connectCommand;
         public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new CommandHandler(Connect, true));
 
@@ -112,17 +113,19 @@ namespace CaisseDesktop.Models.Checkouts.Common
 	        switch (Main.ActualCheckout.CheckoutType.Type)
 	        {
 				case 0: // tickets
-					new TicketCheckout(Main.ActualCheckout).Show();
+					new TicketCheckout().Show();
 					break;
 				case 1: // articles
-					new ArticleCheckout(Main.ActualCheckout).Show();
+					new ArticleCheckout().Show();
 					break;
 				case 2: // consigns
-					new ConsignCheckout(Main.ActualCheckout).Show();
+					new ConsignCheckout().Show();
 					break;
 				default:
-					break;
+					return;
 	        }
+
+	        CloseAction();
 
 	        //TODO: Si ce n'est pas encore l'heure du caissier, le prevenir et demander si il est sûr de vouloir continuer
 	        //MessageBox.Show("Bien connecté.", "Yeah", MessageBoxButton.OK, MessageBoxImage.Hand);
