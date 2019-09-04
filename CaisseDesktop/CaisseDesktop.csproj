@@ -295,6 +295,7 @@
     <Compile Include="Graphics\Utils\Converters\BoolToValueConverter.cs" />
     <Compile Include="Graphics\Utils\Converters\Converters.cs" />
     <Compile Include="Graphics\Utils\DragAndDropListBox.cs" />
+    <Compile Include="Models\Admin\EventConfigModel.cs" />
     <Compile Include="Models\CaisseModel.cs" />
     <Compile Include="Models\CashierModel.cs" />
     <Compile Include="Models\CheckoutOperationModel.cs" />
