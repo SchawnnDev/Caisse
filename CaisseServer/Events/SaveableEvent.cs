@@ -22,15 +22,17 @@ namespace CaisseServer.Events
 		[ProtoMember(4)] public string AddressName { get; set; }
 
 		[ProtoMember(5)] public string Address { get; set; }
+		[ProtoMember(6)] public string AddressNumber { get; set; }
 
-		[ProtoMember(6)] public string PostalCodeCity { get; set; }
+		[ProtoMember(7)] public string PostalCode { get; set; }
+		[ProtoMember(8)] public string City { get; set; }
 
-		[ProtoMember(7)] public string Description { get; set; }
+		[ProtoMember(9)] public string Description { get; set; }
 
-		[ProtoMember(8)] public string ImageSrc { get; set; }
+		[ProtoMember(10)] public string ImageSrc { get; set; }
 
-		[ProtoMember(9)] public string Telephone { get; set; }
+		[ProtoMember(11)] public string Telephone { get; set; }
 
-		[ProtoMember(10)] public string Siret { get; set; }
+		[ProtoMember(12)] public string Siret { get; set; }
 	}
 }

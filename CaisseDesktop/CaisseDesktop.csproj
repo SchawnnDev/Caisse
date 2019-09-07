@@ -190,6 +190,7 @@
     <Compile Include="Admin\SessionAdmin.cs" />
     <Compile Include="Client\ClientMain.cs" />
     <Compile Include="Enums\TimeTableDay.cs" />
+    <Compile Include="Exceptions\CaisseException.cs" />
     <Compile Include="Graphics\Admin\Statistics\DisplayInvoice.xaml.cs">
       <DependentUpon>DisplayInvoice.xaml</DependentUpon>
     </Compile>
@@ -295,6 +296,11 @@
     <Compile Include="Graphics\Utils\Converters\BoolToValueConverter.cs" />
     <Compile Include="Graphics\Utils\Converters\Converters.cs" />
     <Compile Include="Graphics\Utils\DragAndDropListBox.cs" />
+    <Compile Include="Lang\French.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>French.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Admin\EventConfigModel.cs" />
     <Compile Include="Models\CaisseModel.cs" />
     <Compile Include="Models\CashierModel.cs" />
@@ -529,6 +535,11 @@
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Lang\French.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>French.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

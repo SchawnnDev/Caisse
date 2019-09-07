@@ -1,25 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using CaisseDesktop.Exceptions;
+using CaisseDesktop.Graphics.Utils;
+using CaisseDesktop.Lang;
 using CaisseServer.Events;
+using Microsoft.Win32;
 
 namespace CaisseDesktop.Models.Admin
 {
     public class EventConfigModel : INotifyPropertyChanged
     {
 
-	    public SaveableEvent Event;
+	    private readonly string _defaultImagePath =
+		    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\Images\logo_brique.jpg");
 
-	    public EventConfigModel(SaveableEvent saveableEvent)
+		public SaveableEvent Event;
+
+	    private ICommand _editImageCommand;
+	    public ICommand EditImageCommand => _editImageCommand ?? (_editImageCommand = new CommandHandler(EditImage, true));
+
+		public EventConfigModel(SaveableEvent saveableEvent)
 	    {
 		    Event = saveableEvent;
 	    }
 
-	    public string Name
+	    public DateTime Start
+	    {
+		    get => Event.Start;
+		    set
+		    {
+			    Event.Start = value;
+				OnPropertyChanged();
+		    }
+	    }
+
+	    public DateTime End
+	    {
+		    get => Event.End;
+		    set
+		    {
+			    Event.End = value;
+			    OnPropertyChanged();
+		    }
+	    }
+
+		public string Name
 	    {
 		    get => Event.Name;
 		    set
@@ -49,6 +81,25 @@ namespace CaisseDesktop.Models.Admin
 		    }
 	    }
 
+	    public string AddressNumber
+	    {
+		    get => Event.AddressNumber;
+		    set
+		    {
+			    Event.AddressNumber = value;
+			    OnPropertyChanged();
+		    }
+	    }
+
+		public string PostalCode
+	    {
+		    get => "";
+		    set
+		    {
+				OnPropertyChanged();
+		    }
+	    }
+
 	    public string Description
 	    {
 		    get => Event.Description;
@@ -61,7 +112,7 @@ namespace CaisseDesktop.Models.Admin
 
 	    public string ImageSrc
 	    {
-		    get => Event.ImageSrc;
+		    get => Event == null||string.IsNullOrEmpty(Event.ImageSrc) ? _defaultImagePath : Event.ImageSrc;
 		    set
 		    {
 			    Event.ImageSrc = value;
@@ -69,12 +120,12 @@ namespace CaisseDesktop.Models.Admin
 		    }
 	    }
 
-	    public string PostalCodeCity
+	    public string City
 		{
-		    get => Event.PostalCodeCity;
+		    get => Event.City;
 		    set
 		    {
-			    Event.PostalCodeCity = value;
+			    Event.City = value;
 			    OnPropertyChanged();
 		    }
 	    }
@@ -98,6 +149,22 @@ namespace CaisseDesktop.Models.Admin
 			    OnPropertyChanged();
 		    }
 	    }
+
+	    public void EditImage(object arg)
+	    {
+		    var openFileDialog = new OpenFileDialog
+		    {
+			    Title = "Selectionne une image",
+			    InitialDirectory = string.IsNullOrWhiteSpace(ImageSrc)
+				    ? Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+				    : ImageSrc,
+			    Filter = "Fichier images|*.jpg;*.jpeg;*.bmp"
+		    };
+
+		    if (openFileDialog.ShowDialog() != true) return;
+
+		    ImageSrc = openFileDialog.FileName;
+		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

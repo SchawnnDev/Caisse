@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using CaisseDesktop.Models.Admin;
 using CaisseDesktop.Utils;
 using CaisseServer;
 using CaisseServer.Events;
@@ -17,18 +18,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
         {
             InitializeComponent();
             ParentWindow = parentWindow;
-
-            if (parentWindow.Evenement != null)
-            {
-                FillTextBoxes();
-                New = false;
-                Saved = true;
-                ToggleBlocked(true);
-            }
-            else
-            {
-           //     Blocage.IsChecked = false;
-            }
+	        DataContext = new EventConfigModel(parentWindow.Evenement ?? new SaveableEvent());
         }
 
         private bool New { get; } = true;
@@ -40,11 +30,11 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
         private void ToggleBlocked(bool blocked)
         {
-            EventName.IsEnabled = !blocked;
+          //  EventName.IsEnabled = !blocked;
             //EventAddresse.IsEnabled = !blocked;
-            EventDescription.IsEnabled = !blocked;
-            EventStart.IsEnabled = !blocked;
-            EventEnd.IsEnabled = !blocked;
+         //   EventDescription.IsEnabled = !blocked;
+         //   EventStart.IsEnabled = !blocked;
+         //   EventEnd.IsEnabled = !blocked;
            // EventSave.IsEnabled = !blocked;
            // Blocage.IsChecked = blocked;
             Blocked = blocked;
@@ -52,27 +42,27 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
         private void FillTextBoxes()
         {
-            EventName.Text = ParentWindow.Evenement.Name;
-            EventStart.Value = ParentWindow.Evenement.Start;
-            EventEnd.Value = ParentWindow.Evenement.End;
-            EventDescription.Text = ParentWindow.Evenement.Description;
+           // EventName.Text = ParentWindow.Evenement.Name;
+          //  EventStart.Value = ParentWindow.Evenement.Start;
+           // EventEnd.Value = ParentWindow.Evenement.End;
+            //EventDescription.Text = ParentWindow.Evenement.Description;
        //     EventAddresse.Text = ParentWindow.Evenement.Address;
         }
 
         private void Save_OnClick(object sender, RoutedEventArgs e)
         {
-            if (Check(EventName) || Check(EventStart)
-         )//    ||   Check(EventEnd) || Check(EventAddresse) || Check(EventDescription))
-                return;
+          //  if (Check(EventName) || Check(EventStart)
+         //)//    ||   Check(EventEnd) || Check(EventAddresse) || Check(EventDescription))
+           //     return;
 
             if (ParentWindow.Evenement == null)
                 ParentWindow.Evenement = new SaveableEvent();
 
-            ParentWindow.Evenement.Name = EventName.Text;
-            ParentWindow.Evenement.Description = EventDescription.Text;
+//            ParentWindow.Evenement.Name = EventName.Text;
+ //           ParentWindow.Evenement.Description = EventDescription.Text;
             //ParentWindow.Evenement.Address = EventAddresse.Text;
-            ParentWindow.Evenement.Start = EventStart.Value.GetValueOrDefault();
-            ParentWindow.Evenement.End = EventEnd.Value.GetValueOrDefault();
+  //          ParentWindow.Evenement.Start = EventStart.Value.GetValueOrDefault();
+   //         ParentWindow.Evenement.End = EventEnd.Value.GetValueOrDefault();
 
             Task.Run(() => Save());
         }

@@ -6,6 +6,7 @@
                   xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin"
                   xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                   xmlns:admin="clr-namespace:CaisseDesktop.Models.Admin"
+                  xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                   mc:Ignorable="d"
                   d:DesignHeight="450" d:DesignWidth="800"
                   d:DataContext="{d:DesignInstance Type=admin:EventConfigModel, IsDesignTimeCreatable=False}"
@@ -39,12 +40,11 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
-                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <Label Content="Aperçu logo :" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <Image x:Name="EventImg" Source="../../../../Resources/Images/logo_brique.jpg" Grid.Column="1"
+                <Image x:Name="EventImg" Source="{Binding ImageSrc}" Grid.Column="1"
                        Grid.Row="0" MinHeight="25" Margin="10" VerticalAlignment="Center" />
 
                 <Label Content="Logo :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
@@ -56,31 +56,27 @@
                        <ColumnDefinition MaxWidth="50"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox Grid.Column="0" IsEnabled="False"/>
-                    <Button Grid.Column="1" Content="..." Height="25"/>
+                    <TextBox Grid.Column="0" IsEnabled="False" Text="{Binding ImageSrc}"/>
+                    <Button Grid.Column="1" Content="..." Height="25" Margin="2 0 0 0" Command="{Binding EditImageCommand}"/>
                 </Grid>
 
                 <Label Content="Nom :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="EventName" Grid.Column="1" Grid.Row="2" TextWrapping="NoWrap"
+                <TextBox Text="{Binding Name}" Grid.Column="1" Grid.Row="2" TextWrapping="NoWrap"
                          VerticalAlignment="Center" Margin="10" MinHeight="25" />
 
                 <Label Content="Début :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <xctk:DateTimePicker x:Name="EventStart" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center"
+
+                <xctk:DateTimePicker Grid.Column="1" Grid.Row="3" VerticalAlignment="Center"
                                      ShowButtonSpinner="False" Margin="10" MinHeight="25" TextAlignment="Left"
-                                     AutoCloseCalendar="True" />
+                                     AutoCloseCalendar="True" Value="{Binding Start}" />
 
                 <Label Content="Fin :" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
-                <xctk:DateTimePicker x:Name="EventEnd" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center"
+                <xctk:DateTimePicker Grid.Column="1" Grid.Row="4" VerticalAlignment="Center"
                                      ShowButtonSpinner="False" Margin="10" MinHeight="25" TextAlignment="Left"
-                                     AutoCloseCalendar="True" />
-
-                <Label Content="Description :" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left"
-                       VerticalAlignment="Center" FontWeight="Bold" />
-                <TextBox x:Name="EventDescription" TextWrapping="NoWrap" AcceptsReturn="True" Grid.Column="1"
-                         Grid.Row="5" Margin="10" MinHeight="25" />
+                                     AutoCloseCalendar="True" Value="{Binding End}"  />
 
             </Grid>
         </GroupBox>
@@ -105,15 +101,26 @@
                 <TextBox Text="{Binding AddressName}" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap"
                          VerticalAlignment="Center" Margin="10" MinHeight="25" />
 
-                <TextBlock Text="N° et nom rue :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
-                           VerticalAlignment="Center" FontWeight="Bold" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
-                <TextBox Text="{Binding Address}" Grid.Column="1" Grid.Row="1" TextWrapping="NoWrap"
-                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Nom de rue :" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
 
-                <TextBlock Text="Code postal et ville :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                    <TextBox Text="{Binding Address}" TextWrapping="NoWrap"
+                             VerticalAlignment="Center" Margin="10" MinHeight="25" MinWidth="180"/>
+                    <TextBlock Text="N° :" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
+                    <TextBox Text="{Binding AddressNumber}" TextWrapping="NoWrap" Width="40"
+                             VerticalAlignment="Center" Margin="10" MinHeight="25" />
+                </StackPanel>
+
+                <TextBlock Text="Code postal :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
                            VerticalAlignment="Center" FontWeight="Bold" TextWrapping="Wrap" TextAlignment="Left"/>
-                <TextBox Text="{Binding PostalCodeCity}" Grid.Column="1" Grid.Row="2" TextWrapping="NoWrap"
-                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
+
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+                    <TextBox Text="{Binding PostalCode}" TextWrapping="NoWrap"
+                             VerticalAlignment="Center" Margin="10" MinHeight="25" MinWidth="30"/>
+                    <TextBlock Text="Ville :" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
+                    <TextBox Text="{Binding AddressNumber}" TextWrapping="NoWrap" MinWidth="140"
+                             VerticalAlignment="Center" Margin="10" MinHeight="25" />
+                </StackPanel>
 
                 <Label Content="Telephone :" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left"
                        VerticalAlignment="Center" FontWeight="Bold" />
@@ -129,7 +136,7 @@
             </Grid>
         </GroupBox>
 
-        <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Content="Sauvegarder" HorizontalAlignment="Center"></Button>
+        <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Content="Sauvegarder" Margin="150 0 150 0" VerticalAlignment="Center"></Button>
 
     </Grid>
 </local:CustomPage>

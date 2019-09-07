@@ -36,7 +36,7 @@ namespace CaisseLibrary
 
 		public static void ConfigureCheckout(string printerName)
 		{
-			ReceiptTicket = new ReceiptTicket(new TicketConfig(ActualEvent.Name, ActualEvent.Address, ActualEvent.PostalCodeCity, ActualEvent.Telephone, ActualEvent.Siret));
+			ReceiptTicket = new ReceiptTicket(new TicketConfig(ActualEvent.Name, ActualEvent.Address, ActualEvent.PostalCode, ActualEvent.Telephone, ActualEvent.Siret));
 			BitmapManager = new BitmapManager(ActualEvent);
 			ArticleTickets = new List<ArticleTicket>();
 
