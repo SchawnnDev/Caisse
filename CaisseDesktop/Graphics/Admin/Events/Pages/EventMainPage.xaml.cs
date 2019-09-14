@@ -18,7 +18,8 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
         {
             InitializeComponent();
             ParentWindow = parentWindow;
-	        DataContext = new EventConfigModel(parentWindow.Evenement ?? new SaveableEvent());
+	        DataContext = new EventConfigModel(parentWindow.Evenement ?? new SaveableEvent(), parentWindow.Evenement == null);
+	        ((EventConfigModel) DataContext).Dispatcher = Dispatcher;
         }
 
         private bool New { get; } = true;
@@ -40,64 +41,6 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             Blocked = blocked;
         }
 
-        private void FillTextBoxes()
-        {
-           // EventName.Text = ParentWindow.Evenement.Name;
-          //  EventStart.Value = ParentWindow.Evenement.Start;
-           // EventEnd.Value = ParentWindow.Evenement.End;
-            //EventDescription.Text = ParentWindow.Evenement.Description;
-       //     EventAddresse.Text = ParentWindow.Evenement.Address;
-        }
-
-        private void Save_OnClick(object sender, RoutedEventArgs e)
-        {
-          //  if (Check(EventName) || Check(EventStart)
-         //)//    ||   Check(EventEnd) || Check(EventAddresse) || Check(EventDescription))
-           //     return;
-
-            if (ParentWindow.Evenement == null)
-                ParentWindow.Evenement = new SaveableEvent();
-
-//            ParentWindow.Evenement.Name = EventName.Text;
- //           ParentWindow.Evenement.Description = EventDescription.Text;
-            //ParentWindow.Evenement.Address = EventAddresse.Text;
-  //          ParentWindow.Evenement.Start = EventStart.Value.GetValueOrDefault();
-   //         ParentWindow.Evenement.End = EventEnd.Value.GetValueOrDefault();
-
-            Task.Run(() => Save());
-        }
-
-        private void Save()
-        {
-            Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
-
-            using (var db = new CaisseServerContext())
-            {
-                db.Events.AddOrUpdate(ParentWindow.Evenement);
-                db.SaveChanges();
-            }
-
-            Dispatcher.Invoke(() =>
-            {
-                Mouse.OverrideCursor = null;
-                MessageBox.Show(New ? "L'événement a bien été crée !" : "L'événement a bien été enregistré !");
-                ToggleBlocked(true);
-                Saved = true;
-            });
-        }
-
-        private void Blocage_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (!Saved)
-            {
-                MessageBox.Show("Veuillez enregistrer avant.");
-               // Blocage.IsChecked = false;
-                return;
-            }
-
-            ToggleBlocked(false);
-            Saved = false;
-        }
 
         public override void Update()
         {

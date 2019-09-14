@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Threading;
 using CaisseDesktop.Exceptions;
 using CaisseDesktop.Graphics.Utils;
 using CaisseDesktop.Lang;
+using CaisseServer;
 using CaisseServer.Events;
-using Microsoft.Win32;
+using Cursors = System.Windows.Input.Cursors;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace CaisseDesktop.Models.Admin
 {
@@ -23,12 +28,33 @@ namespace CaisseDesktop.Models.Admin
 
 		public SaveableEvent Event;
 
+	    public Dispatcher Dispatcher;
+
 	    private ICommand _editImageCommand;
 	    public ICommand EditImageCommand => _editImageCommand ?? (_editImageCommand = new CommandHandler(EditImage, true));
 
-		public EventConfigModel(SaveableEvent saveableEvent)
+	    private ICommand _saveCommand;
+	    public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new CommandHandler(Save, true));
+
+		public EventConfigModel(SaveableEvent saveableEvent, bool creating)
 	    {
 		    Event = saveableEvent;
+		    IsCreating = creating;
+		    _canSave = IsCreating;
+	    }
+
+	    public bool IsCreating;
+
+	    private bool _canSave;
+
+	    public bool CanSave
+	    {
+		    get => _canSave;
+		    set
+		    {
+			    _canSave = value;
+				OnPropertyChanged();
+		    }
 	    }
 
 	    public DateTime Start
@@ -56,6 +82,7 @@ namespace CaisseDesktop.Models.Admin
 		    get => Event.Name;
 		    set
 		    {
+			    CanSave = true;
 			    Event.Name = value;
 				OnPropertyChanged();
 		    }
@@ -93,20 +120,11 @@ namespace CaisseDesktop.Models.Admin
 
 		public string PostalCode
 	    {
-		    get => "";
+		    get => Event.PostalCode;
 		    set
 		    {
+			    Event.PostalCode = value;
 				OnPropertyChanged();
-		    }
-	    }
-
-	    public string Description
-	    {
-		    get => Event.Description;
-		    set
-		    {
-			    Event.Description = value;
-			    OnPropertyChanged();
 		    }
 	    }
 
@@ -150,7 +168,24 @@ namespace CaisseDesktop.Models.Admin
 		    }
 	    }
 
-	    public void EditImage(object arg)
+	    public void Save(object arg)
+	    {
+		    Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
+
+		    using (var db = new CaisseServerContext())
+		    {
+			    db.Events.AddOrUpdate(Event);
+			    db.SaveChanges();
+		    }
+
+		    Dispatcher.Invoke(() =>
+		    {
+			    Mouse.OverrideCursor = null;
+			    MessageBox.Show(IsCreating ? French.Event_Created : French.Event_Saved);
+		    });
+	    }
+
+		public void EditImage(object arg)
 	    {
 		    var openFileDialog = new OpenFileDialog
 		    {

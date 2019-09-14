@@ -37,26 +37,27 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void Load()
         {
-            Dispatcher.Invoke(() =>
-            {
-                IsLoading = true;
-                DataContext = new EvenementModel();
-                Mouse.OverrideCursor = Cursors.Wait;
-            });
+	        if (Dispatcher == null) return;
+	        Dispatcher.Invoke(() =>
+	        {
+		        IsLoading = true;
+		        DataContext = new EvenementModel();
+		        Mouse.OverrideCursor = Cursors.Wait;
+	        });
 
-            ObservableCollection<SaveableEvent> collection;
+	        ObservableCollection<SaveableEvent> collection;
 
-            using (var db = new CaisseServerContext())
-            {
-                collection = new ObservableCollection<SaveableEvent>(db.Events.OrderBy(e => e.End).ToList());
-            }
+	        using (var db = new CaisseServerContext())
+	        {
+		        collection = new ObservableCollection<SaveableEvent>(db.Events.OrderBy(e => e.End).ToList());
+	        }
 
-            Dispatcher.Invoke(() =>
-            {
-                Model.Evenements = collection;
-                Mouse.OverrideCursor = null;
-                IsLoading = false;
-            });
+	        Dispatcher.Invoke(() =>
+	        {
+		        Model.Evenements = collection;
+		        Mouse.OverrideCursor = null;
+		        IsLoading = false;
+	        });
         }
 
         private void Edit_OnClick(object sender, RoutedEventArgs e)

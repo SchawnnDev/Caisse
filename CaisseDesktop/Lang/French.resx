@@ -124,6 +124,15 @@
     <value>Erreur</value>
   </data>
   <data name="Exception_DefaultImageNotFound" xml:space="preserve">
-    <value>L'image par défaut n'a pas été trouvée</value>
+    <value>L'image par défaut n'a pas été trouvée.</value>
+  </data>
+  <data name="Exception_CantSave" xml:space="preserve">
+    <value>Impossible d'enregistrer. Veuillez réessayer.</value>
+  </data>
+  <data name="Event_Created" xml:space="preserve">
+    <value>L'événement a bien été crée.</value>
+  </data>
+  <data name="Event_Saved" xml:space="preserve">
+    <value>L'événement a bien été enregistré.</value>
   </data>
 </root>

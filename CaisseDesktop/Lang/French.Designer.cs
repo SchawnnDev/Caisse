@@ -79,7 +79,34 @@ namespace CaisseDesktop.Lang {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to L&apos;image par défaut n&apos;a pas été trouvée.
+        ///   Looks up a localized string similar to L&apos;événement a bien été crée..
+        /// </summary>
+        internal static string Event_Created {
+            get {
+                return ResourceManager.GetString("Event_Created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L&apos;événement a bien été enregistré..
+        /// </summary>
+        internal static string Event_Saved {
+            get {
+                return ResourceManager.GetString("Event_Saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Impossible d&apos;enregistrer. Veuillez réessayer..
+        /// </summary>
+        internal static string Exception_CantSave {
+            get {
+                return ResourceManager.GetString("Exception_CantSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to L&apos;image par défaut n&apos;a pas été trouvée..
         /// </summary>
         internal static string Exception_DefaultImageNotFound {
             get {
