@@ -38,6 +38,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
         private void Load()
         {
 	        if (Dispatcher == null) return;
+
 	        Dispatcher.Invoke(() =>
 	        {
 		        IsLoading = true;

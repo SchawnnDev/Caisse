@@ -135,4 +135,7 @@
   <data name="Event_Saved" xml:space="preserve">
     <value>L'événement a bien été enregistré.</value>
   </data>
+  <data name="Exception_ArgsMissing" xml:space="preserve">
+    <value>Veuillez remplir toutes les cases obligatoires.</value>
+  </data>
 </root>

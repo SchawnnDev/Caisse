@@ -97,6 +97,15 @@ namespace CaisseDesktop.Lang {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Veuillez remplir toutes les cases obligatoires..
+        /// </summary>
+        internal static string Exception_ArgsMissing {
+            get {
+                return ResourceManager.GetString("Exception_ArgsMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Impossible d&apos;enregistrer. Veuillez réessayer..
         /// </summary>
         internal static string Exception_CantSave {
