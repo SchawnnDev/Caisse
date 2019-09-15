@@ -101,7 +101,7 @@ namespace CaisseDesktop.Models.Admin.Checkouts
 			}
 		}
 
-		private void LoadInfos(SaveableEvent saveableEvent)
+		public void LoadInfos(SaveableEvent saveableEvent)
 		{
 			Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
 

@@ -301,6 +301,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>French.resx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Admin\Checkouts\CheckoutConfigModel.cs" />
     <Compile Include="Models\Admin\EventConfigModel.cs" />
     <Compile Include="Models\CaisseModel.cs" />
     <Compile Include="Models\CashierModel.cs" />
