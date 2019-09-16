@@ -29,7 +29,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 			Model.Dispatcher = Dispatcher;
 
 			// Load infos
-			Task.Run(() => Model.LoadInfos(parent.ParentWindow.Evenement));
+			//Task.Run(() => Model.LoadInfos(parent.ParentWindow.Evenement));
 			/*
             if (ParentWindow.Checkout != null)
             {

@@ -18,7 +18,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
         public EvenementBrowser()
         {
             InitializeComponent();
-
             Task.Run(() => Load());
         }
 

@@ -44,8 +44,8 @@ namespace CaisseDesktop.Graphics.Admin.Events
             if (!CurrentPage.CanBack()) return;
 
             IsBack = true;
-            Close();
             new EvenementBrowser().Show();
+            Close();
         }
 
         public void OnWindowClosing(object sender, CancelEventArgs e)
