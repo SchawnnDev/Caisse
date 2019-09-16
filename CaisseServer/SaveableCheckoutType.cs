@@ -19,9 +19,8 @@ namespace CaisseServer
 
 		[ProtoMember(3)] public SaveableEvent Event { get; set; }
 
-		public override string ToString()
-		{
-			return Name;
-		}
-	}
+		public override string ToString() => Name;
+
+        public override bool Equals(object obj) => obj is SaveableCheckoutType && ((SaveableCheckoutType) obj).Id == Id;
+    }
 }

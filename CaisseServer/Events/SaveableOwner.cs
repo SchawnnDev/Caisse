@@ -38,9 +38,8 @@ namespace CaisseServer.Events
 
 		[ProtoMember(7)] public bool SuperAdmin { get; set; }
 
-		public override string ToString()
-		{
-			return Name;
-		}
-	}
+		public override string ToString() => Name;
+
+        public override bool Equals(object obj) => obj is SaveableOwner && ((SaveableOwner)obj).Id == Id;
+    }
 }

@@ -191,6 +191,7 @@ namespace CaisseDesktop.Models.Admin
 			Dispatcher.Invoke(() =>
 			{
 				CanSave = false;
+                IsCreating = false;
 				Mouse.OverrideCursor = null;
 				MessageBox.Show(IsCreating ? French.Event_Created : French.Event_Saved);
 			});

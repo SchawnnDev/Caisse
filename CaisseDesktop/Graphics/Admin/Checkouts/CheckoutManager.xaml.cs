@@ -21,6 +21,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
 		{
 			InitializeComponent();
 			Checkout = checkout;
+            Owner = parentWindow;
 			ParentWindow = parentWindow;
 			Closing += OnWindowClosing;
 			EditInfos_OnClick(null, null);
