@@ -58,6 +58,7 @@ namespace CaisseDesktop.Models.Admin.Checkouts
             set
             {
                 Checkout.Name = value;
+                CanSave = true;
                 OnPropertyChanged();
             }
         }
@@ -68,6 +69,7 @@ namespace CaisseDesktop.Models.Admin.Checkouts
             set
             {
                 Checkout.Details = value;
+                CanSave = true;
                 OnPropertyChanged();
             }
         }
@@ -77,8 +79,8 @@ namespace CaisseDesktop.Models.Admin.Checkouts
             get => Checkout.Owner;
             set
             {
-                MessageBox.Show(IsCreating ? French.Event_Created : French.Event_Saved);
                 Checkout.Owner = value;
+                CanSave = true;
                 OnPropertyChanged();
             }
         }
@@ -89,6 +91,7 @@ namespace CaisseDesktop.Models.Admin.Checkouts
             set
             {
                 Checkout.CheckoutType = value;
+                CanSave = true;
                 OnPropertyChanged();
             }
         }

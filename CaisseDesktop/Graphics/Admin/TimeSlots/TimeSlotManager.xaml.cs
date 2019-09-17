@@ -44,71 +44,19 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 			Start = day.Start;
 			End = day.End;
 
-			Fill(); // Fill
-
 			Loaded += (sender, args) => { Starting = false; };
 		}
 
-		private bool SubstituteExists() => TimeSlot.Substitute != null;
-
-		private bool CashierExists() => TimeSlot.Cashier != null;
-
-		private void TogglePause()
-		{
-			var pause = TimeSlot.Pause = !TimeSlot.Pause;
-
-			TimeSlotCashier.IsEnabled = !pause;
-			TimeSlotSubstitute.IsEnabled = !pause;
-
-			TimeSlotSubstituteCashier.IsEnabled = !pause && SubstituteExists() && TimeSlot.SubstituteActive;
-
-			TimeSlotSubstitute.IsEnabled = !pause;
-		}
 
 		private void ToggleSubstitute(bool toggle)
 		{
 			if (SubstituteExists())
 				TimeSlot.SubstituteActive = toggle;
 
-			TimeSlotCashier.IsEnabled = !toggle;
-			TimeSlotSubstituteCashier.IsEnabled = toggle;
+		//	TimeSlotCashier.IsEnabled = !toggle;
+		//	TimeSlotSubstituteCashier.IsEnabled = toggle;
 		}
 
-		private string CorrectMissingZero(string time)
-		{
-			return time.Length == 3 ? $"0{time}" : time;
-		}
-
-		private void Fill()
-		{
-			/**
-             * Fill cashier slots, substitute slots & check if cashier exists
-             */
-
-			// set time slot times
-			TimeSlotStart.SelectedTime = TimeSlot.Start;
-			TimeSlotEnd.SelectedTime = TimeSlot.End;
-
-			if (TimeSlot.Blank)
-				return;
-
-			// set and find cashier
-
-			if (CashierExists())
-				TimeSlotCashier.Content = TimeSlot.Cashier.GetFullName();
-
-
-			if (SubstituteExists())
-				TimeSlotSubstituteCashier.Content = TimeSlot.Substitute.GetFullName();
-			//     if (CashierExists())
-			//        TimeSlotCashierLastConnection.Text = Cashier.LastConnection.ToString("f");
-
-			// set and find substitute
-			if (!SubstituteExists()) return;
-
-
-			// button set name of substitute if exists
-		}
 
 		private void TimeSlotCashier_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
@@ -124,56 +72,29 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 			}
 		}
 
-	/*	private void TimeSlotStart_OnSelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
-		{
-			if (Starting) return;
-			var time = e.NewValue ?? Start;
-			TimeSlot.Start = ModifyTime(Start, time);
-		}
-
-		private void TimeSlotEnd_OnSelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
-		{
-			if (Starting) return;
-			var time = e.NewValue ?? End;
-			TimeSlot.End = ModifyTime(End, time);
-		} */
-
-		private void TimeSlotPause_OnClick(object sender, RoutedEventArgs e)
-		{
-			TogglePause();
-		}
-
-		private void TimeSlotSubstitute_OnClick(object sender, RoutedEventArgs e)
-		{
-			//CheckSubstituteTimeSlot(); // important
-			//var substitute = SubstituteTimeSlot.Substitute = !SubstituteTimeSlot.Substitute;
-			//ToggleSubstitute(substitute);
-			ToggleSubstitute(TimeSlotSubstitute.IsChecked ?? false);
-		}
-
 		private void Save_OnClick(object sender, RoutedEventArgs e)
 		{
 			if (TimeSlot.Start.CompareTo(Start) < 0 || TimeSlot.Start.CompareTo(End) > 0)
 			{
-				TimeSlotStart.BorderBrush = Brushes.Red;
+				//TimeSlotStart.BorderBrush = Brushes.Red;
 				SystemSounds.Beep.Play();
 			}
 
 			if (TimeSlot.End.CompareTo(Start) < 0 || TimeSlot.End.CompareTo(End) > 0)
 			{
-				TimeSlotEnd.BorderBrush = Brushes.Red;
+				//TimeSlotEnd.BorderBrush = Brushes.Red;
 				SystemSounds.Beep.Play();
 			}
 
 			// Pause is first priority
 
-			Debug.Assert(TimeSlotPause.IsChecked != null, "TimeSlotPause.IsChecked != null");
+			//Debug.Assert(TimeSlotPause.IsChecked != null, "TimeSlotPause.IsChecked != null");
 
-			TimeSlot.Pause = TimeSlotPause.IsChecked.Value;
+			/*TimeSlot.Pause = TimeSlotPause.IsChecked.Value;
 			TimeSlot.Start = TimeSlotStart.SelectedTime ?? Start;
 			TimeSlot.End = TimeSlotEnd.SelectedTime ?? End;
 			TimeSlot.Start = ModifyTime(Start, TimeSlot.Start);
-			TimeSlot.End = ModifyTime(End, TimeSlot.End);
+			TimeSlot.End = ModifyTime(End, TimeSlot.End); */
 			Task.Run(() => Save());
 		}
 
@@ -239,21 +160,8 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 			});
 		}
 
-		private void TimeSlotCashier_OnClick(object sender, RoutedEventArgs e)
-		{
-			if (TimeSlot.Cashier == null)
-			{
-				TimeSlot.Cashier = new SaveableCashier
-				{
-					Substitute = false,
-					Checkout = TimeSlot.Checkout, // Maybe remove this (???)
-					LastActivity = DateTime.Now,
-					WasHere = false
-				};
-			}
-
-			new CashierManager(this, TimeSlot.Cashier).ShowDialog();
-		}
+        private bool CashierExists() => false;
+        private bool SubstituteExists() => false;
 
 		private void TimeSlotSubstituteCashier_OnClick(object sender, RoutedEventArgs e)
 		{
@@ -276,12 +184,12 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 			if (cashier.Substitute)
 			{
 				TimeSlot.Substitute = cashier;
-				TimeSlotSubstituteCashier.Content = cashier.GetFullName();
+			//	TimeSlotSubstituteCashier.Content = cashier.GetFullName();
 				return;
 			}
 
 			TimeSlot.Cashier = cashier;
-			TimeSlotCashier.Content = cashier.GetFullName();
+		//	TimeSlotCashier.Content = cashier.GetFullName();
 		}
 
 		private DateTime ModifyTime(DateTime date, DateTime value) => new DateTime(date.Year, date.Month, date.Day, value.Hour, value.Minute, value.Second);
@@ -295,11 +203,11 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 
 			if (cashier.Substitute)
 			{
-				TimeSlotSubstitute.Content = "Créer";
+			//	TimeSlotSubstitute.Content = "Créer";
 			}
 			else
 			{
-				TimeSlotCashier.Content = "Créer";
+			//	TimeSlotCashier.Content = "Créer";
 			}
 
 			if (TimeSlot.Blank) return;

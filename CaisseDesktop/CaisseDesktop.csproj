@@ -204,6 +204,12 @@
       <DependentUpon>TicketCheckout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Utils\CommandHandler.cs" />
+    <Compile Include="Graphics\Utils\Converters\BooleanAndToVisibilityConverter.cs" />
+    <Compile Include="Graphics\Utils\Converters\BooleanOrConverter.cs" />
+    <Compile Include="Graphics\Utils\Converters\BooleanAndConverter.cs" />
+    <Compile Include="Graphics\Utils\Converters\BooleanOrToVisibilityConverter.cs" />
+    <Compile Include="Graphics\Utils\Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Graphics\Utils\Converters\InverseNullableBooleanConverter.cs" />
     <Compile Include="Graphics\Utils\Converters\MultiValueConverter.cs" />
     <Compile Include="IO\ExportManager.cs" />
     <Compile Include="Graphics\Admin\AdminConnection.xaml.cs">
@@ -303,6 +309,7 @@
     </Compile>
     <Compile Include="Models\Admin\Checkouts\CheckoutConfigModel.cs" />
     <Compile Include="Models\Admin\EventConfigModel.cs" />
+    <Compile Include="Models\Admin\TimeSlots\TimeSlotConfigModel.cs" />
     <Compile Include="Models\CaisseModel.cs" />
     <Compile Include="Models\CashierModel.cs" />
     <Compile Include="Models\CheckoutOperationModel.cs" />
