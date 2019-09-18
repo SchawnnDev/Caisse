@@ -12,7 +12,6 @@
         d:DataContext="{d:DesignInstance Type=timeSlots:TimeSlotConfigModel, IsDesignTimeCreatable=False}">
     <Window.Resources>
         <converters:BooleanOrConverter x:Key="BooleanOrConverter" />
-        <converters:InverseNullableBooleanConverter x:Key="InverseNullableBooleanConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -55,15 +54,15 @@
                 <Label Content="Caissier :" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"
                        HorizontalAlignment="Center" />
                 <Button Grid.Row="2" Grid.Column="1" Content="Créer" HorizontalAlignment="Center"
-                        VerticalAlignment="Center" MinWidth="120" Command="{Binding EditCashierCommand}">
-                    <Button.IsEnabled>
+                        VerticalAlignment="Center" MinWidth="120" IsEnabled="{Binding CanEditCashier}" Command="{Binding EditCashierCommand}">
+                   <!-- <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource BooleanOrConverter}">
                             <Binding Path="IsChecked" ElementName="PauseToggleButton"
-                                     Converter="{StaticResource InverseNullableBooleanConverter}" />
+                                      />
                             <Binding Path="IsChecked" ElementName="SubstituteToggleButton"
-                                     Converter="{StaticResource InverseNullableBooleanConverter}" />
+                                     />
                         </MultiBinding>
-                    </Button.IsEnabled>
+                    </Button.IsEnabled> -->
                 </Button>
 
             </Grid>
