@@ -83,7 +83,8 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
             {
                 TimeSlot.SubstituteActive = value;
                 OnPropertyChanged();
-            }
+                OnPropertyChanged($"CanEditCashier");
+			}
         }
 
         public bool Pause

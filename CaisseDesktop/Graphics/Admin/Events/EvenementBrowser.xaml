@@ -6,7 +6,7 @@
         xmlns:models="clr-namespace:CaisseDesktop.Models"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:EvenementModel, IsDesignTimeCreatable=False}"
-        Title="Gestionnaire d'événements" Height="450" Width="1000" WindowState="Maximized">
+        Title="Gestionnaire d'événements" Height="450" Width="1000" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="50" />

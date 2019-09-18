@@ -12,6 +12,8 @@
         d:DataContext="{d:DesignInstance Type=timeSlots:TimeSlotConfigModel, IsDesignTimeCreatable=False}">
     <Window.Resources>
         <converters:BooleanOrConverter x:Key="BooleanOrConverter" />
+        <converters:BooleanAndConverter x:Key="BooleanAndConverter" />
+        <converters:InverseNullableBooleanConverter x:Key="InverseNullableBooleanConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -54,15 +56,13 @@
                 <Label Content="Caissier :" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"
                        HorizontalAlignment="Center" />
                 <Button Grid.Row="2" Grid.Column="1" Content="Créer" HorizontalAlignment="Center"
-                        VerticalAlignment="Center" MinWidth="120" IsEnabled="{Binding CanEditCashier}" Command="{Binding EditCashierCommand}">
-                   <!-- <Button.IsEnabled>
-                        <MultiBinding Converter="{StaticResource BooleanOrConverter}">
-                            <Binding Path="IsChecked" ElementName="PauseToggleButton"
-                                      />
-                            <Binding Path="IsChecked" ElementName="SubstituteToggleButton"
-                                     />
+                        VerticalAlignment="Center" MinWidth="120" Command="{Binding EditCashierCommand}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource BooleanAndConverter}">
+                            <Binding Path="IsChecked" ElementName="PauseToggleButton" Converter="{StaticResource InverseNullableBooleanConverter}" />
+                            <Binding Path="IsChecked" ElementName="SubstituteToggleButton" Converter="{StaticResource InverseNullableBooleanConverter}" />
                         </MultiBinding>
-                    </Button.IsEnabled> -->
+                    </Button.IsEnabled>
                 </Button>
 
             </Grid>
@@ -86,19 +86,32 @@
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Ce créneau est une pause :" VerticalAlignment="Center"
                            Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" />
                 <ToggleButton Name="PauseToggleButton" Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                              Grid.Row="0" Grid.Column="1" Command="{Binding Pause}" />
+                              Grid.Row="0" Grid.Column="1" IsChecked="{Binding Pause}" />
                 <!-- ### 2 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Assigner un remplaçant :" VerticalAlignment="Center"
                            Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" />
-                <Button Grid.Row="1" Grid.Column="1" IsEnabled="False" Content="Créer" HorizontalAlignment="Center"
-                        VerticalAlignment="Center" MinWidth="120" Command="{Binding EditSubstituteCommand}" />
+                <Button Grid.Row="1" Grid.Column="1" Content="Créer" HorizontalAlignment="Center"
+                        VerticalAlignment="Center" MinWidth="120" Command="{Binding EditSubstituteCommand}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource BooleanAndConverter}">
+                            <Binding Path="IsChecked" ElementName="SubstituteToggleButton"/>
+                            <Binding Path="IsChecked" ElementName="PauseToggleButton" Converter="{StaticResource InverseNullableBooleanConverter}" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
 
                 <!-- ### 3 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Remplaçant :" VerticalAlignment="Center" Grid.Row="2"
                            Grid.Column="0" HorizontalAlignment="Center" />
                 <ToggleButton Name="SubstituteToggleButton" Style="{StaticResource MaterialDesignSwitchToggleButton}"
                               Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center"
-                              Command="{Binding SubstituteActive}" />
+                              IsChecked="{Binding SubstituteActive}">
+                    <ToggleButton.IsEnabled>
+                        <MultiBinding Converter="{StaticResource BooleanAndConverter}">
+                            <Binding Path="IsChecked" ElementName="PauseToggleButton" Converter="{StaticResource InverseNullableBooleanConverter}" />
+                        </MultiBinding>
+                    </ToggleButton.IsEnabled>
+                </ToggleButton>
 
             </Grid>
 
