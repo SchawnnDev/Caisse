@@ -55,7 +55,7 @@
                 <!-- ### 3 ### -->
                 <Label Content="Caissier :" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0"
                        HorizontalAlignment="Center" />
-                <Button Grid.Row="2" Grid.Column="1" Content="Créer" HorizontalAlignment="Center"
+                <Button Grid.Row="2" Grid.Column="1" Content="{Binding CashierName}" HorizontalAlignment="Center"
                         VerticalAlignment="Center" MinWidth="120" Command="{Binding EditCashierCommand}">
                     <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource BooleanAndConverter}">
@@ -90,7 +90,7 @@
                 <!-- ### 2 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Assigner un remplaçant :" VerticalAlignment="Center"
                            Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" />
-                <Button Grid.Row="1" Grid.Column="1" Content="Créer" HorizontalAlignment="Center"
+                <Button Grid.Row="1" Grid.Column="1" Content="{Binding SubstituteName}" HorizontalAlignment="Center"
                         VerticalAlignment="Center" MinWidth="120" Command="{Binding EditSubstituteCommand}">
                     <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource BooleanAndConverter}">
@@ -119,7 +119,6 @@
 
         <Button Content="Sauvegarder" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="1"
                 VerticalAlignment="Center" Margin="3" Command="{Binding SaveCommand}" />
-
 
     </Grid>
 </Window>

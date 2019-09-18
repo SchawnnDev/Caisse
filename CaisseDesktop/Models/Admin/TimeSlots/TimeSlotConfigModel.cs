@@ -10,153 +10,159 @@ using CaisseDesktop.Graphics.Utils;
 using CaisseDesktop.Lang;
 using CaisseServer;
 using CaisseServer.Events;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using static System.Windows.Input.Cursors;
 
 namespace CaisseDesktop.Models.Admin.TimeSlots
 {
-    public class TimeSlotConfigModel : INotifyPropertyChanged
-    {
-        private readonly SaveableTimeSlot TimeSlot;
-        public Dispatcher Dispatcher { get; set; }
+	public class TimeSlotConfigModel : INotifyPropertyChanged
+	{
+		private readonly SaveableTimeSlot TimeSlot;
+		public Dispatcher Dispatcher { get; set; }
 
-        private ICommand _saveCommand;
-        public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new CommandHandler(Save, true));
+		private ICommand _saveCommand;
+		public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new CommandHandler(Save, true));
 
-        private ICommand _editCashierCommand;
-        public ICommand EditCashierCommand => _editCashierCommand ?? (_editCashierCommand = new CommandHandler(EditCashier, true));
+		private ICommand _editCashierCommand;
+		public ICommand EditCashierCommand => _editCashierCommand ?? (_editCashierCommand = new CommandHandler(EditCashier, true));
 
-        private ICommand _editSubstituteCommand;
-        public ICommand EditSubstituteCommand => _editSubstituteCommand ?? (_editSubstituteCommand = new CommandHandler(EditSubstitute, true));
+		private ICommand _editSubstituteCommand;
+		public ICommand EditSubstituteCommand => _editSubstituteCommand ?? (_editSubstituteCommand = new CommandHandler(EditSubstitute, true));
 
-        public TimeSlotConfigModel(SaveableTimeSlot timeSlot)
-        {
-            IsCreating = timeSlot.Blank;
-            TimeSlot = timeSlot;
-        }
+		public TimeSlotConfigModel(SaveableTimeSlot timeSlot)
+		{
+			IsBlank = IsCreating = timeSlot.Blank;
+			TimeSlot = timeSlot;
+		}
+		private bool IsBlank { get; set; }
 
-        public bool IsCreating;
+		public bool IsCreating;
 
-        public DateTime Start
-        {
-            get => TimeSlot.Start;
-            set
-            {
-                TimeSlot.Start = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public DateTime End
-        {
-            get => TimeSlot.End;
-            set
-            {
-                TimeSlot.End = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public SaveableCashier Cashier
-        {
-            get => TimeSlot.Cashier;
-            set
-            {
-                TimeSlot.Cashier = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public SaveableCashier Substitute
-        {
-            get => TimeSlot.Substitute;
-            set
-            {
-                TimeSlot.Substitute = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool SubstituteActive
-        {
-            get => TimeSlot.SubstituteActive;
-            set
-            {
-                TimeSlot.SubstituteActive = value;
-                OnPropertyChanged();
-                OnPropertyChanged($"CanEditCashier");
+		public DateTime Start
+		{
+			get => TimeSlot.Start;
+			set
+			{
+				TimeSlot.Start = value;
+				OnPropertyChanged();
 			}
-        }
+		}
 
-        public bool Pause
-        {
-            get => TimeSlot.Pause;
-            set
-            {
-                TimeSlot.Pause = value;
-                OnPropertyChanged();
-				OnPropertyChanged($"CanEditCashier");
-            }
-        }
+		public DateTime End
+		{
+			get => TimeSlot.End;
+			set
+			{
+				TimeSlot.End = value;
+				OnPropertyChanged();
+			}
+		}
 
-        public bool CanEditCashier => !Pause && !SubstituteActive;
+		public SaveableCashier Cashier
+		{
+			get => TimeSlot.Cashier;
+			set
+			{
+				TimeSlot.Cashier = value;
+				IsBlank = false;
+				OnPropertyChanged();
+				OnPropertyChanged($"CashierName");
+			}
+		}
 
-        public void EditCashier(object arg)
-        {
-            if (Cashier == null)
-            {
-                Cashier = new SaveableCashier
-                {
-                    Substitute = false,
-                    Checkout = TimeSlot.Checkout, // Maybe remove this (???)
-                    LastActivity = DateTime.Now,
-                    WasHere = false
-                };
-            }
+		public SaveableCashier Substitute
+		{
+			get => TimeSlot.Substitute;
+			set
+			{
+				TimeSlot.Substitute = value;
+				IsBlank = false;
+				OnPropertyChanged();
+				OnPropertyChanged($"SubstituteName");
+			}
+		}
 
-         //   new CashierManager(this, TimeSlot.Cashier).ShowDialog();
-        }
+		public bool SubstituteActive
+		{
+			get => TimeSlot.SubstituteActive;
+			set
+			{
+				TimeSlot.SubstituteActive = value;
+				OnPropertyChanged();
+			}
+		}
 
-        public void EditSubstitute(object arg)
-        {
-        }
+		public string CashierName => IsBlank || TimeSlot.Cashier == null ? "Créer" : TimeSlot.Cashier.GetFullName();
 
-        public void Save(object arg)
-        {
-            if (true == true)
-            {
-                MessageBox.Show(French.Exception_ArgsMissing);
-                return;
-            }
+		public string SubstituteName => IsBlank || TimeSlot.Substitute == null ? "Créer" : TimeSlot.Substitute.GetFullName();
 
-            Task.Run(Save);
-        }
+		public bool Pause
+		{
+			get => TimeSlot.Pause;
+			set
+			{
+				TimeSlot.Pause = value;
+				OnPropertyChanged();
+			}
+		}
 
-        private void Save()
-        {
-            Dispatcher.Invoke(() => { Mouse.OverrideCursor = Wait; });
+		public void EditCashier(object arg)
+		{
+			if (Cashier == null)
+			{
+				Cashier = new SaveableCashier
+				{
+					Substitute = false,
+					Checkout = TimeSlot.Checkout, // Maybe remove this (???)
+					LastActivity = DateTime.Now,
+					WasHere = false
+				};
+			}
 
-            using (var db = new CaisseServerContext())
-            {
-               // db.Owners.Attach(Checkout.Owner);
-                //db.CheckoutTypes.Attach(Checkout.CheckoutType);
-                //db.Entry(Checkout).State = IsCreating ? EntityState.Added : EntityState.Modified;
-                db.SaveChanges();
-            }
+			//   new CashierManager(this, TimeSlot.Cashier).ShowDialog();
+		}
 
-            Dispatcher.Invoke(() =>
-            {
-                Mouse.OverrideCursor = null;
-                MessageBox.Show(IsCreating ? "La caisse a bien été crée !" : "La caisse a bien été enregistré !");
-                IsCreating = false;
-            });
-        }
+		public void EditSubstitute(object arg)
+		{
+		}
+
+		public void Save(object arg)
+		{
+			if (true == true)
+			{
+				MessageBox.Show(French.Exception_ArgsMissing);
+				return;
+			}
+
+			Task.Run(Save);
+		}
+
+		private void Save()
+		{
+			Dispatcher.Invoke(() => { Mouse.OverrideCursor = Wait; });
+
+			using (var db = new CaisseServerContext())
+			{
+				// db.Owners.Attach(Checkout.Owner);
+				//db.CheckoutTypes.Attach(Checkout.CheckoutType);
+				//db.Entry(Checkout).State = IsCreating ? EntityState.Added : EntityState.Modified;
+				db.SaveChanges();
+			}
+
+			Dispatcher.Invoke(() =>
+			{
+				Mouse.OverrideCursor = null;
+				MessageBox.Show(IsCreating ? "La caisse a bien été crée !" : "La caisse a bien été enregistré !");
+				IsCreating = false;
+			});
+		}
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
+		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
 }
