@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Media;
 using CaisseDesktop.Admin;
 using CaisseDesktop.Graphics.Admin.TimeSlots;
+using CaisseDesktop.Models.Admin.Cashiers;
+using CaisseDesktop.Models.Admin.TimeSlots;
 using CaisseDesktop.Utils;
 using CaisseLibrary.Concrete.Owners;
 using CaisseServer;
@@ -16,14 +18,15 @@ namespace CaisseDesktop.Graphics.Admin.Cashiers
 	/// </summary>
 	public partial class CashierManager
 	{
-		public CashierManager(TimeSlotManager parentWindow, SaveableCashier cashier)
+		public CashierManager(TimeSlotConfigModel model)
 		{
 			InitializeComponent();
-			Owner = parentWindow;
-			ParentWindow = parentWindow;
-			Cashier = cashier;
+			DataContext = new CashierConfigModel(model.Cashier);
+			//Owner = parentWindow;
+			//ParentWindow = parentWindow;
+			Cashier = model.Cashier;
 			Closing += OnWindowClosing;
-			Saved = cashier.Id != 0; // not saved if new
+			Saved = model.Cashier.Id != 0; // not saved if new
 			FillTextBoxes();
 			CashierDelete.IsEnabled = true;
 		}

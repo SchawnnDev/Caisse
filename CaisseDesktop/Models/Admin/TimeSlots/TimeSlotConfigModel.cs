@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
+using CaisseDesktop.Graphics.Admin.Cashiers;
 using CaisseDesktop.Graphics.Utils;
 using CaisseDesktop.Lang;
 using CaisseServer;
@@ -119,11 +120,23 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 				};
 			}
 
-			//   new CashierManager(this, TimeSlot.Cashier).ShowDialog();
+			new CashierManager(this).ShowDialog();
 		}
 
 		public void EditSubstitute(object arg)
 		{
+			if (TimeSlot.Substitute == null)
+			{
+				TimeSlot.Substitute = new SaveableCashier
+				{
+					Substitute = true,
+					Checkout = TimeSlot.Checkout, // Maybe remove this (???)
+					LastActivity = DateTime.Now,
+					WasHere = false
+				};
+			}
+
+			new CashierManager(this).ShowDialog();
 		}
 
 		public void Save(object arg)

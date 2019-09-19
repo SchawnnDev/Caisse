@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CaisseDesktop.Graphics.Admin.Cashiers;
 using CaisseDesktop.Graphics.Admin.Checkouts;
+using CaisseDesktop.Models.Admin.TimeSlots;
 using CaisseDesktop.Utils;
 using CaisseServer;
 using CaisseServer.Events;
@@ -43,6 +44,8 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 			TimeSlot = timeSlot;
 			Start = day.Start;
 			End = day.End;
+
+			DataContext = new TimeSlotConfigModel(timeSlot);
 
 			Loaded += (sender, args) => { Starting = false; };
 		}
@@ -162,22 +165,6 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 
         private bool CashierExists() => false;
         private bool SubstituteExists() => false;
-
-		private void TimeSlotSubstituteCashier_OnClick(object sender, RoutedEventArgs e)
-		{
-			if (TimeSlot.Substitute == null)
-			{
-				TimeSlot.Substitute = new SaveableCashier
-				{
-					Substitute = true,
-					Checkout = TimeSlot.Checkout, // Maybe remove this (???)
-					LastActivity = DateTime.Now,
-					WasHere = false
-				};
-			}
-
-			new CashierManager(this, TimeSlot.Cashier).ShowDialog();
-		}
 
 		public void SetCashier(SaveableCashier cashier)
 		{

@@ -3,8 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cashiers="clr-namespace:CaisseDesktop.Models.Admin.Cashiers"
         mc:Ignorable="d"
-        Title="Gestion d'un caissier" Height="400" Width="450" WindowStartupLocation="CenterScreen">
+        Title="Gestion d'un caissier" Height="400" Width="450" WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance Type=cashiers:CashierConfigModel, IsDesignTimeCreatable=False}">
 
     <Grid>
 
@@ -25,12 +27,12 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Prénom :" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow"  />
-                <TextBox x:Name="CashierFirstName" Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap"
-                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
+                <TextBox Grid.Column="1" Grid.Row="0" TextWrapping="NoWrap"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" Text="{Binding FirstName}" />
 
                 <TextBlock Text="Nom :" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow" />
-                <TextBox x:Name="CashierName" Grid.Column="1" Grid.Row="1" TextWrapping="NoWrap"
-                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
+                <TextBox Grid.Column="1" Grid.Row="1" TextWrapping="NoWrap"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" Text="{Binding Name}" />
 
                 <TextBlock Text="Login :" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow" />
                 <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
