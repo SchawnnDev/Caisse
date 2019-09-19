@@ -4,12 +4,75 @@
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin"
+                  xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                  xmlns:checkouts="clr-namespace:CaisseDesktop.Models.Admin.Checkouts"
                   mc:Ignorable="d"
                   d:DesignHeight="450" d:DesignWidth="800"
+                  d:DataContext="{d:DesignInstance Type=checkouts:CheckoutTimeTableModel, IsDesignTimeCreatable=False}"
                   Title="CheckoutTimeTablePage">
 
     <Grid>
-        <Grid.ColumnDefinitions>
+
+        <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ItemsSource="{Binding TimeTableDays, IsAsync=true}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel/> <!-- first listbox -->
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="6"/>
+                    <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel Width="250">
+                        <Button DockPanel.Dock="Top" Content="{Binding Day.Start, StringFormat={}{0:dd/MM/yyyy HH:mm}}" Background="{Binding Day.Color}"/>
+
+                        <ListBox DockPanel.Dock="Top" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding TimeSlots, IsAsync=true}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                        <DockPanel/> <!-- second listbox -->
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="DockPanel.Dock" Value="Top" />
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Margin" Value="6"/>
+                                    <Setter Property="Focusable" Value="False"/>
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <ContentPresenter />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                        <Button DockPanel.Dock="Top" Content="{Binding Content}" Command="{Binding EditTimeSlotCommand}" CommandParameter="{Binding TimeSlot}"></Button>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- <Grid.ColumnDefinitions>
             <ColumnDefinition MaxWidth="30" />
             <ColumnDefinition />
             <ColumnDefinition MaxWidth="5" />
@@ -35,6 +98,6 @@
             <Button x:Name="BackBtn" IsEnabled="False" Click="BackBtn_OnClick">🡸</Button>
             <Button x:Name="ForwardBtn" Margin="10 0 0 0" IsEnabled="False" Click="ForwardBtn_OnClick">🡺</Button>
         </StackPanel>
-
+-->
     </Grid>
 </local:CustomPage>

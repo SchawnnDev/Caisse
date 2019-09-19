@@ -309,6 +309,7 @@
     </Compile>
     <Compile Include="Models\Admin\Cashiers\CashierConfigModel.cs" />
     <Compile Include="Models\Admin\Checkouts\CheckoutConfigModel.cs" />
+    <Compile Include="Models\Admin\Checkouts\CheckoutTimeTableModel.cs" />
     <Compile Include="Models\Admin\EventConfigModel.cs" />
     <Compile Include="Models\Admin\TimeSlots\TimeSlotConfigModel.cs" />
     <Compile Include="Models\CaisseModel.cs" />

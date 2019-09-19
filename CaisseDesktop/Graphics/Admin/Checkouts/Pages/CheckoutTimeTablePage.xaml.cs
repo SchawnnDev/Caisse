@@ -8,9 +8,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using CaisseDesktop.Enums;
 using CaisseDesktop.Graphics.Admin.TimeSlots;
 using CaisseDesktop.Models;
+using CaisseDesktop.Models.Admin.Checkouts;
 using CaisseDesktop.Utils;
 using CaisseLibrary.Utils;
 using CaisseServer;
@@ -30,28 +30,58 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
 		private bool CanClick { get; set; } = true;
 
-		private CheckoutManager ParentWindow { get; set; }
+		public CheckoutManager ParentWindow { get; set; }
 
 		public CheckoutTimeTablePage(CheckoutManager parentWindow)
 		{
 			InitializeComponent();
 			ParentWindow = parentWindow;
+			var list = new ObservableCollection<TimeTableDay>();
 
 			using (var db = new CaisseServerContext())
 			{
 				Days = db.Days.Where(t => t.Event.Id == parentWindow.ParentWindow.Evenement.Id)
 					.OrderBy(t => t.Start).ToList();
+				foreach (var day in Days)
+				{
+					var timeTableDay = new TimeTableDay
+					{
+						Day = day,
+						TimeSlots = new ObservableCollection<TimeTableTimeSlot>()
+					};
+
+					var timeSlots = db.TimeSlots.Where(t => t.Day.Id == day.Id).OrderBy(t => t.Start).ToList();
+
+					timeSlots.AddRange(GenerateBlankSlots(day, timeSlots));
+
+					foreach (var tableTimeSlot in timeSlots)
+					{
+						timeTableDay.TimeSlots.Add(new TimeTableTimeSlot(this)
+						{
+							TimeSlot = tableTimeSlot,
+							Content =  $"{DateToHour(tableTimeSlot.Start)}\n{(tableTimeSlot.Blank || tableTimeSlot.Cashier == null ? "Clique ici pour assigner la case." : tableTimeSlot.Cashier.GetFullName())}\n{DateToHour(tableTimeSlot.End)}",
+						});
+					}
+
+					list.Add(timeTableDay);
+
+				}
+
 			}
 
-			if (Days.Count > 3)
-				ForwardBtn.IsEnabled = true;
 
-			var range = Days.Count > 3 ? 3 : Days.Count;
 
-			if (range == 0)
-				return;
+			DataContext = new CheckoutTimeTableModel(list, this);
 
-			Task.Run(() => FillAll(false));
+			//if (Days.Count > 3)
+			//ForwardBtn.IsEnabled = true;
+
+			//	var range = Days.Count > 3 ? 3 : Days.Count;
+
+			//	if (range == 0)
+			//		return;
+
+			//	Task.Run(() => FillAll(false));
 		}
 
 		public override string CustomName => "CheckoutTimeTablePage";
@@ -77,21 +107,21 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 		public void Fill(TimeTableDay timeTableDay, SaveableDay day, List<SaveableTimeSlot> slots, bool set)
 		{
 			Panel panel;
-
+			/*	
 			switch (timeTableDay)
 			{
-				case TimeTableDay.DayOne:
-					panel = Day1;
+			case TimeTableDay.DayOne:
+					//panel = Day1;
 					break;
 				case TimeTableDay.DayTwo:
-					panel = Day2;
+					//panel = Day2;
 					break;
 				case TimeTableDay.DayThree:
-					panel = Day3;
+					//panel = Day3;
 					break;
 				default:
-					throw new ArgumentOutOfRangeException(nameof(timeTableDay), timeTableDay, null);
-			}
+					throw new ArgumentOutOfRangeException(nameof(timeTableDay), timeTableDay, null); 
+			} */
 
 
 			var color = System.Drawing.ColorTranslator.FromHtml(day.Color).Convert();
@@ -105,10 +135,10 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
 			DockPanel.SetDock(label, Dock.Top);
 
-			if (set)
-				panel.Children.Clear();
+			//	if (set)
+			//	panel.Children.Clear();
 
-			panel.Children.Add(label);
+			//panel.Children.Add(label);
 
 			if (slots.Count == 0)
 			{
@@ -128,8 +158,8 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 						new TimeSlotManager(ParentWindow, new SaveableTimeSlot { Start = day.Start, End = day.End, Checkout = ParentWindow.Checkout, Day = day, Blank = true }).ShowDialog();
 				};
 
-				panel.DataContext = day;
-				panel.Children.Add(dayBtn);
+				//	panel.DataContext = day;
+				//panel.Children.Add(dayBtn);
 
 				return;
 			}
@@ -158,8 +188,8 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
 				DockPanel.SetDock(dayBtn, Dock.Top);
 
-				panel.DataContext = day;
-				panel.Children.Add(dayBtn);
+				//panel.DataContext = day;
+				//	panel.Children.Add(dayBtn);
 			}
 
 			//RecalculateHeights(panel);
@@ -192,6 +222,17 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 			var dayEndHour = day.End.Hour;
 			var dayStartMinute = day.Start.Minute;
 			var dayEndMinute = day.End.Minute;
+
+			if (taken.Count == 0)
+			{
+				blankSlots.Add(new SaveableTimeSlot
+				{
+					Blank = true,
+					Start = day.Start,
+					End = day.End
+				});
+				return blankSlots;
+			}
 
 			var min = taken.Min(t => t.Start);
 
@@ -247,12 +288,12 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 		{
 			if (!CanClick) return;
 			PageIndex++;
-
+			/*
 			if (PageIndex >= Days.Count - 3)
 				ForwardBtn.IsEnabled = false;
 
 			if (!BackBtn.IsEnabled)
-				BackBtn.IsEnabled = true;
+				BackBtn.IsEnabled = true; */
 
 			Task.Run(() => FillAll(true));
 		}
@@ -261,12 +302,12 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 		{
 			if (!CanClick) return;
 			PageIndex--;
-
+			/*
 			if (PageIndex <= 0)
 				BackBtn.IsEnabled = false;
 
 			if (!ForwardBtn.IsEnabled)
-				ForwardBtn.IsEnabled = true;
+				ForwardBtn.IsEnabled = true;*/
 
 			Task.Run(() => FillAll(true));
 		}
@@ -288,12 +329,12 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 
 			using (var db = new CaisseServerContext())
 			{
-				FillFromDb(TimeTableDay.DayOne, Days[PageIndex], set, db);
+				/*	FillFromDb(TimeTableDay.DayOne, Days[PageIndex], set, db);
 
-				if (Days.Count > 1)
+					if (Days.Count > 1)
 					FillFromDb(TimeTableDay.DayTwo, Days[PageIndex + 1], set, db);
-				if (Days.Count > 2)
-					FillFromDb(TimeTableDay.DayThree, Days[PageIndex + 2], set, db);
+					if (Days.Count > 2)
+						FillFromDb(TimeTableDay.DayThree, Days[PageIndex + 2], set, db);*/
 			}
 
 			Dispatcher.Invoke(() =>

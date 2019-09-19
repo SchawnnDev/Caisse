@@ -126,9 +126,11 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 		public void Save(object arg)
 		{
 			if (TimeSlot.End.CompareTo(Start) <= 0)
-				throw new CaisseException("L'heure de fin ne peut pas être avant ou égale à l'heure de début.");
+				MessageBox.Show(French.TimeSlotConfigModel_Save_Hour);
 			if (TimeSlot.Start.CompareTo(End) > 0)
-				throw new CaisseException("L'heure de début ne peut pas être après l'heure de fin.");
+				MessageBox.Show(French.TimeSlotConfigModel_Save_Hour2);
+			if(Cashier == null || (SubstituteActive && Substitute == null))
+				MessageBox.Show(French.Exception_ArgsMissing);
 
 			Task.Run(Save);
 		}

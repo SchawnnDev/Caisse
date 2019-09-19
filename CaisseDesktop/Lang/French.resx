@@ -138,4 +138,10 @@
   <data name="Exception_ArgsMissing" xml:space="preserve">
     <value>Veuillez remplir toutes les cases obligatoires.</value>
   </data>
+  <data name="TimeSlotConfigModel_Save_Hour" xml:space="preserve">
+    <value>L'heure de fin ne peut pas être avant ou égale à l'heure de début.</value>
+  </data>
+  <data name="TimeSlotConfigModel_Save_Hour2" xml:space="preserve">
+    <value>L'heure de début ne peut pas être après l'heure de fin.</value>
+  </data>
 </root>
