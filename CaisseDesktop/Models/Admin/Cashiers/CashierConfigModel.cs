@@ -5,36 +5,63 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using CaisseDesktop.Graphics.Admin.Cashiers;
 using CaisseDesktop.Graphics.Utils;
 using CaisseDesktop.Lang;
+using CaisseDesktop.Models.Admin.TimeSlots;
+using CaisseLibrary.Concrete.Owners;
 using CaisseServer;
 using CaisseServer.Events;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using Cursors = System.Windows.Input.Cursors;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace CaisseDesktop.Models.Admin.Cashiers
 {
 	public class CashierConfigModel : INotifyPropertyChanged
 	{
-		private readonly SaveableCashier Cashier;
 		public Dispatcher Dispatcher { get; set; }
 
 		private ICommand _saveCommand;
 		public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new CommandHandler(Save, true));
 
+		private ICommand _deleteCommand;
+		public ICommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new CommandHandler(Delete, true));
+
 		private ICommand _generateLoginCommand;
 		public ICommand GenerateLoginCommand => _generateLoginCommand ?? (_generateLoginCommand = new CommandHandler(GenerateLogin, true));
 
-		public CashierConfigModel(SaveableCashier cashier)
+		public bool IsCreating { get; set; }
+
+		private readonly bool IsCashier;
+		private TimeSlotConfigModel Model { get; }
+		public Action CloseAction { get; set; }
+		private readonly SaveableCashier Cashier;
+
+		public CashierConfigModel(TimeSlotConfigModel model, bool cashier)
 		{
-			IsCreating = cashier == null;
-			Cashier = cashier;
+			Cashier = cashier ? model.Cashier : model.Substitute;
+			IsCreating = Cashier == null;
+			IsCashier = cashier;
+			Model = model;
+
+			if (Cashier == null)
+				Cashier = CreateNewCashier(cashier);
 		}
 
-		public bool IsCreating;
+		public SaveableCashier CreateNewCashier(bool cashier)
+		{
+			return new SaveableCashier
+			{
+				Substitute = !cashier,
+				Checkout = Model.TimeSlot.Checkout, // Maybe remove this (???)
+				LastActivity = DateTime.Now,
+				WasHere = false
+			};
+		}
 
 		public string FirstName
 		{
@@ -56,42 +83,87 @@ namespace CaisseDesktop.Models.Admin.Cashiers
 			}
 		}
 
+		public string Login
+		{
+			get => Cashier.Login;
+			set
+			{
+				Cashier.Login = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public DateTime LastActivity
+		{
+			get => Cashier.LastActivity;
+			set
+			{
+				Cashier.LastActivity = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public bool WasHere
+		{
+			get => Cashier.WasHere;
+			set
+			{
+				Cashier.WasHere = value;
+				OnPropertyChanged();
+			}
+		}
+
 		public void GenerateLogin(object arg)
 		{
-			throw new NotImplementedException();
+			//if (SessionAdmin.HasNotPermission("owners.login.gen"))
+			//	return;
+
+			using (var db = new CaisseServerContext())
+			{// possible characters : 123456789ABCXYZ/*- and length=7
+				Login = new CashierPassword().GenerateNoDuplicate(7, db.Cashiers.Select(t => t.Login).ToList());
+			}
+		}
+
+		public void Delete(object arg)
+		{
+			var result = System.Windows.MessageBox.Show("Es tu sûr de vouloir supprimer ce caissier ?", "Supprimer un caissier",
+				MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+
+			if (result != MessageBoxResult.Yes) return;
+
+			var cashier = Cashier;
+
+			if (IsCashier) Model.Cashier = null;
+			else Model.Substitute = null;
+
+			Task.Run(() =>
+			{
+				using (var db = new CaisseServerContext())
+				{
+					if (db.Cashiers.Any(t => t.Id == cashier.Id))
+						db.Cashiers.Remove(cashier);
+					db.SaveChangesAsync();
+				}
+			});
+
 		}
 
 		public void Save(object arg)
 		{
-			if (true == true)
+			if (string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(Name) ||
+			    string.IsNullOrWhiteSpace(Login))
 			{
 				MessageBox.Show(French.Exception_ArgsMissing);
 				return;
 			}
 
-			Task.Run(Save);
+			if (IsCashier) Model.Cashier = Cashier;
+			else Model.Substitute = Cashier;
+
+			// direct close of dialog
+			CloseAction();
+
 		}
-
-		private void Save()
-		{
-			Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
-
-			using (var db = new CaisseServerContext())
-			{
-				// db.Owners.Attach(Checkout.Owner);
-				//db.CheckoutTypes.Attach(Checkout.CheckoutType);
-				//db.Entry(Checkout).State = IsCreating ? EntityState.Added : EntityState.Modified;
-				db.SaveChanges();
-			}
-
-			Dispatcher.Invoke(() =>
-			{
-				Mouse.OverrideCursor = null;
-				MessageBox.Show(IsCreating ? "La caisse a bien été crée !" : "La caisse a bien été enregistré !");
-				IsCreating = false;
-			});
-		}
-
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

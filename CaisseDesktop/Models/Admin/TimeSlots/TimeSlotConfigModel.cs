@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
+using CaisseDesktop.Exceptions;
 using CaisseDesktop.Graphics.Admin.Cashiers;
 using CaisseDesktop.Graphics.Utils;
 using CaisseDesktop.Lang;
@@ -13,12 +16,13 @@ using CaisseServer;
 using CaisseServer.Events;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using static System.Windows.Input.Cursors;
+using Cursors = System.Windows.Input.Cursors;
 
 namespace CaisseDesktop.Models.Admin.TimeSlots
 {
 	public class TimeSlotConfigModel : INotifyPropertyChanged
 	{
-		private readonly SaveableTimeSlot TimeSlot;
+		public readonly SaveableTimeSlot TimeSlot;
 		public Dispatcher Dispatcher { get; set; }
 
 		private ICommand _saveCommand;
@@ -29,6 +33,8 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 
 		private ICommand _editSubstituteCommand;
 		public ICommand EditSubstituteCommand => _editSubstituteCommand ?? (_editSubstituteCommand = new CommandHandler(EditSubstitute, true));
+
+		public Action CloseAction { get; set; }
 
 		public TimeSlotConfigModel(SaveableTimeSlot timeSlot)
 		{
@@ -109,43 +115,20 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 
 		public void EditCashier(object arg)
 		{
-			if (Cashier == null)
-			{
-				Cashier = new SaveableCashier
-				{
-					Substitute = false,
-					Checkout = TimeSlot.Checkout, // Maybe remove this (???)
-					LastActivity = DateTime.Now,
-					WasHere = false
-				};
-			}
-
-			new CashierManager(this).ShowDialog();
+			new CashierManager(this, true).ShowDialog();
 		}
 
 		public void EditSubstitute(object arg)
 		{
-			if (TimeSlot.Substitute == null)
-			{
-				TimeSlot.Substitute = new SaveableCashier
-				{
-					Substitute = true,
-					Checkout = TimeSlot.Checkout, // Maybe remove this (???)
-					LastActivity = DateTime.Now,
-					WasHere = false
-				};
-			}
-
-			new CashierManager(this).ShowDialog();
+			new CashierManager(this, false).ShowDialog();
 		}
 
 		public void Save(object arg)
 		{
-			if (true == true)
-			{
-				MessageBox.Show(French.Exception_ArgsMissing);
-				return;
-			}
+			if (TimeSlot.End.CompareTo(Start) <= 0)
+				throw new CaisseException("L'heure de fin ne peut pas être avant ou égale à l'heure de début.");
+			if (TimeSlot.Start.CompareTo(End) > 0)
+				throw new CaisseException("L'heure de début ne peut pas être après l'heure de fin.");
 
 			Task.Run(Save);
 		}
@@ -156,17 +139,56 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 
 			using (var db = new CaisseServerContext())
 			{
-				// db.Owners.Attach(Checkout.Owner);
-				//db.CheckoutTypes.Attach(Checkout.CheckoutType);
-				//db.Entry(Checkout).State = IsCreating ? EntityState.Added : EntityState.Modified;
+				if (Cashier != null)
+				{
+					if (db.Cashiers.Any(t => t.Id == TimeSlot.Cashier.Id))
+					{
+						db.Cashiers.Attach(TimeSlot.Cashier);
+						db.Entry(TimeSlot.Cashier).State = EntityState.Modified;
+					}
+					else
+					{
+						db.Checkouts.Attach(TimeSlot.Cashier.Checkout); // Attach checkouts (maybe remove???)
+						db.Entry(TimeSlot.Cashier).State = EntityState.Added;
+					}
+				}
+
+				if (Substitute != null)
+				{
+					if (db.Cashiers.Any(t => t.Id == TimeSlot.Substitute.Id))
+					{
+						db.Cashiers.Attach(TimeSlot.Substitute);
+						db.Entry(TimeSlot.Substitute).State = EntityState.Modified;
+					}
+					else
+					{
+						db.Checkouts.Attach(TimeSlot.Substitute.Checkout); // Attach checkouts (maybe remove???)
+						db.Entry(TimeSlot.Substitute).State = EntityState.Added;
+					}
+				}
+
+				if (TimeSlot.Blank)
+				{
+					db.Checkouts.Attach(TimeSlot.Checkout);
+					db.Days.Attach(TimeSlot.Day);
+					// Attach etc.
+					db.TimeSlots.Add(TimeSlot);
+				}
+				else
+				{
+					db.TimeSlots.Attach(TimeSlot);
+				}
+
+				db.Entry(TimeSlot).State = TimeSlot.Blank ? EntityState.Added : EntityState.Modified;
+
 				db.SaveChanges();
 			}
 
 			Dispatcher.Invoke(() =>
 			{
 				Mouse.OverrideCursor = null;
-				MessageBox.Show(IsCreating ? "La caisse a bien été crée !" : "La caisse a bien été enregistré !");
-				IsCreating = false;
+				MessageBox.Show(TimeSlot.Blank ? "Le créneau horaire a bien été crée !" : "Le créneau horaire a bien été enregistré !");
+				CloseAction();
 			});
 		}
 

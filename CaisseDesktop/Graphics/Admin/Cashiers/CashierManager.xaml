@@ -4,10 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cashiers="clr-namespace:CaisseDesktop.Models.Admin.Cashiers"
+        xmlns:converters="clr-namespace:CaisseDesktop.Graphics.Utils.Converters"
         mc:Ignorable="d"
         Title="Gestion d'un caissier" Height="400" Width="450" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignInstance Type=cashiers:CashierConfigModel, IsDesignTimeCreatable=False}">
-
+<Window.Resources>
+    <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+</Window.Resources>
     <Grid>
 
         <GroupBox Header="Informations" Margin="5">
@@ -36,26 +39,26 @@
 
                 <TextBlock Text="Login :" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow" />
                 <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2">
-                <TextBox  x:Name="CashierLogin" Margin="10" VerticalAlignment="Center"
-                         MinHeight="25" MinWidth="150" IsEnabled="False" />
+                <TextBox Margin="10" VerticalAlignment="Center"
+                         MinHeight="25" MinWidth="150" IsEnabled="False" Text="{Binding Login}" />
                 <Button x:Name="GenLogin" Content="Générer" FontWeight="Bold"
-                        Margin="5" Cursor="Hand" Click="GenLogin_OnClick" />
+                        Margin="5" Cursor="Hand" Command="{Binding GenerateLoginCommand}" />
                 </StackPanel>
 
                 <TextBlock Text="Dernière activité :" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow" />
-                <TextBox x:Name="CashierLastActivity" IsEnabled="False" Grid.Column="1" Grid.Row="3"
-                         VerticalAlignment="Center" Margin="10" MinHeight="25" />
+                <TextBox IsEnabled="False" Grid.Column="1" Grid.Row="3"
+                         VerticalAlignment="Center" Margin="10" MinHeight="25" Text="{Binding LastActivity, StringFormat={}{0:dd/MM/yyyy HH:mm}}" />
 
                 <TextBlock Text="Est/était présent :" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="WrapWithOverflow" />
                 <ToggleButton x:Name="CashierWasHere"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                              Click="CashierWasHere_OnClick"  Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Margin="10 0 0 0" />
+                              Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Margin="10 0 0 0" IsChecked="{Binding WasHere}" />
 
                 <DockPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
                     <Button x:Name="CashierDelete" Content="Supprimer" FontWeight="Bold"
-                            Margin="5" Cursor="Hand" Click="Delete_OnClick" IsEnabled="False" />
+                            Margin="5" Cursor="Hand" Command="{Binding DeleteCommand}" IsEnabled="{Binding IsCreating, Converter={StaticResource InverseBooleanConverter}}" />
                     <Button x:Name="CashierSave" Content="Enregistrer" FontWeight="Bold"
-                            Margin="5" Cursor="Hand" Click="Save_OnClick" />
+                            Margin="5" Cursor="Hand" Command="{Binding SaveCommand}" />
                 </DockPanel>
 
             </Grid>

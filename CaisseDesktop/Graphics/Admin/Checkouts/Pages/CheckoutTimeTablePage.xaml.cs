@@ -125,7 +125,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 				dayBtn.Click += (sender, e) =>
 				{
 					if (CanClick)
-						new TimeSlotManager(ParentWindow, new SaveableTimeSlot { Start = day.Start, End = day.End, Checkout = ParentWindow.Checkout, Day = day, Blank = true }, day).ShowDialog();
+						new TimeSlotManager(ParentWindow, new SaveableTimeSlot { Start = day.Start, End = day.End, Checkout = ParentWindow.Checkout, Day = day, Blank = true }).ShowDialog();
 				};
 
 				panel.DataContext = day;
@@ -153,7 +153,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 				dayBtn.Click += (sender, e) =>
 				{
 					if (CanClick)
-						new TimeSlotManager(ParentWindow, slot, day).ShowDialog();
+						new TimeSlotManager(ParentWindow, slot).ShowDialog();
 				};
 
 				DockPanel.SetDock(dayBtn, Dock.Top);
