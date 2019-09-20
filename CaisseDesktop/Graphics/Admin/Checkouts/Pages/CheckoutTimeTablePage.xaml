@@ -16,7 +16,7 @@
         <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ItemsSource="{Binding TimeTableDays, IsAsync=true}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <DockPanel/> <!-- first listbox -->
+                    <DockPanel LastChildFill="True"/> <!-- first listbox -->
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
             <ListBox.ItemContainerStyle>
@@ -42,7 +42,7 @@
                         <ListBox DockPanel.Dock="Top" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding TimeSlots, IsAsync=true}">
                             <ListBox.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                        <DockPanel/> <!-- second listbox -->
+                                    <StackPanel/> <!-- second listbox -->
                                 </ItemsPanelTemplate>
                             </ListBox.ItemsPanel>
                             <ListBox.ItemContainerStyle>
@@ -63,7 +63,7 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                        <Button DockPanel.Dock="Top" Content="{Binding Content}" Command="{Binding EditTimeSlotCommand}" CommandParameter="{Binding TimeSlot}"></Button>
+                                    <Button DockPanel.Dock="Top" Content="{Binding Content}" Command="{Binding EditTimeSlotCommand}" CommandParameter="{Binding TimeSlot}" Height="Auto"></Button>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
