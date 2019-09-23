@@ -36,7 +36,6 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
 		public SaveableCheckoutType CheckoutType { get; set; }
 		public EvenementManager Manager { get; }
 		private CheckoutTypeConfigModel Model => DataContext as CheckoutTypeConfigModel;
-		private bool New { get; set; }
 
 		public CheckoutTypeManager(EvenementManager manager, SaveableCheckoutType type)
 		{
@@ -44,9 +43,8 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
 
 			CheckoutType = type;
 			Manager = manager;
-			New = type == null;
 
-			DataContext = new CheckoutTypeConfigModel(this,type);
+			DataContext = new CheckoutTypeConfigModel(this, type);
 			Model.Dispatcher = Dispatcher;
 			Model.CloseAction = Close;
 

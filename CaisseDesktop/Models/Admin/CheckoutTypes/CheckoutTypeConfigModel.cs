@@ -46,7 +46,7 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 		{
 			ParentWindow = parentWindow;
 			IsCreating = checkoutType == null;
-			CheckoutType = checkoutType;
+			CheckoutType = checkoutType ?? new SaveableCheckoutType{Event = parentWindow.Manager.Evenement};
 			Task.Run(LoadCheckoutNames);
 		}
 
