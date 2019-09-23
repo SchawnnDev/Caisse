@@ -4,12 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.CheckoutTypes"
-        xmlns:models="clr-namespace:CaisseDesktop.Models"
+        xmlns:models="clr-namespace:CaisseDesktop.Models.Admin.CheckoutTypes"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:utils="clr-namespace:CaisseDesktop.Graphics.Utils"
         xmlns:converters="clr-namespace:CaisseDesktop.Graphics.Utils.Converters"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance Type=models:ArticleModel, IsDesignTimeCreatable=False}"
+        d:DataContext="{d:DesignInstance Type=models:CheckoutTypeConfigModel, IsDesignTimeCreatable=False}"
         Title="Gestion d'un type de caisse" Height="700" Width="1200">
     <Window.Resources>
         <ResourceDictionary>
@@ -18,8 +18,9 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <converters:EnumToCollectionConverter x:Key="EnumToCollectionConverter"/>
             <converters:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Non" TrueValue="Oui" />
-            <converters:BoolToStringConverter x:Key="ConsigneBooleanToStringConverter" FalseValue="activée" TrueValue="désativée" />
+            <converters:BoolToStringConverter x:Key="ConsigneBooleanToStringConverter" FalseValue="activée" TrueValue="désactivée" />
         </ResourceDictionary>
 
     </Window.Resources>
@@ -32,11 +33,11 @@
         <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
 
-                <MenuItem x:Name="Back" Header="_Retour" Click="Back_OnClick" />
+                <MenuItem x:Name="Back" Header="_Retour" Command="{Binding BackCommand}" />
 
                 <MenuItem Header="_Articles">
 
-                    <MenuItem x:Name="AddArticle" Header="_Ajouter un article" Click="AddArticle_OnClick" />
+                    <MenuItem x:Name="AddArticle" Header="_Ajouter un article" Command="{Binding AddArticleCommand}" />
 
                     <Separator />
 
@@ -68,17 +69,26 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition MaxHeight="100" />
+                        <RowDefinition MaxHeight="100" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
                     <Label Content="Nom :" HorizontalAlignment="Left"
                            VerticalAlignment="Center" FontWeight="Bold" Grid.Row="0" Grid.Column="0" />
-                    <TextBox x:Name="CheckoutTypeName" TextWrapping="NoWrap"
+                    <TextBox TextWrapping="NoWrap" Text="{Binding Name}"
                              VerticalAlignment="Center" Margin="10" MinHeight="25" Grid.Row="0" Grid.Column="1" />
 
-                    <Label Content="Caisses :" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"
+                    <Label Content="Type :" HorizontalAlignment="Left"
+                           VerticalAlignment="Center" FontWeight="Bold" Grid.Row="1" Grid.Column="0" />
+
+                    <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Path=Type, Converter={StaticResource EnumToCollectionConverter}, Mode=OneTime}"
+                              SelectedValuePath="Value"
+                              DisplayMemberPath="Description"
+                              SelectedValue="{Binding Path=Type}" />
+
+                    <Label Content="Caisses :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
                            VerticalAlignment="Top" FontWeight="Bold" />
-                    <ListView x:Name="CheckoutNameList" Grid.Column="1" Grid.Row="1" />
+                    <ListView Grid.Column="1" Grid.Row="2" />
 
 
                 </Grid>
@@ -100,42 +110,34 @@
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <materialDesign:Card
-                                Width="200">
+                            <materialDesign:Card Width="200">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition
-                                            Height="140" />
-                                        <RowDefinition
-                                            Height="*" />
-                                        <RowDefinition
-                                            Height="Auto" />
+                                        <RowDefinition Height="140" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <Image
-                                        Source="{Binding ImageSrc}"
-                                        Stretch="Uniform" />
-                                    <Button
-                                        Grid.Row="0"
-                                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                    <Image Source="{Binding Article.ImageSrc}" Stretch="Uniform" />
+                                    <Button Grid.Row="0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Bottom"
-                                        Margin="0 0 16 -20"  BorderBrush="{Binding Color}" Background="{Binding Color}"
-                                        Click="Edit_OnClick">
+                                        Margin="0 0 16 -20"  BorderBrush="{Binding Article.Color}" Background="{Binding Article.Color}"
+                                        Command="{Binding EditCommand}" CommandParameter="{Binding}">
                                         <materialDesign:PackIcon Kind="Edit" />
                                     </Button>
                                     <StackPanel
                                         Grid.Row="1"
                                         Margin="8 24 8 0">
-                                        <TextBlock FontWeight="Bold" Text="{Binding Name}" />
+                                        <TextBlock FontWeight="Bold" Text="{Binding Article.Name}" />
 
                                         <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
-                                            Prix : <TextBlock Text="{Binding Price}"></TextBlock> €
+                                            Prix : <TextBlock Text="{Binding Article.Price}"></TextBlock> €
                                         </TextBlock>
                                         <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
-                                            Quantité : <TextBlock Text="{Binding MaxSellNumberPerDay}"></TextBlock>
+                                            Quantité : <TextBlock Text="{Binding Article.MaxSellNumberPerDay}"></TextBlock>
                                         </TextBlock>
                                         <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
-                                            Consigne : <TextBlock Text="{Binding NeedsCup, Converter={StaticResource BooleanToStringConverter}}"></TextBlock>
+                                            Consigne : <TextBlock Text="{Binding Article.NeedsCup, Converter={StaticResource BooleanToStringConverter}}"></TextBlock>
                                         </TextBlock>
                                     </StackPanel>
                                     <StackPanel
@@ -147,17 +149,16 @@
                                             Style="{StaticResource MaterialDesignToolButton}"
                                             Width="30"
                                             Padding="2 0 2 0"
-                                            materialDesign:RippleAssist.IsCentered="True" IsHitTestVisible="False"
-                                            x:Name="NeedsCupButton">
+                                            materialDesign:RippleAssist.IsCentered="True" IsHitTestVisible="False">
 
                                             <Button.ToolTip>
-                                                <TextBlock>La consigne est <TextBlock Text="{Binding NeedsCup, Converter={StaticResource ConsigneBooleanToStringConverter}}"></TextBlock>.</TextBlock> 
+                                                <TextBlock>La consigne est <TextBlock Text="{Binding Article.NeedsCup, Converter={StaticResource ConsigneBooleanToStringConverter}}"></TextBlock>.</TextBlock>
                                             </Button.ToolTip>
                                             <Button.ContentTemplate>
                                                 <DataTemplate>
                                                     <materialDesign:PackIcon Kind="Cup" x:Name="NeedsCupIcon" />
                                                     <DataTemplate.Triggers>
-                                                        <DataTrigger Binding="{Binding NeedsCup, Delay=2}" Value="False">
+                                                        <DataTrigger Binding="{Binding Article.NeedsCup, Delay=2}" Value="False">
                                                             <Setter Property="Kind" Value="CupOff" TargetName="NeedsCupIcon"/>
                                                         </DataTrigger>
                                                     </DataTemplate.Triggers>
@@ -170,8 +171,8 @@
                                             Style="{StaticResource MaterialDesignToolPopupBox}"
                                             Padding="2 0 2 0">
                                             <StackPanel>
-                                                <Button Content="Exporter" Click="Export_OnClick" />
-                                                <Button Content="Supprimer" Click="Delete_OnClick" />
+                                                <Button Content="Exporter" Command="{Binding ExportCommand}" CommandParameter="{Binding}" />
+                                                <Button Content="Supprimer" Command="{Binding DeleteCommand}" CommandParameter="{Binding}"/>
                                             </StackPanel>
                                         </materialDesign:PopupBox>
                                     </StackPanel>
@@ -181,43 +182,9 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <!--
-
-                <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
-                          ItemsSource="{Binding Articles, IsAsync=true}" IsReadOnly="True" x:Name="ArticlesGrid"
-                          AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Position" Binding="{Binding Position}" />
-                        <DataGridTextColumn Header="Nom" Binding="{Binding Name}" />
-                        <DataGridTextColumn Header="Type" Binding="{Binding ItemType}" />
-                        <DataGridTextColumn Header="Prix" Binding="{Binding Price}" />
-                        <DataGridTextColumn Header="Est actif" Binding="{Binding Active}" />
-                        <DataGridTemplateColumn Header="Actions">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Click="Edit_OnClick">Editer</Button>
-                                        <Button Click="Delete_OnClick" Margin="5 0 0 0">Supprimer</Button>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Display Shipping Addresss" />
-                            <Separator />
-                            <MenuItem Header="Edit" />
-                            <MenuItem Header="Delete" />
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
-
-                </DataGrid> -->
             </GroupBox>
 
-            <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Sauvegarder"
-                    Click="Save_OnClick" />
+            <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Sauvegarder" Command="{Binding SaveCommand}"/>
         </Grid>
 
     </Grid>

@@ -5,11 +5,9 @@ using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 using CaisseDesktop.Exceptions;
 using CaisseDesktop.Graphics.Admin.Checkouts.Pages;
 using CaisseDesktop.Graphics.Admin.TimeSlots;
@@ -18,16 +16,11 @@ using CaisseDesktop.Lang;
 using CaisseLibrary.Utils;
 using CaisseServer;
 using CaisseServer.Events;
-using Brushes = System.Drawing.Brushes;
 
 namespace CaisseDesktop.Models.Admin.Checkouts
 {
 	public class CheckoutTimeTableModel : INotifyPropertyChanged
 	{
-
-		private ICommand _saveCommand;
-		public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new CommandHandler(Save, true));
-
 
 		public static CheckoutTimeTablePage ParentWindow;
 		public CheckoutTimeTableModel(CheckoutTimeTablePage parentWindow)
@@ -183,10 +176,6 @@ namespace CaisseDesktop.Models.Admin.Checkouts
 			}
 		}
 
-		public void Save(object arg)
-		{
-		}
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -283,7 +272,6 @@ namespace CaisseDesktop.Models.Admin.Checkouts
 		Pause,
 		TakenByCashier,
 		TakenBySubstitute
-
 	}
 
 }

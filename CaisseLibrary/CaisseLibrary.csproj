@@ -147,7 +147,7 @@
     <Compile Include="Data\Invoice.cs" />
     <Compile Include="Data\Permission.cs" />
     <Compile Include="Data\TimeSlot.cs" />
-    <Compile Include="Enums\ArticleType.cs" />
+    <Compile Include="Enums\CheckoutType.cs" />
     <Compile Include="Enums\ExportColumnType.cs" />
     <Compile Include="Interfaces\IPassword.cs" />
     <Compile Include="IO\BitmapManager.cs" />
