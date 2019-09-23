@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
@@ -8,15 +7,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
-using CaisseDesktop.Exceptions;
 using CaisseDesktop.Graphics.Admin.Cashiers;
 using CaisseDesktop.Graphics.Utils;
 using CaisseDesktop.Lang;
 using CaisseServer;
 using CaisseServer.Events;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using static System.Windows.Input.Cursors;
-using Cursors = System.Windows.Input.Cursors;
 
 namespace CaisseDesktop.Models.Admin.TimeSlots
 {
@@ -123,14 +119,34 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 			new CashierManager(this, false).ShowDialog();
 		}
 
+		private void NormalizeHours()
+		{
+			Start = ModifyTime(TimeSlot.Day.Start, Start);
+			End = ModifyTime(TimeSlot.Day.End, End);
+		}
+
 		public void Save(object arg)
 		{
-			if (TimeSlot.End.CompareTo(Start) <= 0)
+
+			NormalizeHours();
+
+			if (TimeSlot.End.CompareTo(Start) < 0)
+			{
 				MessageBox.Show(French.TimeSlotConfigModel_Save_Hour);
+				return;
+			}
+
 			if (TimeSlot.Start.CompareTo(End) > 0)
+			{
 				MessageBox.Show(French.TimeSlotConfigModel_Save_Hour2);
-			if(Cashier == null || (SubstituteActive && Substitute == null))
+				return;
+			}
+
+			if(!Pause && (Cashier == null || SubstituteActive && Substitute == null))
+			{
 				MessageBox.Show(French.Exception_ArgsMissing);
+				return;
+			}
 
 			Task.Run(Save);
 		}
@@ -194,6 +210,7 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 			});
 		}
 
+		private DateTime ModifyTime(DateTime date, DateTime value) => new DateTime(date.Year, date.Month, date.Day, value.Hour, value.Minute, value.Second);
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
