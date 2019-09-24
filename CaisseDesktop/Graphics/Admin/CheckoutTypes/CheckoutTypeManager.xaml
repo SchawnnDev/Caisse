@@ -85,7 +85,6 @@
 
                     <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Sauvegarder" Command="{Binding SaveCommand}" IsEnabled="{Binding CanSave}"/>
 
-
                 </Grid>
             </GroupBox>
 

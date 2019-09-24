@@ -48,7 +48,7 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 			IsCreating = checkoutType == null;
 			CheckoutType = checkoutType ?? new SaveableCheckoutType { Event = parentWindow.Manager.Evenement };
 			Dispatcher = dispatcher;
-			ActualPage = new CheckoutTypeArticleListPage(this);
+			SwitchPage(IsCreating ? CaisseLibrary.Enums.CheckoutType.Tickets : (CheckoutType)CheckoutType.Type);
 			_canSave = IsCreating;
 			Task.Run(LoadCheckoutNames);
 		}
@@ -119,11 +119,13 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 			switch (type)
 			{
 				case CaisseLibrary.Enums.CheckoutType.Tickets:
-					ActualPage = new CheckoutTypeArticleListPage(this);
+					ActualPage = new CheckoutTypeArticlePage(this);
 					break;
 				case CaisseLibrary.Enums.CheckoutType.Food:
+					ActualPage = new CheckoutTypeTicketsPage(this);
 					break;
 				case CaisseLibrary.Enums.CheckoutType.Consign:
+					ActualPage = new CheckoutTypeConsignPage();
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(type), type, null);

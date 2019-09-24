@@ -19,12 +19,12 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes.Pages
 	/// <summary>
 	/// Interaction logic for CheckoutTypeArticlePage.xaml
 	/// </summary>
-	public partial class CheckoutTypeArticleListPage
+	public partial class CheckoutTypeArticlePage
 	{
 
 		private CheckoutTypeArticlePageModel Model => DataContext as CheckoutTypeArticlePageModel;
 
-		public CheckoutTypeArticleListPage(CheckoutTypeConfigModel model)
+		public CheckoutTypeArticlePage(CheckoutTypeConfigModel model)
 		{
 			InitializeComponent();
 			DataContext = new CheckoutTypeArticlePageModel(model);

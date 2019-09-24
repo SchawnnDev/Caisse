@@ -18,11 +18,32 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes.Pages
 	/// <summary>
 	/// Interaction logic for CheckoutTypeConsignPage.xaml
 	/// </summary>
-	public partial class CheckoutTypeConsignPage : Page
+	public partial class CheckoutTypeConsignPage
 	{
 		public CheckoutTypeConsignPage()
 		{
 			InitializeComponent();
+		}
+
+		public override string CustomName => "Configuration du retour consignes";
+		public override void Update()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void Add<T>(T item)
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool CanClose()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override bool CanBack()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
