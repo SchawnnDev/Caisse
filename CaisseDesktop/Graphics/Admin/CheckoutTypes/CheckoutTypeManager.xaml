@@ -3,10 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.CheckoutTypes"
         xmlns:models="clr-namespace:CaisseDesktop.Models.Admin.CheckoutTypes"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:utils="clr-namespace:CaisseDesktop.Graphics.Utils"
         xmlns:converters="clr-namespace:CaisseDesktop.Graphics.Utils.Converters"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:CheckoutTypeConfigModel, IsDesignTimeCreatable=False}"
@@ -56,8 +53,8 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
-                <RowDefinition MaxHeight="80" />
             </Grid.RowDefinitions>
 
 
@@ -68,124 +65,39 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition MaxHeight="100" />
-                        <RowDefinition MaxHeight="100" />
-                        <RowDefinition />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition MinHeight="75"/>
                     </Grid.RowDefinitions>
 
                     <Label Content="Nom :" HorizontalAlignment="Left"
-                           VerticalAlignment="Center" FontWeight="Bold" Grid.Row="0" Grid.Column="0" />
+                           VerticalAlignment="Center" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Margin="5"/>
                     <TextBox TextWrapping="NoWrap" Text="{Binding Name}"
-                             VerticalAlignment="Center" Margin="10" MinHeight="25" Grid.Row="0" Grid.Column="1" />
+                             VerticalAlignment="Center" MinHeight="25" Grid.Row="0" Grid.Column="1" Margin="5" />
 
                     <Label Content="Type :" HorizontalAlignment="Left"
-                           VerticalAlignment="Center" FontWeight="Bold" Grid.Row="1" Grid.Column="0" />
+                           VerticalAlignment="Center" FontWeight="Bold" Grid.Row="1" Grid.Column="0" Margin="5"/>
 
                     <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Path=Type, Converter={StaticResource EnumToCollectionConverter}, Mode=OneTime}"
                               SelectedValuePath="Value"
                               DisplayMemberPath="Description"
-                              SelectedValue="{Binding Path=Type}" />
+                              SelectedValue="{Binding Path=Type}" Margin="5" />
 
-                    <Label Content="Caisses :" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"
-                           VerticalAlignment="Top" FontWeight="Bold" />
-                    <ListView Grid.Column="1" Grid.Row="2" />
+                    <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Sauvegarder" Command="{Binding SaveCommand}" IsEnabled="{Binding CanSave}"/>
 
 
                 </Grid>
             </GroupBox>
 
-            <GroupBox Header="Liste des articles" Margin="5" Grid.Column="1" Grid.Row="0">
-
-                <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ItemsSource="{Binding Articles, IsAsync=true}" x:Name="ArticlesGrid">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="Padding" Value="0"/>
-                            <Setter Property="Margin" Value="6"/>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <materialDesign:Card Width="200">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="140" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Image Source="{Binding Article.ImageSrc}" Stretch="Uniform" />
-                                    <Button Grid.Row="0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
-                                        Margin="0 0 16 -20"  BorderBrush="{Binding Article.Color}" Background="{Binding Article.Color}"
-                                        Command="{Binding EditCommand}" CommandParameter="{Binding}">
-                                        <materialDesign:PackIcon Kind="Edit" />
-                                    </Button>
-                                    <StackPanel
-                                        Grid.Row="1"
-                                        Margin="8 24 8 0">
-                                        <TextBlock FontWeight="Bold" Text="{Binding Article.Name}" />
-
-                                        <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
-                                            Prix : <TextBlock Text="{Binding Article.Price}"></TextBlock> €
-                                        </TextBlock>
-                                        <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
-                                            Quantité : <TextBlock Text="{Binding Article.MaxSellNumberPerDay}"></TextBlock>
-                                        </TextBlock>
-                                        <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
-                                            Consigne : <TextBlock Text="{Binding Article.NeedsCup, Converter={StaticResource BooleanToStringConverter}}"></TextBlock>
-                                        </TextBlock>
-                                    </StackPanel>
-                                    <StackPanel
-                                        HorizontalAlignment="Right"
-                                        Grid.Row="2"
-                                        Orientation="Horizontal"
-                                        Margin="8">
-                                        <Button
-                                            Style="{StaticResource MaterialDesignToolButton}"
-                                            Width="30"
-                                            Padding="2 0 2 0"
-                                            materialDesign:RippleAssist.IsCentered="True" IsHitTestVisible="False">
-
-                                            <Button.ToolTip>
-                                                <TextBlock>La consigne est <TextBlock Text="{Binding Article.NeedsCup, Converter={StaticResource ConsigneBooleanToStringConverter}}"></TextBlock>.</TextBlock>
-                                            </Button.ToolTip>
-                                            <Button.ContentTemplate>
-                                                <DataTemplate>
-                                                    <materialDesign:PackIcon Kind="Cup" x:Name="NeedsCupIcon" />
-                                                    <DataTemplate.Triggers>
-                                                        <DataTrigger Binding="{Binding Article.NeedsCup, Delay=2}" Value="False">
-                                                            <Setter Property="Kind" Value="CupOff" TargetName="NeedsCupIcon"/>
-                                                        </DataTrigger>
-                                                    </DataTemplate.Triggers>
-                                                </DataTemplate>
-
-                                            </Button.ContentTemplate>
-
-                                        </Button>
-                                        <materialDesign:PopupBox
-                                            Style="{StaticResource MaterialDesignToolPopupBox}"
-                                            Padding="2 0 2 0">
-                                            <StackPanel>
-                                                <Button Content="Exporter" Command="{Binding ExportCommand}" CommandParameter="{Binding}" />
-                                                <Button Content="Supprimer" Command="{Binding DeleteCommand}" CommandParameter="{Binding}"/>
-                                            </StackPanel>
-                                        </materialDesign:PopupBox>
-                                    </StackPanel>
-                                </Grid>
-                            </materialDesign:Card>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-
+            <GroupBox Header="Liste des caisses" Margin="5" Grid.Column="0" Grid.Row="1">
+                <ListView Margin="5" ItemsSource="{Binding CheckoutNameList, IsAsync=true}" />
             </GroupBox>
 
-            <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="Sauvegarder" Command="{Binding SaveCommand}"/>
-        </Grid>
+            <GroupBox Header="{Binding ActualPage.CustomName}" Margin="5" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
 
+                <Frame Content="{Binding ActualPage}" NavigationUIVisibility="Hidden" />
+                
+            </GroupBox>
+        </Grid>
     </Grid>
 </Window>

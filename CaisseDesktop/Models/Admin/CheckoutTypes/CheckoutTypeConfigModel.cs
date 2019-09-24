@@ -1,25 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Media;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using CaisseDesktop.Graphics.Admin;
 using CaisseDesktop.Graphics.Admin.Articles;
 using CaisseDesktop.Graphics.Admin.CheckoutTypes;
+using CaisseDesktop.Graphics.Admin.CheckoutTypes.Pages;
 using CaisseDesktop.Graphics.Utils;
 using CaisseDesktop.IO;
+using CaisseDesktop.Lang;
 using CaisseDesktop.Utils;
 using CaisseLibrary.Enums;
 using CaisseLibrary.IO;
 using CaisseServer;
-using CaisseServer.Events;
 using CaisseServer.Items;
 
 namespace CaisseDesktop.Models.Admin.CheckoutTypes
@@ -28,7 +28,7 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 	{
 
 		public readonly SaveableCheckoutType CheckoutType;
-		public Dispatcher Dispatcher { get; set; }
+		public readonly Dispatcher Dispatcher;
 
 		private ICommand _saveCommand;
 		public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new CommandHandler(Save, true));
@@ -40,17 +40,43 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 		public ICommand BackCommand => _backCommand ?? (_backCommand = new CommandHandler(Back, true));
 
 		public Action CloseAction { get; set; }
-		public static CheckoutTypeManager ParentWindow;
+		public readonly CheckoutTypeManager ParentWindow;
 
-		public CheckoutTypeConfigModel(CheckoutTypeManager parentWindow,SaveableCheckoutType checkoutType)
+		public CheckoutTypeConfigModel(CheckoutTypeManager parentWindow, SaveableCheckoutType checkoutType, Dispatcher dispatcher)
 		{
 			ParentWindow = parentWindow;
 			IsCreating = checkoutType == null;
-			CheckoutType = checkoutType ?? new SaveableCheckoutType{Event = parentWindow.Manager.Evenement};
+			CheckoutType = checkoutType ?? new SaveableCheckoutType { Event = parentWindow.Manager.Evenement };
+			Dispatcher = dispatcher;
+			ActualPage = new CheckoutTypeArticleListPage(this);
+			_canSave = IsCreating;
 			Task.Run(LoadCheckoutNames);
 		}
 
 		public bool IsCreating;
+
+		private bool _canSave;
+
+		public bool CanSave
+		{
+			get => _canSave;
+			set
+			{
+				_canSave = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public CustomPage ActualPage
+		{
+			get => _actualPage;
+			set
+			{
+				_actualPage = value;
+				OnPropertyChanged();
+			}
+		}
+
 
 		public CheckoutType Type
 		{
@@ -58,6 +84,8 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 			set
 			{
 				CheckoutType.Type = (int)value;
+				SwitchPage(value); // switch page
+				CanSave = true;
 				OnPropertyChanged();
 			}
 		}
@@ -67,24 +95,14 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 			get => CheckoutType.Name;
 			set
 			{
+				CanSave = true;
 				CheckoutType.Name = value;
 				OnPropertyChanged();
 			}
 		}
 
-		private ObservableCollection<CheckoutTypeArticle> _articles;
 		private ObservableCollection<string> _checkoutNameList;
-
-		public ObservableCollection<CheckoutTypeArticle> Articles
-		{
-			get => _articles;
-			set
-			{
-				if (Equals(value, _articles)) return;
-				_articles = value;
-				OnPropertyChanged();
-			}
-		}
+		private CustomPage _actualPage;
 
 		public ObservableCollection<string> CheckoutNameList
 		{
@@ -93,6 +111,22 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 			{
 				_checkoutNameList = value;
 				OnPropertyChanged();
+			}
+		}
+
+		private void SwitchPage(CheckoutType type)
+		{
+			switch (type)
+			{
+				case CaisseLibrary.Enums.CheckoutType.Tickets:
+					ActualPage = new CheckoutTypeArticleListPage(this);
+					break;
+				case CaisseLibrary.Enums.CheckoutType.Food:
+					break;
+				case CaisseLibrary.Enums.CheckoutType.Consign:
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(type), type, null);
 			}
 		}
 
@@ -116,24 +150,14 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 
 		private void Save(object arg)
 		{
-			//if (CustomPage.Check(CheckoutTypeName))
-			//return;
-			/*
-			 *
-			 * 			if (IsCreating)
+
+			if (string.IsNullOrWhiteSpace(Name))
 			{
-				CheckoutType = new SaveableCheckoutType
-				{
-					Event = Manager.Evenement
-				};
+				System.Windows.Forms.MessageBox.Show(French.Exception_ArgsMissing);
+				return;
 			}
-			 */
 
-			//	else if (CheckoutType.Name.ToLower().Equals(CheckoutTypeName.Text))
-			//	return;
-
-
-			Task.Run(() => Save());
+			Task.Run(Save);
 		}
 
 		private void Save()
@@ -167,14 +191,8 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 			}
 
 			Dispatcher.Invoke(() =>
-			{/*
-				if (Manager.MasterFrame.ToCustomPage().CustomName.Equals("EventCheckoutTypePage"))
-				{
-					if (IsCreating) Manager.MasterFrame.ToCustomPage().Add(CheckoutType);
-					else Manager.MasterFrame.ToCustomPage().Update(); 
-				}
-					*/
-
+			{
+				CanSave = false;
 				Mouse.OverrideCursor = null;
 				MessageBox.Show("Le type de caisse a bien été " + (IsCreating ? "crée" : "enregistré") + " !");
 			});
@@ -203,63 +221,4 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 		}
 	}
 
-	public class CheckoutTypeArticle
-	{
-		public SaveableArticle Article { get; set; }
-
-
-		private ICommand _deleteCommand;
-		public ICommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new CommandHandler(Delete, true));
-
-		private ICommand _editCommand;
-		public ICommand EditCommand => _editCommand ?? (_editCommand = new CommandHandler(Edit, true));
-
-		private ICommand _exportCommand;
-		public ICommand ExportCommand => _exportCommand ?? (_exportCommand = new CommandHandler(Export, true));
-
-		private void Export(object arg)
-		{
-
-			if (arg is SaveableArticle article)
-				ExportManager.ExportObjectToJSON($"{BitmapManager.NormalizeFileName(article.Name)}.json", article);
-			else
-				MessageBox.Show($"L'article n'est pas valide.", "Erreur", MessageBoxButton.OK,
-					MessageBoxImage.Error);
-		}
-
-		private void Delete(object arg)
-		{
-
-			if (arg is SaveableArticle article)
-			{
-				var result = MessageBox.Show("Es tu sûr de vouloir supprimer cet article ?", "Supprimer un article",
-					MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
-
-				if (result != MessageBoxResult.Yes) return;
-
-				using (var db = new CaisseServerContext())
-				{
-					db.Articles.Attach(article);
-					db.Articles.Remove(article);
-					db.SaveChanges();
-				}
-
-			}
-			else
-			{
-				MessageBox.Show($"L'article n'est pas valide.", "Erreur", MessageBoxButton.OK,
-					MessageBoxImage.Error);
-			}
-		}
-
-		private void Edit(object arg)
-		{
-			if (arg is SaveableArticle article)
-				new ArticleManager(CheckoutTypeConfigModel.ParentWindow, article).ShowDialog();
-			else
-				MessageBox.Show($"L'article n'est pas valide.", "Erreur", MessageBoxButton.OK,
-					MessageBoxImage.Error);
-		}
-
-	}
 }

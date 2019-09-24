@@ -1,0 +1,113 @@
+﻿<admin:CustomPage x:Class="CaisseDesktop.Graphics.Admin.CheckoutTypes.Pages.CheckoutTypeArticleListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:admin="clr-namespace:CaisseDesktop.Graphics.Admin"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:checkoutTypes="clr-namespace:CaisseDesktop.Models.Admin.CheckoutTypes"
+      xmlns:converters="clr-namespace:CaisseDesktop.Graphics.Utils.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      d:DataContext="{d:DesignInstance Type=checkoutTypes:CheckoutTypeArticlePageModel, IsDesignTimeCreatable=False}"
+      Title="CheckoutTypeArticleListPage">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:BoolToStringConverter x:Key="BooleanToStringConverter" FalseValue="Non" TrueValue="Oui" />
+            <converters:BoolToStringConverter x:Key="ConsigneBooleanToStringConverter" FalseValue="activée" TrueValue="désactivée" />
+        </ResourceDictionary>
+
+    </Page.Resources>
+    <Grid>
+        <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ItemsSource="{Binding Articles, IsAsync=true}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="6"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <materialDesign:Card Width="200">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="140" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Image Source="{Binding Article.ImageSrc}" Stretch="Uniform" />
+                            <Button Grid.Row="0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Margin="0 0 16 -20"  BorderBrush="{Binding Article.Color}" Background="{Binding Article.Color}"
+                                        Command="{Binding EditCommand}">
+                                <materialDesign:PackIcon Kind="Edit" />
+                            </Button>
+                            <StackPanel
+                                        Grid.Row="1"
+                                        Margin="8 24 8 0">
+                                <TextBlock FontWeight="Bold" Text="{Binding Article.Name}" />
+
+                                <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
+                                            Prix : <TextBlock Text="{Binding Article.Price}"></TextBlock> €
+                                        </TextBlock>
+                                <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
+                                            Quantité : <TextBlock Text="{Binding Article.MaxSellNumberPerDay}"></TextBlock>
+                                        </TextBlock>
+                                <TextBlock TextWrapping="Wrap" VerticalAlignment="Center">
+                                            Consigne : <TextBlock Text="{Binding Article.NeedsCup, Converter={StaticResource BooleanToStringConverter}}"></TextBlock>
+                                        </TextBlock>
+                            </StackPanel>
+                            <StackPanel
+                                        HorizontalAlignment="Right"
+                                        Grid.Row="2"
+                                        Orientation="Horizontal"
+                                        Margin="8">
+                                <Button
+                                            Style="{StaticResource MaterialDesignToolButton}"
+                                            Width="30"
+                                            Padding="2 0 2 0"
+                                            materialDesign:RippleAssist.IsCentered="True" IsHitTestVisible="False">
+
+                                    <Button.ToolTip>
+                                        <TextBlock>La consigne est <TextBlock Text="{Binding Article.NeedsCup, Converter={StaticResource ConsigneBooleanToStringConverter}}"></TextBlock>.</TextBlock>
+                                    </Button.ToolTip>
+                                    <Button.ContentTemplate>
+                                        <DataTemplate>
+                                            <materialDesign:PackIcon Kind="Cup" x:Name="NeedsCupIcon" />
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Article.NeedsCup, Delay=2}" Value="False">
+                                                    <Setter Property="Kind" Value="CupOff" TargetName="NeedsCupIcon"/>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+
+                                    </Button.ContentTemplate>
+
+                                </Button>
+                                <materialDesign:PopupBox
+                                            Style="{StaticResource MaterialDesignToolPopupBox}"
+                                            Padding="2 0 2 0">
+                                    <StackPanel>
+                                        <Button Content="Exporter" Command="{Binding ExportCommand}" />
+                                        <Button Content="Supprimer" Command="{Binding DeleteCommand}" />
+                                    </StackPanel>
+                                </materialDesign:PopupBox>
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</admin:CustomPage>
