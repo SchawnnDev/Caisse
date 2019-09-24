@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using CaisseDesktop.Graphics.Admin.CheckoutTypes;
 using CaisseDesktop.Models;
+using CaisseDesktop.Models.Admin.Articles;
 using CaisseDesktop.Utils;
 using CaisseServer;
 using CaisseServer.Events;
@@ -34,7 +35,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
         private SaveableArticle Article { get; }
         private bool Start { get; set; } = true;
         private bool New { get; set; }
-        private MaxSellNumberModel Model => DataContext as MaxSellNumberModel;
+        private ArticleConfigModel Model => DataContext as ArticleConfigModel;
         private CheckoutTypeManager Manager { get; }
 
         public ArticleManager(CheckoutTypeManager manager, SaveableArticle article)
@@ -44,25 +45,13 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             Article = article;
             New = article == null;
             Manager = manager;
+            DataContext = new ArticleConfigModel(article);
 
-            if (New)
-            {
-                Article = new SaveableArticle
-                {
-                    Type = manager.CheckoutType
-                };
-            }
-            else
-            {
-                Fill();
-            }
-
-            Task.Run(() => Load());
+            Task.Run(Load);
 
             Loaded += (sender, args) =>
             {
                 Start = false;
-             //   SwitchButtons(Article.ItemType);
             };
         }
 
@@ -70,7 +59,6 @@ namespace CaisseDesktop.Graphics.Admin.Articles
         {
             Dispatcher.Invoke(() =>
             {
-                DataContext = new MaxSellNumberModel();
                 Mouse.OverrideCursor = Cursors.Wait;
             });
 
@@ -118,183 +106,6 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
                 Mouse.OverrideCursor = null;
             });
-        }
-
-
-        public void Fill()
-        {
-            ArticleName.Text = Article.Name;
-	    //    ArticleType.SelectedIndex = Article.ItemType;
-	        ArticleNeedsCup.IsChecked = Article.NeedsCup;
-			ArticlePrice.Text = Article.Price.ToString(CultureInfo.CurrentCulture);
-            ArticleMaxSellPerDay.Text = Article.MaxSellNumberPerDay.ToString();
-            ArticleActivated.IsChecked = Article.Active;
-            try
-            {
-                ArticleImage.Source = new BitmapImage(new Uri(Article.ImageSrc));
-                ArticleImagePath.Text = Article.ImageSrc;
-            }
-            catch (Exception e)
-            {
-                Validations.ShowError(e.Message + " => le fichier a été remplacé par un fichier de base.");
-                EditImage(ArticleType.SelectedIndex);
-            }
-
-            ArticleColor.SelectedColor = System.Drawing.ColorTranslator.FromHtml(Article.Color).Convert();
-            ArticleNeedsCup.IsChecked = Article.NeedsCup;
-            ArticleTracking.IsChecked = Article.NumberingTracking;
-        }
-
-        public void SwitchButtons(int type)
-        {
-            switch (type)
-            {
-                case 0: //tickets
-                    ArticleNeedsCup.IsEnabled = false;
-                    ArticleNeedsCup.IsChecked = false;
-                    Article.NeedsCup = false;
-                    ArticleTracking.IsEnabled = true;
-                    ArticleMaxSellPerDay.IsEnabled = true;
-                    //
-                    ToggleMaxSellPerDay(true);
-                    break;
-                case 1: //alimentation
-                    ArticleNeedsCup.IsEnabled = true;
-                    ArticleTracking.IsChecked = false;
-                    Article.NumberingTracking = false;
-                    ArticleTracking.IsEnabled = false;
-                    ArticleMaxSellPerDay.IsEnabled = true;
-                    //
-                    ToggleMaxSellPerDay(true);
-                    break;
-                case 2: //consignes
-                    ArticleMaxSellPerDay.IsEnabled = false;
-                    ArticleNeedsCup.IsChecked = false;
-                    ArticleTracking.IsChecked = false;
-                    Article.NumberingTracking = false;
-                    Article.NeedsCup = false;
-                    ArticleNeedsCup.IsEnabled = false;
-                    ArticleTracking.IsEnabled = false;
-                    //
-                    ToggleMaxSellPerDay(false);
-                    break;
-            }
-        }
-
-        private void ToggleMaxSellPerDay(bool toggle)
-        {
-            MaxSellPerDayBox.IsEnabled = toggle && ArticleDaysBox.Items.Count != 0;
-            ArticleDaysBox.IsEnabled = toggle && ArticleDaysBox.Items.Count != 0;
-            AddMaxSellPerDayButton.IsEnabled = toggle && ArticleDaysBox.Items.Count != 0;
-            MaxSellNumber.IsEnabled = toggle;
-        }
-
-        private void Price_OnPreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = !InsertRegex.IsMatch(e.Text);
-        }
-
-        private void Number_OnPasting(object sender, DataObjectPastingEventArgs e)
-        {
-            if (e.DataObject.GetDataPresent(typeof(string)))
-            {
-                var text = (string) e.DataObject.GetData(typeof(string));
-                if (text != null && !PasteRegex.IsMatch(text))
-                    e.CancelCommand();
-            }
-            else
-            {
-                e.CancelCommand();
-            }
-        }
-
-        private void Type_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (Start || e.AddedItems.Count != 1 || !(e.AddedItems[0] is ComboBoxItem item)) return;
-
-	        var id = /*Article.ItemType = */ ArticleType.SelectedIndex;
-
-	        SwitchButtons(id);
-
-			if (Article == null || string.IsNullOrWhiteSpace(Article.ImageSrc) || EndsWith(Article.ImageSrc))
-            {
-                EditImage(id); // change image when select other type
-            }
-
-        }
-
-        private bool EndsWith(string name)
-        {
-            var baseString = "Resources\\Images\\";
-            return name.EndsWith(baseString + "ticket.jpg") || name.EndsWith(baseString + "food.jpg") || name.EndsWith(baseString + "cup.jpg");
-        }
-
-
-        private void EditImage(int type)
-        {
-            var name = "ticket";
-
-            switch (type)
-            {
-                case 0:
-                    break;
-                case 1:
-                    name = "food";
-                    break;
-                case 2:
-                    name = "cup";
-                    break;
-                default:
-                    return;
-            }
-
-            try
-            {
-                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Resources\\Images\\{name}.jpg");
-
-                ArticleImage.Source = new BitmapImage(new Uri(path));
-                ArticleImagePath.Text = $"..\\Resources\\Images\\{name}.jpg";
-                Article.ImageSrc = path;
-            }
-            catch (Exception e)
-            {
-                Validations.ShowError(e.Message);
-            }
-        
-        }
-
-        private void EditImageFile_OnClick(object sender, RoutedEventArgs e)
-        {
-            var openFileDialog = new OpenFileDialog
-            {
-                Title = "Selectionne une image",
-                InitialDirectory = New || string.IsNullOrWhiteSpace(Article.ImageSrc)
-                    ? Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-                    : Article.ImageSrc,
-                Filter = "Fichier images|*.jpg;*.jpeg;*.bmp"
-            };
-
-            if (openFileDialog.ShowDialog() != true) return;
-
-            var path = openFileDialog.FileName;
-            ArticleImagePath.Text = path;
-            ArticleImage.Source = new BitmapImage(new Uri(path));
-            Article.ImageSrc = path;
-        }
-
-        private void Active_OnClick(object sender, RoutedEventArgs e)
-        {
-            Article.Active = !Article.Active;
-        }
-
-        private void NeedsCup_OnClick(object sender, RoutedEventArgs e)
-        {
-            Article.NeedsCup = !Article.NeedsCup;
-        }
-
-        private void Tracking_OnClick(object sender, RoutedEventArgs e)
-        {
-            Article.NumberingTracking = !Article.NumberingTracking;
         }
 
         private void DeleteMaxSellNumber_OnClick(object sender, RoutedEventArgs e)
@@ -396,7 +207,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
 
         private void Save_OnClick(object sender, RoutedEventArgs e)
         {
-            if (CustomPage.Check(ArticleName) || CustomPage.Check(ArticlePrice) ||
+       /*     if (CustomPage.Check(ArticleName) || CustomPage.Check(ArticlePrice) ||
                 CustomPage.Check(ArticleMaxSellPerDay))
                 return;
 
@@ -411,7 +222,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             Article.Price = decimal.Parse(ArticlePrice.Text.Replace('.', ','));
             Article.MaxSellNumberPerDay = int.Parse(ArticleMaxSellPerDay.Text);
             Article.Color = System.Drawing.ColorTranslator.ToHtml(ArticleColor.SelectedColor.Value.Convert());
-	        //Article.ItemType = ArticleType.SelectedIndex;
+	        //Article.ItemType = ArticleType.SelectedIndex; */
 
             Task.Run(() => Save());
         }

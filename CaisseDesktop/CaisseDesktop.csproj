@@ -317,6 +317,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>French.resx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Admin\Articles\ArticleConfigModel.cs" />
     <Compile Include="Models\Admin\Cashiers\CashierConfigModel.cs" />
     <Compile Include="Models\Admin\Checkouts\CheckoutConfigModel.cs" />
     <Compile Include="Models\Admin\Checkouts\CheckoutTimeTableModel.cs" />
@@ -337,7 +338,6 @@
     <Compile Include="Models\CheckoutTypeModel.cs" />
     <Compile Include="Models\DayPickerModel.cs" />
     <Compile Include="Models\JourModel.cs" />
-    <Compile Include="Models\MaxSellNumberModel.cs" />
     <Compile Include="Models\PaymentMethodModel.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\ResponsableModel.cs" />
@@ -576,8 +576,6 @@
       <LastGenOutput>French.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Admin\Articles\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
