@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -14,31 +15,19 @@ using CaisseServer.Items;
 
 namespace CaisseDesktop.Models.Admin.CheckoutTypes
 {
-	public class CheckoutTypeArticlePageModel : INotifyPropertyChanged
-	{
+	public class CheckoutTypeArticlePageModel : CheckoutTypePage
+    {
 
 		public readonly CheckoutTypeConfigModel ParentModel;
 
-		private ObservableCollection<CheckoutTypeArticle> _articles;
-		public ObservableCollection<CheckoutTypeArticle> Articles
-		{
-			get => _articles;
-			set
-			{
-				if (Equals(value, _articles)) return;
-				_articles = value;
-				OnPropertyChanged();
-			}
-		}
 
-
-		public CheckoutTypeArticlePageModel(CheckoutTypeConfigModel parentModel)
+		public CheckoutTypeArticlePageModel(CheckoutTypeConfigModel parentModel) : base(parentModel.CheckoutType)
 		{
 			ParentModel = parentModel;
 			Task.Run(LoadArticles);
 		}
 
-		public void LoadArticles()
+		public override void LoadArticles()
 		{
 
 			if (ParentModel.IsCreating)
@@ -63,14 +52,6 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 			});
 		}
 
-
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
 	}
 
 	public class CheckoutTypeArticle
@@ -86,9 +67,9 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 		private ICommand _exportCommand;
 		public ICommand ExportCommand => _exportCommand ?? (_exportCommand = new CommandHandler(Export, true));
 
-		private readonly CheckoutTypeArticlePageModel _parentModel;
+		private readonly CheckoutTypePage _parentModel;
 
-		public CheckoutTypeArticle(SaveableArticle article, CheckoutTypeArticlePageModel parentModel)
+		public CheckoutTypeArticle(SaveableArticle article, CheckoutTypePage parentModel)
 		{
 			Article = article;
 			_parentModel = parentModel;
@@ -118,7 +99,7 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 
 		private void Edit(object arg)
 		{
-			new ArticleManager(_parentModel.ParentModel.ParentWindow, Article).ShowDialog();
+			new ArticleManager(_parentModel, Article).ShowDialog();
 		}
 
 	}

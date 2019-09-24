@@ -39,6 +39,9 @@
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CurrencyTextBoxControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CurrencyTextBox.1.4.3\lib\CurrencyTextBoxControl.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -324,6 +327,7 @@
     <Compile Include="Models\Admin\CheckoutTypes\CheckoutTypeArticlePageModel.cs" />
     <Compile Include="Models\Admin\CheckoutTypes\CheckoutTypeConfigModel.cs" />
     <Compile Include="Models\Admin\CheckoutTypes\CheckoutTypeConsignPageModel.cs" />
+    <Compile Include="Models\Admin\CheckoutTypes\CheckoutTypePage.cs" />
     <Compile Include="Models\Admin\CheckoutTypes\CheckoutTypeTicketsPageModel.cs" />
     <Compile Include="Models\Admin\EventConfigModel.cs" />
     <Compile Include="Models\Admin\TimeSlots\TimeSlotConfigModel.cs" />

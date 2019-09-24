@@ -17,63 +17,41 @@ using CaisseServer.Items;
 
 namespace CaisseDesktop.Models.Admin.CheckoutTypes
 {
-	public class CheckoutTypeTicketsPageModel : INotifyPropertyChanged
-	{
-		public readonly CheckoutTypeConfigModel ParentModel;
+    public class CheckoutTypeTicketsPageModel : CheckoutTypePage
+    {
+        public readonly CheckoutTypeConfigModel ParentModel;
 
-		private ObservableCollection<CheckoutTypeArticle> _articles;
-		public ObservableCollection<CheckoutTypeArticle> Articles
-		{
-			get => _articles;
-			set
-			{
-				if (Equals(value, _articles)) return;
-				_articles = value;
-				OnPropertyChanged();
-			}
-		}
+        public CheckoutTypeTicketsPageModel(CheckoutTypeConfigModel parentModel) : base(parentModel.CheckoutType)
+        {
+            ParentModel = parentModel;
+            Task.Run(LoadArticles);
+        }
 
+        public override void LoadArticles()
+        {
+            if (ParentModel.IsCreating)
+            {
+                Articles = new ObservableCollection<CheckoutTypeArticle>();
+                return;
+            }
 
-		public CheckoutTypeTicketsPageModel(CheckoutTypeConfigModel parentModel)
-		{
-			ParentModel = parentModel;
-			Task.Run(LoadArticles);
-		}
+            ParentModel.Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
 
-		public void LoadArticles()
-		{
+            ObservableCollection<CheckoutTypeArticle> list;
 
-			if (ParentModel.IsCreating)
-			{
-				Articles = new ObservableCollection<CheckoutTypeArticle>();
-				return;
-			}
+            using (var db = new CaisseServerContext())
+            {
+                list = new ObservableCollection<CheckoutTypeArticle>(db.Articles
+                    .Where(t => t.Type.Id == ParentModel.CheckoutType.Id).OrderBy(t => t.Position).ToList()
+                    .Select(t => new CheckoutTypeArticle(t, this)).ToList());
+            }
 
-			ParentModel.Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
+            ParentModel.Dispatcher.Invoke(() =>
+            {
+                Articles = list;
+                Mouse.OverrideCursor = null;
+            });
+        }
 
-			ObservableCollection<CheckoutTypeArticle> list;
-
-			using (var db = new CaisseServerContext())
-			{
-				//		list = new ObservableCollection<CheckoutTypeArticle>(db.Articles.Where(t => t.Type.Id == ParentModel.CheckoutType.Id).OrderBy(t => t.Position).ToList().Select(t => new CheckoutTypeArticle(t, this)).ToList());
-			}
-
-			ParentModel.Dispatcher.Invoke(() =>
-			{
-				//Articles = list;
-				Mouse.OverrideCursor = null;
-			});
-		}
-
-
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
-
+    }
 }
-

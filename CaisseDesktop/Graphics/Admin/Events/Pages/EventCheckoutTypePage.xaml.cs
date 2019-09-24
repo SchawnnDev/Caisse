@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -56,7 +57,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
                 using (var db = new CaisseServerContext())
                 {
                     checkoutTypesCollection = new ObservableCollection<SaveableCheckoutType>(db.CheckoutTypes
-                        .Where(t => t.Event.Id == Manager.Evenement.Id)
+                        .Where(t => t.Event.Id == Manager.Evenement.Id).Include(t=>t.Event)
                         .ToList());
                 }
 

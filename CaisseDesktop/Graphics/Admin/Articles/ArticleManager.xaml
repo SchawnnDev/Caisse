@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Articles"
         xmlns:models="clr-namespace:CaisseDesktop.Models.Admin.Articles"
+        xmlns:currencyTextBoxControl="clr-namespace:CurrencyTextBoxControl;assembly=CurrencyTextBoxControl"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:ArticleConfigModel, IsDesignTimeCreatable=False}"
         Title="ArticleManager" Height="450" Width="1050" WindowStartupLocation="CenterScreen">
@@ -39,7 +40,7 @@
                 <TextBox Text="{Binding Name}" Height="25" Width="Auto" Grid.Row="0" Grid.Column="1" />
                 <!-- ### 3 ### -->
                 <Label Content="Prix :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
-                <xctk:IntegerUpDown Value="{Binding Price}" Height="25" Width="Auto" Grid.Row="1" Grid.Column="1" />
+                <currencyTextBoxControl:CurrencyTextBox Culture="fr-FR" StringFormat="C2" MinimumValue="0" MaximumValue="10000" Number="{Binding Price}" Height="25" Width="Auto" Grid.Row="1" Grid.Column="1" />
 
                 <!-- ### 4 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Nb ventes max/jour:" DockPanel.Dock="Left"
@@ -159,7 +160,7 @@
 
         </GroupBox>
         <Button Content="Sauvegarder" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1"
-                VerticalAlignment="Center" Click="Save_OnClick" />
+                VerticalAlignment="Center" Command="{Binding SaveCommand}" />
 
 
     </Grid>

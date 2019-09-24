@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using CaisseDesktop.Graphics.Admin.CheckoutTypes;
 using CaisseDesktop.Models;
 using CaisseDesktop.Models.Admin.Articles;
+using CaisseDesktop.Models.Admin.CheckoutTypes;
 using CaisseDesktop.Utils;
 using CaisseServer;
 using CaisseServer.Events;
@@ -29,30 +30,25 @@ namespace CaisseDesktop.Graphics.Admin.Articles
     /// </summary>
     public partial class ArticleManager
     {
-        private static readonly Regex PasteRegex = new Regex("([0-9]*[.])?[0-9]+"); //regex that matches allowed text
-        private static readonly Regex InsertRegex = new Regex("([0-9]|[.]|[,])"); //regex that matches allowed text
         private static readonly Regex OnlyNumbersRegex = new Regex("([0-9])"); //regex that matches allowed text
         private SaveableArticle Article { get; }
-        private bool Start { get; set; } = true;
         private bool New { get; set; }
         private ArticleConfigModel Model => DataContext as ArticleConfigModel;
-        private CheckoutTypeManager Manager { get; }
+        private readonly CheckoutTypePage ParentModel;
 
-        public ArticleManager(CheckoutTypeManager manager, SaveableArticle article)
+        public ArticleManager(CheckoutTypePage model, SaveableArticle article)
         {
             InitializeComponent();
 
             Article = article;
             New = article == null;
-            Manager = manager;
-            DataContext = new ArticleConfigModel(article);
+            ParentModel = model;
+            DataContext = new ArticleConfigModel(article, model);
+            Model.Dispatcher = Dispatcher;
+            Model.CloseAction = Close;
 
             Task.Run(Load);
 
-            Loaded += (sender, args) =>
-            {
-                Start = false;
-            };
         }
 
         private void Load()
@@ -73,7 +69,7 @@ namespace CaisseDesktop.Graphics.Admin.Articles
                         .Where(e => e.Article.Id == Article.Id).Include(e => e.Day).OrderByDescending(e => e.Day.Start)
                         .ToList());
 
-                days = db.Days.Where(t => t.Event.Id == Manager.Manager.Evenement.Id).OrderBy(t => t.Start).ToList();
+                days = db.Days.Where(t => t.Event.Id == ParentModel.CheckoutType.Event.Id).OrderBy(t => t.Start).ToList();
             }
 
             Dispatcher.Invoke(() =>
@@ -204,62 +200,5 @@ namespace CaisseDesktop.Graphics.Admin.Articles
             e.Handled = !OnlyNumbersRegex.IsMatch(e.Text);
         }
 
-
-        private void Save_OnClick(object sender, RoutedEventArgs e)
-        {
-       /*     if (CustomPage.Check(ArticleName) || CustomPage.Check(ArticlePrice) ||
-                CustomPage.Check(ArticleMaxSellPerDay))
-                return;
-
-            if (ArticleColor.SelectedColor == null)
-            {
-                ArticleColor.BorderBrush = Brushes.Red;
-                SystemSounds.Beep.Play();
-                return;
-            }
-
-            Article.Name = ArticleName.Text;
-            Article.Price = decimal.Parse(ArticlePrice.Text.Replace('.', ','));
-            Article.MaxSellNumberPerDay = int.Parse(ArticleMaxSellPerDay.Text);
-            Article.Color = System.Drawing.ColorTranslator.ToHtml(ArticleColor.SelectedColor.Value.Convert());
-	        //Article.ItemType = ArticleType.SelectedIndex; */
-
-            Task.Run(() => Save());
-        }
-
-        private void Save()
-        {
-            Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
-
-            using (var db = new CaisseServerContext())
-            {
-                if (New)
-                {
-                    db.CheckoutTypes.Attach(Article.Type);
-                    db.Articles.Add(Article);
-                }
-                else
-                {
-                    db.Articles.Attach(Article);
-                }
-
-
-                db.Entry(Article).State = New ? EntityState.Added : EntityState.Modified;
-                db.SaveChanges();
-            }
-
-            Dispatcher.Invoke(() =>
-            {
-                Mouse.OverrideCursor = null;
-                MessageBox.Show(New ? "L'article a bien été crée !" : "L'article a bien été enregistré !");
-
-                if (New)
-                    Manager.Add(Article);
-                else
-                    Manager.Update();
-
-                Close();
-            });
-        }
     }
 }

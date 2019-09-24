@@ -33,10 +33,7 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 		private ICommand _saveCommand;
 		public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new CommandHandler(Save, true));
 
-		private ICommand _addArticleCommand;
-		public ICommand AddArticleCommand => _addArticleCommand ?? (_addArticleCommand = new CommandHandler(AddArticle, true));
-
-		private ICommand _backCommand;
+        private ICommand _backCommand;
 		public ICommand BackCommand => _backCommand ?? (_backCommand = new CommandHandler(Back, true));
 
 		public Action CloseAction { get; set; }
@@ -130,19 +127,6 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 				default:
 					throw new ArgumentOutOfRangeException(nameof(type), type, null);
 			}
-		}
-
-		private void AddArticle(object arg)
-		{
-			if (CheckoutType == null)
-			{
-				SystemSounds.Beep.Play();
-				MessageBox.Show("Veuillez d'abord enregistrer les informations obligatoires.", "Erreur",
-					MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
-			}
-
-			new ArticleManager(ParentWindow, null).ShowDialog();
 		}
 
 		private void Back(object arg)
