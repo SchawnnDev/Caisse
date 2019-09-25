@@ -110,6 +110,10 @@
     <Compile Include="Migrations\201909131409167_V1.0.3.Designer.cs">
       <DependentUpon>201909131409167_V1.0.3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909250823248_V1.0.4.cs" />
+    <Compile Include="Migrations\201909250823248_V1.0.4.Designer.cs">
+      <DependentUpon>201909250823248_V1.0.4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Events\SaveableCashier.cs" />
@@ -141,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909131409167_V1.0.3.resx">
       <DependentUpon>201909131409167_V1.0.3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909250823248_V1.0.4.resx">
+      <DependentUpon>201909250823248_V1.0.4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

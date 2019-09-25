@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Articles"
         xmlns:models="clr-namespace:CaisseDesktop.Models.Admin.Articles"
         xmlns:currencyTextBoxControl="clr-namespace:CurrencyTextBoxControl;assembly=CurrencyTextBoxControl"
+        xmlns:items="clr-namespace:CaisseServer.Items;assembly=CaisseServer"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:ArticleConfigModel, IsDesignTimeCreatable=False}"
         Title="ArticleManager" Height="450" Width="1050" WindowStartupLocation="CenterScreen">
@@ -124,37 +125,38 @@
                         <DataGridTextColumn Header="Nombre" Binding="{Binding Amount}" />
                         <DataGridTemplateColumn Header="Actions">
                             <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
+                                <DataTemplate DataType="items:SaveableArticleMaxSellNumber">
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Margin="5 0 0 0" Click="DeleteMaxSellNumber_OnClick">Supprimer</Button>
+                                        <Button Margin="5 0 0 0" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DeleteCommand}" CommandParameter="{Binding}">Supprimer</Button>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
-                    <!--
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Display Shipping Addresses" />
-                            <Separator />
-                            <MenuItem Header="Edit" />
-                            <MenuItem Header="Delete" />
-                        </ContextMenu>
-                    </DataGrid.ContextMenu> -->
 
                 </DataGrid>
 
-                <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
-                    <ComboBox x:Name="ArticleDaysBox" SelectedIndex="0">
-                        <ComboBoxItem>01/01/2000</ComboBoxItem>
+                <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" >
+        
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+    
+                    <ComboBox Grid.Column="0" SelectedIndex="0" ItemsSource="{Binding Days}" SelectedItem="{Binding SelectedDay}"  IsEnabled="{Binding BoxActive}" IsEditable="False" SelectedValuePath="Start" ItemStringFormat="dd/MM/yyyy" MinWidth="50">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Start, StringFormat={}{0:dd/MM/yyyy}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
                     </ComboBox>
 
-                    <TextBox x:Name="MaxSellPerDayBox" DataObject.Pasting="OnlyNumbers_OnPasting"
-                             PreviewTextInput="OnlyNumbers_OnPreviewTextInput" VerticalAlignment="Center"
-                             MinWidth="100"
-                             Margin="5,0,5,0" />
-                    <Button x:Name="AddMaxSellPerDayButton" Content="Ajouter" Click="AddMaxSellPerDay_OnClick" />
-                </StackPanel>
+                    <xctk:IntegerUpDown Grid.Column="1" Height="25" Width="85" Maximum="1000000" Value="{Binding MaxSellNumberBox}" Margin="5,0,5,0" VerticalAlignment="Center" IsEnabled="{Binding BoxActive}"/>
+
+                    <Button Grid.Column="2" Content="{Binding ButtonContent}" Command="{Binding AddCommand}" />
+
+                </Grid>
 
             </Grid>
 

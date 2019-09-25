@@ -30,6 +30,8 @@ namespace CaisseServer.Items
 
 		[ProtoMember(9)] public int MaxSellNumberPerDay { get; set; }
 
-		[ProtoMember(10)] public SaveableCheckoutType Type { get; set; }
+		[ProtoMember(10)] public int ArticleType { get; set; }
+
+		[ProtoMember(11)] public SaveableCheckoutType Type { get; set; }
 	}
 }
