@@ -17,41 +17,41 @@ using CaisseServer.Items;
 
 namespace CaisseDesktop.Models.Admin.CheckoutTypes
 {
-    public class CheckoutTypeTicketsPageModel : CheckoutTypePage
-    {
-        public readonly CheckoutTypeConfigModel ParentModel;
+	public class CheckoutTypeTicketsPageModel : CheckoutTypePage
+	{
+		public readonly CheckoutTypeConfigModel ParentModel;
 
-        public CheckoutTypeTicketsPageModel(CheckoutTypeConfigModel parentModel) : base(parentModel.CheckoutType)
-        {
-            ParentModel = parentModel;
-            Task.Run(LoadArticles);
-        }
+		public CheckoutTypeTicketsPageModel(CheckoutTypeConfigModel parentModel) : base(parentModel.CheckoutType)
+		{
+			ParentModel = parentModel;
+			Task.Run(LoadArticles);
+		}
 
-        public override void LoadArticles()
-        {
-            if (ParentModel.IsCreating)
-            {
-                Articles = new ObservableCollection<CheckoutTypeArticle>();
-                return;
-            }
+		public override void LoadArticles()
+		{
+			if (ParentModel.IsCreating)
+			{
+				Articles = new ObservableCollection<CheckoutTypeArticle>();
+				return;
+			}
 
-            ParentModel.Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
+			ParentModel.Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
 
-            ObservableCollection<CheckoutTypeArticle> list;
+			ObservableCollection<CheckoutTypeArticle> list;
 
-            using (var db = new CaisseServerContext())
-            {
-                list = new ObservableCollection<CheckoutTypeArticle>(db.Articles
-                    .Where(t => t.Type.Id == ParentModel.CheckoutType.Id).OrderBy(t => t.Position).ToList()
-                    .Select(t => new CheckoutTypeArticle(t, this)).ToList());
-            }
+			using (var db = new CaisseServerContext())
+			{
+				list = new ObservableCollection<CheckoutTypeArticle>(db.Articles
+					.Where(t => t.Type.Id == ParentModel.CheckoutType.Id && t.Type.Type == (int)CaisseLibrary.Enums.CheckoutType.Tickets).OrderBy(t => t.Position).ToList()
+					.Select(t => new CheckoutTypeArticle(t, this)).ToList());
+			}
 
-            ParentModel.Dispatcher.Invoke(() =>
-            {
-                Articles = list;
-                Mouse.OverrideCursor = null;
-            });
-        }
+			ParentModel.Dispatcher.Invoke(() =>
+			{
+				Articles = list;
+				Mouse.OverrideCursor = null;
+			});
+		}
 
-    }
+	}
 }

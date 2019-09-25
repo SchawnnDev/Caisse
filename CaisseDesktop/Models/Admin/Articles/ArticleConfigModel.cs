@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using CaisseDesktop.Graphics.Utils;
 using CaisseDesktop.Lang;
 using CaisseDesktop.Models.Admin.CheckoutTypes;
+using CaisseLibrary.Enums;
 using CaisseServer;
 using CaisseServer.Events;
 using CaisseServer.Items;
@@ -35,9 +36,6 @@ namespace CaisseDesktop.Models.Admin.Articles
 		public ICommand EditImageCommand =>
 			_editImageCommand ?? (_editImageCommand = new CommandHandler(EditImage, true));
 
-		private ICommand _deleteCommand;
-		public ICommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new CommandHandler(Delete, true));
-
 		private ICommand _addCommand;
 		public ICommand AddCommand => _addCommand ?? (_addCommand = new CommandHandler(AddMaxSellPerDay, true));
 
@@ -49,7 +47,7 @@ namespace CaisseDesktop.Models.Admin.Articles
 		public ArticleConfigModel(SaveableArticle article, CheckoutTypePage model, Dispatcher dispatcher)
 		{
 			IsCreating = article == null;
-			Article = article ?? new SaveableArticle { Type = model.CheckoutType };
+			Article = article ?? new SaveableArticle { Type = model.CheckoutType};
 			ParentModel = model;
 			Dispatcher = dispatcher;
 			Days = new ObservableCollection<SaveableDay>(); // avoid null pointer
@@ -78,6 +76,8 @@ namespace CaisseDesktop.Models.Admin.Articles
 				OnPropertyChanged();
 			}
 		}
+
+		public bool IsTicket => (CheckoutType)ParentModel.CheckoutType.Type == CheckoutType.Tickets;
 
 		public bool NumberingTracking
 		{
@@ -156,9 +156,9 @@ namespace CaisseDesktop.Models.Admin.Articles
 			set { _maxSellNumberBox = value; OnPropertyChanged(); }
 		}
 
-		private ObservableCollection<SaveableArticleMaxSellNumber> _maxSellNumbers;
+		private ObservableCollection<ArticleMaxSellNumber> _maxSellNumbers;
 
-		public ObservableCollection<SaveableArticleMaxSellNumber> MaxSellNumbers
+		public ObservableCollection<ArticleMaxSellNumber> MaxSellNumbers
 		{
 			get => _maxSellNumbers;
 			set
@@ -183,8 +183,7 @@ namespace CaisseDesktop.Models.Admin.Articles
 
 				_days = value;
 				OnPropertyChanged();
-				OnPropertyChanged($"ButtonContent");
-				OnPropertyChanged($"BoxActive");
+				UpdateProperties();
 			}
 		}
 
@@ -195,16 +194,16 @@ namespace CaisseDesktop.Models.Admin.Articles
 				Mouse.OverrideCursor = Cursors.Wait;
 			});
 
-			ObservableCollection<SaveableArticleMaxSellNumber> collection;
+			ObservableCollection<ArticleMaxSellNumber> collection;
 			ObservableCollection<SaveableDay> days;
 
 			using (var db = new CaisseServerContext())
 			{
 				collection = IsCreating
-					? new ObservableCollection<SaveableArticleMaxSellNumber>()
-					: new ObservableCollection<SaveableArticleMaxSellNumber>(db.ArticleMaxSellNumbers
+					? new ObservableCollection<ArticleMaxSellNumber>()
+					: new ObservableCollection<ArticleMaxSellNumber>(db.ArticleMaxSellNumbers
 						.Where(e => e.Article.Id == Article.Id).Include(e => e.Day).OrderByDescending(e => e.Day.Start)
-						.ToList());
+						.ToList().Select(t=>new ArticleMaxSellNumber(t,this)).ToList());
 
 				days = new ObservableCollection<SaveableDay>(db.Days.Where(t => t.Event.Id == ParentModel.CheckoutType.Event.Id).OrderBy(t => t.Start).ToList());
 			}
@@ -228,36 +227,6 @@ namespace CaisseDesktop.Models.Admin.Articles
 			Task.Run(Save);
 		}
 
-		private void Delete(object arg)
-		{
-
-			if (!(arg is SaveableArticleMaxSellNumber number))
-				return;
-
-			var result = MessageBox.Show("Es-tu sûr de vouloir supprimer ce nb max de ventes ?",
-				"Supprimer un nb max de ventes",
-				MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
-
-			if (result != MessageBoxResult.Yes) return;
-
-			if (number.Article != null)
-			{
-				using (var db = new CaisseServerContext())
-				{
-					db.ArticleMaxSellNumbers.Attach(number);
-					db.ArticleMaxSellNumbers.Remove(number);
-					db.SaveChanges();
-				}
-			}
-
-			MaxSellNumbers.Remove(number);
-			Days.Add(number.Day);
-			
-			OnPropertyChanged($"ButtonContent");
-			OnPropertyChanged($"BoxActive");
-
-		}
-
 		private void AddMaxSellPerDay(object arg)
 		{
 			if (ButtonContent.Equals("Infos"))
@@ -279,15 +248,18 @@ namespace CaisseDesktop.Models.Admin.Articles
 				Amount = MaxSellNumberBox
 			};
 
-			MaxSellNumbers.Add(maxSellPerDay);
+			MaxSellNumbers.Add(new ArticleMaxSellNumber(maxSellPerDay, this));
 			Days.Remove(SelectedDay);
 			SelectedDay = Days.Count != 0 ? Days[0] : null;
 
-			OnPropertyChanged($"ButtonContent");
-			OnPropertyChanged($"BoxActive");
-
+			UpdateProperties();
 		}
 
+		public void UpdateProperties()
+		{
+			OnPropertyChanged($"ButtonContent");
+			OnPropertyChanged($"BoxActive");
+		}
 
 		private void Save()
 		{
@@ -344,6 +316,49 @@ namespace CaisseDesktop.Models.Admin.Articles
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
+	}
+
+	public class ArticleMaxSellNumber
+	{
+		public SaveableArticleMaxSellNumber MaxSellNumber { get; set; }
+
+		private ICommand _deleteCommand;
+		public ICommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new CommandHandler(Delete, true));
+
+		private readonly ArticleConfigModel ParentModel;
+
+		public ArticleMaxSellNumber(SaveableArticleMaxSellNumber number, ArticleConfigModel model)
+		{
+			MaxSellNumber = number;
+			ParentModel = model;
+		}
+
+		private void Delete(object arg)
+		{
+
+			var result = MessageBox.Show("Es-tu sûr de vouloir supprimer ce nb max de ventes ?",
+				"Supprimer un nb max de ventes",
+				MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+
+			if (result != MessageBoxResult.Yes) return;
+
+			if (MaxSellNumber.Article != null)
+			{
+				using (var db = new CaisseServerContext())
+				{
+					db.ArticleMaxSellNumbers.Attach(MaxSellNumber);
+					db.ArticleMaxSellNumbers.Remove(MaxSellNumber);
+					db.SaveChanges();
+				}
+			}
+
+			ParentModel.MaxSellNumbers.Remove(this);
+			ParentModel.Days.Add(MaxSellNumber.Day);
+			ParentModel.SelectedDay = MaxSellNumber.Day;
+			ParentModel.UpdateProperties();
+
+		}
+
 	}
 
 }

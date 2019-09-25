@@ -22,16 +22,10 @@ namespace CaisseDesktop.Graphics.Admin.Events
         }
 
         private EvenementModel Model => DataContext as EvenementModel;
-        private bool IsLoading { get; set; }
 
         public void Add(SaveableEvent e)
         {
             Model.Evenements.Add(e);
-        }
-
-        public void Update()
-        {
-            EventsGrid.Items.Refresh();
         }
 
         private void Load()
@@ -40,7 +34,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
 	        Dispatcher.Invoke(() =>
 	        {
-		        IsLoading = true;
 		        DataContext = new EvenementModel();
 		        Mouse.OverrideCursor = Cursors.Wait;
 	        });
@@ -56,7 +49,6 @@ namespace CaisseDesktop.Graphics.Admin.Events
 	        {
 		        Model.Evenements = collection;
 		        Mouse.OverrideCursor = null;
-		        IsLoading = false;
 	        });
         }
 

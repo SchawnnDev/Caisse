@@ -8,9 +8,14 @@
         xmlns:models="clr-namespace:CaisseDesktop.Models.Admin.Articles"
         xmlns:currencyTextBoxControl="clr-namespace:CurrencyTextBoxControl;assembly=CurrencyTextBoxControl"
         xmlns:items="clr-namespace:CaisseServer.Items;assembly=CaisseServer"
+        xmlns:data="clr-namespace:CaisseLibrary.Data;assembly=CaisseLibrary"
+        xmlns:converters="clr-namespace:CaisseDesktop.Graphics.Utils.Converters"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=models:ArticleConfigModel, IsDesignTimeCreatable=False}"
         Title="ArticleManager" Height="450" Width="1050" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -46,7 +51,7 @@
                 <!-- ### 4 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Nb ventes max/jour:" DockPanel.Dock="Left"
                            Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" />
-                <xctk:IntegerUpDown Value="{Binding MaxSellNumberPerDay}" Height="25" Width="Auto" Grid.Row="2" Grid.Column="1" />
+                <xctk:IntegerUpDown Maximum="1000000" Value="{Binding MaxSellNumberPerDay}" Height="25" Width="Auto" Grid.Row="2" Grid.Column="1" Minimum="0" />
 
                 <!-- ### 5 ### -->
                 <Label Content="Actif :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" />
@@ -72,8 +77,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Border BorderBrush="DarkSlateBlue" BorderThickness="2" Grid.ColumnSpan="2" Margin="20">
-                    <Image Source="{Binding ImageSrc}"
-                           Margin="2" />
+                    <Image Source="{Binding ImageSrc}" Margin="2" />
                 </Border>
 
                 <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" MaxHeight="25" Margin="10">
@@ -109,25 +113,24 @@
                 <!-- ### 1 ### -->
                 <TextBlock TextWrapping="WrapWithOverflow" Text="Besoin de gobelet :" DockPanel.Dock="Left"
                            Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" />
-                <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding NeedsCup}"
+                <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding NeedsCup}" IsEnabled="{Binding IsTicket, Converter={StaticResource InverseBooleanConverter}}"
                                 Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" />
                 <!-- ### 2 ### -->
-                <Label Content="Tracking :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="1"
-                       Grid.Column="0" />
+                <Label Content="Tracking :" DockPanel.Dock="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" />
                 <ToggleButton Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding NumberingTracking}"
-                              Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" />
+                              Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" IsEnabled="{Binding IsTicket}" />
                 <!-- ### 3 ### -->
                 <DataGrid ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"
                           ItemsSource="{Binding MaxSellNumbers, IsAsync=true}" IsReadOnly="True" x:Name="MaxSellNumber"
                           AutoGenerateColumns="False" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Jour" Binding="{Binding Day.Start, StringFormat={}{0:dd/MM/yyyy}}" />
-                        <DataGridTextColumn Header="Nombre" Binding="{Binding Amount}" />
+                        <DataGridTextColumn Header="Jour" Binding="{Binding MaxSellNumber.Day.Start, StringFormat={}{0:dd/MM/yyyy}}" />
+                        <DataGridTextColumn Header="Nombre" Binding="{Binding MaxSellNumber.Amount}" />
                         <DataGridTemplateColumn Header="Actions">
                             <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate DataType="items:SaveableArticleMaxSellNumber">
+                                <DataTemplate DataType="models:ArticleMaxSellNumber">
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Margin="5 0 0 0" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DeleteCommand}" CommandParameter="{Binding}">Supprimer</Button>
+                                        <Button Margin="5 0 0 0" Command="{Binding DeleteCommand}">Supprimer</Button>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -161,9 +164,7 @@
             </Grid>
 
         </GroupBox>
-        <Button Content="Sauvegarder" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1"
-                VerticalAlignment="Center" Command="{Binding SaveCommand}" />
-
+        <Button Content="Sauvegarder" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Command="{Binding SaveCommand}" />
 
     </Grid>
 </Window>

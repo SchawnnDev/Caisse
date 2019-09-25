@@ -42,7 +42,8 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 
 			using (var db = new CaisseServerContext())
 			{
-				list = new ObservableCollection<CheckoutTypeArticle>(db.Articles.Where(t => t.Type.Id == ParentModel.CheckoutType.Id).OrderBy(t => t.Position).ToList().Select(t => new CheckoutTypeArticle(t, this)).ToList());
+				list = new ObservableCollection<CheckoutTypeArticle>(db.Articles.Where(t => t.Type.Id == ParentModel.CheckoutType.Id && t.Type.Type == (int)CaisseLibrary.Enums.CheckoutType.Food)
+					.OrderBy(t => t.Position).ToList().Select(t => new CheckoutTypeArticle(t, this)).ToList());
 			}
 
 			ParentModel.Dispatcher.Invoke(() =>
