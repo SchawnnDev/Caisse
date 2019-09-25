@@ -9,6 +9,7 @@ using System.Windows.Input;
 using CaisseDesktop.Graphics.Admin.Checkouts;
 using CaisseDesktop.Graphics.Admin.CheckoutTypes;
 using CaisseDesktop.Models;
+using CaisseDesktop.Models.Admin;
 using CaisseServer;
 
 namespace CaisseDesktop.Graphics.Admin.Events.Pages
@@ -18,16 +19,16 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
     /// </summary>
     public partial class EventCheckoutTypePage
     {
-        private EvenementManager Manager { get; }
+	    private readonly EventManagerModel ParentModel;
         private bool New { get; set; }
         private CheckoutTypeModel Model => DataContext as CheckoutTypeModel;
 
-        public EventCheckoutTypePage(EvenementManager manager)
+        public EventCheckoutTypePage(EventManagerModel model)
         {
             InitializeComponent();
-            Manager = manager;
-            New = manager.Evenement == null;
-            Task.Run(() => Load());
+            ParentModel = model;
+            New = model.SaveableEvent == null;
+            Task.Run(Load);
         }
 
         public override string CustomName => "EventCheckoutTypePage";
@@ -37,7 +38,9 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             var btn = sender as Button;
 
             if (btn?.DataContext is SaveableCheckoutType type)
-                new CheckoutTypeManager(Manager, type).ShowDialog();
+            {
+	          //  new CheckoutTypeManager(ParentModel, type).ShowDialog();
+            }
             else
                 MessageBox.Show($"{btn} : le type de caisse n'est pas valide.", "Erreur", MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -57,7 +60,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
                 using (var db = new CaisseServerContext())
                 {
                     checkoutTypesCollection = new ObservableCollection<SaveableCheckoutType>(db.CheckoutTypes
-                        .Where(t => t.Event.Id == Manager.Evenement.Id).Include(t=>t.Event)
+                        .Where(t => t.Event.Id == ParentModel.SaveableEvent.Id).Include(t=>t.Event)
                         .ToList());
                 }
 

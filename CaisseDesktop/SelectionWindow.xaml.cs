@@ -25,7 +25,7 @@ namespace CaisseDesktop
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var browser = new EvenementBrowser();
+            var browser = new EventBrowser();
             browser.Show();
             Close();
         }

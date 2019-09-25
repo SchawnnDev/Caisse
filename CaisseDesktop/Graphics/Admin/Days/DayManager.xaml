@@ -6,10 +6,10 @@
     xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin.Days"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:models="clr-namespace:CaisseDesktop.Models.Admin.Days"
     x:Class="CaisseDesktop.Graphics.Admin.Days.DayManager"
-    xmlns:models="clr-namespace:CaisseDesktop.Models"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance Type=models:DayPickerModel, IsDesignTimeCreatable=False}"
+    d:DataContext="{d:DesignInstance Type=models:DayConfigModel, IsDesignTimeCreatable=False}"
     Title="Gestion d'un jour" Height="260" Width="400" WindowStartupLocation="CenterOwner" ResizeMode="CanMinimize">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -152,7 +152,7 @@
         <TextBlock Text="Fin du jour :" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"
                    VerticalAlignment="Center" Margin="10" />
         <!--<xctk:DateTimePicker Text="Début de la journée"  Grid.Row="0" Margin="10"/> -->
-        <Button x:Name="SaveDayButton" Content="Sauvegarder" Click="SaveDayButton_OnClick" Grid.Row="3" Margin="10"
+        <Button x:Name="SaveDayButton" Content="Sauvegarder" Command="{Binding SaveCommand}" Grid.Row="3" Margin="10"
                 Grid.Column="0" Grid.ColumnSpan="2" />
 
     </Grid>

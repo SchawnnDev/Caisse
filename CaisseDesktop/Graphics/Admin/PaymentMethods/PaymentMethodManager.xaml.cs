@@ -17,6 +17,7 @@ using CaisseDesktop.Models;
 using CaisseLibrary.Data;
 using CaisseServer;
 using CaisseServer.Events;
+using EventManager = CaisseDesktop.Graphics.Admin.Events.EventManager;
 
 namespace CaisseDesktop.Graphics.Admin.PaymentMethods
 {
@@ -25,11 +26,11 @@ namespace CaisseDesktop.Graphics.Admin.PaymentMethods
     /// </summary>
     public partial class PaymentMethodManager : Window
     {
-        public EvenementManager ParentWindow { get; set; }
+        public EventManager ParentWindow { get; set; }
         public SaveablePaymentMethod PaymentMethod { get; set; }
         private bool New { get; } = true;
 
-        public PaymentMethodManager(EvenementManager parentWindow, SaveablePaymentMethod paymentMethod)
+        public PaymentMethodManager(EventManager parentWindow, SaveablePaymentMethod paymentMethod)
         {
             InitializeComponent();
             ParentWindow = parentWindow;
@@ -40,7 +41,6 @@ namespace CaisseDesktop.Graphics.Admin.PaymentMethods
             {
                 PaymentMethod = new SaveablePaymentMethod
                 {
-                    Event = parentWindow.Evenement
                 };
             }
             else

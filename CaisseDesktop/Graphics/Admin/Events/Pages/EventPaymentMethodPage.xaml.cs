@@ -8,6 +8,7 @@ using System.Windows.Input;
 using CaisseDesktop.Graphics.Admin.Checkouts;
 using CaisseDesktop.Graphics.Admin.PaymentMethods;
 using CaisseDesktop.Models;
+using CaisseDesktop.Models.Admin;
 using CaisseServer;
 
 namespace CaisseDesktop.Graphics.Admin.Events.Pages
@@ -17,19 +18,19 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
     /// </summary>
     public partial class EventPaymentMethodPage
     {
-        public EventPaymentMethodPage(EvenementManager parentWindow)
+        public EventPaymentMethodPage(EventManagerModel model)
         {
             InitializeComponent();
-            ParentWindow = parentWindow;
+            ParentModel = model;
 
-            New = parentWindow.Evenement == null;
+            New = model.SaveableEvent == null;
 
-            Task.Run(() => Load());
+            Task.Run(Load);
         }
 
         private PaymentMethodModel PaymentMethodModel => PaymentMethodsGrid.DataContext as PaymentMethodModel;
         private bool New { get; }
-        private EvenementManager ParentWindow { get; }
+        private EventManagerModel ParentModel { get; }
 
         public override string CustomName => "EventPaymentMethodPage";
 
@@ -57,7 +58,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
                 using (var db = new CaisseServerContext())
                 {
                     paymentMethodsCollection = new ObservableCollection<SaveablePaymentMethod>(db.PaymentMethods
-                        .Where(t => t.Event.Id == ParentWindow.Evenement.Id).ToList());
+                        .Where(t => t.Event.Id == ParentModel.SaveableEvent.Id).ToList());
                 }
 
             Dispatcher.Invoke(() =>
@@ -72,7 +73,9 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             var btn = sender as Button;
 
             if (btn?.DataContext is SaveablePaymentMethod paymentMethod)
-                new PaymentMethodManager(ParentWindow, paymentMethod).ShowDialog();
+            {
+	          //  new PaymentMethodManager(ParentModel, paymentMethod).ShowDialog();
+            }
             else
                 MessageBox.Show($"{btn} : le moyen de paiement n'est pas valide.", "Erreur", MessageBoxButton.OK,
                     MessageBoxImage.Error);

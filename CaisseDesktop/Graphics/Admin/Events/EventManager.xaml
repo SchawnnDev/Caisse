@@ -1,0 +1,162 @@
+﻿<Window x:Class="CaisseDesktop.Graphics.Admin.Events.EventManager"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:models="clr-namespace:CaisseDesktop.Models.Admin" 
+        xmlns:enums="clr-namespace:CaisseDesktop.Enums"
+        d:DataContext="{d:DesignInstance Type=models:EventManagerModel, IsDesignTimeCreatable=False}"
+        mc:Ignorable="d"
+        Title="Gestion d'un événement" Height="700" Width="1200" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="50" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" >
+            <Menu DockPanel.Dock="Top">
+
+                <MenuItem x:Name="Back" Header="_Retour" Command="{Binding BackCommand}" />
+
+                <MenuItem Header="_Événement" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.Events}">
+                    <MenuItem.Style>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.Events}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </MenuItem.Style>
+
+                    <MenuItem x:Name="Export" Header="_Exporter" Click="Export_OnClick" />
+
+                </MenuItem>
+
+                <MenuItem Header="_Caisses" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.Checkouts}">
+                    <MenuItem.Style>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.Checkouts}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </MenuItem.Style>
+
+                    <MenuItem x:Name="CreateCheckout" Header="_Nouvelle caisse" Click="CreateCheckout_OnClick" />
+
+                    <Separator />
+
+                    <MenuItem x:Name="Importer" Header="_Importer" />
+
+                    <MenuItem x:Name="Exporter" Header="_Exporter" />
+
+                </MenuItem>
+
+                <MenuItem Header="_Types de caisses" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.CheckoutTypes}">
+                    <MenuItem.Style>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.CheckoutTypes}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </MenuItem.Style>
+
+
+                    <MenuItem x:Name="CreateCheckoutType" Header="_Nouveau type" Click="CreateCheckoutType_OnClick" />
+
+                    <Separator />
+
+                    <MenuItem x:Name="ImportCheckoutType" Header="_Importer" />
+
+                    <MenuItem x:Name="ExportCheckoutType" Header="_Exporter" />
+
+                </MenuItem>
+
+                <MenuItem Header="_Résponsables" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.Owners}">
+                    <MenuItem.Style>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.Owners}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </MenuItem.Style>
+
+                    <MenuItem x:Name="CreateOwner" Header="_Nouveau résponsable" Click="CreateOwner_OnClick" />
+
+                    <Separator />
+
+                    <MenuItem x:Name="ImportOwners" Header="_Importer" />
+
+                    <MenuItem x:Name="ExportOwners" Header="_Exporter" />
+
+                </MenuItem>
+
+                <MenuItem Header="_Jours" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.Days}">
+                    <MenuItem.Style>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.Days}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </MenuItem.Style>
+
+                    <MenuItem x:Name="CreateDay" Header="_Nouveau jour" Click="CreateDay_OnClick" />
+
+                    <Separator />
+
+                    <MenuItem x:Name="ImportDays" Header="_Importer" />
+
+                    <MenuItem x:Name="ExportDays" Header="_Exporter" />
+
+                </MenuItem>
+
+                <MenuItem Header="_Moyens de paiement" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.PaymentMethods}">
+                    <MenuItem.Style>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.PaymentMethods}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </MenuItem.Style>
+
+                    <MenuItem x:Name="CreatePaymentMethod" Header="_Nouveau moyen de paiement"
+                              Click="CreatePaymentMethod_OnClick" />
+
+                    <Separator />
+
+                    <MenuItem x:Name="ImportPaymentMethods" Header="_Importer" />
+
+                    <MenuItem x:Name="ExportPaymentMethods" Header="_Exporter" />
+
+                </MenuItem>
+
+            </Menu>
+
+        </DockPanel>
+
+        <Frame Content="{Binding ActualPage}" Grid.Row="1" NavigationUIVisibility="Hidden" />
+
+    </Grid>
+</Window>

@@ -193,6 +193,7 @@
     <Compile Include="Admin\SessionAdmin.cs" />
     <Compile Include="Client\ClientMain.cs" />
     <Compile Include="Enums\TimeTableDay.cs" />
+    <Compile Include="Enums\WindowType.cs" />
     <Compile Include="Exceptions\CaisseException.cs" />
     <Compile Include="Graphics\Admin\CheckoutTypes\Pages\CheckoutTypeArticlePage.xaml.cs">
       <DependentUpon>CheckoutTypeArticlePage.xaml</DependentUpon>
@@ -255,11 +256,11 @@
     <Compile Include="Graphics\Admin\Days\DayManager.xaml.cs">
       <DependentUpon>DayManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Graphics\Admin\Events\EvenementBrowser.xaml.cs">
-      <DependentUpon>EvenementBrowser.xaml</DependentUpon>
+    <Compile Include="Graphics\Admin\Events\EventBrowser.xaml.cs">
+      <DependentUpon>EventBrowser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Graphics\Admin\Events\EvenementManager.xaml.cs">
-      <DependentUpon>EvenementManager.xaml</DependentUpon>
+    <Compile Include="Graphics\Admin\Events\EventManager.xaml.cs">
+      <DependentUpon>EventManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Graphics\Admin\Events\Pages\EventPaymentMethodPage.xaml.cs">
       <DependentUpon>EventPaymentMethodPage.xaml</DependentUpon>
@@ -329,6 +330,7 @@
     <Compile Include="Models\Admin\CheckoutTypes\CheckoutTypeConsignPageModel.cs" />
     <Compile Include="Models\Admin\CheckoutTypes\CheckoutTypePage.cs" />
     <Compile Include="Models\Admin\CheckoutTypes\CheckoutTypeTicketsPageModel.cs" />
+    <Compile Include="Models\Admin\Days\DayConfigModel.cs" />
     <Compile Include="Models\Admin\EventConfigModel.cs" />
     <Compile Include="Models\Admin\TimeSlots\TimeSlotConfigModel.cs" />
     <Compile Include="Models\CaisseModel.cs" />
@@ -340,13 +342,13 @@
     <Compile Include="Models\Checkouts\ConsignCheckoutModel.cs" />
     <Compile Include="Models\Checkouts\TicketCheckoutModel.cs" />
     <Compile Include="Models\CheckoutTypeModel.cs" />
-    <Compile Include="Models\DayPickerModel.cs" />
     <Compile Include="Models\JourModel.cs" />
     <Compile Include="Models\PaymentMethodModel.cs" />
     <Compile Include="Models\PermissionModel.cs" />
     <Compile Include="Models\ResponsableModel.cs" />
     <Compile Include="Models\Windows\CheckoutModel.cs" />
     <Compile Include="Models\Windows\DisplayInvoiceModel.cs" />
+    <Compile Include="Models\Admin\EventManagerModel.cs" />
     <Compile Include="Models\Windows\StatisticsMainModel.cs" />
     <Compile Include="SelectionWindow.xaml.cs">
       <DependentUpon>SelectionWindow.xaml</DependentUpon>
@@ -409,11 +411,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Graphics\Admin\Events\EvenementBrowser.xaml">
+    <Page Include="Graphics\Admin\Events\EventBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Graphics\Admin\Events\EvenementManager.xaml">
+    <Page Include="Graphics\Admin\Events\EventManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

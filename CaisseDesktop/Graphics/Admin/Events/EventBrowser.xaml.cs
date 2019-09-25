@@ -11,14 +11,14 @@ using CaisseServer.Events;
 namespace CaisseDesktop.Graphics.Admin.Events
 {
     /// <summary>
-    ///     Interaction logic for EvenementBrowser.xaml
+    ///     Interaction logic for EventBrowser.xaml
     /// </summary>
-    public partial class EvenementBrowser
+    public partial class EventBrowser
     {
-        public EvenementBrowser()
+        public EventBrowser()
         {
             InitializeComponent();
-            Task.Run(() => Load());
+            Task.Run(Load);
         }
 
         private EvenementModel Model => DataContext as EvenementModel;
@@ -58,7 +58,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
             if (btn?.DataContext is SaveableEvent evenement)
             {
-                new EvenementManager(evenement).Show();
+                new EventManager(evenement).Show();
                 Close();
             }
             else
@@ -95,7 +95,7 @@ namespace CaisseDesktop.Graphics.Admin.Events
 
         private void CreateEvent_OnClick(object sender, RoutedEventArgs e)
         {
-            new EvenementManager(null).Show();
+            new EventManager(null).Show();
             Close();
         }
 

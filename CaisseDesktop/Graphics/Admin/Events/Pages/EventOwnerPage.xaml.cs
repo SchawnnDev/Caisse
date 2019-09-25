@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using CaisseDesktop.Graphics.Admin.Owners;
 using CaisseDesktop.Models;
+using CaisseDesktop.Models.Admin;
 using CaisseServer;
 using CaisseServer.Events;
 
@@ -16,19 +17,19 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
     /// </summary>
     public partial class EventOwnerPage
     {
-        public EventOwnerPage(EvenementManager parentWindow)
+        public EventOwnerPage(EventManagerModel parentModel)
         {
             InitializeComponent();
-            ParentWindow = parentWindow;
+            ParentModel = parentModel;
 
-            New = parentWindow.Evenement == null;
+            New = parentModel.SaveableEvent == null;
 
-            Task.Run(() => Load());
+            Task.Run(Load);
         }
 
         private ResponsableModel ResponsableModel => OwnersGrid.DataContext as ResponsableModel;
         private bool New { get; }
-        private EvenementManager ParentWindow { get; }
+        private EventManagerModel ParentModel { get; }
 
         public override string CustomName => "EventOwnerPage";
 
@@ -56,7 +57,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
                 using (var db = new CaisseServerContext())
                 {
                     checkoutsCollection = new ObservableCollection<SaveableOwner>(db.Owners
-                        .Where(t => t.Event.Id == ParentWindow.Evenement.Id).OrderByDescending(t => t.LastLogin)
+                        .Where(t => t.Event.Id == ParentModel.SaveableEvent.Id).OrderByDescending(t => t.LastLogin)
                         .ToList());
                 }
 
@@ -72,7 +73,9 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             var btn = sender as Button;
 
             if (btn?.DataContext is SaveableOwner owner)
-                new OwnerManager(ParentWindow, owner).ShowDialog();
+            {
+	    //        new OwnerManager(ParentWindow, owner).ShowDialog();
+            }
             else
                 MessageBox.Show($"{btn} : le résponsable n'est pas valide.", "Erreur", MessageBoxButton.OK,
                     MessageBoxImage.Error);

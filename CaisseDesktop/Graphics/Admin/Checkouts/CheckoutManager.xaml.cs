@@ -9,6 +9,7 @@ using CaisseDesktop.Graphics.Print;
 using CaisseDesktop.Utils;
 using CaisseServer;
 using Microsoft.Win32;
+using EventManager = CaisseDesktop.Graphics.Admin.Events.EventManager;
 
 namespace CaisseDesktop.Graphics.Admin.Checkouts
 {
@@ -17,7 +18,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
 	/// </summary>
 	public partial class CheckoutManager
 	{
-		public CheckoutManager(EvenementManager parentWindow, SaveableCheckout checkout)
+		public CheckoutManager(EventManager parentWindow, SaveableCheckout checkout)
 		{
 			InitializeComponent();
 			Checkout = checkout;
@@ -29,7 +30,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
 
 		public SaveableCheckout Checkout { set; get; }
 		private bool IsBack { get; set; }
-		public EvenementManager ParentWindow { get; }
+		public EventManager ParentWindow { get; }
 		public CustomPage CurrentPage { get; set; }
 
 		private void Back_OnClick(object sender, RoutedEventArgs e)

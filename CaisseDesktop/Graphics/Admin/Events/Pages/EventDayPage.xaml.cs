@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using CaisseDesktop.Graphics.Admin.Days;
 using CaisseDesktop.Graphics.Admin.Owners;
 using CaisseDesktop.Models;
+using CaisseDesktop.Models.Admin;
 using CaisseServer;
 using CaisseServer.Events;
 
@@ -27,22 +28,21 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
     /// </summary>
     public partial class EventDayPage
     {
-        private EvenementManager Manager { get; }
+        private EventManagerModel ParentModel { get; }
 
-        public EventDayPage(EvenementManager parentWindow)
+        public EventDayPage(EventManagerModel parentModel)
         {
             InitializeComponent();
-            ParentWindow = parentWindow;
-            Manager = parentWindow;
+            ParentModel = parentModel;
 
-            New = parentWindow.Evenement == null;
+            New = ParentModel.SaveableEvent == null;
 
-            Task.Run(() => Load());
+            Task.Run(Load);
         }
 
         private JourModel JourModel => DaysGrid.DataContext as JourModel;
         private bool New { get; }
-        private EvenementManager ParentWindow { get; }
+        private EventManager ParentWindow { get; }
 
         public override string CustomName => "EventDayPage";
 
@@ -70,7 +70,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
                 using (var db = new CaisseServerContext())
                 {
                     daysCollection = new ObservableCollection<SaveableDay>(db.Days
-                        .Where(t => t.Event.Id == ParentWindow.Evenement.Id).Include(t => t.Event)
+                        .Where(t => t.Event.Id == ParentModel.SaveableEvent.Id).Include(t => t.Event)
                         .OrderByDescending(t => t.Start)
                         .ToList());
                 }
@@ -87,7 +87,9 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             var btn = sender as Button;
 
             if (btn?.DataContext is SaveableDay day)
-                new DayManager(Manager, day).ShowDialog(); //new OwnerManager(ParentWindow, day).ShowDialog();
+            {
+	       //     new DayManager(Manager, day).ShowDialog(); //new OwnerManager(ParentWindow, day).ShowDialog();
+            }
             else
                 MessageBox.Show($"{btn} : le jour n'est pas valide.", "Erreur", MessageBoxButton.OK,
                     MessageBoxImage.Error);

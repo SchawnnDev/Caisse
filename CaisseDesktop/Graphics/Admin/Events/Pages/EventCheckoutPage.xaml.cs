@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using CaisseDesktop.Graphics.Admin.Checkouts;
 using CaisseDesktop.Models;
+using CaisseDesktop.Models.Admin;
 using CaisseServer;
 
 namespace CaisseDesktop.Graphics.Admin.Events.Pages
@@ -16,19 +17,19 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
     /// </summary>
     public partial class EventCheckoutPage
     {
-        public EventCheckoutPage(EvenementManager parentWindow)
+        public EventCheckoutPage(EventManagerModel parentModel)
         {
             InitializeComponent();
-            ParentWindow = parentWindow;
+            ParentModel = parentModel;
 
-            New = parentWindow.Evenement == null;
+            New = parentModel.SaveableEvent == null;
 
-            Task.Run(() => Load());
+            Task.Run(Load);
         }
 
         private CaisseModel CaisseModel => CheckoutsGrid.DataContext as CaisseModel;
         private bool New { get; }
-        private EvenementManager ParentWindow { get; }
+        private EventManagerModel ParentModel { get; }
 
         public override string CustomName => "EventCheckoutPage";
 
@@ -56,7 +57,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
                 using (var db = new CaisseServerContext())
                 {
                     checkoutsCollection = new ObservableCollection<SaveableCheckout>(db.Checkouts
-                        .Where(t => t.CheckoutType.Event.Id == ParentWindow.Evenement.Id).Include(t => t.CheckoutType)
+                        .Where(t => t.CheckoutType.Event.Id == ParentModel.SaveableEvent.Id).Include(t => t.CheckoutType)
                         .Include(t => t.Owner).ToList());
                 }
 
@@ -72,7 +73,9 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             var btn = sender as Button;
 
             if (btn?.DataContext is SaveableCheckout checkout)
-                new CheckoutManager(ParentWindow, checkout).ShowDialog();
+            {
+	       //     new CheckoutManager(ParentWindow, checkout).ShowDialog();
+            }
             else
                 MessageBox.Show($"{btn} : la caisse n'est pas valide.", "Erreur", MessageBoxButton.OK,
                     MessageBoxImage.Error);

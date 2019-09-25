@@ -1,30 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.Entity;
-using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using CaisseDesktop.Graphics.Admin.Articles;
-using CaisseDesktop.Graphics.Admin.Events;
-using CaisseDesktop.IO;
-using CaisseDesktop.Models;
-using CaisseDesktop.Models.Admin.CheckoutTypes;
-using CaisseDesktop.Utils;
-using CaisseLibrary.IO;
+﻿using CaisseDesktop.Models.Admin.CheckoutTypes;
 using CaisseServer;
-using CaisseServer.Events;
 using CaisseServer.Items;
+using EventManager = CaisseDesktop.Graphics.Admin.Events.EventManager;
 
 namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
 {
@@ -34,10 +11,10 @@ namespace CaisseDesktop.Graphics.Admin.CheckoutTypes
 	public partial class CheckoutTypeManager
 	{
 		public SaveableCheckoutType CheckoutType { get; set; }
-		public EvenementManager Manager { get; }
+		public EventManager Manager { get; }
 		public CheckoutTypeConfigModel Model => DataContext as CheckoutTypeConfigModel;
 
-		public CheckoutTypeManager(EvenementManager manager, SaveableCheckoutType type)
+		public CheckoutTypeManager(EventManager manager, SaveableCheckoutType type)
 		{
 			InitializeComponent();
 

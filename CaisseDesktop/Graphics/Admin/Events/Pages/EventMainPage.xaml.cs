@@ -15,12 +15,12 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 	/// </summary>
 	public partial class EventMainPage
 	{
-		public EventMainPage(EvenementManager parentWindow)
+		public EventMainPage(EventManagerModel parentModel)
 		{
 			InitializeComponent();
-			var parentEvent = parentWindow.Evenement ?? new SaveableEvent
+			var parentEvent = parentModel.SaveableEvent ?? new SaveableEvent
 			{ Start = DateTime.Now, End = DateTime.Now.AddDays(1) };
-			DataContext = new EventConfigModel(parentEvent, parentWindow.Evenement == null);
+			DataContext = new EventConfigModel(parentEvent, parentModel.SaveableEvent == null);
 			Model.Dispatcher = Dispatcher;
 		}
 

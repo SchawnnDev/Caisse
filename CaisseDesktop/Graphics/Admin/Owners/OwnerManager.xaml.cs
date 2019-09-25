@@ -18,6 +18,7 @@ using CaisseLibrary.Concrete.Owners;
 using CaisseLibrary.Data;
 using CaisseServer;
 using CaisseServer.Events;
+using EventManager = CaisseDesktop.Graphics.Admin.Events.EventManager;
 
 namespace CaisseDesktop.Graphics.Admin.Owners
 {
@@ -26,7 +27,7 @@ namespace CaisseDesktop.Graphics.Admin.Owners
     /// </summary>
     public partial class OwnerManager
     {
-        public OwnerManager(EvenementManager parentWindow, SaveableOwner owner)
+        public OwnerManager(EventManager parentWindow, SaveableOwner owner)
         {
             InitializeComponent();
             ParentWindow = parentWindow;
@@ -54,10 +55,10 @@ namespace CaisseDesktop.Graphics.Admin.Owners
                 ToggleBlocked(true);
             }
 
-            SaveableOwner.Event = ParentWindow.Evenement;
+            //SaveableOwner.Event = ParentWindow.Evenement;
         }
 
-        public EvenementManager ParentWindow { get; set; }
+        public EventManager ParentWindow { get; set; }
         private PermissionModel Model => DataContext as PermissionModel;
         public SaveableOwner SaveableOwner { get; set; }
         private bool Saved { get; set; }
@@ -164,14 +165,14 @@ namespace CaisseDesktop.Graphics.Admin.Owners
                 Mouse.OverrideCursor = null;
                 MessageBox.Show(New ? "Le résponsable a bien été crée !" : "Le résponsable a bien été enregistré !");
 
-
+				/*
                 if (ParentWindow.CurrentPage.Equals("EventOwnerPage"))
                 {
                     if (New)
                         ParentWindow.CurrentPage.Add(SaveableOwner);
                     else
                         ParentWindow.CurrentPage.Update();
-                }
+                } */
 
                 SessionAdmin.UpdateIfEdited(SaveableOwner);
 
