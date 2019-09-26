@@ -20,19 +20,19 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
     {
         private CheckoutConfigModel Model => DataContext as CheckoutConfigModel;
 
-        public CheckoutMainPage(CheckoutManager parent)
+        public CheckoutMainPage(CheckoutManagerModel parentModel)
         {
             InitializeComponent();
 
             using (var db = new CaisseServerContext())
             {
                 var types = new ObservableCollection<SaveableCheckoutType>(db.CheckoutTypes
-                    .OrderBy(e => e.Event.Id == parent.ParentWindow.Evenement.Id).ToList());
+                    .OrderBy(e => e.Event.Id == parentModel.ParentModel.SaveableEvent.Id).ToList());
                 var owners = new ObservableCollection<SaveableOwner>(db.Owners
-                    .Where(t => t.Event.Id == parent.ParentWindow.Evenement.Id)
+                    .Where(t => t.Event.Id == parentModel.ParentModel.SaveableEvent.Id)
                     .OrderBy(e => e.LastLogin).Include(t => t.Event).ToList());
 
-                DataContext = new CheckoutConfigModel(parent.Checkout, types, owners);
+                DataContext = new CheckoutConfigModel(parentModel.SaveableCheckout, types, owners);
             }
 
             Model.Dispatcher = Dispatcher;

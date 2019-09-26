@@ -1,4 +1,5 @@
 ﻿using CaisseDesktop.Graphics.Admin.Checkouts;
+using CaisseDesktop.Models.Admin.Checkouts;
 using CaisseDesktop.Models.Admin.TimeSlots;
 using CaisseServer.Events;
 
@@ -12,15 +13,15 @@ namespace CaisseDesktop.Graphics.Admin.TimeSlots
 
 		public TimeSlotConfigModel Model => DataContext as TimeSlotConfigModel;
 
-		public TimeSlotManager(CheckoutManager parentWindow, SaveableTimeSlot timeSlot)
+		public TimeSlotManager(CheckoutManagerModel parentModel, SaveableTimeSlot timeSlot)
 		{
 			InitializeComponent();
-			Owner = parentWindow;
+			//Owner = parentWindow;
 			DataContext = new TimeSlotConfigModel(timeSlot);
 			Model.Dispatcher = Dispatcher;
 			Model.CloseAction = () =>
 			{
-				parentWindow.CurrentPage.Update();
+				parentModel.ActualPage.Update();
 				Close();
 			};
 		}

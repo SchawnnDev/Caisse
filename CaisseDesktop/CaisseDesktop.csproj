@@ -192,6 +192,7 @@
     </ApplicationDefinition>
     <Compile Include="Admin\SessionAdmin.cs" />
     <Compile Include="Client\ClientMain.cs" />
+    <Compile Include="Enums\CheckoutPageType.cs" />
     <Compile Include="Enums\TimeTableDay.cs" />
     <Compile Include="Enums\WindowType.cs" />
     <Compile Include="Exceptions\CaisseException.cs" />
@@ -324,6 +325,7 @@
     <Compile Include="Models\Admin\Articles\ArticleConfigModel.cs" />
     <Compile Include="Models\Admin\Cashiers\CashierConfigModel.cs" />
     <Compile Include="Models\Admin\Checkouts\CheckoutConfigModel.cs" />
+    <Compile Include="Models\Admin\Checkouts\CheckoutManagerModel.cs" />
     <Compile Include="Models\Admin\Checkouts\CheckoutTimeTableModel.cs" />
     <Compile Include="Models\Admin\CheckoutTypes\CheckoutTypeArticlePageModel.cs" />
     <Compile Include="Models\Admin\CheckoutTypes\CheckoutTypeConfigModel.cs" />

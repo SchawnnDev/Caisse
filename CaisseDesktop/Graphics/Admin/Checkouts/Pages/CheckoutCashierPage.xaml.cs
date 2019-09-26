@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CaisseDesktop.Models.Admin.Checkouts;
 
 namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 {
@@ -21,7 +22,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
     /// </summary>
     public partial class CheckoutCashierPage
     {
-        public CheckoutCashierPage(CheckoutManager parentWindow)
+        public CheckoutCashierPage(CheckoutManagerModel parentModel)
         {
             InitializeComponent();
         }

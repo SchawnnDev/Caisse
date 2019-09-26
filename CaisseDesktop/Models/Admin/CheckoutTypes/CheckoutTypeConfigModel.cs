@@ -37,13 +37,13 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 		public ICommand BackCommand => _backCommand ?? (_backCommand = new CommandHandler(Back, true));
 
 		public Action CloseAction { get; set; }
-		public readonly CheckoutTypeManager ParentWindow;
+		private readonly EventManagerModel ParentModel;
 
-		public CheckoutTypeConfigModel(CheckoutTypeManager parentWindow, SaveableCheckoutType checkoutType, Dispatcher dispatcher)
+		public CheckoutTypeConfigModel(EventManagerModel parentModel, SaveableCheckoutType checkoutType, Dispatcher dispatcher)
 		{
-			ParentWindow = parentWindow;
+			ParentModel = parentModel;
 			IsCreating = checkoutType == null;
-			CheckoutType = checkoutType ?? new SaveableCheckoutType { Event = parentWindow.Manager.Evenement };
+			CheckoutType = checkoutType ?? new SaveableCheckoutType { Event = ParentModel.SaveableEvent };
 			Dispatcher = dispatcher;
 			SwitchPage(IsCreating ? CaisseLibrary.Enums.CheckoutType.Tickets : (CheckoutType)CheckoutType.Type);
 			_canSave = IsCreating;
@@ -155,7 +155,7 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 				if (IsCreating)
 				{
 					if (db.CheckoutTypes.Any(t =>
-						t.Event.Id == ParentWindow.Manager.Evenement.Id && t.Name.ToLower().Equals(CheckoutType.Name.ToLower())))
+						t.Event.Id == ParentModel.SaveableEvent.Id && t.Name.ToLower().Equals(CheckoutType.Name.ToLower())))
 					{
 						Dispatcher.Invoke(() => { return Mouse.OverrideCursor = null; });
 

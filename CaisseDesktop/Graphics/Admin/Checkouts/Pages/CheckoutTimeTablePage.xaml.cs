@@ -17,15 +17,15 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts.Pages
 	public partial class CheckoutTimeTablePage
 	{
 
-		public CheckoutManager ParentWindow { get; set; }
+		public CheckoutManagerModel ParentModel { get; set; }
 
 		public CheckoutTimeTableModel Model => DataContext as CheckoutTimeTableModel;
 
-		public CheckoutTimeTablePage(CheckoutManager parentWindow)
+		public CheckoutTimeTablePage(CheckoutManagerModel parentModel)
 		{
 			InitializeComponent();
-			ParentWindow = parentWindow;
-			DataContext = new CheckoutTimeTableModel(this);
+			ParentModel = parentModel;
+			DataContext = new CheckoutTimeTableModel(parentModel, Dispatcher);
 			//Model.Dispatcher = Dispatcher;
 
 		}

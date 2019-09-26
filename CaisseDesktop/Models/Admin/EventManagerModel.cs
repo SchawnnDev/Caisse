@@ -1,17 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using CaisseDesktop.Enums;
 using CaisseDesktop.Graphics.Admin;
+using CaisseDesktop.Graphics.Admin.Checkouts;
+using CaisseDesktop.Graphics.Admin.CheckoutTypes;
+using CaisseDesktop.Graphics.Admin.Days;
 using CaisseDesktop.Graphics.Admin.Events;
 using CaisseDesktop.Graphics.Admin.Events.Pages;
+using CaisseDesktop.Graphics.Admin.Owners;
+using CaisseDesktop.Graphics.Admin.PaymentMethods;
 using CaisseDesktop.Graphics.Utils;
+using CaisseLibrary.Data;
+using CaisseServer;
 using CaisseServer.Events;
+using Microsoft.Win32;
+using ProtoBuf;
+using EventManager = CaisseDesktop.Graphics.Admin.Events.EventManager;
 
 namespace CaisseDesktop.Models.Admin
 {
@@ -24,6 +36,24 @@ namespace CaisseDesktop.Models.Admin
 
 		private ICommand _backCommand;
 		public ICommand BackCommand => _backCommand ?? (_backCommand = new CommandHandler(Back, true));
+
+		private ICommand _createCheckoutCommand;
+		public ICommand CreateCheckoutCommand => _createCheckoutCommand ?? (_createCheckoutCommand = new CommandHandler(CreateCheckout, true));
+
+		private ICommand _createCheckoutTypeCommand;
+		public ICommand CreateCheckoutTypeCommand => _createCheckoutTypeCommand ?? (_createCheckoutTypeCommand = new CommandHandler(CreateCheckoutType, true));
+
+		private ICommand _createOwnerCommand;
+		public ICommand CreateOwnerCommand => _createOwnerCommand ?? (_createOwnerCommand = new CommandHandler(CreateOwner, true));
+
+		private ICommand _createDayCommand;
+		public ICommand CreateDayCommand => _createDayCommand ?? (_createDayCommand = new CommandHandler(CreateDay, true));
+
+		private ICommand _createPaymentMethodCommand;
+		public ICommand CreatePaymentMethodCommand => _createPaymentMethodCommand ?? (_createPaymentMethodCommand = new CommandHandler(CreatePaymentMethod, true));
+
+		private ICommand _exportCommand;
+		public ICommand ExportCommand => _exportCommand ?? (_exportCommand = new CommandHandler(Export, true));
 
 		public Action CloseAction { get; set; }
 
@@ -91,6 +121,61 @@ namespace CaisseDesktop.Models.Admin
 			}
 
 		}
+
+		private void CreateCheckout(object arg)
+		{
+			new CheckoutManager(this, null).ShowDialog();
+		}
+
+		private void CreateCheckoutType(object arg)
+		{
+			new CheckoutTypeManager(this, null).ShowDialog();
+		}
+
+
+		private void CreateOwner(object arg)
+		{
+			new OwnerManager(this, null).ShowDialog();
+		}
+		private void CreateDay(object arg)
+		{
+			new DayManager(this, null).ShowDialog();
+		}
+
+		private void CreatePaymentMethod(object arg)
+		{
+			new PaymentMethodManager(this, null).ShowDialog();
+		}
+
+		private void Export(object arg)
+		{
+			if (SaveableEvent == null) return;
+
+			var saveFileDialog = new SaveFileDialog
+			{
+				Title = "Select a folder",
+				CheckPathExists = true,
+				Filter = "Caisse Files|*.caisse"
+			};
+
+			if (saveFileDialog.ShowDialog() != true) return;
+
+			var path = saveFileDialog.FileName;
+
+			if (!path.EndsWith(".caisse"))
+				path += ".caisse";
+
+			var saveableEvent = new Event();
+
+			using (var db = new CaisseServerContext())
+				saveableEvent.From(SaveableEvent, db);
+
+			using (var file = File.Create(path))
+				Serializer.Serialize(file, saveableEvent);
+
+			MessageBox.Show("Le fichier a bien été enregistré !");
+		}
+
 
 		public EventManagerModel(WindowType type, SaveableEvent saveableEvent)
 		{

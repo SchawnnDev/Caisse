@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using CaisseDesktop.Exceptions;
 using CaisseDesktop.Graphics.Admin.Checkouts.Pages;
 using CaisseDesktop.Graphics.Admin.TimeSlots;
@@ -21,11 +22,12 @@ namespace CaisseDesktop.Models.Admin.Checkouts
 {
 	public class CheckoutTimeTableModel : INotifyPropertyChanged
 	{
-
-		public static CheckoutTimeTablePage ParentWindow;
-		public CheckoutTimeTableModel(CheckoutTimeTablePage parentWindow)
+		private readonly Dispatcher Dispatcher;
+		public CheckoutManagerModel ParentModel;
+		public CheckoutTimeTableModel(CheckoutManagerModel parentModel, Dispatcher dispatcher)
 		{
-			ParentWindow = parentWindow;
+			ParentModel = parentModel;
+			Dispatcher = dispatcher;
 			Task.Run(UpdateAll);
 		}
 
@@ -35,7 +37,7 @@ namespace CaisseDesktop.Models.Admin.Checkouts
 
 			using (var db = new CaisseServerContext())
 			{
-				var days = await db.Days.Where(t => t.Event.Id == ParentWindow.ParentWindow.ParentWindow.Evenement.Id)
+				var days = await db.Days.Where(t => t.Event.Id == ParentModel.ParentModel.SaveableEvent.Id)
 					.OrderBy(t => t.Start).ToListAsync();
 				foreach (var day in days)
 				{
@@ -70,7 +72,7 @@ namespace CaisseDesktop.Models.Admin.Checkouts
 
 				foreach (var tableTimeSlot in day.Value)
 				{
-					var timeSlot = new TimeTableTimeSlot(ParentWindow)
+					var timeSlot = new TimeTableTimeSlot(ParentModel)
 					{
 						TimeSlot = tableTimeSlot
 					};
@@ -92,7 +94,7 @@ namespace CaisseDesktop.Models.Admin.Checkouts
 		{
 			var blankSlots = new List<SaveableTimeSlot>();
 
-			var checkout = ParentWindow.ParentWindow.Checkout;
+			var checkout = ParentModel.SaveableCheckout;
 			var dayStartHour = day.Start.Hour;
 			var dayEndHour = day.End.Hour;
 			var dayStartMinute = day.Start.Minute;
@@ -185,9 +187,9 @@ namespace CaisseDesktop.Models.Admin.Checkouts
 
 		public async void UpdateAll()
 		{
-			ParentWindow.Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
+			Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
 			Update(await LoadTimeSlotsFromDb());
-			ParentWindow.Dispatcher.Invoke(() => { Mouse.OverrideCursor = null; });
+			Dispatcher.Invoke(() => { Mouse.OverrideCursor = null; });
 		}
 	}
 
@@ -200,11 +202,11 @@ namespace CaisseDesktop.Models.Admin.Checkouts
 	public class TimeTableTimeSlot
 	{
 		public SaveableTimeSlot TimeSlot { get; set; }
-		private readonly CheckoutTimeTablePage ParentWindow;
+		private readonly CheckoutManagerModel ParentModel;
 
-		public TimeTableTimeSlot(CheckoutTimeTablePage parentWindow)
+		public TimeTableTimeSlot(CheckoutManagerModel parentModel)
 		{
-			ParentWindow = parentWindow;
+			ParentModel = parentModel;
 		}
 
 		private ICommand _editTimeSlotCommand;
@@ -253,7 +255,7 @@ namespace CaisseDesktop.Models.Admin.Checkouts
 		public void EditTimeSlot(object arg)
 		{
 			if (!(arg is SaveableTimeSlot timeSlot)) throw new CaisseException(French.CaisseException_ErrorOccured);
-			new TimeSlotManager(ParentWindow.ParentWindow, timeSlot).ShowDialog();
+			new TimeSlotManager(ParentModel, timeSlot).ShowDialog();
 		}
 
 		public TimeSlotStatus GetStatus()

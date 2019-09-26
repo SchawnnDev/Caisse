@@ -22,133 +22,214 @@
         <DockPanel Grid.Row="0" >
             <Menu DockPanel.Dock="Top">
 
-                <MenuItem x:Name="Back" Header="_Retour" Command="{Binding BackCommand}" />
+                <MenuItem Header="_Retour" Command="{Binding BackCommand}" />
 
-                <MenuItem Header="_Événement" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.Events}">
+                <MenuItem Header="_Événement">
                     <MenuItem.Style>
-                        <Style TargetType="{x:Type MenuItem}">
-                            <Setter Property="IsEnabled" Value="True" />
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.Events}">
-                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="FontWeight" Value="Bold" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </MenuItem.Style>
 
-                    <MenuItem x:Name="Export" Header="_Exporter" Click="Export_OnClick" />
+                    <MenuItem Header="_Editer l'événement" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.Events}">
+                        <MenuItem.Style>
+                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.Events}">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+
+                        <Separator />
+
+                    <MenuItem Header="_Exporter" Command="{Binding ExportCommand}" />
 
                 </MenuItem>
 
                 <MenuItem Header="_Caisses" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.Checkouts}">
                     <MenuItem.Style>
-                        <Style TargetType="{x:Type MenuItem}">
-                            <Setter Property="IsEnabled" Value="True" />
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.Checkouts}">
-                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="FontWeight" Value="Bold" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </MenuItem.Style>
 
-                    <MenuItem x:Name="CreateCheckout" Header="_Nouvelle caisse" Click="CreateCheckout_OnClick" />
+                    <MenuItem Header="_Afficher les caisses" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.Checkouts}">
+                        <MenuItem.Style>
+                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.Checkouts}">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+
+                        <Separator/>
+
+                    <MenuItem Header="_Nouvelle caisse" Command="{Binding CreateCheckoutCommand}" />
 
                     <Separator />
 
-                    <MenuItem x:Name="Importer" Header="_Importer" />
+                    <MenuItem Header="_Importer" />
 
-                    <MenuItem x:Name="Exporter" Header="_Exporter" />
+                    <MenuItem Header="_Exporter" />
 
                 </MenuItem>
 
-                <MenuItem Header="_Types de caisses" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.CheckoutTypes}">
+                <MenuItem Header="_Types de caisses">
                     <MenuItem.Style>
-                        <Style TargetType="{x:Type MenuItem}">
-                            <Setter Property="IsEnabled" Value="True" />
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.CheckoutTypes}">
-                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="FontWeight" Value="Bold" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </MenuItem.Style>
 
+                    <MenuItem Header="_Afficher les types" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.CheckoutTypes}">
+                        <MenuItem.Style>
+                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.CheckoutTypes}">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
 
-                    <MenuItem x:Name="CreateCheckoutType" Header="_Nouveau type" Click="CreateCheckoutType_OnClick" />
+                        <Separator/>
+
+                    <MenuItem Header="_Nouveau type" Command="{Binding CreateCheckoutTypeCommand}" />
 
                     <Separator />
 
-                    <MenuItem x:Name="ImportCheckoutType" Header="_Importer" />
+                    <MenuItem Header="_Importer" />
 
-                    <MenuItem x:Name="ExportCheckoutType" Header="_Exporter" />
+                    <MenuItem Header="_Exporter" />
 
                 </MenuItem>
 
                 <MenuItem Header="_Résponsables" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.Owners}">
                     <MenuItem.Style>
-                        <Style TargetType="{x:Type MenuItem}">
-                            <Setter Property="IsEnabled" Value="True" />
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.Owners}">
-                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="FontWeight" Value="Bold" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </MenuItem.Style>
 
-                    <MenuItem x:Name="CreateOwner" Header="_Nouveau résponsable" Click="CreateOwner_OnClick" />
+                    <MenuItem Header="_Afficher les résponsables" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.Owners}">
+                        <MenuItem.Style>
+                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.Owners}">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+                        <Separator/>
+
+                    <MenuItem Header="_Nouveau résponsable" Command="{Binding CreateOwnerCommand}" />
 
                     <Separator />
 
-                    <MenuItem x:Name="ImportOwners" Header="_Importer" />
+                    <MenuItem Header="_Importer" />
 
-                    <MenuItem x:Name="ExportOwners" Header="_Exporter" />
+                    <MenuItem Header="_Exporter" />
 
                 </MenuItem>
 
                 <MenuItem Header="_Jours" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.Days}">
                     <MenuItem.Style>
-                        <Style TargetType="{x:Type MenuItem}">
-                            <Setter Property="IsEnabled" Value="True" />
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.Days}">
-                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="FontWeight" Value="Bold" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </MenuItem.Style>
 
-                    <MenuItem x:Name="CreateDay" Header="_Nouveau jour" Click="CreateDay_OnClick" />
+                    <MenuItem Header="_Afficher les jours" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.Days}">
+                        <MenuItem.Style>
+                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.Days}">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+
+                    <Separator/>
+
+                    <MenuItem Header="_Nouveau jour" Command="{Binding CreateDayCommand}" />
 
                     <Separator />
 
-                    <MenuItem x:Name="ImportDays" Header="_Importer" />
+                    <MenuItem Header="_Importer" />
 
-                    <MenuItem x:Name="ExportDays" Header="_Exporter" />
+                    <MenuItem Header="_Exporter" />
 
                 </MenuItem>
 
                 <MenuItem Header="_Moyens de paiement" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.PaymentMethods}">
                     <MenuItem.Style>
-                        <Style TargetType="{x:Type MenuItem}">
-                            <Setter Property="IsEnabled" Value="True" />
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.PaymentMethods}">
-                                    <Setter Property="IsEnabled" Value="False" />
+                                    <Setter Property="FontWeight" Value="Bold" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </MenuItem.Style>
 
-                    <MenuItem x:Name="CreatePaymentMethod" Header="_Nouveau moyen de paiement"
-                              Click="CreatePaymentMethod_OnClick" />
+                    <MenuItem Header="_Afficher les moyens de paiement" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:WindowType.CheckoutTypes}">
+                        <MenuItem.Style>
+                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding WindowType}" Value="{x:Static enums:WindowType.CheckoutTypes}">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+
+                        <Separator/>
+
+                    <MenuItem Header="_Nouveau moyen de paiement" Command="{Binding CreatePaymentMethodCommand}"/>
 
                     <Separator />
 
-                    <MenuItem x:Name="ImportPaymentMethods" Header="_Importer" />
+                    <MenuItem Header="_Importer" />
 
-                    <MenuItem x:Name="ExportPaymentMethods" Header="_Exporter" />
+                    <MenuItem Header="_Exporter" />
 
                 </MenuItem>
 

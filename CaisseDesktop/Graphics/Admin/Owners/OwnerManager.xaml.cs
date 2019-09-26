@@ -13,6 +13,7 @@ using System.Windows.Media;
 using CaisseDesktop.Admin;
 using CaisseDesktop.Graphics.Admin.Events;
 using CaisseDesktop.Models;
+using CaisseDesktop.Models.Admin;
 using CaisseDesktop.Utils;
 using CaisseLibrary.Concrete.Owners;
 using CaisseLibrary.Data;
@@ -27,10 +28,9 @@ namespace CaisseDesktop.Graphics.Admin.Owners
     /// </summary>
     public partial class OwnerManager
     {
-        public OwnerManager(EventManager parentWindow, SaveableOwner owner)
+        public OwnerManager(EventManagerModel parentModel, SaveableOwner owner)
         {
             InitializeComponent();
-            ParentWindow = parentWindow;
             SaveableOwner = owner;
             New = owner == null;
             DataContext = new PermissionModel();
@@ -58,7 +58,6 @@ namespace CaisseDesktop.Graphics.Admin.Owners
             //SaveableOwner.Event = ParentWindow.Evenement;
         }
 
-        public EventManager ParentWindow { get; set; }
         private PermissionModel Model => DataContext as PermissionModel;
         public SaveableOwner SaveableOwner { get; set; }
         private bool Saved { get; set; }
