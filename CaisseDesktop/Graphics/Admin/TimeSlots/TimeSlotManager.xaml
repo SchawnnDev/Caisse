@@ -13,6 +13,7 @@
     <Window.Resources>
         <converters:BooleanOrConverter x:Key="BooleanOrConverter" />
         <converters:BooleanAndConverter x:Key="BooleanAndConverter" />
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <converters:InverseNullableBooleanConverter x:Key="InverseNullableBooleanConverter" />
     </Window.Resources>
     <Grid>
@@ -117,8 +118,14 @@
 
         </GroupBox>
 
-        <Button Content="Sauvegarder" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Grid.Row="1"
-                VerticalAlignment="Center" Margin="3" Command="{Binding SaveCommand}" />
+        <DockPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+        <Button Content="Supprimer" HorizontalAlignment="Stretch" IsEnabled="{Binding IsCreating, Converter={StaticResource InverseBooleanConverter}}"
+                VerticalAlignment="Stretch" Command="{Binding DeleteCommand}" Margin="5" />
+
+        <Button Content="Sauvegarder" HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" Command="{Binding SaveCommand}" Margin="5" />
+        </DockPanel>
+        
 
     </Grid>
 </Window>

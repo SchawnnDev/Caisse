@@ -1,18 +1,18 @@
-﻿using System;
-using System.ComponentModel;
-using System.Data.Entity;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Threading;
+﻿
 using CaisseDesktop.Graphics.Admin.Cashiers;
 using CaisseDesktop.Graphics.Utils;
 using CaisseDesktop.Lang;
 using CaisseServer;
 using CaisseServer.Events;
-using static System.Windows.Input.Cursors;
+using System;
+using System.ComponentModel;
+using System.Data.Entity;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace CaisseDesktop.Models.Admin.TimeSlots
 {
@@ -23,6 +23,9 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 
 		private ICommand _saveCommand;
 		public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new CommandHandler(Save, true));
+
+		private ICommand _deleteCommand;
+		public ICommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new CommandHandler(Delete, true));
 
 		private ICommand _editCashierCommand;
 		public ICommand EditCashierCommand => _editCashierCommand ?? (_editCashierCommand = new CommandHandler(EditCashier, true));
@@ -39,7 +42,17 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 		}
 		private bool IsBlank { get; set; }
 
-		public bool IsCreating;
+		private bool _isCreating;
+
+		public bool IsCreating
+		{
+			get => _isCreating;
+			set
+			{
+				_isCreating = value;
+				OnPropertyChanged();
+			}
+		}
 
 		public DateTime Start
 		{
@@ -125,6 +138,36 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 			End = ModifyTime(TimeSlot.Day.End, End);
 		}
 
+		public void Delete(object arg)
+		{
+
+			var result = MessageBox.Show("Es tu sûr de vouloir supprimer ce créneau horaire?", "Supprimer un créneau horaire",
+				MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+
+			if (result != MessageBoxResult.Yes) return;
+
+
+			Task.Run(() =>
+			{
+
+				using (var db = new CaisseServerContext())
+				{
+					if (db.TimeSlots.Any(t => t.Id == TimeSlot.Id)) {
+						db.TimeSlots.Attach(TimeSlot);
+						db.TimeSlots.Remove(TimeSlot);
+					}
+					db.SaveChangesAsync();
+				}
+
+				Dispatcher.Invoke(() =>
+				{
+					CloseAction();
+				});
+			});
+
+
+		}
+
 		public void Save(object arg)
 		{
 
@@ -153,7 +196,7 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 
 		private void Save()
 		{
-			Dispatcher.Invoke(() => { Mouse.OverrideCursor = Wait; });
+			Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
 
 			using (var db = new CaisseServerContext())
 			{
