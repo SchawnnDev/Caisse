@@ -10,17 +10,12 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using CaisseDesktop.Graphics.Admin;
-using CaisseDesktop.Graphics.Admin.Articles;
-using CaisseDesktop.Graphics.Admin.CheckoutTypes;
 using CaisseDesktop.Graphics.Admin.CheckoutTypes.Pages;
 using CaisseDesktop.Graphics.Utils;
-using CaisseDesktop.IO;
 using CaisseDesktop.Lang;
 using CaisseDesktop.Utils;
 using CaisseLibrary.Enums;
-using CaisseLibrary.IO;
 using CaisseServer;
-using CaisseServer.Items;
 
 namespace CaisseDesktop.Models.Admin.CheckoutTypes
 {
@@ -116,10 +111,10 @@ namespace CaisseDesktop.Models.Admin.CheckoutTypes
 			switch (type)
 			{
 				case CaisseLibrary.Enums.CheckoutType.Tickets:
-					ActualPage = new CheckoutTypeArticlePage(this);
+					ActualPage = new CheckoutTypeTicketsPage(this);
 					break;
 				case CaisseLibrary.Enums.CheckoutType.Food:
-					ActualPage = new CheckoutTypeTicketsPage(this);
+					ActualPage = new CheckoutTypeArticlePage(this);
 					break;
 				case CaisseLibrary.Enums.CheckoutType.Consign:
 					ActualPage = new CheckoutTypeConsignPage();

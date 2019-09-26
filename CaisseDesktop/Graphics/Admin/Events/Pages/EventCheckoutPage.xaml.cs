@@ -74,7 +74,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
             if (btn?.DataContext is SaveableCheckout checkout)
             {
-	       //     new CheckoutManager(ParentWindow, checkout).ShowDialog();
+	            new CheckoutManager(ParentModel, checkout).ShowDialog();
             }
             else
                 MessageBox.Show($"{btn} : la caisse n'est pas valide.", "Erreur", MessageBoxButton.OK,

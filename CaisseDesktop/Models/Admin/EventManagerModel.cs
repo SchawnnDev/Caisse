@@ -99,7 +99,7 @@ namespace CaisseDesktop.Models.Admin
 			switch (type)
 			{
 				case WindowType.Checkouts:
-					ActualPage = new EventCheckoutTypePage(this);
+					ActualPage = new EventCheckoutPage(this);
 					break;
 				case WindowType.CheckoutTypes:
 					ActualPage = new EventCheckoutTypePage(this);

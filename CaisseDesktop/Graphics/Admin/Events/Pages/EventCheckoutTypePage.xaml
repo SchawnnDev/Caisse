@@ -5,10 +5,14 @@
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:local="clr-namespace:CaisseDesktop.Graphics.Admin"
                   xmlns:models="clr-namespace:CaisseDesktop.Models"
+                  xmlns:converters="clr-namespace:CaisseDesktop.Graphics.Utils.Converters"
                   mc:Ignorable="d"
                   d:DesignHeight="450" d:DesignWidth="800"
                   d:DataContext="{d:DesignInstance Type=models:CheckoutTypeModel, IsDesignTimeCreatable=False}"
                   Title="EventCheckoutTypePage">
+    <local:CustomPage.Resources>
+        <converters:CheckoutTypeConverter x:Key="CheckoutTypeConverter"/>
+    </local:CustomPage.Resources>
     <Grid>
 
         <GroupBox Header="Gérer les types de caisses" Margin="5">
@@ -19,6 +23,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
                     <DataGridTextColumn Header="Nom" Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type, Converter={StaticResource CheckoutTypeConverter}}" />
 
                     <DataGridTemplateColumn Header="Actions">
                         <DataGridTemplateColumn.CellTemplate>

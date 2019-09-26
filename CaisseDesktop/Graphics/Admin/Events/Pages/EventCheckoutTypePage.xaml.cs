@@ -39,7 +39,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
             if (btn?.DataContext is SaveableCheckoutType type)
             {
-	          //  new CheckoutTypeManager(ParentModel, type).ShowDialog();
+	          new CheckoutTypeManager(ParentModel, type).ShowDialog();
             }
             else
                 MessageBox.Show($"{btn} : le type de caisse n'est pas valide.", "Erreur", MessageBoxButton.OK,
@@ -85,14 +85,8 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
             Model.CheckoutTypes.Add(item as SaveableCheckoutType);
         }
 
-        public override bool CanClose()
-        {
-            return true;
-        }
+        public override bool CanClose() => true;
 
-        public override bool CanBack()
-        {
-            return true;
-        }
+        public override bool CanBack() => true;
     }
 }

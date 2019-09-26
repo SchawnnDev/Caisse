@@ -42,7 +42,6 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
         private JourModel JourModel => DaysGrid.DataContext as JourModel;
         private bool New { get; }
-        private EventManager ParentWindow { get; }
 
         public override string CustomName => "EventDayPage";
 
@@ -88,7 +87,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
             if (btn?.DataContext is SaveableDay day)
             {
-	       //     new DayManager(Manager, day).ShowDialog(); //new OwnerManager(ParentWindow, day).ShowDialog();
+	            new DayManager(ParentModel, day).ShowDialog();
             }
             else
                 MessageBox.Show($"{btn} : le jour n'est pas valide.", "Erreur", MessageBoxButton.OK,

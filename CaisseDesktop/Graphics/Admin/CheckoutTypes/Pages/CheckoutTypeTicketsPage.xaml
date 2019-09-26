@@ -24,7 +24,17 @@
 
     </Page.Resources>
     <Grid>
-        <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ItemsSource="{Binding Articles, IsAsync=true}">
+
+        <Grid.RowDefinitions>
+<RowDefinition Height="40"/>
+<RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Row="0" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="DodgerBlue" BorderBrush="DodgerBlue" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding AddArticleCommand}">
+            <materialDesign:PackIcon Kind="Plus" Height="20" Width="20" />
+        </Button>
+
+        <ListBox Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ItemsSource="{Binding Articles, IsAsync=true}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel/>

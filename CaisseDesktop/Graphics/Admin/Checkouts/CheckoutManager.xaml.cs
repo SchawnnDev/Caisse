@@ -21,6 +21,7 @@ namespace CaisseDesktop.Graphics.Admin.Checkouts
 			InitializeComponent();
             //Owner = parentWindow;
 			DataContext = new CheckoutManagerModel(parentModel, CheckoutPageType.EditInfos, checkout);
+			((CheckoutManagerModel) DataContext).CloseAction = Close;
 		}
 
 

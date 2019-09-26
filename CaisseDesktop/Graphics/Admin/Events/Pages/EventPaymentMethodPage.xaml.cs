@@ -74,7 +74,7 @@ namespace CaisseDesktop.Graphics.Admin.Events.Pages
 
             if (btn?.DataContext is SaveablePaymentMethod paymentMethod)
             {
-	          //  new PaymentMethodManager(ParentModel, paymentMethod).ShowDialog();
+	            new PaymentMethodManager(ParentModel, paymentMethod).ShowDialog();
             }
             else
                 MessageBox.Show($"{btn} : le moyen de paiement n'est pas valide.", "Erreur", MessageBoxButton.OK,

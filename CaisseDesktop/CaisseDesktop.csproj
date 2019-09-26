@@ -223,6 +223,7 @@
     <Compile Include="Graphics\Utils\Converters\BooleanAndConverter.cs" />
     <Compile Include="Graphics\Utils\Converters\BooleanOrToVisibilityConverter.cs" />
     <Compile Include="Graphics\Utils\Converters\EnumToCollectionConverter.cs" />
+    <Compile Include="Graphics\Utils\Converters\CheckoutTypeConverter.cs" />
     <Compile Include="Graphics\Utils\Converters\InverseBooleanConverter.cs" />
     <Compile Include="Graphics\Utils\Converters\InverseNullableBooleanConverter.cs" />
     <Compile Include="Graphics\Utils\Converters\MultiValueConverter.cs" />

@@ -34,17 +34,6 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
-
-                <!--
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Display Shipping Addresses" />
-                        <Separator />
-                        <MenuItem Header="Edit" />
-                        <MenuItem Header="Delete" />
-                    </ContextMenu>
-                </DataGrid.ContextMenu> -->
-
             </DataGrid>
 
         </GroupBox>

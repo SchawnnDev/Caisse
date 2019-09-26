@@ -119,11 +119,11 @@ namespace CaisseDesktop.Models.Admin.Days
 						(start.CompareTo(day.Start) >= 0 || day.End.CompareTo(end) <= 0) || MessageBox.Show(
 							"Le jour chevauche un autre jour déjà enregistré, es-tu sûr de vouloir sauvegarder ?",
 							"Jour chevauche un autre.", MessageBoxButton.YesNo) != MessageBoxResult.Yes) return;
-					Save(db);
+					Task.Run(Save);
 					return;
 				}
 
-				Save(db);
+				Task.Run(Save);
 			}
 
 			//MessageBox.Show("Sauvegarde...");

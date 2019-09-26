@@ -38,9 +38,10 @@
                     FontSize="24" />
                 <Button
                     Margin="8 0 0 0"
-                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                    materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
-                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler">
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                    <!--materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
+                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler"  -->
+                    
                     <materialDesign:PackIcon Kind="ClockStart" />
                     <Button.CommandParameter>
                         <Grid Name="StartGrid"
@@ -97,9 +98,9 @@
                     FontSize="24" />
                 <Button
                     Margin="8 0 0 0"
-                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                    materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
-                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler">
+                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                    <!--materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
+                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler"-->
                     <materialDesign:PackIcon Kind="ClockEnd" />
                     <Button.CommandParameter>
                         <Grid Name="EndGrid"
