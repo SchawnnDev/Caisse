@@ -26,7 +26,7 @@
 
                 <MenuItem Header="_Gérer les informations" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:CheckoutPageType.EditInfos}">
                     <MenuItem.Style>
-                        <Style TargetType="{x:Type MenuItem}">
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
                             <Setter Property="IsEnabled" Value="True" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding CheckoutPageType}" Value="{x:Static enums:CheckoutPageType.EditInfos}">
@@ -38,7 +38,7 @@
                     </MenuItem>
                 <MenuItem Header="_Emploi du temps" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:CheckoutPageType.DisplayEdt}">
                     <MenuItem.Style>
-                        <Style TargetType="{x:Type MenuItem}">
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
                             <Setter Property="IsEnabled" Value="True" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding CheckoutPageType}" Value="{x:Static enums:CheckoutPageType.DisplayEdt}">
@@ -51,7 +51,7 @@
 
                 <MenuItem Header="_Caissiers" Command="{Binding BrowseCommand}" CommandParameter="{x:Static enums:CheckoutPageType.DisplayCashiers}">
                     <MenuItem.Style>
-                        <Style TargetType="{x:Type MenuItem}">
+                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
                             <Setter Property="IsEnabled" Value="True" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding CheckoutPageType}" Value="{x:Static enums:CheckoutPageType.DisplayCashiers}">
