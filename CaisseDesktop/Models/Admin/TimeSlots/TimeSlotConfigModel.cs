@@ -152,11 +152,22 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 
 				using (var db = new CaisseServerContext())
 				{
-					if (db.TimeSlots.Any(t => t.Id == TimeSlot.Id)) {
-						db.TimeSlots.Attach(TimeSlot);
-						db.TimeSlots.Remove(TimeSlot);
+					if (db.TimeSlots.Any(t => t.Id == TimeSlot.Id))
+					{
+
+						try
+						{
+							db.TimeSlots.Attach(TimeSlot);
+							db.TimeSlots.Remove(TimeSlot);
+							db.SaveChangesAsync();
+
+						}
+						catch (Exception e)
+						{
+							MessageBox.Show(e.Message + " " + e.StackTrace);
+						}
+
 					}
-					db.SaveChangesAsync();
 				}
 
 				Dispatcher.Invoke(() =>
@@ -185,7 +196,7 @@ namespace CaisseDesktop.Models.Admin.TimeSlots
 				return;
 			}
 
-			if(!Pause && (Cashier == null || SubstituteActive && Substitute == null))
+			if (!Pause && (Cashier == null || SubstituteActive && Substitute == null))
 			{
 				MessageBox.Show(French.Exception_ArgsMissing);
 				return;
