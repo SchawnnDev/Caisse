@@ -36,10 +36,10 @@ namespace CaisseDesktop.Models.Admin.Days
 			Start = model.SaveableEvent.Start;
 			End = model.SaveableEvent.End.AddDays(1);
 
-			BlackoutDates.Add(new CalendarDateRange(DateTime.MinValue,
-				model.SaveableEvent.Start.AddDays(-1)));
-			BlackoutDates.Add(new CalendarDateRange(model.SaveableEvent.End.AddDays(1),
-				DateTime.MaxValue));
+		//	BlackoutDates.Add(new CalendarDateRange(DateTime.MinValue,
+			//	model.SaveableEvent.Start.AddDays(-1)));
+		//	BlackoutDates.Add(new CalendarDateRange(model.SaveableEvent.End.AddDays(1),
+			//	DateTime.MaxValue));
 		}
 
 		private ICommand _saveCommand;

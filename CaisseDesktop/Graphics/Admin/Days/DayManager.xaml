@@ -15,6 +15,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition MaxWidth="130" />
             <ColumnDefinition />
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -23,12 +24,18 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Choisir une couleur :" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left"
-                   VerticalAlignment="Center" Margin="10" />
-        <xctk:ColorPicker x:Name="DayColor" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,16,19,15" />
+        <TextBlock Text="Choisir une couleur :" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" />
+        
+        <xctk:ColorPicker x:Name="DayColor" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Margin="5" />
 
+        <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" Height="25"/>
+
+        <materialDesign:TimePicker Grid.Row="1" Grid.Column="2" Margin="5" Height="25" />
+        
+        <materialDesign:TimePicker Grid.Row="2" Grid.Column="2" Margin="5" />
+
+        <!--
         <materialDesign:DialogHost Identifier="RootDialog" Grid.Row="1" Grid.Column="1">
-
 
             <StackPanel
                 Orientation="Horizontal">
@@ -39,8 +46,8 @@
                 <Button
                     Margin="8 0 0 0"
                     Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
-                    <!--materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
-                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler"  -->
+                    materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
+                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler" 
                     
                     <materialDesign:PackIcon Kind="ClockStart" />
                     <Button.CommandParameter>
@@ -99,29 +106,21 @@
                 <Button
                     Margin="8 0 0 0"
                     Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
-                    <!--materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
-                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler"-->
+                    materialDesign:DialogHost.DialogOpenedAttached="CombinedDialogOpenedEventHandler"
+                    materialDesign:DialogHost.DialogClosingAttached="CombinedDialogClosingEventHandler"
                     <materialDesign:PackIcon Kind="ClockEnd" />
                     <Button.CommandParameter>
                         <Grid Name="EndGrid"
                               Margin="-1">
                             <Grid.RowDefinitions>
-                                <RowDefinition
-                                    Height="*" />
-                                <RowDefinition
-                                    Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <StackPanel
                                 Grid.Row="0"
                                 Orientation="Horizontal">
-                                <Calendar
-                                    x:Name="EndCombinedCalendar"
-                                    Margin="-1 -4 -1 0"
-                                    Language="fr-FR" />
-                                <materialDesign:Clock
-                                    x:Name="EndCombinedClock"
-                                    DisplayAutomation="CycleWithSeconds"
-                                    Is24Hours="True" />
+                                <Calendar Margin="-1 -4 -1 0" Language="fr-FR" />
+                                <materialDesign:Clock DisplayAutomation="CycleWithSeconds" Is24Hours="True" />
                             </StackPanel>
                             <StackPanel
                                 Grid.Row="1"
@@ -147,7 +146,7 @@
             </StackPanel>
 
         </materialDesign:DialogHost>
-
+-->
         <TextBlock Text="Début du jour :" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"
                    VerticalAlignment="Center" Margin="10" />
         <TextBlock Text="Fin du jour :" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"
