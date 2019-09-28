@@ -45,22 +45,52 @@ namespace CaisseDesktop.Models.Admin.Days
 		private ICommand _saveCommand;
 		public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new CommandHandler(Save, true));
 
-		public DateTime Start
+		public string Color
 		{
-			get => _start;
+			get => Day.Color;
 			set
 			{
-				_start = value;
+				Day.Color = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public DateTime Start
+		{
+			get => Day.Start;
+			set
+			{
+				Day.Start = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public DateTime StartTime
+		{
+			get => Day.Start;
+			set
+			{
+				Day.Start = new DateTime(Day.Start.Year, Day.Start.Month, Day.Start.Day, value.Hour, value.Minute, value.Second);
 				OnPropertyChanged();
 			}
 		}
 
 		public DateTime End
 		{
-			get => _end;
+			get => Day.End;
 			set
 			{
-				_end = value;
+				Day.End = value;
+				OnPropertyChanged();
+			}
+		}
+
+		public DateTime EndTime
+		{
+			get => Day.End;
+			set
+			{
+				Day.End = new DateTime(Day.End.Year, Day.End.Month, Day.End.Day, value.Hour, value.Minute, value.Second);
 				OnPropertyChanged();
 			}
 		}
