@@ -174,7 +174,7 @@ namespace CaisseDesktop.Models.Admin.Days
 				}
 				else
 				{
-					//db.Days.Attach(Day);
+					db.Days.Attach(Day);
 					db.Days.AddOrUpdate(Day);
 				}
 
