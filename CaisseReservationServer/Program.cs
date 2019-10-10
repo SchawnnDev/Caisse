@@ -10,40 +10,42 @@ using Networker.Server.Abstractions;
 
 namespace CaisseReservationServer
 {
-	public class Program
-	{
+    public class Program
+    {
 
-		private static IServer Server;
+        private static IServer Server;
 
-		static void Main(string[] args)
-		{
+        static void Main(string[] args)
+        {
 
-			AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
+            AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
 
-			Server = new ServerBuilder()
-				.UseTcp(5456)
-				.UseUdp(5457) // todo : config
-				.ConfigureLogging(loggingBuilder =>
-				{
-					//	loggingBuilder.AddConfiguration(config.GetSection("Logging")); make config
-					loggingBuilder.AddConsole();
-				})
-				.UseProtobufNet()
-				.RegisterPacketHandler<ArticleReservationPacket, ArticleReservationPacketHandler>()
+            Server = new ServerBuilder()
+                .UseTcp(5456)
+                .UseUdp(5457) // todo : config
+                .ConfigureLogging(loggingBuilder =>
+                {
+                    //	loggingBuilder.AddConfiguration(config.GetSection("Logging")); make config
+                    loggingBuilder.AddConsole();
+                    loggingBuilder.SetMinimumLevel(
+                        LogLevel.Debug);
+                })
+                .UseProtobufNet()
+                .RegisterPacketHandler<ArticleReservationPacket, ArticleReservationPacketHandler>()
                 .RegisterPacketHandler<string, MessagePacketHandler>()
                 .Build();
 
-			Server.Start();
+            Server.Start();
 
-			while (Server.Information.IsRunning && Console.ReadLine() != "exit");
+            while (Server.Information.IsRunning && Console.ReadLine() != "exit") ;
 
 
-		}
+        }
 
-		static void CurrentDomain_ProcessExit(object sender, EventArgs e)
-		{
-			Server.Stop();
-		}
+        static void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        {
+            Server.Stop();
+        }
 
-	}
+    }
 }
