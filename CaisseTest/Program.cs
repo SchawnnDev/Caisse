@@ -14,17 +14,24 @@ namespace CaisseTest
 		{
 			var client = new ReservationClient();
 			client.Connect();
-//			Console.WriteLine(client.Ping());
 
-			while (Console.ReadLine() != "exit")
-			{
-				client.SendPacket(new ArticleReservationPacket
-				{
-					ArticleId = 22,
-					CheckoutId = 22,
-					Number = 22
-				});
-			}
+            while (true)
+            {
+                var line = Console.ReadLine();
+                if (line.Equals("exit"))
+                {
+                    return;
+                }
+
+                client.SendPacket(line);
+                client.SendPacket(new ArticleReservationPacket
+                {
+                    ArticleId = 22,
+                    CheckoutId = 22,
+                    Number = 22
+                });
+
+            }
 
 		}
 	}
