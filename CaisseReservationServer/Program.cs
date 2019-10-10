@@ -30,11 +30,12 @@ namespace CaisseReservationServer
 				})
 				.UseProtobufNet()
 				.RegisterPacketHandler<ArticleReservationPacket, ArticleReservationPacketHandler>()
-				.Build();
+                .RegisterPacketHandler<string, MessagePacketHandler>()
+                .Build();
 
 			Server.Start();
 
-			while (Server.Information.IsRunning && Console.ReadLine() != "exit") ;
+			while (Server.Information.IsRunning && Console.ReadLine() != "exit");
 
 
 		}

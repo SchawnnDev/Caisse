@@ -18,6 +18,7 @@ namespace CaisseReservationLibrary.Handlers
 		public override async Task Process(ArticleReservationPacket packet, IPacketContext packetContext)
 		{
 			_logger.LogDebug($"Checkout id={packet.CheckoutId} reserved {packet.Number} of article={packet.ArticleId}");
+            //packetContext.Sender.Send();
 			/*
 			packetContext.Sender.Send(new ArticleReservationPacket
 			{
