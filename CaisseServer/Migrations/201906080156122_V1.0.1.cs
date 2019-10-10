@@ -6,8 +6,16 @@ namespace CaisseServer.Migrations
 	{
 		public override void Up()
 		{
-			
-			CreateTable(
+
+            DropForeignKey("public.article_events", "Type_Id", "public.checkout_types");
+            DropForeignKey("public.article_events", "Item_Id", "public.articles");
+            DropForeignKey("public.article_events", "GivenItem_Id", "public.articles");
+            DropIndex("public.article_events", new[] { "Type_Id" });
+            DropIndex("public.article_events", new[] { "Item_Id" });
+            DropIndex("public.article_events", new[] { "GivenItem_Id" });
+            DropTable("public.article_events");
+
+            CreateTable(
 					"public.article_events",
 					c => new
 					{
