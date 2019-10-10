@@ -171,6 +171,10 @@
     <Folder Include="Print\Exceptions\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CaisseReservationLibrary\CaisseReservationLibrary.csproj">
+      <Project>{F4818A26-CB15-404C-B501-B354D8F32083}</Project>
+      <Name>CaisseReservationLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CaisseServer\CaisseServer.csproj">
       <Project>{6F76194B-A300-4A8C-B59A-83F65AD761BB}</Project>
       <Name>CaisseServer</Name>

@@ -6,24 +6,21 @@ using CaisseReservationLibrary.Packets;
 
 namespace CaisseReservationLibrary.Handlers
 {
-	public class ArticleReservationPacketHandler : PacketHandlerBase<ArticleReservationPacket>
-	{
-		private readonly ILogger<ArticleReservationPacket> _logger;
+    public class ArticleReservationPacketHandler : PacketHandlerBase<ArticleReservationPacket>
+    {
+        private readonly ILogger<ArticleReservationPacket> _logger;
 
-		public ArticleReservationPacketHandler(ILogger<ArticleReservationPacket> logger)
-		{
-			_logger = logger;
-		}
+        public ArticleReservationPacketHandler(ILogger<ArticleReservationPacket> logger)
+        {
+            _logger = logger;
+        }
 
-		public override async Task Process(ArticleReservationPacket packet, IPacketContext packetContext)
-		{
-			_logger.LogDebug($"Checkout id={packet.CheckoutId} reserved {packet.Number} of article={packet.ArticleId}");
+        public override async Task Process(ArticleReservationPacket packet, IPacketContext packetContext)
+        {
+            _logger.LogDebug($"Checkout id={packet.CheckoutId} reserved {packet.Number} of article={packet.ArticleId}");
             //packetContext.Sender.Send();
-			/*
-			packetContext.Sender.Send(new ArticleReservationPacket
-			{
-				Message = "Hey, I got your message!"
-			}); */
-		}
-	}
+
+            packetContext.Sender.Send("Hi, i received your packet!");
+        }
+    }
 }
