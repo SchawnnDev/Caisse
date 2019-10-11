@@ -10,25 +10,24 @@ namespace CaisseReservationLibrary.Handlers
     public class CommandHandler
     {
 
-        private readonly Dictionary<string, ICommand> Commands;
+        private readonly List<ICommand> Commands;
 
         public CommandHandler()
         {
-            Commands = new Dictionary<string, ICommand>();
+            Commands = new List<ICommand>();
         }
 
-        public void Register(string commandName, ICommand command)
+        public void Register(ICommand command)
         {
-            if(Commands.ContainsKey(commandName))
-                Commands[commandName] = command;
-            else
-                Commands.Add(commandName, command);
+            if(CommandExists(command.Name())) return;
+            Commands.Add(command);
         }
 
         public void Unregister(string commandName)
         {
-            if (Commands.ContainsKey(commandName))
-                Commands.Remove(commandName);
+            var cmd = GetCommand(commandName);
+            if (cmd == null) return;
+            Commands.Remove(cmd);
         }
 
         public void Handle(string line)
@@ -57,30 +56,24 @@ namespace CaisseReservationLibrary.Handlers
 
         }
 
+        private bool CommandExists(string commandName) => Commands.Any(t => t.Name() == commandName);
+
+        private ICommand GetCommand(string commandName) =>
+            CommandExists(commandName) ? Commands.Single(t => t.Name() == commandName) : null;
 
         private void PrintHelp(params string[] args)
         {
 
-            if (args.Length != 1)
+            if (args.Length == 1 && CommandExists(args[0]))
             {
-                foreach (var command in Commands.Values)
-                {
-                    PrintHelpMessage(command);
-                }
+                PrintHelpMessage(GetCommand(args[0]));
             }
             else
             {
 
-                if (Commands.ContainsKey(args[0]))
+                foreach (var command in Commands)
                 {
-                    PrintHelpMessage(Commands[args[0]]);
-                }
-                else
-                {
-                    foreach (var command in Commands.Values)
-                    {
-                        PrintHelpMessage(command);
-                    }
+                    PrintHelpMessage(command);
                 }
 
             }
@@ -88,23 +81,44 @@ namespace CaisseReservationLibrary.Handlers
             WriteQuery();
 
         }
-
+        
         private void PrintHelpMessage(ICommand command)
         {
-            Console.Write("Help: ");
+            Console.Write($"> {command.Name()}: ");
             command.PrintHelp();
         }
 
         private void Execute(string commandName, params string[] args)
         {
-            if (!Commands.ContainsKey(commandName)) return;
-            Commands[commandName].Process(args);
+            if (commandName.Equals("help"))
+            {
+                PrintHelp(args);
+                return;
+            }
+
+            var cmd = GetCommand(commandName);
+
+            if (cmd == null)
+            {
+                Console.WriteLine("This command does not exist!");
+                PrintHelp();
+                return;
+            }
+
+            cmd.Process(args);
             WriteQuery();
         }
 
         private void WriteQuery()
         {
             Console.Write("CaisseServer: ");
+        }
+
+        public void Init()
+        {
+            Console.WriteLine("Command handler ist activated.");
+            Console.WriteLine("If you need some help, just write help or help [command].");
+            WriteQuery();
         }
     }
 }

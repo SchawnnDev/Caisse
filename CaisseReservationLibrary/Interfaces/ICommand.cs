@@ -9,6 +9,8 @@ namespace CaisseReservationLibrary.Interfaces
     public interface ICommand
     {
 
+        string Name();
+
         void Process(string[] args);
 
         void PrintHelp();

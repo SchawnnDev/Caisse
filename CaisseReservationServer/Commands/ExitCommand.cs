@@ -7,6 +7,8 @@ namespace CaisseReservationServer.Commands
 {
     public class ExitCommand : ICommand
     {
+        public string Name() => "exit";
+
         public void Process(string[] args)
         {
             Environment.Exit(0);
