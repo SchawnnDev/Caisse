@@ -104,7 +104,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Handlers\ArticleReservationPacketHandler.cs" />
+    <Compile Include="Handlers\CommandHandler.cs" />
     <Compile Include="Handlers\MessagePacketHandler.cs" />
+    <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Packets\ArticleReservationPacket.cs" />
     <Compile Include="ReservationLibrary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
