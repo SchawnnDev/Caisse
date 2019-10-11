@@ -29,55 +29,10 @@ namespace CaisseDesktop.Graphics.Admin.Days
         public DayManager(EventManagerModel model, SaveableDay day)
         {
             InitializeComponent();
-            //this.Owner = manager;
             DataContext = new DayConfigModel(model, day);
             Model.Dispatcher = Dispatcher;
             Model.CloseAction = Close;
 
         }
-		/*
-        public void CombinedDialogOpenedEventHandler(object sender, DialogOpenedEventArgs eventArgs)
-        {
-            if (!(eventArgs.Session.Content is Grid grid)) return;
-
-            if (grid.Name.Equals("StartGrid"))
-            {
-                CombinedCalendar.SelectedDate = ((DayPickerModel) DataContext).Start;
-                CombinedClock.Time = ((DayPickerModel) DataContext).Start;
-                return;
-            }
-
-            EndCombinedCalendar.SelectedDate = ((DayPickerModel) DataContext).End;
-            EndCombinedClock.Time = ((DayPickerModel) DataContext).End;
-        }
-
-        public void CombinedDialogClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)
-        {
-            if (!Equals(eventArgs.Parameter, "1")) return;
-            if (!(eventArgs.Session.Content is Grid grid)) return;
-
-            var start = grid.Name.Equals("StartGrid");
-            var date = start ? CombinedCalendar.SelectedDate : EndCombinedCalendar.SelectedDate;
-            if (date == null) return;
-            var combined = SetTime(date.Value, start ? CombinedClock.Time : EndCombinedClock.Time);
-            //var combined = date.Value.AddSeconds(start
-            //   ? CombinedClock.Time.TimeOfDay.TotalSeconds
-            //   : EndCombinedClock.Time.TimeOfDay.TotalSeconds);
-
-            if (FirstClose && New) // If new then the start = end date
-            {
-                ((DayPickerModel) DataContext).Start = ((DayPickerModel) DataContext).End = combined;
-                FirstClose = false;
-                return;
-            }
-
-            if (start) ((DayPickerModel) DataContext).Start = combined;
-            else ((DayPickerModel) DataContext).End = combined;
-        }
-
-        public DateTime SetTime(DateTime date, DateTime time) =>
-            new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second); */
-
-        
     }
 }

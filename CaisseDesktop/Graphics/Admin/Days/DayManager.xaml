@@ -32,13 +32,8 @@
 
             <StackPanel
                 Orientation="Horizontal">
-                <TextBlock
-                    Text="{Binding Start, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
-                    VerticalAlignment="Center"
-                    FontSize="24" />
-                <Button
-                    Margin="8 0 0 0"
-                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                <TextBlock Text="{Binding Start, StringFormat={}{0:dd/MM/yyyy HH:mm}}" VerticalAlignment="Center" FontSize="24" />
+                <Button Margin="8 0 0 0" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
                     <materialDesign:PackIcon Kind="ClockStart" />
                     <Button.CommandParameter>
                         <Grid Name="StartGrid" Margin="-1">
@@ -47,18 +42,14 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="0" Orientation="Horizontal">
-                                <Calendar Language="fr-FR" Margin="-1 -4 -1 0" SelectedDate="{Binding Start}" />
-                                <materialDesign:Clock DisplayAutomation="ToSeconds" Is24Hours="True" Time="{Binding StartTime}" />
+                                <Calendar Language="fr-FR" Margin="-1 -4 -1 0" SelectedDate="{Binding Start}" x:Name="StartCombinedCalendar" DisplayDateStart="{Binding FirstDateTime}" DisplayDateEnd="{Binding LastDateTime}"/>
+                                <materialDesign:Clock DisplayAutomation="ToSeconds" Is24Hours="True" Time="{Binding StartTime}"  />
                             </StackPanel>
                             <StackPanel Grid.Row="1" Margin="8" HorizontalAlignment="Right" Orientation="Horizontal">
-                                <Button
-                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="0"
-                                    Style="{DynamicResource MaterialDesignFlatButton}">
+                                <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="0" Style="{DynamicResource MaterialDesignFlatButton}">
                                     ANNULER
                                 </Button>
-                                <Button
-                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="1"
-                                    Style="{DynamicResource MaterialDesignFlatButton}">
+                                <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="1" Style="{DynamicResource MaterialDesignFlatButton}">
                                     OK
                                 </Button>
                             </StackPanel>
@@ -72,50 +63,24 @@
         <materialDesign:DialogHost Grid.Row="2" Grid.Column="1">
             <StackPanel
                 Orientation="Horizontal">
-                <TextBlock
-                    Text="{Binding End, StringFormat={}{0:dd/MM/yyyy HH:mm}}"
-                    VerticalAlignment="Center"
-                    FontSize="24" />
-                <Button
-                    Margin="8 0 0 0"
-                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                <TextBlock Text="{Binding End, StringFormat={}{0:dd/MM/yyyy HH:mm}}" VerticalAlignment="Center" FontSize="24" />
+                <Button Margin="8 0 0 0" Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
                     <materialDesign:PackIcon Kind="ClockEnd" />
                     <Button.CommandParameter>
-                        <Grid Name="EndGrid"
-                              Margin="-1">
+                        <Grid Name="EndGrid" Margin="-1">
                             <Grid.RowDefinitions>
-                                <RowDefinition
-                                    Height="*" />
-                                <RowDefinition
-                                    Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <StackPanel
-                                Grid.Row="0"
-                                Orientation="Horizontal">
-                                <Calendar
-                                    x:Name="EndCombinedCalendar"
-                                    Margin="-1 -4 -1 0"
-                                    Language="fr-FR" />
-                                <materialDesign:Clock
-                                    x:Name="EndCombinedClock"
-                                    DisplayAutomation="CycleWithSeconds"
-                                    Is24Hours="True" />
+                            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                <Calendar SelectedDate="{Binding End}" Margin="-1 -4 -1 0" Language="fr-FR" DisplayDateStart="{Binding FirstDateTime}" DisplayDateEnd="{Binding LastDateTime}" />
+                                <materialDesign:Clock DisplayAutomation="CycleWithSeconds" Is24Hours="True" Time="{Binding EndTime}" />
                             </StackPanel>
-                            <StackPanel
-                                Grid.Row="1"
-                                Margin="8"
-                                HorizontalAlignment="Right"
-                                Orientation="Horizontal">
-                                <Button
-                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                    CommandParameter="0"
-                                    Style="{DynamicResource MaterialDesignFlatButton}">
+                            <StackPanel Grid.Row="1" Margin="8" HorizontalAlignment="Right" Orientation="Horizontal">
+                                <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="0" Style="{DynamicResource MaterialDesignFlatButton}">
                                     ANNULER
                                 </Button>
-                                <Button
-                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                    CommandParameter="1"
-                                    Style="{DynamicResource MaterialDesignFlatButton}">
+                                <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandParameter="1" Style="{DynamicResource MaterialDesignFlatButton}">
                                     OK
                                 </Button>
                             </StackPanel>

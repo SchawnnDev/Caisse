@@ -8,6 +8,7 @@ namespace CaisseReservationServer.Commands
     public class ClearCommand : ICommand
     {
         public string Name() => "clear";
+
         public void Process(string[] args)
         {
             Console.Clear();

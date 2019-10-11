@@ -17,192 +17,191 @@ using CaisseServer.Events;
 
 namespace CaisseDesktop.Models.Admin.Days
 {
-	public class DayConfigModel : INotifyPropertyChanged
-	{
-		public readonly SaveableDay Day;
-		private DateTime _start;
-		private DateTime _end;
-		public Dispatcher Dispatcher { get; set; }
-		public bool IsCreating;
-		private CalendarBlackoutDatesCollection _blackoutDates;
-		private readonly EventManagerModel _parentModel;
-		public Action CloseAction { get; set; }
+    public class DayConfigModel : INotifyPropertyChanged
+    {
+        public readonly SaveableDay Day;
+        public Dispatcher Dispatcher { get; set; }
+        public bool IsCreating;
+        private readonly EventManagerModel _parentModel;
+        public Action CloseAction { get; set; }
 
-		public DayConfigModel(EventManagerModel model, SaveableDay day)
-		{
-			_parentModel = model;
-			IsCreating = day == null;
-			Day = day ?? new SaveableDay{Event = model.SaveableEvent};
-			Start = model.SaveableEvent.Start;
-			End = model.SaveableEvent.End.AddDays(1);
+        public DayConfigModel(EventManagerModel model, SaveableDay day)
+        {
+            _parentModel = model;
+            IsCreating = day == null;
+            Day = day ?? new SaveableDay {Event = model.SaveableEvent};
+            Start = model.SaveableEvent.Start;
+            End = model.SaveableEvent.End.AddDays(1);
 
-		//	BlackoutDates.Add(new CalendarDateRange(DateTime.MinValue,
-			//	model.SaveableEvent.Start.AddDays(-1)));
-		//	BlackoutDates.Add(new CalendarDateRange(model.SaveableEvent.End.AddDays(1),
-			//	DateTime.MaxValue));
-		}
+            FirstDateTime = _parentModel.SaveableEvent.Start;
+            LastDateTime = _parentModel.SaveableEvent.End;
+        }
 
-		private ICommand _saveCommand;
-		public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new CommandHandler(Save, true));
+        private ICommand _saveCommand;
+        private DateTime _firstDateTime;
+        private DateTime _lastDateTime;
 
-		public string Color
-		{
-			get => Day.Color;
-			set
-			{
-				Day.Color = value;
-				OnPropertyChanged();
-			}
-		}
+        public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new CommandHandler(Save, true));
 
-		public DateTime Start
-		{
-			get => Day.Start;
-			set
-			{
-				Day.Start = value;
-				OnPropertyChanged();
-			}
-		}
+        public DateTime LastDateTime
+        {
+            get => _lastDateTime;
+            set
+            {
+                _lastDateTime = value;
+                OnPropertyChanged();
+            }
+        }
 
-		public DateTime StartTime
-		{
-			get => Day.Start;
-			set
-			{
-				Day.Start = new DateTime(Day.Start.Year, Day.Start.Month, Day.Start.Day, value.Hour, value.Minute, value.Second);
-				OnPropertyChanged();
-			}
-		}
+        public DateTime FirstDateTime
+        {
+            get => _firstDateTime;
+            set
+            {
+                _firstDateTime = value;
+                OnPropertyChanged();
+            }
+        }
 
-		public DateTime End
-		{
-			get => Day.End;
-			set
-			{
-				Day.End = value;
-				OnPropertyChanged();
-			}
-		}
+        public string Color
+        {
+            get => Day.Color;
+            set
+            {
+                Day.Color = value;
+                OnPropertyChanged();
+            }
+        }
 
-		public DateTime EndTime
-		{
-			get => Day.End;
-			set
-			{
-				Day.End = new DateTime(Day.End.Year, Day.End.Month, Day.End.Day, value.Hour, value.Minute, value.Second);
-				OnPropertyChanged();
-			}
-		}
+        public DateTime Start
+        {
+            get => Day.Start;
+            set
+            {
+                Day.Start = value;
+                OnPropertyChanged();
+            }
+        }
 
-		public CalendarBlackoutDatesCollection BlackoutDates
-		{
-			get => _blackoutDates;
-			set { _blackoutDates = value; OnPropertyChanged(); }
-		}
+        public DateTime StartTime
+        {
+            get => Day.Start;
+            set
+            {
+                Day.Start = new DateTime(Day.Start.Year, Day.Start.Month, Day.Start.Day, value.Hour, value.Minute,
+                    value.Second);
+                OnPropertyChanged();
+            }
+        }
 
-		private void Save(object arg)
-		{
-		//	var pickerModel = (DayPickerModel)DataContext;
+        public DateTime End
+        {
+            get => Day.End;
+            set
+            {
+                Day.End = value;
+                OnPropertyChanged();
+            }
+        }
 
-		//	var test = (long)pickerModel.End.ToUnixTimeStamp() - (long)pickerModel.Start.ToUnixTimeStamp();
-		/*
-			if (test <= 0)
-			{
-				MessageBox.Show("La fin de l'évenement ne peut pas être avant le début.");
-				return;
-			}
+        public DateTime EndTime
+        {
+            get => Day.End;
+            set
+            {
+                Day.End = new DateTime(Day.End.Year, Day.End.Month, Day.End.Day, value.Hour, value.Minute,
+                    value.Second);
+                OnPropertyChanged();
+            }
+        }
 
-			if (test > 60 * 60 * 24 &&
-				MessageBox.Show("Le jour dure plus de 24h, es-tu sûr de vouloir sauvegarder ?",
-					"Jour supérieur à 24h.", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
-			{
-				return;
-			}
+        private void Save(object arg)
+        {
+            if (Start.CompareTo(_parentModel.SaveableEvent.Start) < 0)
+            {
+                MessageBox.Show("La date de début du jour ne peut pas être avant la date de début de l'évenement!");
+                return;
+            }
 
-			if (CombinedCalendar.SelectedDate == null || EndCombinedCalendar.SelectedDate == null)
-			{
-				MessageBox.Show("Une erreur est survenue, veuillez réessayer", "Une erreur est survenue",
-					MessageBoxButton.OK, MessageBoxImage.Error);
-				return;
-			}*/
+            if (End.CompareTo(_parentModel.SaveableEvent.End) > 0)
+            {
+                MessageBox.Show("La date de fin du jour ne peut pas être après la date de fin de l'évenement!");
+                return;
+            }
 
-			DateTime start = default;// ((DayPickerModel)DataContext).Start;
-			DateTime end = default;//((DayPickerModel)DataContext).End;
+            if (Start.CompareTo(End) >= 0)
+            {
+                MessageBox.Show("La date de début ne peut pas être après la date de fin!");
+                return;
+            }
 
-			using (var db = new CaisseServerContext())
-			{
-				var days = db.Days.Where(t => t.Event.Id == _parentModel.SaveableEvent.Id).ToList();
+            using (var db = new CaisseServerContext())
+            {
+                var days = db.Days.Where(t => t.Event.Id == _parentModel.SaveableEvent.Id).ToList();
 
-				foreach (var day in days)
-				{
-					// < 0 : date est avant valeur
-					// == 0 : date est égale valeur
-					// > 0 date est après valeur
+                foreach (var day in days)
+                {
+                    // < 0 : date est avant valeur
+                    // == 0 : date est égale valeur
+                    // > 0 date est après valeur
 
-					/*
-                     *
-                     * si value1 est après day1 && day2 est avant value2 || si value1 est avant day1 && day2 est apres value2
-                     */
+                    if (Day.Id != 0 && Day.Id == day.Id) continue; // no duplicates :D
 
-					if ((start.CompareTo(day.Start) <= 0 || day.End.CompareTo(end) >= 0) &&
-						(start.CompareTo(day.Start) >= 0 || day.End.CompareTo(end) <= 0) || MessageBox.Show(
-							"Le jour chevauche un autre jour déjà enregistré, es-tu sûr de vouloir sauvegarder ?",
-							"Jour chevauche un autre.", MessageBoxButton.YesNo) != MessageBoxResult.Yes) return;
-					Task.Run(Save);
-					return;
-				}
+                    if (Start.CompareTo(day.Start) < 0 || End.CompareTo(day.Event) > 0)
+                        continue;
+                    if (Start.CompareTo(day.Start) > 0 || End.CompareTo(day.Start) < 0 || End.CompareTo(day.Event) > 0)
+                        continue;
+                    if (Start.CompareTo(day.Start) < 0 || Start.CompareTo(day.End) > 0 || End.CompareTo(day.Event) < 0)
+                        continue;
+                    if (MessageBox.Show(
+                            "Le jour chevauche un autre jour déjà enregistré, es-tu sûr de vouloir sauvegarder ?",
+                            "Jour chevauche un autre.", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                        continue;
 
-				Task.Run(Save);
-			}
+                    Task.Run(Save);
+                    return;
+                }
 
-			//MessageBox.Show("Sauvegarde...");
-		}
+                Task.Run(Save);
+            }
+        }
 
-		private void Save()
-		{
-			Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
+        private void Save()
+        {
+            Dispatcher.Invoke(() => { Mouse.OverrideCursor = Cursors.Wait; });
 
-			using (var db = new CaisseServerContext())
-			{
+            using (var db = new CaisseServerContext())
+            {
+                db.Events.Attach(Day.Event);
 
-				db.Events.Attach(Day.Event);
+                if (IsCreating)
+                {
+                    db.Days.Add(Day);
+                }
+                else
+                {
+                    db.Days.Attach(Day);
+                    db.Days.AddOrUpdate(Day);
+                }
 
-				if (IsCreating)
-				{
-					db.Days.Add(Day);
-				}
-				else
-				{
-					db.Days.Attach(Day);
-					db.Days.AddOrUpdate(Day);
-				}
-
-				db.SaveChanges();
-			}
+                db.SaveChanges();
+            }
 
 
-			Dispatcher.Invoke(() =>
-			{
-				/*
-				if (Manager.MasterFrame.ToCustomPage().CustomName.Equals("EventDayPage"))
-				{
-					if (New) Manager.MasterFrame.ToCustomPage().Add(Day);
-					else Manager.MasterFrame.ToCustomPage().Update();
-				} */
+            Dispatcher.Invoke(() =>
+            {
+                Mouse.OverrideCursor = null;
+                MessageBox.Show(IsCreating ? "Le jour a bien été crée !" : "Le jour a bien été enregistré !");
 
-				Mouse.OverrideCursor = null;
-				MessageBox.Show(IsCreating ? "Le jour a bien été crée !" : "Le jour a bien été enregistré !");
+                CloseAction();
+            });
+        }
 
-				CloseAction();
-			});
-		}
+        public event PropertyChangedEventHandler PropertyChanged;
 
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
 }
