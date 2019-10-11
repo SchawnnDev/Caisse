@@ -14,7 +14,7 @@ namespace CaisseReservationServer
     public class Program
     {
 
-        private static IServer Server;
+        public static IServer Server;
         private static CommandHandler CommandHandler;
 
         static void Main(string[] args)
@@ -44,6 +44,7 @@ namespace CaisseReservationServer
             CommandHandler = new CommandHandler();
 
             CommandHandler.Register(new ClearCommand());
+            CommandHandler.Register(new StatusCommand());
             CommandHandler.Register(new ExitCommand());
 
             Server.Start();
