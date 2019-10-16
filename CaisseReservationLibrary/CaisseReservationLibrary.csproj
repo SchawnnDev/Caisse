@@ -103,11 +103,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Delegates\ServerDelegates.cs" />
+    <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Handlers\ArticleReservationPacketHandler.cs" />
     <Compile Include="Handlers\CommandHandler.cs" />
+    <Compile Include="Enums\DisconnectReason.cs" />
+    <Compile Include="Handlers\ConnectHandler.cs" />
+    <Compile Include="Handlers\DisconnectHandler.cs" />
     <Compile Include="Handlers\MessagePacketHandler.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
+    <Compile Include="Interfaces\IHandler.cs" />
     <Compile Include="Packets\ArticleReservationPacket.cs" />
+    <Compile Include="Packets\ConnectPacket.cs" />
+    <Compile Include="Packets\DisconnectPacket.cs" />
     <Compile Include="ReservationLibrary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

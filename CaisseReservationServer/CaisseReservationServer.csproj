@@ -17,4 +17,8 @@
     <ProjectReference Include="..\CaisseReservationLibrary\CaisseReservationLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Managers\" />
+  </ItemGroup>
+
 </Project>

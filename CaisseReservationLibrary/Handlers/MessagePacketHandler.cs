@@ -13,7 +13,7 @@ namespace CaisseReservationLibrary.Handlers
     public class MessagePacketHandler : PacketHandlerBase<string>
     {
         private readonly ILogger<ArticleReservationPacket> _logger;
-
+		
         public MessagePacketHandler(ILogger<ArticleReservationPacket> logger)
         {
             _logger = logger;

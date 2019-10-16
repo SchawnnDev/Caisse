@@ -4,6 +4,7 @@ using CaisseReservationLibrary;
 using CaisseReservationLibrary.Handlers;
 using CaisseReservationLibrary.Packets;
 using CaisseReservationServer.Commands;
+using CaisseReservationServer.Handlers;
 using Microsoft.Extensions.Logging;
 using Networker.Extensions.ProtobufNet;
 using Networker.Server;
@@ -14,7 +15,7 @@ namespace CaisseReservationServer
     public class Program
     {
 
-        public static IServer Server;
+		private static ServerHandler ServerHandler;
         private static CommandHandler CommandHandler;
 
         static void Main(string[] args)
