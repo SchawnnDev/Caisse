@@ -27,28 +27,13 @@ namespace CaisseReservationServer
 
             Thread.Sleep(1000);
 
-            Server = new ServerBuilder()
-                .UseTcp(5456)
-                .UseUdp(5457) // todo : config
-                .ConfigureLogging(loggingBuilder =>
-                {
-                    //	loggingBuilder.AddConfiguration(config.GetSection("Logging")); make config
-                    loggingBuilder.AddConsole();
-                    loggingBuilder.SetMinimumLevel(
-                        LogLevel.Debug);
-                })
-                .UseProtobufNet()
-                .RegisterPacketHandler<ArticleReservationPacket, ArticleReservationPacketHandler>()
-                .RegisterPacketHandler<string, MessagePacketHandler>()
-                .Build();
+			ServerHandler.Start();
 
             CommandHandler = new CommandHandler();
 
             CommandHandler.Register(new ClearCommand());
             CommandHandler.Register(new StatusCommand());
             CommandHandler.Register(new ExitCommand());
-
-            Server.Start();
 
             new Thread(() =>
             {
@@ -70,7 +55,7 @@ namespace CaisseReservationServer
 
             while (true)
             {
-                if (!Server.Information.IsRunning) break;
+                //if (!Server.Information.IsRunning) break;
 
                 CommandHandler.Handle(Console.ReadLine());
 
@@ -79,7 +64,7 @@ namespace CaisseReservationServer
 
         static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
-            Server.Stop();
+            ServerHandler.Stop();
         }
 
     }

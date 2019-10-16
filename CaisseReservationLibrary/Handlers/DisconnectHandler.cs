@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CaisseReservationLibrary.Events;
 using CaisseReservationLibrary.Packets;
 using Microsoft.Extensions.Logging;
 using Networker.Common;
@@ -23,7 +24,7 @@ namespace CaisseReservationLibrary.Handlers
 
 		public override async Task Process(DisconnectPacket packet, IPacketContext packetContext)
 		{
-			OnConnect?.Invoke(packet, packetContext);
+		//	ServerEvents.OnDisconnect?.Invoke(packet, packetContext);
 		}
 	}
 }
