@@ -42,6 +42,7 @@ namespace CaisseDesktop.Graphics.Admin.Owners
                 {
                     SuperAdmin = false,
            //         Permissions = ""
+                    Event = parentModel.SaveableEvent
                 };
                 Model.Permissions = new ObservableCollection<Permission>();
                 Saved = false;
@@ -154,7 +155,8 @@ namespace CaisseDesktop.Graphics.Admin.Owners
 
             using (var db = new CaisseServerContext())
             {
-                db.Events.Attach(SaveableOwner.Event);
+                if(SaveableOwner.Event != null)
+                    db.Events.Attach(SaveableOwner.Event);
                 db.Entry(SaveableOwner).State = New ? EntityState.Added : EntityState.Modified;
                 db.SaveChanges();
             }

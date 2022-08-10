@@ -107,7 +107,8 @@ namespace CaisseLibrary
 
 		public static void Reconfigure(string printerName)
 		{
-			ReservationClient.Disconnect();
+			if(ReservationClient != null)
+			    ReservationClient.Disconnect();
 			TicketPrinter?.Close();
 			BitmapManager = null;
 			TicketPrinter = null;

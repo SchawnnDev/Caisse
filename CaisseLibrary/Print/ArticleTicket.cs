@@ -64,7 +64,7 @@ namespace CaisseLibrary.Print
             //PrintBitmap(printer);
 
             printer.PrintBitmap(PrinterStation.Receipt, Main.BitmapManager.GetBitmapPath(Article), printer.RecLineWidth / 2
-                , PosPrinter.PrinterBitmapCenter);
+               , PosPrinter.PrinterBitmapCenter);
 
             // PrintBitmap(printer);
 
@@ -95,6 +95,8 @@ namespace CaisseLibrary.Print
 
             PrintMinimized(printer,
                 CENTER + $"Facture n°{Invoice.SaveableInvoice.Id} • {Invoice.SaveableInvoice.Date:dd/MM/yy HH:mm}" + NEW_LINE);
+
+            printer.PrintNormal(PrinterStation.Receipt, "\u001b|250uF");
         }
     }
 }

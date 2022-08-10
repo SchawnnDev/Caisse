@@ -16,6 +16,7 @@ using CaisseDesktop.Graphics.Common.Checkouts;
 using CaisseDesktop.Models.Windows;
 using CaisseLibrary;
 using CaisseLibrary.Concrete.Invoices;
+using CaisseLibrary.Exceptions;
 
 namespace CaisseDesktop.Graphics.Common
 {
@@ -54,7 +55,7 @@ namespace CaisseDesktop.Graphics.Common
 		private void NewInvoice_OnClick(object sender, RoutedEventArgs e)
 		{
 			Close();
-			//Checkout.NewInvoice();
+			Model.NewInvoice();
 		}
 
 		private void RePrint_OnClick(object sender, RoutedEventArgs e)
@@ -79,8 +80,17 @@ namespace CaisseDesktop.Graphics.Common
 				SaveLoadingText.Content = "Impression...";
 			});
 
-			//print
-			Invoice.Print(PrintReceipt);
+            //print
+            try
+            {
+                Invoice.Print(PrintReceipt);
+			}
+            catch (TicketPrinterException e)
+            {
+                 MessageBox.Show("Une erreur est survenue lors de l'impression: " + e.Message,
+                    "Erreur d'impression", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+
 
 			Dispatcher.Invoke(() =>
 			{

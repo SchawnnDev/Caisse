@@ -27,7 +27,7 @@ namespace CaisseDesktop
                 //db.Database.Delete();
                 StatusText.Dispatcher.Invoke(() => SetStatusText(0));
                 db.Database.CreateIfNotExists();
-              //  Database.SetInitializer(new MigrateDatabaseToLatestVersion<CaisseServerContext, EF6Console.Migrations.Configuration>());
+              //Database.SetInitializer(new MigrateDatabaseToLatestVersion<CaisseServerContext, EF6Console.Migrations.Configuration>());
 
             }
 

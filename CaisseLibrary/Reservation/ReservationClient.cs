@@ -40,7 +40,8 @@ namespace CaisseLibrary.Reservation
         }
 
 	    public void Connect()
-	    {
+        {
+            if (true) return;
 		    var test = Client.Connect();
 
             Console.WriteLine($"The connection {(test.Success ? "succeed": "failed")}");
